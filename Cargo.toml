@@ -1,0 +1,13 @@
+[workspace]
+members = ["clackatui-core"]
+resolver = "3"
+
+[workspace.package]
+edition = "2024"
+license = "MIT"
+repository = "https://github.com/idleberg/clackatui"
+rust-version = "1.85"
+
+[workspace.dependencies]
+# Pinned exactly: pre-1.0, expect churn. See docs/adr/0006.
+ratatui-core = "=0.1.2"

@@ -1,0 +1,12 @@
+[package]
+name = "clackatui-core"
+version = "0.0.0"
+description = "State machines and widgets for clackatui. No I/O."
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+publish = false
+
+[dependencies]
+ratatui-core.workspace = true
