@@ -10,3 +10,8 @@ publish = false
 
 [dependencies]
 ratatui-core.workspace = true
+unicode-properties.workspace = true
+unicode-script.workspace = true
+
+[dev-dependencies]
+serde_json.workspace = true

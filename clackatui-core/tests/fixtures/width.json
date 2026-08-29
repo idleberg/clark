@@ -1,0 +1,887 @@
+{
+	"source": "fast-string-width",
+	"version": "3.0.2",
+	"node": "24.20.0",
+	"unicode": "17.0",
+	"generatedBy": "scripts/harvest-width.mjs",
+	"cases": [
+		{
+			"name": "empty",
+			"codepoints": [],
+			"width": 0
+		},
+		{
+			"name": "ascii",
+			"codepoints": [
+				104,
+				101,
+				108,
+				108,
+				111
+			],
+			"width": 5
+		},
+		{
+			"name": "ascii punctuation",
+			"codepoints": [
+				126,
+				33,
+				64,
+				35,
+				36,
+				37,
+				94,
+				38,
+				42,
+				40,
+				41,
+				95,
+				43
+			],
+			"width": 13
+		},
+		{
+			"name": "space",
+			"codepoints": [
+				32
+			],
+			"width": 1
+		},
+		{
+			"name": "latin-1 supplement",
+			"codepoints": [
+				233,
+				241,
+				252
+			],
+			"width": 3
+		},
+		{
+			"name": "nbsp",
+			"codepoints": [
+				160
+			],
+			"width": 1
+		},
+		{
+			"name": "soft hyphen",
+			"codepoints": [
+				173
+			],
+			"width": 1
+		},
+		{
+			"name": "c1 boundary",
+			"codepoints": [
+				159,
+				160
+			],
+			"width": 1
+		},
+		{
+			"name": "tab",
+			"codepoints": [
+				9
+			],
+			"width": 8
+		},
+		{
+			"name": "three tabs",
+			"codepoints": [
+				9,
+				9,
+				9
+			],
+			"width": 24
+		},
+		{
+			"name": "tab between letters",
+			"codepoints": [
+				97,
+				9,
+				98
+			],
+			"width": 10
+		},
+		{
+			"name": "bel",
+			"codepoints": [
+				7
+			],
+			"width": 0
+		},
+		{
+			"name": "newline",
+			"codepoints": [
+				10
+			],
+			"width": 0
+		},
+		{
+			"name": "control run",
+			"codepoints": [
+				1,
+				2,
+				3
+			],
+			"width": 0
+		},
+		{
+			"name": "lone escape",
+			"codepoints": [
+				27
+			],
+			"width": 0
+		},
+		{
+			"name": "del",
+			"codepoints": [
+				127
+			],
+			"width": 0
+		},
+		{
+			"name": "sgr red",
+			"codepoints": [
+				27,
+				91,
+				51,
+				49,
+				109,
+				114,
+				101,
+				100,
+				27,
+				91,
+				48,
+				109
+			],
+			"width": 3
+		},
+		{
+			"name": "sgr 256",
+			"codepoints": [
+				27,
+				91,
+				51,
+				56,
+				59,
+				53,
+				59,
+				49,
+				57,
+				54,
+				109,
+				120
+			],
+			"width": 1
+		},
+		{
+			"name": "sgr truecolor",
+			"codepoints": [
+				27,
+				91,
+				51,
+				56,
+				59,
+				50,
+				59,
+				50,
+				53,
+				53,
+				59,
+				48,
+				59,
+				48,
+				109,
+				120
+			],
+			"width": 1
+		},
+		{
+			"name": "sgr reset only",
+			"codepoints": [
+				27,
+				91,
+				109
+			],
+			"width": 0
+		},
+		{
+			"name": "cursor up",
+			"codepoints": [
+				27,
+				91,
+				50,
+				65
+			],
+			"width": 0
+		},
+		{
+			"name": "csi ending in a digit",
+			"codepoints": [
+				27,
+				91,
+				49,
+				50,
+				51,
+				52,
+				53
+			],
+			"width": 0
+		},
+		{
+			"name": "csi private mode",
+			"codepoints": [
+				27,
+				91,
+				63,
+				50,
+				53,
+				108
+			],
+			"width": 0
+		},
+		{
+			"name": "c1 csi introducer",
+			"codepoints": [
+				155,
+				51,
+				49,
+				109,
+				120
+			],
+			"width": 1
+		},
+		{
+			"name": "osc8 bel terminated",
+			"codepoints": [
+				27,
+				93,
+				56,
+				59,
+				59,
+				104,
+				116,
+				116,
+				112,
+				115,
+				58,
+				47,
+				47,
+				101,
+				120,
+				97,
+				109,
+				112,
+				108,
+				101,
+				46,
+				99,
+				111,
+				109,
+				7,
+				108,
+				105,
+				110,
+				107
+			],
+			"width": 4
+		},
+		{
+			"name": "osc8 st terminated",
+			"codepoints": [
+				27,
+				93,
+				56,
+				59,
+				59,
+				104,
+				116,
+				116,
+				112,
+				115,
+				58,
+				47,
+				47,
+				101,
+				120,
+				97,
+				109,
+				112,
+				108,
+				101,
+				46,
+				99,
+				111,
+				109,
+				27,
+				92,
+				108,
+				105,
+				110,
+				107
+			],
+			"width": 4
+		},
+		{
+			"name": "osc8 unterminated",
+			"codepoints": [
+				27,
+				93,
+				56,
+				59,
+				59,
+				104,
+				116,
+				116,
+				112,
+				115,
+				58,
+				47,
+				47,
+				101,
+				120,
+				97,
+				109,
+				112,
+				108,
+				101,
+				46,
+				99,
+				111,
+				109
+			],
+			"width": 23
+		},
+		{
+			"name": "osc8 with params",
+			"codepoints": [
+				27,
+				93,
+				56,
+				59,
+				105,
+				100,
+				61,
+				49,
+				59,
+				104,
+				116,
+				116,
+				112,
+				115,
+				58,
+				47,
+				47,
+				101,
+				120,
+				97,
+				109,
+				112,
+				108,
+				101,
+				46,
+				99,
+				111,
+				109,
+				7
+			],
+			"width": 0
+		},
+		{
+			"name": "han",
+			"codepoints": [
+				20320,
+				22909
+			],
+			"width": 4
+		},
+		{
+			"name": "hiragana",
+			"codepoints": [
+				12354,
+				12356
+			],
+			"width": 4
+		},
+		{
+			"name": "katakana",
+			"codepoints": [
+				12459,
+				12479
+			],
+			"width": 4
+		},
+		{
+			"name": "hangul syllable",
+			"codepoints": [
+				44033
+			],
+			"width": 2
+		},
+		{
+			"name": "conjoining jamo",
+			"codepoints": [
+				4352,
+				4449,
+				4520
+			],
+			"width": 6
+		},
+		{
+			"name": "halfwidth katakana",
+			"codepoints": [
+				65398
+			],
+			"width": 1
+		},
+		{
+			"name": "halfwidth katakana with sound mark",
+			"codepoints": [
+				12459,
+				65438
+			],
+			"width": 3
+		},
+		{
+			"name": "combining sound mark",
+			"codepoints": [
+				12441
+			],
+			"width": 0
+		},
+		{
+			"name": "fullwidth latin",
+			"codepoints": [
+				65313,
+				65314
+			],
+			"width": 4
+		},
+		{
+			"name": "ideographic space",
+			"codepoints": [
+				12288
+			],
+			"width": 2
+		},
+		{
+			"name": "fullwidth yen",
+			"codepoints": [
+				65509
+			],
+			"width": 2
+		},
+		{
+			"name": "cjk ext b",
+			"codepoints": [
+				131072
+			],
+			"width": 2
+		},
+		{
+			"name": "tangut",
+			"codepoints": [
+				94208
+			],
+			"width": 2
+		},
+		{
+			"name": "mixed han and ascii",
+			"codepoints": [
+				97,
+				20320,
+				98
+			],
+			"width": 4
+		},
+		{
+			"name": "hourglass",
+			"codepoints": [
+				8987
+			],
+			"width": 2
+		},
+		{
+			"name": "angle bracket",
+			"codepoints": [
+				9001
+			],
+			"width": 2
+		},
+		{
+			"name": "ideographic comma",
+			"codepoints": [
+				12289
+			],
+			"width": 2
+		},
+		{
+			"name": "bopomofo",
+			"codepoints": [
+				12549
+			],
+			"width": 2
+		},
+		{
+			"name": "compatibility form",
+			"codepoints": [
+				65040
+			],
+			"width": 2
+		},
+		{
+			"name": "squared katakana",
+			"codepoints": [
+				127488
+			],
+			"width": 2
+		},
+		{
+			"name": "circled ideograph",
+			"codepoints": [
+				127552
+			],
+			"width": 2
+		},
+		{
+			"name": "emoji presentation",
+			"codepoints": [
+				128512
+			],
+			"width": 2
+		},
+		{
+			"name": "heart with vs16",
+			"codepoints": [
+				10084,
+				65039
+			],
+			"width": 2
+		},
+		{
+			"name": "heart without vs16",
+			"codepoints": [
+				10084
+			],
+			"width": 1
+		},
+		{
+			"name": "heart with vs15",
+			"codepoints": [
+				10084,
+				65038
+			],
+			"width": 1
+		},
+		{
+			"name": "keycap",
+			"codepoints": [
+				49,
+				65039,
+				8419
+			],
+			"width": 2
+		},
+		{
+			"name": "keycap hash",
+			"codepoints": [
+				35,
+				65039,
+				8419
+			],
+			"width": 2
+		},
+		{
+			"name": "bare digit",
+			"codepoints": [
+				49
+			],
+			"width": 1
+		},
+		{
+			"name": "skin tone",
+			"codepoints": [
+				128077,
+				127997
+			],
+			"width": 2
+		},
+		{
+			"name": "modifier base without modifier",
+			"codepoints": [
+				128077
+			],
+			"width": 2
+		},
+		{
+			"name": "lone modifier",
+			"codepoints": [
+				127997
+			],
+			"width": 2
+		},
+		{
+			"name": "flag",
+			"codepoints": [
+				127465,
+				127466
+			],
+			"width": 2
+		},
+		{
+			"name": "three regional indicators",
+			"codepoints": [
+				127465,
+				127466,
+				127467
+			],
+			"width": 4
+		},
+		{
+			"name": "lone regional indicator",
+			"codepoints": [
+				127465
+			],
+			"width": 2
+		},
+		{
+			"name": "scotland tag sequence",
+			"codepoints": [
+				127988,
+				917607,
+				917602,
+				917619,
+				917603,
+				917620,
+				917631
+			],
+			"width": 2
+		},
+		{
+			"name": "black flag alone",
+			"codepoints": [
+				127988
+			],
+			"width": 2
+		},
+		{
+			"name": "zwj profession",
+			"codepoints": [
+				128105,
+				8205,
+				128187
+			],
+			"width": 2
+		},
+		{
+			"name": "zwj family",
+			"codepoints": [
+				128104,
+				8205,
+				128105,
+				8205,
+				128103,
+				8205,
+				128102
+			],
+			"width": 2
+		},
+		{
+			"name": "zwj with skin tones",
+			"codepoints": [
+				128105,
+				127995,
+				8205,
+				129309,
+				8205,
+				128104,
+				127999
+			],
+			"width": 2
+		},
+		{
+			"name": "trailing zwj",
+			"codepoints": [
+				128105,
+				8205
+			],
+			"width": 3
+		},
+		{
+			"name": "zwj into ascii",
+			"codepoints": [
+				128105,
+				8205,
+				97
+			],
+			"width": 4
+		},
+		{
+			"name": "lone zwj",
+			"codepoints": [
+				8205
+			],
+			"width": 1
+		},
+		{
+			"name": "two emoji",
+			"codepoints": [
+				128512,
+				128513
+			],
+			"width": 4
+		},
+		{
+			"name": "emoji then ascii",
+			"codepoints": [
+				128512,
+				111,
+				107
+			],
+			"width": 4
+		},
+		{
+			"name": "e with combining acute",
+			"codepoints": [
+				101,
+				769
+			],
+			"width": 1
+		},
+		{
+			"name": "stacked marks",
+			"codepoints": [
+				65,
+				768,
+				769,
+				770
+			],
+			"width": 1
+		},
+		{
+			"name": "lone combining acute",
+			"codepoints": [
+				769
+			],
+			"width": 0
+		},
+		{
+			"name": "thai with sara am",
+			"codepoints": [
+				3585,
+				3635
+			],
+			"width": 2
+		},
+		{
+			"name": "devanagari",
+			"codepoints": [
+				2325,
+				2381,
+				2359
+			],
+			"width": 2
+		},
+		{
+			"name": "hangul with mark",
+			"codepoints": [
+				44033,
+				769
+			],
+			"width": 2
+		},
+		{
+			"name": "prompt line",
+			"codepoints": [
+				27,
+				91,
+				51,
+				54,
+				109,
+				63,
+				27,
+				91,
+				48,
+				109,
+				32,
+				87,
+				104,
+				97,
+				116,
+				32,
+				105,
+				115,
+				32,
+				121,
+				111,
+				117,
+				114,
+				32,
+				110,
+				97,
+				109,
+				101,
+				63
+			],
+			"width": 20
+		},
+		{
+			"name": "bar with cjk value",
+			"codepoints": [
+				27,
+				91,
+				57,
+				48,
+				109,
+				124,
+				27,
+				91,
+				48,
+				109,
+				32,
+				32,
+				20320,
+				22909
+			],
+			"width": 7
+		},
+		{
+			"name": "bar with emoji value",
+			"codepoints": [
+				124,
+				32,
+				32,
+				128640,
+				32,
+				100,
+				101,
+				112,
+				108,
+				111,
+				121
+			],
+			"width": 12
+		},
+		{
+			"name": "mixed everything",
+			"codepoints": [
+				97,
+				9,
+				20320,
+				128105,
+				8205,
+				128187,
+				101,
+				769,
+				27,
+				91,
+				48,
+				109,
+				122
+			],
+			"width": 15
+		}
+	]
+}
