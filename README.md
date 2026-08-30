@@ -18,9 +18,12 @@ that gives them their oracle now runs
 `text` suite is harvested into 13 Scenarios, and replaying their keypresses settles where clack
 settled. Frames now draw: a `Frame` is styled text with no escapes in it, and its `Widget` places
 one width segment per cell under `ForcedWidth`
-([ADR-0011](./docs/adr/0011-a-cell-holds-one-width-segment.md)). What remains before the recorded
-frames can be compared as Grids is the `text` widget that builds a Frame and the Emitter that turns
-Frames into bytes, which is what M1 finishes with. See
+([ADR-0011](./docs/adr/0011-a-cell-holds-one-width-segment.md)). On top of it sit the Theme, ported
+from clack's `common.ts`, and the `text` widget — and the opening Frame each Scenario records is a
+Frame clack wrote whole rather than as a diff, so all 13 are compared against it directly, colours
+and all. What remains is a port of `fast-wrap-ansi`, which is where clack's wrap points actually
+come from, and the Emitter that turns Frames into bytes; then the recorded frames can be compared as
+Grids, which is what M1 finishes with. See
 [CONTEXT.md](./CONTEXT.md) for the vocabulary and [docs/adr/](./docs/adr/) for the decisions behind
 the shape below.
 
@@ -75,8 +78,10 @@ The v2 set is deferred because it is non-deterministic, not because it is unimpo
 is the only clack module touching timers, and `progress-bar` and `task` are built on it; `path.ts`
 reads the real filesystem. `Clock` and `Fs` abstractions exist from the first commit so that v2 is
 additive rather than a refactor through every module — as does `Theme`, whose `Default` is
-`Theme::clack()`, ported from clack's `common.ts` with its `is-unicode-supported` and `FORCE_COLOR`
-sniffing replicated.
+`Theme::clack()`, ported from clack's `common.ts`. `is-unicode-supported` is ported with it, as
+`Theme::detect()`. `FORCE_COLOR` is not: upstream suppresses colour by having `styleText` return the
+string unchanged, and a Frame here carries a `Style` rather than escapes, so the equivalent seam is
+where Styles become bytes — the Emitter's, not the Theme's.
 
 One scope simplification worth recording: clack runs its prompt tests twice, under `CI=true` and
 `CI=false`, but `CI` only affects `spinner.ts` and `task-log.ts`. Both are v2, so v1 needs one pass,
@@ -92,7 +97,10 @@ Three layers.
    emulator (`vt100`; `avt` as fallback) and compares Grids. `node scripts/harvest-scenarios.mjs
    text` is the Recorder; it runs clack's suite from outside the checkout and refuses unless that
    checkout is at the pinned tag
-   ([ADR-0010](./docs/adr/0010-the-recorder-instruments-clacks-suite-from-outside-it.md)).
+   ([ADR-0010](./docs/adr/0010-the-recorder-instruments-clacks-suite-from-outside-it.md)). One
+   comparison needs no emulator and so runs already: a Prompt's *opening* Frame is the only one
+   clack writes whole rather than as a diff, and every Scenario's is asserted against the widget's,
+   styles included.
 2. **Conformance suites** — one per ported primitive, comparing against its JavaScript counterpart:
    `LineEditor` vs Node `readline`, text measurement vs `fast-string-width`, key parsing (Node
    `readline` vs crossterm). The comparison is harvested rather than live: CI is one Rust job with
@@ -121,7 +129,7 @@ upstream drift.
 | | |
 |---|---|
 | **M0** | ~~`ForcedWidth` probe — the one experiment the architecture rests on (below)~~ **done** |
-| **M1** | `text` end to end — ~~Recorder~~, ~~width port~~, ~~`LineEditor`~~, ~~`TextState`~~, ~~`Frame`~~, Theme, `text` widget, Emitter, `.interact()`, harvested text Scenarios green |
+| **M1** | `text` end to end — ~~Recorder~~, ~~width port~~, ~~`LineEditor`~~, ~~`TextState`~~, ~~`Frame`~~, ~~Theme~~, ~~`text` widget~~, wrap port, Emitter, `.interact()`, harvested text Scenarios green |
 | **M2** | password, confirm |
 | **M3** | select, multi-select, select-key |
 | **M4** | group-multi-select, autocomplete, date, multi-line |

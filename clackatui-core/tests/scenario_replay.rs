@@ -4,22 +4,28 @@
 //! sequence of keypresses, and the output clack wrote back. ADR-0010 describes how they are caught.
 //! The recording is what this file reads; no JavaScript runs here, for the reasons ADR-0008 gives.
 //!
-//! What is asserted is not yet the Grid. The Emitter and the `text` widget do not exist, so the
-//! recorded output chunks are carried but not compared — that is what M1 finishes with. Two things
-//! are checked in the meantime, and both are worth having on their own:
+//! What is asserted is not yet the Grid: no emulator runs here, so every recorded chunk but the
+//! first is a diff this file cannot make sense of, and cursor position is not checked at all. That
+//! is what M1 finishes with. Three things are checked in the meantime, and each is worth having on
+//! its own:
 //!
 //!   - the fixture is a plausible recording, so that a truncated harvest cannot pass for free;
-//!   - every Scenario replayed through [`Prompt<TextState>`] settles in the state clack settled in.
+//!   - every Scenario replayed through [`Prompt<TextState>`] settles in the state clack settled in;
+//!   - every Scenario's *opening* Frame is drawn the way clack drew it, styles included — the one
+//!     Frame upstream writes whole rather than as a diff, because it has nothing to diff against.
 //!
-//! The second is the first outside check the Prompt state machine has had. ADR-0009 notes it was
-//! ported by close reading alone, against no oracle; the state clack's last frame reports is a
-//! small one, but it is upstream's answer rather than ours.
+//! The second was the first outside check the Prompt state machine had; ADR-0009 notes it was
+//! ported by close reading alone, against no oracle. The third is the first check on appearance,
+//! and the first thing in the project to compare bytes clack actually wrote with something the port
+//! actually drew.
 
 use std::collections::BTreeSet;
 
+use clackatui_core::frame::Frame;
 use clackatui_core::line_editor::{Key, KeyName};
 use clackatui_core::prompt::{Prompt, Status};
-use clackatui_core::text::TextState;
+use clackatui_core::text::{TextState, TextWidget};
+use ratatui_core::style::{Color, Modifier, Style};
 
 const FIXTURE: &str = include_str!("fixtures/scenarios/text.json");
 
@@ -30,8 +36,11 @@ struct Scenario {
 	name: String,
 	kind: String,
 	message: String,
+	placeholder: Option<String>,
 	default_value: Option<String>,
 	initial_value: Option<String>,
+	/// `opts.withGuide`, which falls back to `settings.withGuide` when absent.
+	with_guide: bool,
 	/// Upstream passed a `validate` callback, which a recording cannot carry across.
 	validates: bool,
 	keys: Vec<Recorded>,
@@ -73,8 +82,13 @@ fn fixture() -> (serde_json::Value, Vec<Scenario>) {
 				name,
 				kind: run["kind"].as_str().unwrap_or("").to_owned(),
 				message: opts["message"].as_str().unwrap_or("").to_owned(),
+				placeholder: opts["placeholder"].as_str().map(str::to_owned),
 				default_value: opts["defaultValue"].as_str().map(str::to_owned),
 				initial_value: opts["initialValue"].as_str().map(str::to_owned),
+				with_guide: opts["withGuide"]
+					.as_bool()
+					.or_else(|| run["settings"]["withGuide"].as_bool())
+					.unwrap_or(true),
 				validates: opts["validate"]["callback"].as_bool() == Some(true),
 				keys: run["keys"]
 					.as_array()
@@ -224,6 +238,196 @@ fn every_scenario_settles_the_way_clack_settled() {
 		replayed >= 9,
 		"only {replayed} Scenarios were replayable; the filters above have eaten the suite"
 	);
+}
+
+// --- The first Frame ---------------------------------------------------------------------------
+
+/// The first thing clack writes for a Prompt is its whole opening Frame, uncut: `render` has no
+/// previous frame to diff against, so it prints the lot. Every later write is a diff, and making
+/// sense of one needs a terminal emulator — but this one is a Frame on its own, and the widget can
+/// be held against it directly, colours and all.
+///
+/// This is the first parity claim in the project that is about *appearance* rather than about a
+/// primitive. It is not yet the Grid comparison ADR-0001 asks for: no emulator runs, so cursor
+/// position is not checked and neither is any Frame after the first.
+#[test]
+fn every_scenario_draws_clacks_opening_frame() {
+	let (_, scenarios) = fixture();
+	let mut failures = Vec::new();
+	let mut compared = 0;
+
+	for scenario in &scenarios {
+		let Some(recorded) = opening_frame(&scenario.output) else {
+			failures.push(format!("  {}: nothing was drawn", scenario.name));
+			continue;
+		};
+
+		let mut state = TextState::new();
+		if let Some(default) = &scenario.default_value {
+			state = state.with_default_value(default);
+		}
+		let mut prompt = Prompt::new(state);
+		if let Some(initial) = &scenario.initial_value {
+			prompt = prompt.with_initial_user_input(initial);
+		}
+
+		let mut widget =
+			TextWidget::new(&prompt, &scenario.message).with_guide(scenario.with_guide);
+		if let Some(placeholder) = &scenario.placeholder {
+			widget = widget.with_placeholder(placeholder);
+		}
+
+		compared += 1;
+		let ours = flatten(&widget.frame());
+		let theirs = parse(recorded);
+		if ours != theirs {
+			failures.push(format!(
+				"  {}\n     clack: {theirs:?}\n      port: {ours:?}",
+				scenario.name
+			));
+		}
+	}
+
+	assert!(
+		failures.is_empty(),
+		"{} of {compared} opening Frames differ from clack's.\n\n{}\n",
+		failures.len(),
+		failures.join("\n"),
+	);
+
+	assert!(
+		compared >= 13,
+		"only {compared} Frames were compared; the fixture has stopped carrying them"
+	);
+}
+
+/// The first chunk that is a Frame rather than a cursor instruction, found by the step symbol every
+/// Frame opens its title line with.
+fn opening_frame(output: &[String]) -> Option<&str> {
+	output
+		.iter()
+		.find(|chunk| chunk.contains(['◆', '◇', '■', '▲']))
+		.map(String::as_str)
+}
+
+/// A Frame as `(text, style)` runs, one list per line, with adjacent runs of one style joined.
+///
+/// Both sides are put through this before they are compared, so that a difference in how the text
+/// happens to be cut into spans is not reported as a difference in what is drawn.
+fn flatten(frame: &Frame) -> Vec<Vec<(String, Style)>> {
+	frame
+		.lines
+		.iter()
+		.map(|line| {
+			let mut runs: Vec<(String, Style)> = Vec::new();
+			for span in &line.spans {
+				if span.text.is_empty() {
+					continue;
+				}
+				match runs.last_mut() {
+					Some((text, style)) if *style == span.style => text.push_str(&span.text),
+					_ => runs.push((span.text.clone(), span.style)),
+				}
+			}
+			runs
+		})
+		.collect()
+}
+
+/// clack's Frame string, read back into the same shape.
+///
+/// Only SGR is interpreted, because only SGR appears in a Frame — the cursor movement lives in the
+/// chunks around it. An unrecognised parameter is a failure rather than something to skip: it would
+/// mean clack styles a Frame in a way the Theme has no name for.
+fn parse(frame: &str) -> Vec<Vec<(String, Style)>> {
+	let mut lines = vec![Vec::<(String, Style)>::new()];
+	let mut style = Style::new();
+	let mut chars = frame.chars().peekable();
+
+	while let Some(c) = chars.next() {
+		match c {
+			'\n' => lines.push(Vec::new()),
+			'\u{1B}' => {
+				assert_eq!(chars.next(), Some('['), "not a CSI sequence");
+				let mut params = String::new();
+				let final_byte = loop {
+					let c = chars.next().expect("unterminated CSI sequence");
+					if c.is_ascii_digit() || c == ';' {
+						params.push(c);
+					} else {
+						break c;
+					}
+				};
+				assert_eq!(
+					final_byte, 'm',
+					"a Frame carries nothing but SGR: {params}{final_byte}"
+				);
+				for param in params.split(';') {
+					style = sgr(style, param);
+				}
+			}
+			_ => {
+				let line = lines.last_mut().expect("there is always a line");
+				match line.last_mut() {
+					Some((text, run)) if *run == style => text.push(c),
+					_ => line.push((String::from(c), style)),
+				}
+			}
+		}
+	}
+
+	lines
+}
+
+/// One SGR parameter, applied. The inverse of the table in `theme.rs`.
+fn sgr(style: Style, param: &str) -> Style {
+	match param {
+		"0" | "" => Style::new(),
+		"2" => style.add_modifier(Modifier::DIM),
+		"7" => style.add_modifier(Modifier::REVERSED),
+		"8" => style.add_modifier(Modifier::HIDDEN),
+		"9" => style.add_modifier(Modifier::CROSSED_OUT),
+		"22" => off(style, Modifier::DIM),
+		"27" => off(style, Modifier::REVERSED),
+		"28" => off(style, Modifier::HIDDEN),
+		"29" => off(style, Modifier::CROSSED_OUT),
+		"31" => style.fg(Color::Red),
+		"32" => style.fg(Color::Green),
+		"33" => style.fg(Color::Yellow),
+		"36" => style.fg(Color::Cyan),
+		"90" => style.fg(Color::DarkGray),
+		// `\x1b[39m` is "default foreground", which is the absence of a colour rather than a colour
+		// named Reset — the same thing `Style::new()` means by `fg: None`.
+		"39" => Style { fg: None, ..style },
+		other => panic!("clack styled a Frame with SGR {other}, which the Theme has no name for"),
+	}
+}
+
+/// An SGR "off" code, which is not [`Style::remove_modifier`].
+///
+/// `Style` describes a patch as well as an appearance: `sub_modifier` says "take this away from
+/// whatever you are laid over". A byte stream has nothing underneath it — `\x1b[27m` means the text
+/// after it is not reversed, full stop — so the bit is cleared rather than marked for subtraction.
+/// A Theme sets appearances, never patches, which is why nothing in `theme.rs` carries a
+/// `sub_modifier` either.
+fn off(style: Style, modifier: Modifier) -> Style {
+	Style {
+		add_modifier: style.add_modifier.difference(modifier),
+		..style
+	}
+}
+
+/// A style asserted twice is a style asserted once. These pin the reader, not the port: if the
+/// table above drifts from `theme.rs`, the comparison above starts agreeing for the wrong reason.
+#[test]
+fn the_sgr_table_reads_the_theme_back() {
+	let styles = clackatui_core::theme::Styles::CLACK;
+	assert_eq!(sgr(Style::new(), "90"), styles.guide);
+	assert_eq!(sgr(Style::new(), "36"), styles.guide_active);
+	assert_eq!(sgr(Style::new(), "2"), styles.submitted);
+	assert_eq!(sgr(sgr(Style::new(), "9"), "2"), styles.cancelled);
+	assert_eq!(sgr(sgr(Style::new(), "7"), "8"), styles.placeholder_empty);
+	assert_eq!(sgr(Style::new(), "33"), styles.error);
 }
 
 /// A fixture is only worth trusting if it is complete. These guard the recording, not the port.

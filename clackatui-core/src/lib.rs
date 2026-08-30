@@ -7,4 +7,5 @@ pub mod line_editor;
 pub mod prompt;
 pub mod settings;
 pub mod text;
+pub mod theme;
 pub mod width;
