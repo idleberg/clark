@@ -15,7 +15,7 @@
 
 use std::collections::BTreeSet;
 
-use clackatui_core::width::width;
+use clackatui_core::width::{segments, width};
 
 const FIXTURE: &str = include_str!("fixtures/width.json");
 
@@ -109,6 +109,45 @@ fn every_case_measures_the_way_clack_measures_it() {
 		failures.join("\n"),
 		fixture.unicode,
 		unicode_version(),
+	);
+}
+
+/// The Frame places text one segment to a cell, so nothing may be lost or duplicated on the way
+/// from a string to the cells that hold it.
+///
+/// Only the *coverage* is asserted here. That the segments carry the right widths is already the
+/// subject of the test above, transitively: [`width`] is defined as their sum, so a segment measured
+/// wrongly is a case measured wrongly. Asserting the sum again here would be a tautology.
+#[test]
+fn every_case_is_covered_by_its_segments() {
+	let fixture = fixture();
+	let mut failures = Vec::new();
+
+	for case in &fixture.cases {
+		let text = case.text();
+		let rejoined: String = segments(&text).map(|s| s.text).collect();
+
+		if rejoined != text {
+			failures.push(format!(
+				"  {:<38} {} code points in, {} out",
+				case.name,
+				text.chars().count(),
+				rejoined.chars().count()
+			));
+		}
+		if segments(&text).any(|s| s.text.is_empty()) {
+			failures.push(format!("  {:<38} produced an empty segment", case.name));
+		}
+	}
+
+	assert!(
+		failures.is_empty(),
+		"{} of {} cases do not rejoin from their segments.\n\n{}\n\n\
+		 A Frame draws what `segments` yields and nothing else, so text missing here is text \
+		 missing from the Grid.",
+		failures.len(),
+		fixture.cases.len(),
+		failures.join("\n"),
 	);
 }
 

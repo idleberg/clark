@@ -86,40 +86,154 @@ pub fn width(input: &str) -> usize {
 }
 
 /// [`width`], with upstream's `WidthOptions` spelled out.
+///
+/// Defined as the sum of [`segments_with`] rather than as its own scan, so that the two can never
+/// disagree about where a block begins — which is the failure the Frame would inherit silently.
 pub fn width_with(input: &str, options: WidthOptions) -> usize {
-	let mut total = 0;
-	// Where the last block match ended, and where the scan head is. Everything between them is
-	// unmatched, awaiting the settlement below.
-	let mut settled = 0;
-	let mut head = 0;
+	segments_with(input, options).map(|s| s.width).sum()
+}
 
-	loop {
-		if let Some((len, block_width)) = match_block(&input[head..], options) {
-			total += unmatched_width(&input[settled..head], options);
-			total += block_width;
-			head += len;
-			settled = head;
-			continue;
+/// One placeable unit of text and the columns it occupies.
+///
+/// A Frame cannot ask for the width of a whole line and stop there: it has to put text into cells,
+/// and a cell holds one unit. The unit is upstream's, not a grapheme cluster — an emoji sequence is
+/// atomic because `fast-string-width` measures it as one, while conjoining jamo are three units of
+/// two columns each because it measures them per code point. Segmenting any other way would place
+/// text at columns the width model does not agree with, which is the one thing ADR-0005 exists to
+/// prevent.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub struct Segment<'a> {
+	pub text: &'a str,
+	/// Columns occupied. Zero for an ANSI sequence, a control character, and a combining mark —
+	/// none of which a terminal advances the cursor for.
+	pub width: usize,
+}
+
+/// [`input`](str) split into placeable units, with upstream's default options.
+pub fn segments(input: &str) -> Segments<'_> {
+	segments_with(input, WidthOptions::default())
+}
+
+/// [`segments`], with upstream's `WidthOptions` spelled out.
+pub fn segments_with(input: &str, options: WidthOptions) -> Segments<'_> {
+	Segments {
+		input,
+		options,
+		head: 0,
+		run: None,
+	}
+}
+
+/// The iterator [`segments`] returns.
+pub struct Segments<'a> {
+	input: &'a str,
+	options: WidthOptions,
+	/// The scan position, in bytes.
+	head: usize,
+	/// A matched block being handed out one code point at a time.
+	run: Option<Run>,
+}
+
+/// A block whose width is per code point, part-way through being handed out.
+#[derive(Clone, Copy)]
+struct Run {
+	end: usize,
+	char_width: usize,
+}
+
+impl<'a> Iterator for Segments<'a> {
+	type Item = Segment<'a>;
+
+	/// The scan of [`width_with`] as it was, with the accumulator replaced by an emission.
+	///
+	/// Blocks are matched whole and *then* subdivided, never re-matched per code point. The
+	/// difference is observable: `"\u{01}\u{1B}[0m"` is a two-character control run followed by the
+	/// latin text `[0m`, but re-matching at the escape would find an ANSI sequence instead and lose
+	/// three columns.
+	fn next(&mut self) -> Option<Segment<'a>> {
+		if let Some(run) = self.run {
+			if self.head < run.end {
+				let c = self.input[self.head..].chars().next()?;
+				let text = &self.input[self.head..self.head + c.len_utf8()];
+				self.head += c.len_utf8();
+				return Some(Segment {
+					text,
+					width: run.char_width,
+				});
+			}
+			self.run = None;
 		}
 
-		match input[head..].chars().next() {
-			Some(c) => head += c.len_utf8(),
-			None => {
-				total += unmatched_width(&input[settled..head], options);
-				break;
+		let rest = self.input.get(self.head..)?;
+		if rest.is_empty() {
+			return None;
+		}
+
+		if let Some(block) = match_block(rest, self.options) {
+			let start = self.head;
+			match block.char_width {
+				Some(char_width) => {
+					self.run = Some(Run {
+						end: start + block.len,
+						char_width,
+					});
+					return self.next();
+				}
+				None => {
+					self.head += block.len;
+					return Some(Segment {
+						text: &self.input[start..self.head],
+						width: block.width,
+					});
+				}
 			}
+		}
+
+		// Unmatched. Upstream settles a whole run of these at once, but `unmatched_width` carries no
+		// state from one code point to the next, so emitting them singly gives the same total.
+		let c = rest.chars().next()?;
+		let start = self.head;
+		self.head += c.len_utf8();
+		Some(Segment {
+			text: &self.input[start..self.head],
+			width: unmatched_width(&self.input[start..self.head], self.options),
+		})
+	}
+}
+
+/// A matched block: how far it reaches, how wide it is, and whether it can be subdivided.
+struct Block {
+	len: usize,
+	width: usize,
+	/// The width of each code point, for a block whose width is a per-code-point sum. `None` marks
+	/// a block that is one indivisible unit however many code points it spans.
+	char_width: Option<usize>,
+}
+
+impl Block {
+	fn per_char(len: usize, count: usize, char_width: u16) -> Self {
+		Self {
+			len,
+			width: count * char_width as usize,
+			char_width: Some(char_width as usize),
 		}
 	}
 
-	total
+	fn atomic(len: usize, width: usize) -> Self {
+		Self {
+			len,
+			width,
+			char_width: None,
+		}
+	}
 }
 
 /// The six blocks, in upstream's order. Order is load-bearing: latin runs before emoji so that the
 /// `1` of a keycap sequence is not eaten as text, and emoji runs before CJKT so that an emoji whose
 /// script happens to be Han is measured as a sequence.
-fn match_block(s: &str, o: WidthOptions) -> Option<(usize, usize)> {
+fn match_block(s: &str, o: WidthOptions) -> Option<Block> {
 	match_latin(s, o)
-		.or_else(|| match_ansi(s).map(|len| (len, 0)))
+		.or_else(|| match_ansi(s).map(|len| Block::atomic(len, 0)))
 		.or_else(|| match_control(s, o))
 		.or_else(|| match_tab(s, o))
 		.or_else(|| match_emoji(s, o))
@@ -130,7 +244,7 @@ fn match_block(s: &str, o: WidthOptions) -> Option<(usize, usize)> {
 ///
 /// The negative lookahead is what keeps the leading digit of a keycap sequence out of
 /// this block and in the emoji one.
-fn match_latin(s: &str, o: WidthOptions) -> Option<(usize, usize)> {
+fn match_latin(s: &str, o: WidthOptions) -> Option<Block> {
 	let mut len = 0;
 	let mut count = 0;
 
@@ -147,11 +261,11 @@ fn match_latin(s: &str, o: WidthOptions) -> Option<(usize, usize)> {
 		count += 1;
 	}
 
-	(count > 0).then(|| (len, count * o.regular_width as usize))
+	(count > 0).then(|| Block::per_char(len, count, o.regular_width))
 }
 
 /// `/[\x00-\x08\x0A-\x1F\x7F-\x9F]{1,1000}/y` — tab is excluded, it has its own block.
-fn match_control(s: &str, o: WidthOptions) -> Option<(usize, usize)> {
+fn match_control(s: &str, o: WidthOptions) -> Option<Block> {
 	let mut len = 0;
 	let mut count = 0;
 
@@ -167,20 +281,20 @@ fn match_control(s: &str, o: WidthOptions) -> Option<(usize, usize)> {
 		count += 1;
 	}
 
-	(count > 0).then(|| (len, count * o.control_width as usize))
+	(count > 0).then(|| Block::per_char(len, count, o.control_width))
 }
 
 /// `/\t{1,1000}/y`
-fn match_tab(s: &str, o: WidthOptions) -> Option<(usize, usize)> {
+fn match_tab(s: &str, o: WidthOptions) -> Option<Block> {
 	let count = s.bytes().take_while(|b| *b == b'\t').count();
-	(count > 0).then(|| (count, count * o.tab_width as usize))
+	(count > 0).then(|| Block::per_char(count, count, o.tab_width))
 }
 
 /// `/(?:(?![｡-ﾟ＀-￯])[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Hangul}\p{Script=Tangut}]){1,1000}/yu`
 ///
 /// Width is per code point, which is why conjoining jamo measure 6 here and 2 under Ratatui's
 /// grapheme-aware model — the disagreement M0 was probed with.
-fn match_cjkt(s: &str, o: WidthOptions) -> Option<(usize, usize)> {
+fn match_cjkt(s: &str, o: WidthOptions) -> Option<Block> {
 	let mut len = 0;
 	let mut count = 0;
 
@@ -192,7 +306,7 @@ fn match_cjkt(s: &str, o: WidthOptions) -> Option<(usize, usize)> {
 		count += 1;
 	}
 
-	(count > 0).then(|| (len, count * o.wide_width as usize))
+	(count > 0).then(|| Block::per_char(len, count, o.wide_width))
 }
 
 fn is_cjkt_wide(c: char) -> bool {
@@ -326,8 +440,8 @@ fn match_ansi_osc8(s: &str) -> Option<usize> {
 ///
 /// A whole sequence counts as one unit — upstream hard-codes the length at 1 for this block — so a
 /// family of four people and a single `\u263A\uFE0F` both measure 2.
-fn match_emoji(s: &str, o: WidthOptions) -> Option<(usize, usize)> {
-	emoji_len(s).map(|len| (len, o.emoji_width as usize))
+fn match_emoji(s: &str, o: WidthOptions) -> Option<Block> {
+	emoji_len(s).map(|len| Block::atomic(len, o.emoji_width as usize))
 }
 
 fn emoji_len(s: &str) -> Option<usize> {
@@ -683,5 +797,74 @@ mod tests {
 			..WidthOptions::default()
 		};
 		assert_eq!(width_with("\t", o), 4);
+	}
+
+	// --- Segmentation ---------------------------------------------------------------------------
+
+	fn split(input: &str) -> Vec<(&str, usize)> {
+		segments(input).map(|s| (s.text, s.width)).collect()
+	}
+
+	#[test]
+	fn a_per_code_point_block_is_handed_out_one_at_a_time() {
+		assert_eq!(split("hi"), [("h", 1), ("i", 1)]);
+		assert_eq!(split("\t\t"), [("\t", 8), ("\t", 8)]);
+	}
+
+	/// The jamo again, now as three units. A Frame that placed them as one cell would have to pick a
+	/// width for it, and any choice would disagree with the model that laid the line out.
+	#[test]
+	fn conjoining_jamo_are_three_segments_of_two_columns() {
+		assert_eq!(
+			split("\u{1100}\u{1161}\u{11A8}"),
+			[("\u{1100}", 2), ("\u{1161}", 2), ("\u{11A8}", 2)]
+		);
+	}
+
+	/// The other direction: however many code points an emoji sequence spans, it is one unit, so it
+	/// goes into one cell.
+	#[test]
+	fn an_emoji_sequence_is_a_single_segment() {
+		let family = "\u{1F468}\u{200D}\u{1F469}\u{200D}\u{1F467}";
+		assert_eq!(split(family), [(family, 2)]);
+	}
+
+	#[test]
+	fn escapes_and_marks_are_segments_of_no_width() {
+		assert_eq!(
+			split("\u{1B}[31ma"),
+			[("\u{1B}[31m", 0), ("a", 1)],
+			"an escape is one unit, and occupies no column"
+		);
+		assert_eq!(split("e\u{0301}"), [("e", 1), ("\u{0301}", 0)]);
+	}
+
+	/// Blocks are matched whole and then subdivided. Re-matching at every code point would find an
+	/// ANSI sequence inside this control run and swallow the three columns after it.
+	#[test]
+	fn a_block_is_not_re_matched_part_way_through() {
+		assert_eq!(
+			split("\u{01}\u{1B}[0m"),
+			[("\u{01}", 0), ("\u{1B}", 0), ("[", 1), ("0", 1), ("m", 1)]
+		);
+	}
+
+	/// The property the Frame depends on, and the reason `width_with` is defined as this sum.
+	#[test]
+	fn the_segments_of_a_string_measure_the_string() {
+		for case in [
+			"hello",
+			"\u{1B}[31mred\u{1B}[0m",
+			"\u{1100}\u{1161}\u{11A8}",
+			"\u{1F469}\u{200D}\u{1F4BB}x",
+			"a\tb",
+			"e\u{0301}\u{4F60}\u{FF21}",
+			"\u{0031}\u{FE0F}\u{20E3}",
+		] {
+			let summed: usize = segments(case).map(|s| s.width).sum();
+			assert_eq!(summed, width(case), "{case:?}");
+			let rejoined: String = segments(case).map(|s| s.text).collect();
+			assert_eq!(rejoined, case, "{case:?}");
+		}
 	}
 }

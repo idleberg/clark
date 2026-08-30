@@ -16,8 +16,11 @@ Node's `readline` on all 493 keypresses of its own. On top of them sits the Prom
 that gives them their oracle now runs
 ([ADR-0010](./docs/adr/0010-the-recorder-instruments-clacks-suite-from-outside-it.md)): clack's own
 `text` suite is harvested into 13 Scenarios, and replaying their keypresses settles where clack
-settled. Comparing the recorded frames as Grids waits on the Emitter, which is what M1 finishes
-with. See
+settled. Frames now draw: a `Frame` is styled text with no escapes in it, and its `Widget` places
+one width segment per cell under `ForcedWidth`
+([ADR-0011](./docs/adr/0011-a-cell-holds-one-width-segment.md)). What remains before the recorded
+frames can be compared as Grids is the `text` widget that builds a Frame and the Emitter that turns
+Frames into bytes, which is what M1 finishes with. See
 [CONTEXT.md](./CONTEXT.md) for the vocabulary and [docs/adr/](./docs/adr/) for the decisions behind
 the shape below.
 
@@ -118,7 +121,7 @@ upstream drift.
 | | |
 |---|---|
 | **M0** | ~~`ForcedWidth` probe — the one experiment the architecture rests on (below)~~ **done** |
-| **M1** | `text` end to end — ~~Recorder~~, ~~width port~~, ~~`LineEditor`~~, Emitter, ~~`TextState`~~, `.interact()`, harvested text Scenarios green |
+| **M1** | `text` end to end — ~~Recorder~~, ~~width port~~, ~~`LineEditor`~~, ~~`TextState`~~, ~~`Frame`~~, Theme, `text` widget, Emitter, `.interact()`, harvested text Scenarios green |
 | **M2** | password, confirm |
 | **M3** | select, multi-select, select-key |
 | **M4** | group-multi-select, autocomplete, date, multi-line |
