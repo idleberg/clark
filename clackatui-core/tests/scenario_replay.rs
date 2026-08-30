@@ -41,6 +41,8 @@ struct Scenario {
 	initial_value: Option<String>,
 	/// `opts.withGuide`, which falls back to `settings.withGuide` when absent.
 	with_guide: bool,
+	/// The terminal clack wrapped its Frames to.
+	columns: usize,
 	/// Upstream passed a `validate` callback, which a recording cannot carry across.
 	validates: bool,
 	keys: Vec<Recorded>,
@@ -89,6 +91,7 @@ fn fixture() -> (serde_json::Value, Vec<Scenario>) {
 					.as_bool()
 					.or_else(|| run["settings"]["withGuide"].as_bool())
 					.unwrap_or(true),
+				columns: run["terminal"]["columns"].as_u64().unwrap_or(80) as usize,
 				validates: opts["validate"]["callback"].as_bool() == Some(true),
 				keys: run["keys"]
 					.as_array()
@@ -278,7 +281,24 @@ fn every_scenario_draws_clacks_opening_frame() {
 		}
 
 		compared += 1;
-		let ours = flatten(&widget.frame());
+		let frame = widget.frame();
+
+		// What clack recorded is post-wrap: `render` wraps the Frame to the terminal before it
+		// writes it (ADR-0012). Comparing an unwrapped Frame against it is only sound while no line
+		// reaches the margin, which at 80 columns none of the harvested Scenarios does. The
+		// hand-authored narrow ones will need the rows compared instead.
+		for (index, line) in frame.lines.iter().enumerate() {
+			assert!(
+				line.width() <= scenario.columns,
+				"{}: line {index} is {} columns wide in a terminal of {}, so clack wrapped it and \
+				 this comparison no longer holds",
+				scenario.name,
+				line.width(),
+				scenario.columns,
+			);
+		}
+
+		let ours = flatten(&frame);
 		let theirs = parse(recorded);
 		if ours != theirs {
 			failures.push(format!(

@@ -9,3 +9,4 @@ pub mod settings;
 pub mod text;
 pub mod theme;
 pub mod width;
+pub mod wrap;

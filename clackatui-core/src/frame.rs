@@ -23,6 +23,7 @@ use ratatui_core::widgets::Widget;
 use unicode_properties::{GeneralCategoryGroup, UnicodeGeneralCategory};
 
 use crate::width::{self, Segment};
+use crate::wrap;
 
 /// A run of text drawn in one style.
 #[derive(Clone, Debug, Default, PartialEq)]
@@ -121,70 +122,101 @@ impl Frame {
 
 	/// The Frame laid out at `columns` wide: one entry per terminal row.
 	///
-	/// Wrapping is the terminal's behaviour, reproduced rather than avoided. A unit that does not
-	/// fit in the columns left moves to the next row whole, which is what a terminal with `DECAWM`
-	/// on does with a wide glyph at the right margin — it does not split it.
-	fn rows(&self, columns: u16) -> Vec<Vec<Placed<'_>>> {
+	/// The rows are [`wrap`]'s, not this module's. clack does not let a terminal wrap its output —
+	/// `@clack/core`'s render wraps the Frame itself, writes the result, and counts the cursor back
+	/// over the rows that came out (ADR-0012) — so the rows are decided by a word wrap before
+	/// anything is placed, and this only fills them.
+	///
+	/// Segmenting happens after the wrap and never across it, because upstream breaks a long word by
+	/// code point: a row can begin part-way through what would otherwise be one unit, and the parts
+	/// are then measured as the parts they became.
+	fn rows(&self, columns: u16) -> Vec<Vec<Placed>> {
 		let mut rows = Vec::new();
 		if columns == 0 {
 			return rows;
 		}
 
 		for line in &self.lines {
-			let mut row: Vec<Placed<'_>> = Vec::new();
-			let mut x = 0u16;
-
+			// One string per line, as clack has. A block is matched across span boundaries because
+			// upstream has no span boundaries to stop at. Each span is composed on its own, which
+			// differs from composing the join only where a span begins with a combining mark whose
+			// base is styled differently — a Frame no widget builds.
+			let mut text = String::new();
+			let mut styles: Vec<(usize, Style)> = Vec::new();
 			for span in &line.spans {
-				for Segment { text, width } in width::segments(&span.text) {
+				text.push_str(&wrap::normalize(&span.text));
+				styles.push((text.len(), span.style));
+			}
+
+			let mut start = 0usize;
+			for end in wrap::breaks(&text, columns as usize)
+				.into_iter()
+				.chain(std::iter::once(text.len()))
+			{
+				let mut row: Vec<Placed> = Vec::new();
+				let mut x = 0u16;
+				let mut at = start;
+
+				for Segment { text: unit, width } in width::segments(&text[start..end]) {
+					let style = style_at(&styles, at);
+					at += unit.len();
+
 					if width == 0 {
 						// No column of its own. A combining mark belongs to the unit before it and
 						// goes into the same cell; an escape or a control character is not text we
-						// draw at all, since a Frame carries its styling as a `Style`.
-						if is_mark(text) {
+						// draw at all, since a Frame carries its styling as a `Style`. A mark that
+						// the wrap left at the start of a row has nothing to attach to and is lost,
+						// which is the one thing a terminal would do differently.
+						if is_mark(unit) {
 							if let Some(last) = row.last_mut() {
-								last.trailing.push(text);
+								last.symbol.push_str(unit);
 							}
 						}
 						continue;
 					}
 
 					let width = u16::try_from(width).unwrap_or(u16::MAX);
-					if width > columns {
-						// Wider than the terminal. There is no column arrangement that holds it, and
-						// guessing one would put every later unit at the wrong place; a terminal
-						// would smear it across the margin instead. Left for the narrow-terminal
-						// Scenarios to adjudicate rather than invented here.
-						continue;
-					}
 					if x + width > columns {
-						rows.push(std::mem::take(&mut row));
-						x = 0;
+						// Does not fit the row the wrap put it on — either wider than the terminal
+						// entirely, which is how upstream leaves a tab on a row of its own, or a
+						// unit the wrap measured per code point and we measure as a block. Left out
+						// rather than moved: another row here would sit between clack's, and clack
+						// counts its cursor back over rows.
+						continue;
 					}
 
 					row.push(Placed {
 						x,
-						text,
-						trailing: Vec::new(),
+						symbol: unit.to_owned(),
 						width,
-						style: span.style,
+						style,
 					});
 					x += width;
 				}
-			}
 
-			rows.push(row);
+				rows.push(row);
+				start = end;
+			}
 		}
 
 		rows
 	}
 }
 
+/// The style of the span covering `offset`, given each span's end offset in the line's text.
+fn style_at(styles: &[(usize, Style)], offset: usize) -> Style {
+	styles
+		.iter()
+		.find(|(end, _)| offset < *end)
+		.map(|(_, style)| *style)
+		.unwrap_or_default()
+}
+
 /// One unit of text, at the column it was placed at.
-struct Placed<'a> {
+struct Placed {
 	x: u16,
-	text: &'a str,
-	/// Zero-width text that belongs to the same cell — combining marks.
-	trailing: Vec<&'a str>,
+	/// The unit, and any combining marks that belong in the same cell.
+	symbol: String,
 	width: u16,
 	style: Style,
 }
@@ -225,11 +257,7 @@ impl Widget for &Frame {
 
 			for unit in placed {
 				let x = area.left() + unit.x;
-				let mut symbol = String::from(unit.text);
-				for mark in &unit.trailing {
-					symbol.push_str(mark);
-				}
-				buf[(x, y)] = cell(&symbol, unit.style, unit.width);
+				buf[(x, y)] = cell(&unit.symbol, unit.style, unit.width);
 				// The columns the unit covers are left as the blanks written above. The diff skips
 				// them by the forced width, so what they hold cannot be observed — except when a
 				// later Frame narrows this cell, which the Emitter has to notice for itself
@@ -310,20 +338,31 @@ mod tests {
 		}
 	}
 
-	/// The jamo of M0: six columns under clack's model, two under Ratatui's. The stamp has to say
-	/// six, and the three units have to sit two columns apart.
+	/// A tab: eight columns under clack's model — a fixed width, not a tab stop — and one under
+	/// Ratatui's. The stamp has to say eight, and what follows has to sit at column eight.
 	#[test]
 	fn a_unit_is_stamped_with_clacks_width_not_ratatuis() {
+		let buf = drawn(&frame(&["\tx"]), 10, 1);
+		assert_eq!(buf[(0, 0)].symbol(), "\t");
+		assert_eq!(
+			buf[(0, 0)].diff_option,
+			CellDiffOption::ForcedWidth(NonZeroU16::new(8).unwrap())
+		);
+		assert_eq!(buf[(8, 0)].symbol(), "x");
+	}
+
+	/// The M0 probe symbol never arrives: `wrapAnsi` composes the Frame to NFC before anything is
+	/// placed, and the three conjoining jamo are one syllable by then — two columns under both width
+	/// models rather than six under one and two under the other. The disagreement `ForcedWidth`
+	/// exists for is real, but this is not the example that shows it (ADR-0012).
+	#[test]
+	fn the_probe_symbol_composes_before_it_is_placed() {
 		let buf = drawn(&frame(&["\u{1100}\u{1161}\u{11A8}"]), 8, 1);
-		assert_eq!(buf[(0, 0)].symbol(), "\u{1100}");
-		assert_eq!(buf[(2, 0)].symbol(), "\u{1161}");
-		assert_eq!(buf[(4, 0)].symbol(), "\u{11A8}");
-		for x in [0, 2, 4] {
-			assert_eq!(
-				buf[(x, 0)].diff_option,
-				CellDiffOption::ForcedWidth(NonZeroU16::new(2).unwrap())
-			);
-		}
+		assert_eq!(buf[(0, 0)].symbol(), "\u{AC01}");
+		assert_eq!(
+			buf[(0, 0)].diff_option,
+			CellDiffOption::ForcedWidth(NonZeroU16::new(2).unwrap())
+		);
 	}
 
 	#[test]
@@ -338,10 +377,12 @@ mod tests {
 		assert_eq!(buf[(2, 0)].symbol(), " ");
 	}
 
+	/// `b` with a combining acute, which has no composed form and so survives NFC as two code
+	/// points. `e` with the same mark would not — it would be one character by the time it got here.
 	#[test]
 	fn a_combining_mark_joins_the_cell_before_it() {
-		let buf = drawn(&frame(&["e\u{0301}x"]), 4, 1);
-		assert_eq!(buf[(0, 0)].symbol(), "e\u{0301}");
+		let buf = drawn(&frame(&["b\u{0301}x"]), 4, 1);
+		assert_eq!(buf[(0, 0)].symbol(), "b\u{0301}");
 		assert_eq!(buf[(1, 0)].symbol(), "x");
 	}
 
@@ -403,13 +444,18 @@ mod tests {
 		assert_eq!(row(&buf, 1), "b   ");
 	}
 
+	/// A tab does not fit a four-column terminal at all. Upstream's mid-word break gives it a row of
+	/// its own anyway — leaving the row it overflowed empty — so the line takes three rows, of which
+	/// the middle one has nothing this can draw on it. The rows are clack's whether or not the unit
+	/// on one of them can be placed, because clack counts its cursor back over them.
 	#[test]
-	fn a_unit_wider_than_the_terminal_is_left_out() {
-		// A tab is eight columns under clack's model — a fixed width, not a tab stop — so it does
-		// not fit a four-column terminal at all. Placing it would put everything after it at a
-		// column no model agrees on.
-		let buf = drawn(&frame(&["\tx"]), 4, 1);
-		assert_eq!(row(&buf, 0), "x   ");
+	fn a_unit_wider_than_the_terminal_is_left_out_but_keeps_its_row() {
+		let frame = frame(&["\tx"]);
+		assert_eq!(frame.height(4), 3);
+		let buf = drawn(&frame, 4, 3);
+		assert_eq!(row(&buf, 0), "    ");
+		assert_eq!(row(&buf, 1), "    ");
+		assert_eq!(row(&buf, 2), "x   ");
 	}
 
 	#[test]

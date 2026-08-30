@@ -21,9 +21,11 @@ one width segment per cell under `ForcedWidth`
 ([ADR-0011](./docs/adr/0011-a-cell-holds-one-width-segment.md)). On top of it sit the Theme, ported
 from clack's `common.ts`, and the `text` widget — and the opening Frame each Scenario records is a
 Frame clack wrote whole rather than as a diff, so all 13 are compared against it directly, colours
-and all. What remains is a port of `fast-wrap-ansi`, which is where clack's wrap points actually
-come from, and the Emitter that turns Frames into bytes; then the recorded frames can be compared as
-Grids, which is what M1 finishes with. See
+and all. Rows are clack's too: `fast-wrap-ansi` is ported and agrees with the original on all 47
+cases of its corpus, because clack wraps its Frames itself rather than letting the terminal do it
+([ADR-0012](./docs/adr/0012-clack-wraps-its-own-frames.md)). What remains is the Emitter that turns
+Frames into bytes; then the recorded frames can be compared as Grids, which is what M1 finishes
+with. See
 [CONTEXT.md](./CONTEXT.md) for the vocabulary and [docs/adr/](./docs/adr/) for the decisions behind
 the shape below.
 
@@ -102,8 +104,9 @@ Three layers.
    clack writes whole rather than as a diff, and every Scenario's is asserted against the widget's,
    styles included.
 2. **Conformance suites** — one per ported primitive, comparing against its JavaScript counterpart:
-   `LineEditor` vs Node `readline`, text measurement vs `fast-string-width`, key parsing (Node
-   `readline` vs crossterm). The comparison is harvested rather than live: CI is one Rust job with
+   `LineEditor` vs Node `readline`, text measurement vs `fast-string-width`, line breaking vs
+   `fast-wrap-ansi`, key parsing (Node `readline` vs crossterm). The comparison is harvested rather
+   than live: CI is one Rust job with
    no JavaScript to run, and `prior-art/` is not committed
    ([ADR-0008](./docs/adr/0008-width-parity-is-asserted-against-a-harvested-fixture.md)).
 3. **Drift** — `mise run drift` re-runs the Recorder against pinned clack and reports Fixtures that
@@ -129,7 +132,7 @@ upstream drift.
 | | |
 |---|---|
 | **M0** | ~~`ForcedWidth` probe — the one experiment the architecture rests on (below)~~ **done** |
-| **M1** | `text` end to end — ~~Recorder~~, ~~width port~~, ~~`LineEditor`~~, ~~`TextState`~~, ~~`Frame`~~, ~~Theme~~, ~~`text` widget~~, wrap port, Emitter, `.interact()`, harvested text Scenarios green |
+| **M1** | `text` end to end — ~~Recorder~~, ~~width port~~, ~~`LineEditor`~~, ~~`TextState`~~, ~~`Frame`~~, ~~Theme~~, ~~`text` widget~~, ~~wrap port~~, Emitter, `.interact()`, harvested text Scenarios green |
 | **M2** | password, confirm |
 | **M3** | select, multi-select, select-key |
 | **M4** | group-multi-select, autocomplete, date, multi-line |
@@ -149,6 +152,13 @@ one thing the diff does *not* do: when a forced-wide cell shrinks, the columns i
 yielded, so the Emitter has to mark them dirty itself
 ([ADR-0007](./docs/adr/0007-forced-width-holds-but-the-emitter-owns-shrink-repaints.md)). Better
 learned in an afternoon than in M4.
+
+The symbol it was built on did not survive M1. `wrapAnsi` composes every Frame to NFC before writing
+it, and the conjoining jamo the probe used compose to one syllable that both width models measure
+alike, so that particular disagreement cannot reach a terminal through clack. The conclusion is
+untouched — tabs, emoji sequences and jamo with no composed form still part the two models — but the
+example is now a tab
+([ADR-0012](./docs/adr/0012-clack-wraps-its-own-frames.md)).
 
 ## Open
 
