@@ -6,6 +6,7 @@ pub mod emitter;
 pub mod frame;
 pub mod line_editor;
 pub mod prompt;
+pub mod session;
 pub mod settings;
 pub mod text;
 pub mod theme;

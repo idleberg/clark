@@ -4,26 +4,29 @@
 //! sequence of keypresses, and the output clack wrote back. ADR-0010 describes how they are caught.
 //! The recording is what this file reads; no JavaScript runs here, for the reasons ADR-0008 gives.
 //!
-//! What is asserted is not yet the Grid: no emulator runs here, so every recorded chunk but the
-//! first is a diff this file cannot make sense of, and cursor position is not checked at all. That
-//! is what M1 finishes with. Three things are checked in the meantime, and each is worth having on
-//! its own:
+//! What is asserted is not yet the Grid: no emulator runs here, so nothing below knows where the
+//! cursor ends up, only which instructions were issued to move it. That is what M1 finishes with.
+//! Four things are checked in the meantime, and each is worth having on its own:
 //!
 //!   - the fixture is a plausible recording, so that a truncated harvest cannot pass for free;
 //!   - every Scenario replayed through [`Prompt<TextState>`] settles in the state clack settled in;
 //!   - every Scenario's *opening* Frame is drawn the way clack drew it, styles included — the one
-//!     Frame upstream writes whole rather than as a diff, because it has nothing to diff against.
+//!     Frame upstream writes whole rather than as a diff, because it has nothing to diff against;
+//!   - every Scenario's whole byte stream, styling stripped from both sides, is the stream clack
+//!     wrote — which covers the diffs, the erasures and the order a [`Session`] asks for them in.
 //!
 //! The second was the first outside check the Prompt state machine had; ADR-0009 notes it was
 //! ported by close reading alone, against no oracle. The third is the first check on appearance,
 //! and the first thing in the project to compare bytes clack actually wrote with something the port
-//! actually drew.
+//! actually drew. The fourth is the first that covers a Prompt end to end rather than one Frame of
+//! it.
 
 use std::collections::BTreeSet;
 
 use clackatui_core::frame::Frame;
 use clackatui_core::line_editor::{Key, KeyName};
 use clackatui_core::prompt::{Prompt, Status};
+use clackatui_core::session::Session;
 use clackatui_core::text::{TextState, TextWidget};
 use ratatui_core::style::{Color, Modifier, Style};
 
@@ -43,6 +46,8 @@ struct Scenario {
 	with_guide: bool,
 	/// The terminal clack wrapped its Frames to.
 	columns: usize,
+	/// Its height, which is a separate number for the reason `Emitter::frame` gives.
+	rows: usize,
 	/// Upstream passed a `validate` callback, which a recording cannot carry across.
 	validates: bool,
 	keys: Vec<Recorded>,
@@ -92,6 +97,7 @@ fn fixture() -> (serde_json::Value, Vec<Scenario>) {
 					.or_else(|| run["settings"]["withGuide"].as_bool())
 					.unwrap_or(true),
 				columns: run["terminal"]["columns"].as_u64().unwrap_or(80) as usize,
+				rows: run["terminal"]["rows"].as_u64().unwrap_or(20) as usize,
 				validates: opts["validate"]["callback"].as_bool() == Some(true),
 				keys: run["keys"]
 					.as_array()
@@ -318,6 +324,139 @@ fn every_scenario_draws_clacks_opening_frame() {
 	assert!(
 		compared >= 13,
 		"only {compared} Frames were compared; the fixture has stopped carrying them"
+	);
+}
+
+// --- The whole stream --------------------------------------------------------------------------
+
+/// Every byte clack wrote for a Scenario, against every byte a [`Session`] writes for it — with the
+/// styling taken off both sides first.
+///
+/// This is not the Grid comparison M1 finishes with, and it is not a substitute for one: no
+/// emulator runs, so nothing here knows where the cursor *ends up*, only which instructions were
+/// issued to move it. What it does cover is everything between the opening Frame and the closing
+/// newline, which until now nothing did — the diff clack chose for each keypress, the rows it
+/// erased, the text it rewrote, and the order the Session asked for them in.
+///
+/// SGR is stripped from both sides because the two encode the same appearance differently and
+/// deliberately: clack's Frames arrive as picocolors output, which states one attribute per escape
+/// and turns each off again by name, while the Emitter states a whole [`Style`] per run and resets
+/// (ADR-0011, ADR-0013). Colour is what the *opening Frame* test above compares, where the two can
+/// be held against each other as styles rather than as bytes. What is left after stripping is the
+/// part where byte equality is the right question: cursor movement, erasure, and text.
+#[test]
+fn every_scenario_is_written_the_way_clack_wrote_it() {
+	let (_, scenarios) = fixture();
+	let mut failures = Vec::new();
+	let mut compared = 0;
+
+	for scenario in &scenarios {
+		// Same two exclusions as the replay above, and for the same reasons: a `validate` callback
+		// does not survive a recording, and the abort-signal Scenario is not driven by keys.
+		if scenario.validates || scenario.keys.is_empty() {
+			continue;
+		}
+
+		let mut state = TextState::new();
+		if let Some(default) = &scenario.default_value {
+			state = state.with_default_value(default);
+		}
+		let mut prompt = Prompt::new(state);
+		if let Some(initial) = &scenario.initial_value {
+			prompt = prompt.with_initial_user_input(initial);
+		}
+
+		let message = scenario.message.clone();
+		let placeholder = scenario.placeholder.clone();
+		let with_guide = scenario.with_guide;
+		let mut session = Session::new(prompt, move |prompt| {
+			let mut widget = TextWidget::new(prompt, &message).with_guide(with_guide);
+			if let Some(placeholder) = &placeholder {
+				widget = widget.with_placeholder(placeholder);
+			}
+			widget.frame()
+		})
+		.with_size(scenario.columns as u16, scenario.rows as u16);
+
+		let mut ours = session.open();
+		for recorded in &scenario.keys {
+			ours.push_str(&session.key(recorded.s.as_deref(), &recorded.key()));
+		}
+
+		compared += 1;
+		let theirs: String = scenario.output.concat();
+		let (ours, theirs) = (strip_sgr(&ours), strip_sgr(&theirs));
+		if ours != theirs {
+			failures.push(format!(
+				"  {}\n     clack: {}\n      port: {}",
+				scenario.name,
+				readable(&theirs),
+				readable(&ours),
+			));
+		}
+	}
+
+	assert!(
+		failures.is_empty(),
+		"{} of {compared} Scenarios are written differently from clack.\n\n{}\n",
+		failures.len(),
+		failures.join("\n"),
+	);
+
+	assert!(
+		compared >= 10,
+		"only {compared} Scenarios were compared; the filters above have eaten the suite"
+	);
+}
+
+/// A byte stream with every SGR sequence removed. Anything else that starts with `ESC[` is kept.
+fn strip_sgr(stream: &str) -> String {
+	let mut out = String::new();
+	let mut chars = stream.chars().peekable();
+
+	while let Some(c) = chars.next() {
+		if c != '\u{1B}' {
+			out.push(c);
+			continue;
+		}
+		let mut sequence = String::from(c);
+		if chars.peek() != Some(&'[') {
+			out.push_str(&sequence);
+			continue;
+		}
+		sequence.push(chars.next().expect("peeked"));
+		// Parameter and intermediate bytes, then one final byte in `@`..`~`.
+		for c in chars.by_ref() {
+			sequence.push(c);
+			if ('\u{40}'..='\u{7E}').contains(&c) {
+				break;
+			}
+		}
+		if !sequence.ends_with('m') {
+			out.push_str(&sequence);
+		}
+	}
+
+	out
+}
+
+/// Escapes made legible, so a failure reads as a sequence rather than as a wall of `\u{1b}`.
+fn readable(stream: &str) -> String {
+	stream.replace('\u{1B}', "ESC").replace('\n', "\\n")
+}
+
+/// The stripper is load-bearing for the comparison above — if it ate too much, two streams that
+/// differ would agree — so it is pinned on both sides' actual encodings.
+#[test]
+fn stripping_styles_leaves_the_movement_and_the_text() {
+	// picocolors, as clack writes it.
+	assert_eq!(strip_sgr("\u{1B}[7m\u{1B}[8m_\u{1B}[28m\u{1B}[27m"), "_");
+	// The Emitter, which states a whole Style at once and resets.
+	assert_eq!(strip_sgr("\u{1B}[0;7;8m_\u{1B}[0m"), "_");
+	// Everything that is not SGR survives, including the private-mode cursor sequences.
+	assert_eq!(
+		strip_sgr("\u{1B}[?25l\u{1B}[999D\u{1B}[4A\u{1B}[1B\u{1B}[J\u{1B}[2K\u{1B}[G\u{1B}[?25h"),
+		"\u{1B}[?25l\u{1B}[999D\u{1B}[4A\u{1B}[1B\u{1B}[J\u{1B}[2K\u{1B}[G\u{1B}[?25h"
 	);
 }
 

@@ -27,8 +27,14 @@ cases of its corpus, because clack wraps its Frames itself rather than letting t
 bytes is ported too, and agrees with `@clack/core`'s own `render` byte for byte on all 40 cases of
 its corpus — it diffs lines rather than cells, because that is what upstream does and the difference
 is visible in where the cursor ends up
-([ADR-0013](./docs/adr/0013-the-emitter-diffs-lines-because-clack-does.md)). What remains is
-`.interact()`; then the recorded frames can be compared as Grids, which is what M1 finishes with.
+([ADR-0013](./docs/adr/0013-the-emitter-diffs-lines-because-clack-does.md)). And `text` now runs:
+`clackatui::text("What is your name?").interact()`. The order a Prompt is asked in — one Frame
+before any key, one after each, a newline and only then the cursor — is visible in every recording,
+so it is ported into the core as a `Session` rather than left to a driver
+([ADR-0014](./docs/adr/0014-the-sequence-is-a-compatibility-surface.md)); with it, all ten
+replayable `text` Scenarios are written the way clack wrote them, styling aside. What remains is to
+put both byte streams through an emulator and compare them as Grids, cursor included, which is what
+M1 finishes with.
 See
 [CONTEXT.md](./CONTEXT.md) for the vocabulary and [docs/adr/](./docs/adr/) for the decisions behind
 the shape below.
@@ -48,7 +54,9 @@ Two crates:
 - **`clackatui-core`** — state machines and `Widget` impls over `ratatui-core`. No I/O. Feed it a
   key event, render it into a `Buffer`.
 - **`clackatui`** — a blocking driver plus clack's sugar (intro, outro, log, note, box, group). No
-  async runtime imposed.
+  async runtime imposed. Small on purpose: raw mode, a read loop, the crossterm-to-`readline` key
+  decoder, and the builders. The order a Prompt is asked in is in the core, not here
+  ([ADR-0014](./docs/adr/0014-the-sequence-is-a-compatibility-surface.md)).
 
 Ratatui is used as a primitives library, not as a framework: `Buffer`, `Cell`, `Style` and the
 `Widget` traits, chiefly for `BufferDiff`. `Terminal` is not used
@@ -103,14 +111,18 @@ Three layers.
    emulator (`vt100`; `avt` as fallback) and compares Grids. `node scripts/harvest-scenarios.mjs
    text` is the Recorder; it runs clack's suite from outside the checkout and refuses unless that
    checkout is at the pinned tag
-   ([ADR-0010](./docs/adr/0010-the-recorder-instruments-clacks-suite-from-outside-it.md)). One
-   comparison needs no emulator and so runs already: a Prompt's *opening* Frame is the only one
+   ([ADR-0010](./docs/adr/0010-the-recorder-instruments-clacks-suite-from-outside-it.md)).
+   Two comparisons need no emulator and so run already. A Prompt's *opening* Frame is the only one
    clack writes whole rather than as a diff, and every Scenario's is asserted against the widget's,
-   styles included.
+   styles included. And every Scenario's whole byte stream, styling stripped from both sides, is
+   asserted against the stream a `Session` produces — which covers the diff clack chose for each
+   keypress, the rows it erased, and the order it asked for them in, but not where the cursor ends
+   up.
 2. **Conformance suites** — one per ported primitive, comparing against its JavaScript counterpart:
    `LineEditor` vs Node `readline`, text measurement vs `fast-string-width`, line breaking vs
    `fast-wrap-ansi`, Frame reconciliation vs `@clack/core`'s `render`, key parsing (Node `readline`
-   vs crossterm). The comparison is harvested rather
+   vs crossterm — the one still owed a harvest, and so the least-guarded thing in the `text` path).
+   The comparison is harvested rather
    than live: CI is one Rust job with
    no JavaScript to run, and `prior-art/` is not committed
    ([ADR-0008](./docs/adr/0008-width-parity-is-asserted-against-a-harvested-fixture.md)).
@@ -137,7 +149,7 @@ upstream drift.
 | | |
 |---|---|
 | **M0** | ~~`ForcedWidth` probe — the one experiment the architecture rests on (below)~~ **done** |
-| **M1** | `text` end to end — ~~Recorder~~, ~~width port~~, ~~`LineEditor`~~, ~~`TextState`~~, ~~`Frame`~~, ~~Theme~~, ~~`text` widget~~, ~~wrap port~~, ~~Emitter~~, `.interact()`, harvested text Scenarios green |
+| **M1** | `text` end to end — ~~Recorder~~, ~~width port~~, ~~`LineEditor`~~, ~~`TextState`~~, ~~`Frame`~~, ~~Theme~~, ~~`text` widget~~, ~~wrap port~~, ~~Emitter~~, ~~`.interact()`~~, harvested text Scenarios green |
 | **M2** | password, confirm |
 | **M3** | select, multi-select, select-key |
 | **M4** | group-multi-select, autocomplete, date, multi-line |

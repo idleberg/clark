@@ -1,0 +1,13 @@
+[package]
+name = "clackatui"
+version = "0.0.0"
+description = "clack's prompts for Rust: a blocking driver over clackatui-core."
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+publish = false
+
+[dependencies]
+clackatui-core = { path = "../clackatui-core" }
+crossterm.workspace = true
