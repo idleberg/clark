@@ -1,0 +1,840 @@
+{
+	"source": "fast-wrap-ansi",
+	"version": "0.2.0",
+	"options": {
+		"hard": true,
+		"trim": false
+	},
+	"node": "24.20.0",
+	"unicode": "17.0",
+	"generatedBy": "scripts/harvest-wrap.mjs",
+	"cases": [
+		{
+			"name": "empty",
+			"codepoints": [],
+			"columns": 10,
+			"rows": [
+				""
+			]
+		},
+		{
+			"name": "one short word",
+			"codepoints": [
+				104,
+				101,
+				108,
+				108,
+				111
+			],
+			"columns": 10,
+			"rows": [
+				"hello"
+			]
+		},
+		{
+			"name": "exactly the width",
+			"codepoints": [
+				104,
+				101,
+				108,
+				108,
+				111
+			],
+			"columns": 5,
+			"rows": [
+				"hello"
+			]
+		},
+		{
+			"name": "one column over",
+			"codepoints": [
+				104,
+				101,
+				108,
+				108,
+				111
+			],
+			"columns": 4,
+			"rows": [
+				"hell",
+				"o"
+			]
+		},
+		{
+			"name": "two words that fit",
+			"codepoints": [
+				97,
+				98,
+				32,
+				99,
+				100
+			],
+			"columns": 10,
+			"rows": [
+				"ab cd"
+			]
+		},
+		{
+			"name": "two words that do not",
+			"codepoints": [
+				97,
+				98,
+				32,
+				99,
+				100
+			],
+			"columns": 4,
+			"rows": [
+				"ab ",
+				"cd"
+			]
+		},
+		{
+			"name": "break falls on the space",
+			"codepoints": [
+				97,
+				98,
+				99,
+				32,
+				100,
+				101
+			],
+			"columns": 3,
+			"rows": [
+				"abc",
+				" de"
+			]
+		},
+		{
+			"name": "double space",
+			"codepoints": [
+				97,
+				32,
+				32,
+				98
+			],
+			"columns": 3,
+			"rows": [
+				"a  ",
+				"b"
+			]
+		},
+		{
+			"name": "double space at the margin",
+			"codepoints": [
+				97,
+				98,
+				32,
+				32,
+				99,
+				100
+			],
+			"columns": 4,
+			"rows": [
+				"ab  ",
+				"cd"
+			]
+		},
+		{
+			"name": "leading space",
+			"codepoints": [
+				32,
+				97,
+				98
+			],
+			"columns": 3,
+			"rows": [
+				" ab"
+			]
+		},
+		{
+			"name": "trailing space",
+			"codepoints": [
+				97,
+				98,
+				32
+			],
+			"columns": 3,
+			"rows": [
+				"ab "
+			]
+		},
+		{
+			"name": "only spaces",
+			"codepoints": [
+				32,
+				32,
+				32
+			],
+			"columns": 2,
+			"rows": [
+				"  ",
+				" "
+			]
+		},
+		{
+			"name": "run of spaces mid line",
+			"codepoints": [
+				97,
+				32,
+				32,
+				32,
+				32,
+				98
+			],
+			"columns": 3,
+			"rows": [
+				"a  ",
+				"  b"
+			]
+		},
+		{
+			"name": "many short words",
+			"codepoints": [
+				97,
+				32,
+				98,
+				32,
+				99,
+				32,
+				100,
+				32,
+				101,
+				32,
+				102,
+				32,
+				103,
+				32,
+				104
+			],
+			"columns": 5,
+			"rows": [
+				"a b c",
+				" d e ",
+				"f g h"
+			]
+		},
+		{
+			"name": "word exactly filling a row",
+			"codepoints": [
+				97,
+				98,
+				99,
+				100,
+				32,
+				101,
+				102
+			],
+			"columns": 4,
+			"rows": [
+				"abcd",
+				" ef"
+			]
+		},
+		{
+			"name": "long word alone",
+			"codepoints": [
+				97,
+				98,
+				99,
+				100,
+				101,
+				102,
+				103,
+				104,
+				105,
+				106
+			],
+			"columns": 4,
+			"rows": [
+				"abcd",
+				"efgh",
+				"ij"
+			]
+		},
+		{
+			"name": "long word after a short one",
+			"codepoints": [
+				97,
+				98,
+				32,
+				97,
+				98,
+				99,
+				100,
+				101,
+				102,
+				103,
+				104,
+				105,
+				106
+			],
+			"columns": 4,
+			"rows": [
+				"ab ",
+				"abcd",
+				"efgh",
+				"ij"
+			]
+		},
+		{
+			"name": "long word after a full row",
+			"codepoints": [
+				97,
+				98,
+				99,
+				100,
+				32,
+				97,
+				98,
+				99,
+				100,
+				101,
+				102,
+				103,
+				104,
+				105,
+				106
+			],
+			"columns": 4,
+			"rows": [
+				"abcd",
+				" abc",
+				"defg",
+				"hij"
+			]
+		},
+		{
+			"name": "two long words",
+			"codepoints": [
+				97,
+				98,
+				99,
+				100,
+				101,
+				102,
+				103,
+				32,
+				104,
+				105,
+				106,
+				107,
+				108,
+				109,
+				110
+			],
+			"columns": 4,
+			"rows": [
+				"abcd",
+				"efg ",
+				"hijk",
+				"lmn"
+			]
+		},
+		{
+			"name": "long word, one column",
+			"codepoints": [
+				97,
+				98,
+				99
+			],
+			"columns": 1,
+			"rows": [
+				"a",
+				"b",
+				"c"
+			]
+		},
+		{
+			"name": "long word, two columns",
+			"codepoints": [
+				97,
+				98,
+				99,
+				100,
+				101
+			],
+			"columns": 2,
+			"rows": [
+				"ab",
+				"cd",
+				"e"
+			]
+		},
+		{
+			"name": "word exactly twice the width",
+			"codepoints": [
+				97,
+				98,
+				99,
+				100,
+				101,
+				102,
+				103,
+				104
+			],
+			"columns": 4,
+			"rows": [
+				"abcd",
+				"efgh"
+			]
+		},
+		{
+			"name": "word one over twice the width",
+			"codepoints": [
+				97,
+				98,
+				99,
+				100,
+				101,
+				102,
+				103,
+				104,
+				105
+			],
+			"columns": 4,
+			"rows": [
+				"abcd",
+				"efgh",
+				"i"
+			]
+		},
+		{
+			"name": "cjk that fits",
+			"codepoints": [
+				20320,
+				22909
+			],
+			"columns": 4,
+			"rows": [
+				"你好"
+			]
+		},
+		{
+			"name": "cjk over the margin",
+			"codepoints": [
+				20320,
+				22909
+			],
+			"columns": 3,
+			"rows": [
+				"你",
+				"好"
+			]
+		},
+		{
+			"name": "cjk pair per row",
+			"codepoints": [
+				20320,
+				22909,
+				20320
+			],
+			"columns": 2,
+			"rows": [
+				"你",
+				"好",
+				"你"
+			]
+		},
+		{
+			"name": "cjk against an odd margin",
+			"codepoints": [
+				97,
+				20320
+			],
+			"columns": 2,
+			"rows": [
+				"a",
+				"你"
+			]
+		},
+		{
+			"name": "emoji sequence broken mid sequence",
+			"codepoints": [
+				128104,
+				8205,
+				128105,
+				8205,
+				128103
+			],
+			"columns": 2,
+			"rows": [
+				"👨‍👩‍👧"
+			]
+		},
+		{
+			"name": "emoji sequence that fits",
+			"codepoints": [
+				128512,
+				32,
+				111,
+				107
+			],
+			"columns": 8,
+			"rows": [
+				"😀 ok"
+			]
+		},
+		{
+			"name": "combining mark at the margin",
+			"codepoints": [
+				97,
+				98,
+				769,
+				99
+			],
+			"columns": 2,
+			"rows": [
+				"ab",
+				"́c"
+			]
+		},
+		{
+			"name": "word of nothing but marks",
+			"codepoints": [
+				97,
+				32,
+				769,
+				769
+			],
+			"columns": 1,
+			"rows": [
+				"a",
+				" ́́"
+			]
+		},
+		{
+			"name": "tab",
+			"codepoints": [
+				97,
+				9,
+				98
+			],
+			"columns": 4,
+			"rows": [
+				"a",
+				"\t",
+				"b"
+			]
+		},
+		{
+			"name": "tab alone",
+			"codepoints": [
+				9
+			],
+			"columns": 4,
+			"rows": [
+				"",
+				"\t"
+			]
+		},
+		{
+			"name": "conjoining jamo",
+			"codepoints": [
+				4352,
+				4449,
+				4520
+			],
+			"columns": 4,
+			"rows": [
+				"각"
+			]
+		},
+		{
+			"name": "newline",
+			"codepoints": [
+				97,
+				98,
+				10,
+				99,
+				100
+			],
+			"columns": 4,
+			"rows": [
+				"ab",
+				"cd"
+			]
+		},
+		{
+			"name": "newline with wrapping either side",
+			"codepoints": [
+				97,
+				98,
+				99,
+				100,
+				101,
+				102,
+				10,
+				103,
+				104,
+				105,
+				106,
+				107,
+				108
+			],
+			"columns": 4,
+			"rows": [
+				"abcd",
+				"ef",
+				"ghij",
+				"kl"
+			]
+		},
+		{
+			"name": "crlf",
+			"codepoints": [
+				97,
+				98,
+				13,
+				10,
+				99,
+				100
+			],
+			"columns": 4,
+			"rows": [
+				"ab",
+				"cd"
+			]
+		},
+		{
+			"name": "lone carriage return",
+			"codepoints": [
+				97,
+				98,
+				13,
+				99,
+				100
+			],
+			"columns": 4,
+			"rows": [
+				"ab\rcd"
+			]
+		},
+		{
+			"name": "trailing newline",
+			"codepoints": [
+				97,
+				98,
+				10
+			],
+			"columns": 4,
+			"rows": [
+				"ab",
+				""
+			]
+		},
+		{
+			"name": "blank line between",
+			"codepoints": [
+				97,
+				10,
+				10,
+				98
+			],
+			"columns": 4,
+			"rows": [
+				"a",
+				"",
+				"b"
+			]
+		},
+		{
+			"name": "step and message",
+			"codepoints": [
+				9670,
+				32,
+				32,
+				87,
+				104,
+				97,
+				116,
+				32,
+				105,
+				115,
+				32,
+				121,
+				111,
+				117,
+				114,
+				32,
+				110,
+				97,
+				109,
+				101,
+				63
+			],
+			"columns": 80,
+			"rows": [
+				"◆  What is your name?"
+			]
+		},
+		{
+			"name": "step and message, narrow",
+			"codepoints": [
+				9670,
+				32,
+				32,
+				87,
+				104,
+				97,
+				116,
+				32,
+				105,
+				115,
+				32,
+				121,
+				111,
+				117,
+				114,
+				32,
+				110,
+				97,
+				109,
+				101,
+				63
+			],
+			"columns": 12,
+			"rows": [
+				"◆  What is ",
+				"your name?"
+			]
+		},
+		{
+			"name": "bar and value",
+			"codepoints": [
+				9474,
+				32,
+				32,
+				74,
+				97,
+				110
+			],
+			"columns": 80,
+			"rows": [
+				"│  Jan"
+			]
+		},
+		{
+			"name": "bar and value, narrow",
+			"codepoints": [
+				9474,
+				32,
+				32,
+				97,
+				32,
+				114,
+				97,
+				116,
+				104,
+				101,
+				114,
+				32,
+				108,
+				111,
+				110,
+				103,
+				32,
+				97,
+				110,
+				115,
+				119,
+				101,
+				114
+			],
+			"columns": 10,
+			"rows": [
+				"│  a ",
+				"rather ",
+				"long ",
+				"answer"
+			]
+		},
+		{
+			"name": "bar alone",
+			"codepoints": [
+				9474
+			],
+			"columns": 4,
+			"rows": [
+				"│"
+			]
+		},
+		{
+			"name": "corner and error",
+			"codepoints": [
+				9492,
+				32,
+				32,
+				86,
+				97,
+				108,
+				117,
+				101,
+				32,
+				105,
+				115,
+				32,
+				116,
+				111,
+				111,
+				32,
+				115,
+				104,
+				111,
+				114,
+				116
+			],
+			"columns": 10,
+			"rows": [
+				"└  Value ",
+				"is too ",
+				"short"
+			]
+		},
+		{
+			"name": "whole opening frame",
+			"codepoints": [
+				9474,
+				10,
+				9670,
+				32,
+				32,
+				87,
+				104,
+				97,
+				116,
+				32,
+				105,
+				115,
+				32,
+				121,
+				111,
+				117,
+				114,
+				32,
+				110,
+				97,
+				109,
+				101,
+				63,
+				10,
+				9474,
+				32,
+				32,
+				9608,
+				10,
+				9492,
+				10
+			],
+			"columns": 14,
+			"rows": [
+				"│",
+				"◆  What is ",
+				"your name?",
+				"│  █",
+				"└",
+				""
+			]
+		}
+	]
+}

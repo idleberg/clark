@@ -130,8 +130,8 @@ impl Frame {
 	/// Segmenting happens after the wrap and never across it, because upstream breaks a long word by
 	/// code point: a row can begin part-way through what would otherwise be one unit, and the parts
 	/// are then measured as the parts they became.
-	fn rows(&self, columns: u16) -> Vec<Vec<Placed>> {
-		let mut rows = Vec::new();
+	pub(crate) fn rows(&self, columns: u16) -> Vec<Row> {
+		let mut rows: Vec<Row> = Vec::new();
 		if columns == 0 {
 			return rows;
 		}
@@ -153,7 +153,7 @@ impl Frame {
 				.into_iter()
 				.chain(std::iter::once(text.len()))
 			{
-				let mut row: Vec<Placed> = Vec::new();
+				let mut row = Row::new();
 				let mut x = 0u16;
 				let mut at = start;
 
@@ -212,13 +212,21 @@ fn style_at(styles: &[(usize, Style)], offset: usize) -> Style {
 		.unwrap_or_default()
 }
 
+/// One terminal row of a laid-out Frame.
+///
+/// The Emitter diffs these rather than `Buffer` rows, because a `Buffer` row is padded to the
+/// terminal width and so cannot tell a line that ends in a space from one that does not — a
+/// distinction clack's own diff makes, since it compares the frame strings (ADR-0013).
+pub(crate) type Row = Vec<Placed>;
+
 /// One unit of text, at the column it was placed at.
-struct Placed {
-	x: u16,
+#[derive(Clone, Debug, PartialEq)]
+pub(crate) struct Placed {
+	pub(crate) x: u16,
 	/// The unit, and any combining marks that belong in the same cell.
-	symbol: String,
-	width: u16,
-	style: Style,
+	pub(crate) symbol: String,
+	pub(crate) width: u16,
+	pub(crate) style: Style,
 }
 
 /// Whether a zero-width segment is a combining mark, as opposed to an escape or a control

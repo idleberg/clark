@@ -23,9 +23,13 @@ from clack's `common.ts`, and the `text` widget — and the opening Frame each S
 Frame clack wrote whole rather than as a diff, so all 13 are compared against it directly, colours
 and all. Rows are clack's too: `fast-wrap-ansi` is ported and agrees with the original on all 47
 cases of its corpus, because clack wraps its Frames itself rather than letting the terminal do it
-([ADR-0012](./docs/adr/0012-clack-wraps-its-own-frames.md)). What remains is the Emitter that turns
-Frames into bytes; then the recorded frames can be compared as Grids, which is what M1 finishes
-with. See
+([ADR-0012](./docs/adr/0012-clack-wraps-its-own-frames.md)). The Emitter that turns Frames into
+bytes is ported too, and agrees with `@clack/core`'s own `render` byte for byte on all 40 cases of
+its corpus — it diffs lines rather than cells, because that is what upstream does and the difference
+is visible in where the cursor ends up
+([ADR-0013](./docs/adr/0013-the-emitter-diffs-lines-because-clack-does.md)). What remains is
+`.interact()`; then the recorded frames can be compared as Grids, which is what M1 finishes with.
+See
 [CONTEXT.md](./CONTEXT.md) for the vocabulary and [docs/adr/](./docs/adr/) for the decisions behind
 the shape below.
 
@@ -105,7 +109,8 @@ Three layers.
    styles included.
 2. **Conformance suites** — one per ported primitive, comparing against its JavaScript counterpart:
    `LineEditor` vs Node `readline`, text measurement vs `fast-string-width`, line breaking vs
-   `fast-wrap-ansi`, key parsing (Node `readline` vs crossterm). The comparison is harvested rather
+   `fast-wrap-ansi`, Frame reconciliation vs `@clack/core`'s `render`, key parsing (Node `readline`
+   vs crossterm). The comparison is harvested rather
    than live: CI is one Rust job with
    no JavaScript to run, and `prior-art/` is not committed
    ([ADR-0008](./docs/adr/0008-width-parity-is-asserted-against-a-harvested-fixture.md)).
@@ -132,7 +137,7 @@ upstream drift.
 | | |
 |---|---|
 | **M0** | ~~`ForcedWidth` probe — the one experiment the architecture rests on (below)~~ **done** |
-| **M1** | `text` end to end — ~~Recorder~~, ~~width port~~, ~~`LineEditor`~~, ~~`TextState`~~, ~~`Frame`~~, ~~Theme~~, ~~`text` widget~~, ~~wrap port~~, Emitter, `.interact()`, harvested text Scenarios green |
+| **M1** | `text` end to end — ~~Recorder~~, ~~width port~~, ~~`LineEditor`~~, ~~`TextState`~~, ~~`Frame`~~, ~~Theme~~, ~~`text` widget~~, ~~wrap port~~, ~~Emitter~~, `.interact()`, harvested text Scenarios green |
 | **M2** | password, confirm |
 | **M3** | select, multi-select, select-key |
 | **M4** | group-multi-select, autocomplete, date, multi-line |
@@ -151,7 +156,11 @@ than Ratatui's. It does —
 one thing the diff does *not* do: when a forced-wide cell shrinks, the columns it vacates are never
 yielded, so the Emitter has to mark them dirty itself
 ([ADR-0007](./docs/adr/0007-forced-width-holds-but-the-emitter-owns-shrink-repaints.md)). Better
-learned in an afternoon than in M4.
+learned in an afternoon than in M4 — though as it turned out, not by the Emitter, which diffs lines
+rather than cells and so never meets the gap
+([ADR-0013](./docs/adr/0013-the-emitter-diffs-lines-because-clack-does.md)). The stamped cells still
+matter to anyone drawing a clackatui Prompt inside their own Ratatui application, which is the other
+half of what [ADR-0002](./docs/adr/0002-own-inline-emitter.md) buys.
 
 The symbol it was built on did not survive M1. `wrapAnsi` composes every Frame to NFC before writing
 it, and the conjoining jamo the probe used compose to one syllable that both width models measure
