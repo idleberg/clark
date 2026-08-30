@@ -10,7 +10,11 @@ with one correction recorded in
 ported primitives have landed, each against a harvested oracle
 ([ADR-0008](./docs/adr/0008-width-parity-is-asserted-against-a-harvested-fixture.md)): the width
 port agrees with `fast-string-width` on all 82 cases of its corpus, and the `LineEditor` agrees with
-Node's `readline` on all 493 keypresses of its own. See
+Node's `readline` on all 493 keypresses of its own. On top of them sits the Prompt state machine and
+`TextState`, ported from `@clack/core` with its event emitter replaced by a trait
+([ADR-0009](./docs/adr/0009-a-prompt-owns-its-state-instead-of-subclassing-it.md)) — the first piece
+whose oracle is the harvested Scenarios rather than a primitive of its own, which is why they come
+next. See
 [CONTEXT.md](./CONTEXT.md) for the vocabulary and [docs/adr/](./docs/adr/) for the decisions behind
 the shape below.
 
@@ -88,7 +92,9 @@ Three layers.
 3. **Drift** — `mise run drift` re-runs the Recorder against pinned clack and reports Fixtures that
    no longer match. Run deliberately, not in CI.
 
-Validation is `FnMut(&T) -> Option<String>` plus a `Validator` trait. clack also accepts a
+Validation is `FnMut(Option<&T>) -> Option<String>` plus a `Validator` trait — the `Option` because
+upstream runs it against a value that may never have been set, which is how a bare `return` on an
+untouched Prompt reaches its validator at all. clack also accepts a
 [Standard Schema](https://github.com/standard-schema/standard-schema), which has no Rust analogue;
 the trait is the extension point for adapting crates like `garde`.
 
@@ -106,7 +112,7 @@ upstream drift.
 | | |
 |---|---|
 | **M0** | ~~`ForcedWidth` probe — the one experiment the architecture rests on (below)~~ **done** |
-| **M1** | `text` end to end — Recorder, ~~width port~~, ~~`LineEditor`~~, Emitter, `TextState`, `.interact()`, harvested text Scenarios green |
+| **M1** | `text` end to end — Recorder, ~~width port~~, ~~`LineEditor`~~, Emitter, ~~`TextState`~~, `.interact()`, harvested text Scenarios green |
 | **M2** | password, confirm |
 | **M3** | select, multi-select, select-key |
 | **M4** | group-multi-select, autocomplete, date, multi-line |

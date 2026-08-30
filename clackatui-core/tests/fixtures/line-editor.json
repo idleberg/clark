@@ -1,0 +1,10380 @@
+{
+	"source": "node:readline",
+	"node": "24.20.0",
+	"generatedBy": "scripts/harvest-line-editor.mjs",
+	"scenarios": [
+		{
+			"name": "typing appends",
+			"steps": [
+				{
+					"s": [
+						104
+					],
+					"key": {
+						"name": "h",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							104
+						]
+					},
+					"line": [
+						104
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						101
+					],
+					"key": {
+						"name": "e",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							101
+						]
+					},
+					"line": [
+						104,
+						101
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						108
+					],
+					"key": {
+						"name": "l",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							108
+						]
+					},
+					"line": [
+						104,
+						101,
+						108
+					],
+					"cursor": 3
+				},
+				{
+					"s": [
+						108
+					],
+					"key": {
+						"name": "l",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							108
+						]
+					},
+					"line": [
+						104,
+						101,
+						108,
+						108
+					],
+					"cursor": 4
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						104,
+						101,
+						108,
+						108,
+						111
+					],
+					"cursor": 5
+				}
+			]
+		},
+		{
+			"name": "insert in the middle",
+			"steps": [
+				{
+					"s": [
+						97
+					],
+					"key": {
+						"name": "a",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							97
+						]
+					},
+					"line": [
+						97
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						99
+					],
+					"key": {
+						"name": "c",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							99
+						]
+					},
+					"line": [
+						97,
+						99
+					],
+					"cursor": 2
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "left",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						97,
+						99
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						98
+					],
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							98
+						]
+					},
+					"line": [
+						97,
+						98,
+						99
+					],
+					"cursor": 2
+				}
+			]
+		},
+		{
+			"name": "arrows clamp at both ends",
+			"steps": [
+				{
+					"s": [
+						97
+					],
+					"key": {
+						"name": "a",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							97
+						]
+					},
+					"line": [
+						97
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						98
+					],
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							98
+						]
+					},
+					"line": [
+						97,
+						98
+					],
+					"cursor": 2
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "left",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						97,
+						98
+					],
+					"cursor": 1
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "left",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						97,
+						98
+					],
+					"cursor": 0
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "left",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						97,
+						98
+					],
+					"cursor": 0
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "right",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						97,
+						98
+					],
+					"cursor": 1
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "right",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						97,
+						98
+					],
+					"cursor": 2
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "right",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						97,
+						98
+					],
+					"cursor": 2
+				}
+			]
+		},
+		{
+			"name": "home and end",
+			"steps": [
+				{
+					"s": [
+						104
+					],
+					"key": {
+						"name": "h",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							104
+						]
+					},
+					"line": [
+						104
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						101
+					],
+					"key": {
+						"name": "e",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							101
+						]
+					},
+					"line": [
+						104,
+						101
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						108
+					],
+					"key": {
+						"name": "l",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							108
+						]
+					},
+					"line": [
+						104,
+						101,
+						108
+					],
+					"cursor": 3
+				},
+				{
+					"s": [
+						108
+					],
+					"key": {
+						"name": "l",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							108
+						]
+					},
+					"line": [
+						104,
+						101,
+						108,
+						108
+					],
+					"cursor": 4
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						104,
+						101,
+						108,
+						108,
+						111
+					],
+					"cursor": 5
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "home",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						104,
+						101,
+						108,
+						108,
+						111
+					],
+					"cursor": 0
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "end",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						104,
+						101,
+						108,
+						108,
+						111
+					],
+					"cursor": 5
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "home",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						104,
+						101,
+						108,
+						108,
+						111
+					],
+					"cursor": 0
+				}
+			]
+		},
+		{
+			"name": "ctrl a and ctrl e",
+			"steps": [
+				{
+					"s": [
+						104
+					],
+					"key": {
+						"name": "h",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							104
+						]
+					},
+					"line": [
+						104
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						101
+					],
+					"key": {
+						"name": "e",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							101
+						]
+					},
+					"line": [
+						104,
+						101
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						108
+					],
+					"key": {
+						"name": "l",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							108
+						]
+					},
+					"line": [
+						104,
+						101,
+						108
+					],
+					"cursor": 3
+				},
+				{
+					"s": [
+						108
+					],
+					"key": {
+						"name": "l",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							108
+						]
+					},
+					"line": [
+						104,
+						101,
+						108,
+						108
+					],
+					"cursor": 4
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						104,
+						101,
+						108,
+						108,
+						111
+					],
+					"cursor": 5
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "a",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							1
+						]
+					},
+					"line": [
+						104,
+						101,
+						108,
+						108,
+						111
+					],
+					"cursor": 0
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "e",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							5
+						]
+					},
+					"line": [
+						104,
+						101,
+						108,
+						108,
+						111
+					],
+					"cursor": 5
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "a",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							1
+						]
+					},
+					"line": [
+						104,
+						101,
+						108,
+						108,
+						111
+					],
+					"cursor": 0
+				}
+			]
+		},
+		{
+			"name": "ctrl b and ctrl f",
+			"steps": [
+				{
+					"s": [
+						97
+					],
+					"key": {
+						"name": "a",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							97
+						]
+					},
+					"line": [
+						97
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						98
+					],
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							98
+						]
+					},
+					"line": [
+						97,
+						98
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						99
+					],
+					"key": {
+						"name": "c",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							99
+						]
+					},
+					"line": [
+						97,
+						98,
+						99
+					],
+					"cursor": 3
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "b",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							2
+						]
+					},
+					"line": [
+						97,
+						98,
+						99
+					],
+					"cursor": 2
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "b",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							2
+						]
+					},
+					"line": [
+						97,
+						98,
+						99
+					],
+					"cursor": 1
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "f",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							6
+						]
+					},
+					"line": [
+						97,
+						98,
+						99
+					],
+					"cursor": 2
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "f",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							6
+						]
+					},
+					"line": [
+						97,
+						98,
+						99
+					],
+					"cursor": 3
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "f",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							6
+						]
+					},
+					"line": [
+						97,
+						98,
+						99
+					],
+					"cursor": 3
+				}
+			]
+		},
+		{
+			"name": "backspace and ctrl h",
+			"steps": [
+				{
+					"s": [
+						97
+					],
+					"key": {
+						"name": "a",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							97
+						]
+					},
+					"line": [
+						97
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						98
+					],
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							98
+						]
+					},
+					"line": [
+						97,
+						98
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						99
+					],
+					"key": {
+						"name": "c",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							99
+						]
+					},
+					"line": [
+						97,
+						98,
+						99
+					],
+					"cursor": 3
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "backspace",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						97,
+						98
+					],
+					"cursor": 2
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "h",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							8
+						]
+					},
+					"line": [
+						97
+					],
+					"cursor": 1
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "backspace",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [],
+					"cursor": 0
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "backspace",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [],
+					"cursor": 0
+				}
+			]
+		},
+		{
+			"name": "delete forward",
+			"steps": [
+				{
+					"s": [
+						97
+					],
+					"key": {
+						"name": "a",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							97
+						]
+					},
+					"line": [
+						97
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						98
+					],
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							98
+						]
+					},
+					"line": [
+						97,
+						98
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						99
+					],
+					"key": {
+						"name": "c",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							99
+						]
+					},
+					"line": [
+						97,
+						98,
+						99
+					],
+					"cursor": 3
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "a",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							1
+						]
+					},
+					"line": [
+						97,
+						98,
+						99
+					],
+					"cursor": 0
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "delete",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						98,
+						99
+					],
+					"cursor": 0
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "delete",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						99
+					],
+					"cursor": 0
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "delete",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [],
+					"cursor": 0
+				}
+			]
+		},
+		{
+			"name": "ctrl d deletes forward",
+			"steps": [
+				{
+					"s": [
+						97
+					],
+					"key": {
+						"name": "a",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							97
+						]
+					},
+					"line": [
+						97
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						98
+					],
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							98
+						]
+					},
+					"line": [
+						97,
+						98
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						99
+					],
+					"key": {
+						"name": "c",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							99
+						]
+					},
+					"line": [
+						97,
+						98,
+						99
+					],
+					"cursor": 3
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "a",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							1
+						]
+					},
+					"line": [
+						97,
+						98,
+						99
+					],
+					"cursor": 0
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "d",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							4
+						]
+					},
+					"line": [
+						98,
+						99
+					],
+					"cursor": 0
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "e",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							5
+						]
+					},
+					"line": [
+						98,
+						99
+					],
+					"cursor": 2
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "d",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							4
+						]
+					},
+					"line": [
+						98,
+						99
+					],
+					"cursor": 2
+				}
+			]
+		},
+		{
+			"name": "alt b over words",
+			"steps": [
+				{
+					"s": [
+						102
+					],
+					"key": {
+						"name": "f",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							102
+						]
+					},
+					"line": [
+						102
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						102,
+						111
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						102,
+						111,
+						111
+					],
+					"cursor": 3
+				},
+				{
+					"s": [
+						32
+					],
+					"key": {
+						"name": " ",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							32
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32
+					],
+					"cursor": 4
+				},
+				{
+					"s": [
+						98
+					],
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							98
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98
+					],
+					"cursor": 5
+				},
+				{
+					"s": [
+						97
+					],
+					"key": {
+						"name": "a",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							97
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97
+					],
+					"cursor": 6
+				},
+				{
+					"s": [
+						114
+					],
+					"key": {
+						"name": "r",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							114
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114
+					],
+					"cursor": 7
+				},
+				{
+					"s": [
+						32
+					],
+					"key": {
+						"name": " ",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							32
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114,
+						32
+					],
+					"cursor": 8
+				},
+				{
+					"s": [
+						98
+					],
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							98
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114,
+						32,
+						98
+					],
+					"cursor": 9
+				},
+				{
+					"s": [
+						97
+					],
+					"key": {
+						"name": "a",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							97
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114,
+						32,
+						98,
+						97
+					],
+					"cursor": 10
+				},
+				{
+					"s": [
+						122
+					],
+					"key": {
+						"name": "z",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							122
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114,
+						32,
+						98,
+						97,
+						122
+					],
+					"cursor": 11
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": true,
+						"shift": false,
+						"sequence": [
+							27,
+							98
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114,
+						32,
+						98,
+						97,
+						122
+					],
+					"cursor": 8
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": true,
+						"shift": false,
+						"sequence": [
+							27,
+							98
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114,
+						32,
+						98,
+						97,
+						122
+					],
+					"cursor": 4
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": true,
+						"shift": false,
+						"sequence": [
+							27,
+							98
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114,
+						32,
+						98,
+						97,
+						122
+					],
+					"cursor": 0
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": true,
+						"shift": false,
+						"sequence": [
+							27,
+							98
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114,
+						32,
+						98,
+						97,
+						122
+					],
+					"cursor": 0
+				}
+			]
+		},
+		{
+			"name": "alt f over words",
+			"steps": [
+				{
+					"s": [
+						102
+					],
+					"key": {
+						"name": "f",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							102
+						]
+					},
+					"line": [
+						102
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						102,
+						111
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						102,
+						111,
+						111
+					],
+					"cursor": 3
+				},
+				{
+					"s": [
+						32
+					],
+					"key": {
+						"name": " ",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							32
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32
+					],
+					"cursor": 4
+				},
+				{
+					"s": [
+						98
+					],
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							98
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98
+					],
+					"cursor": 5
+				},
+				{
+					"s": [
+						97
+					],
+					"key": {
+						"name": "a",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							97
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97
+					],
+					"cursor": 6
+				},
+				{
+					"s": [
+						114
+					],
+					"key": {
+						"name": "r",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							114
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114
+					],
+					"cursor": 7
+				},
+				{
+					"s": [
+						32
+					],
+					"key": {
+						"name": " ",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							32
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114,
+						32
+					],
+					"cursor": 8
+				},
+				{
+					"s": [
+						98
+					],
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							98
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114,
+						32,
+						98
+					],
+					"cursor": 9
+				},
+				{
+					"s": [
+						97
+					],
+					"key": {
+						"name": "a",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							97
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114,
+						32,
+						98,
+						97
+					],
+					"cursor": 10
+				},
+				{
+					"s": [
+						122
+					],
+					"key": {
+						"name": "z",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							122
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114,
+						32,
+						98,
+						97,
+						122
+					],
+					"cursor": 11
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "a",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							1
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114,
+						32,
+						98,
+						97,
+						122
+					],
+					"cursor": 0
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "f",
+						"ctrl": false,
+						"meta": true,
+						"shift": false,
+						"sequence": [
+							27,
+							102
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114,
+						32,
+						98,
+						97,
+						122
+					],
+					"cursor": 4
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "f",
+						"ctrl": false,
+						"meta": true,
+						"shift": false,
+						"sequence": [
+							27,
+							102
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114,
+						32,
+						98,
+						97,
+						122
+					],
+					"cursor": 8
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "f",
+						"ctrl": false,
+						"meta": true,
+						"shift": false,
+						"sequence": [
+							27,
+							102
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114,
+						32,
+						98,
+						97,
+						122
+					],
+					"cursor": 11
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "f",
+						"ctrl": false,
+						"meta": true,
+						"shift": false,
+						"sequence": [
+							27,
+							102
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114,
+						32,
+						98,
+						97,
+						122
+					],
+					"cursor": 11
+				}
+			]
+		},
+		{
+			"name": "ctrl left and ctrl right",
+			"steps": [
+				{
+					"s": [
+						102
+					],
+					"key": {
+						"name": "f",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							102
+						]
+					},
+					"line": [
+						102
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						102,
+						111
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						102,
+						111,
+						111
+					],
+					"cursor": 3
+				},
+				{
+					"s": [
+						32
+					],
+					"key": {
+						"name": " ",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							32
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32
+					],
+					"cursor": 4
+				},
+				{
+					"s": [
+						98
+					],
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							98
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98
+					],
+					"cursor": 5
+				},
+				{
+					"s": [
+						97
+					],
+					"key": {
+						"name": "a",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							97
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97
+					],
+					"cursor": 6
+				},
+				{
+					"s": [
+						114
+					],
+					"key": {
+						"name": "r",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							114
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114
+					],
+					"cursor": 7
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "left",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114
+					],
+					"cursor": 4
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "right",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114
+					],
+					"cursor": 7
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "left",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114
+					],
+					"cursor": 4
+				}
+			]
+		},
+		{
+			"name": "punctuation is its own class",
+			"steps": [
+				{
+					"s": [
+						97
+					],
+					"key": {
+						"name": "a",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							97
+						]
+					},
+					"line": [
+						97
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						45
+					],
+					"key": {
+						"name": "-",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							45
+						]
+					},
+					"line": [
+						97,
+						45
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						62
+					],
+					"key": {
+						"name": ">",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							62
+						]
+					},
+					"line": [
+						97,
+						45,
+						62
+					],
+					"cursor": 3
+				},
+				{
+					"s": [
+						98
+					],
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							98
+						]
+					},
+					"line": [
+						97,
+						45,
+						62,
+						98
+					],
+					"cursor": 4
+				},
+				{
+					"s": [
+						46
+					],
+					"key": {
+						"name": ".",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							46
+						]
+					},
+					"line": [
+						97,
+						45,
+						62,
+						98,
+						46
+					],
+					"cursor": 5
+				},
+				{
+					"s": [
+						99
+					],
+					"key": {
+						"name": "c",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							99
+						]
+					},
+					"line": [
+						97,
+						45,
+						62,
+						98,
+						46,
+						99
+					],
+					"cursor": 6
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "a",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							1
+						]
+					},
+					"line": [
+						97,
+						45,
+						62,
+						98,
+						46,
+						99
+					],
+					"cursor": 0
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "f",
+						"ctrl": false,
+						"meta": true,
+						"shift": false,
+						"sequence": [
+							27,
+							102
+						]
+					},
+					"line": [
+						97,
+						45,
+						62,
+						98,
+						46,
+						99
+					],
+					"cursor": 1
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "f",
+						"ctrl": false,
+						"meta": true,
+						"shift": false,
+						"sequence": [
+							27,
+							102
+						]
+					},
+					"line": [
+						97,
+						45,
+						62,
+						98,
+						46,
+						99
+					],
+					"cursor": 3
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "f",
+						"ctrl": false,
+						"meta": true,
+						"shift": false,
+						"sequence": [
+							27,
+							102
+						]
+					},
+					"line": [
+						97,
+						45,
+						62,
+						98,
+						46,
+						99
+					],
+					"cursor": 4
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "f",
+						"ctrl": false,
+						"meta": true,
+						"shift": false,
+						"sequence": [
+							27,
+							102
+						]
+					},
+					"line": [
+						97,
+						45,
+						62,
+						98,
+						46,
+						99
+					],
+					"cursor": 5
+				}
+			]
+		},
+		{
+			"name": "underscores and digits are word characters",
+			"steps": [
+				{
+					"s": [
+						102
+					],
+					"key": {
+						"name": "f",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							102
+						]
+					},
+					"line": [
+						102
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						102,
+						111
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						102,
+						111,
+						111
+					],
+					"cursor": 3
+				},
+				{
+					"s": [
+						95
+					],
+					"key": {
+						"name": "_",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							95
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						95
+					],
+					"cursor": 4
+				},
+				{
+					"s": [
+						98
+					],
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							98
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						95,
+						98
+					],
+					"cursor": 5
+				},
+				{
+					"s": [
+						97
+					],
+					"key": {
+						"name": "a",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							97
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						95,
+						98,
+						97
+					],
+					"cursor": 6
+				},
+				{
+					"s": [
+						114
+					],
+					"key": {
+						"name": "r",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							114
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						95,
+						98,
+						97,
+						114
+					],
+					"cursor": 7
+				},
+				{
+					"s": [
+						57
+					],
+					"key": {
+						"name": "9",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							57
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						95,
+						98,
+						97,
+						114,
+						57
+					],
+					"cursor": 8
+				},
+				{
+					"s": [
+						32
+					],
+					"key": {
+						"name": " ",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							32
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						95,
+						98,
+						97,
+						114,
+						57,
+						32
+					],
+					"cursor": 9
+				},
+				{
+					"s": [
+						98
+					],
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							98
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						95,
+						98,
+						97,
+						114,
+						57,
+						32,
+						98
+					],
+					"cursor": 10
+				},
+				{
+					"s": [
+						97
+					],
+					"key": {
+						"name": "a",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							97
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						95,
+						98,
+						97,
+						114,
+						57,
+						32,
+						98,
+						97
+					],
+					"cursor": 11
+				},
+				{
+					"s": [
+						122
+					],
+					"key": {
+						"name": "z",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							122
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						95,
+						98,
+						97,
+						114,
+						57,
+						32,
+						98,
+						97,
+						122
+					],
+					"cursor": 12
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "a",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							1
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						95,
+						98,
+						97,
+						114,
+						57,
+						32,
+						98,
+						97,
+						122
+					],
+					"cursor": 0
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "f",
+						"ctrl": false,
+						"meta": true,
+						"shift": false,
+						"sequence": [
+							27,
+							102
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						95,
+						98,
+						97,
+						114,
+						57,
+						32,
+						98,
+						97,
+						122
+					],
+					"cursor": 9
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "f",
+						"ctrl": false,
+						"meta": true,
+						"shift": false,
+						"sequence": [
+							27,
+							102
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						95,
+						98,
+						97,
+						114,
+						57,
+						32,
+						98,
+						97,
+						122
+					],
+					"cursor": 12
+				}
+			]
+		},
+		{
+			"name": "leading whitespace is crossed first",
+			"steps": [
+				{
+					"s": [
+						32
+					],
+					"key": {
+						"name": " ",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							32
+						]
+					},
+					"line": [
+						32
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						32
+					],
+					"key": {
+						"name": " ",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							32
+						]
+					},
+					"line": [
+						32,
+						32
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						32
+					],
+					"key": {
+						"name": " ",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							32
+						]
+					},
+					"line": [
+						32,
+						32,
+						32
+					],
+					"cursor": 3
+				},
+				{
+					"s": [
+						102
+					],
+					"key": {
+						"name": "f",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							102
+						]
+					},
+					"line": [
+						32,
+						32,
+						32,
+						102
+					],
+					"cursor": 4
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						32,
+						32,
+						32,
+						102,
+						111
+					],
+					"cursor": 5
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						32,
+						32,
+						32,
+						102,
+						111,
+						111
+					],
+					"cursor": 6
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": true,
+						"shift": false,
+						"sequence": [
+							27,
+							98
+						]
+					},
+					"line": [
+						32,
+						32,
+						32,
+						102,
+						111,
+						111
+					],
+					"cursor": 3
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": true,
+						"shift": false,
+						"sequence": [
+							27,
+							98
+						]
+					},
+					"line": [
+						32,
+						32,
+						32,
+						102,
+						111,
+						111
+					],
+					"cursor": 0
+				}
+			]
+		},
+		{
+			"name": "ctrl w deletes word left",
+			"steps": [
+				{
+					"s": [
+						102
+					],
+					"key": {
+						"name": "f",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							102
+						]
+					},
+					"line": [
+						102
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						102,
+						111
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						102,
+						111,
+						111
+					],
+					"cursor": 3
+				},
+				{
+					"s": [
+						32
+					],
+					"key": {
+						"name": " ",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							32
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32
+					],
+					"cursor": 4
+				},
+				{
+					"s": [
+						98
+					],
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							98
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98
+					],
+					"cursor": 5
+				},
+				{
+					"s": [
+						97
+					],
+					"key": {
+						"name": "a",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							97
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97
+					],
+					"cursor": 6
+				},
+				{
+					"s": [
+						114
+					],
+					"key": {
+						"name": "r",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							114
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114
+					],
+					"cursor": 7
+				},
+				{
+					"s": [
+						32
+					],
+					"key": {
+						"name": " ",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							32
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114,
+						32
+					],
+					"cursor": 8
+				},
+				{
+					"s": [
+						98
+					],
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							98
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114,
+						32,
+						98
+					],
+					"cursor": 9
+				},
+				{
+					"s": [
+						97
+					],
+					"key": {
+						"name": "a",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							97
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114,
+						32,
+						98,
+						97
+					],
+					"cursor": 10
+				},
+				{
+					"s": [
+						122
+					],
+					"key": {
+						"name": "z",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							122
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114,
+						32,
+						98,
+						97,
+						122
+					],
+					"cursor": 11
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "w",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							23
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114,
+						32
+					],
+					"cursor": 8
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "w",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							23
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32
+					],
+					"cursor": 4
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "w",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							23
+						]
+					},
+					"line": [],
+					"cursor": 0
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "w",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							23
+						]
+					},
+					"line": [],
+					"cursor": 0
+				}
+			]
+		},
+		{
+			"name": "alt backspace deletes word left",
+			"steps": [
+				{
+					"s": [
+						102
+					],
+					"key": {
+						"name": "f",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							102
+						]
+					},
+					"line": [
+						102
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						102,
+						111
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						102,
+						111,
+						111
+					],
+					"cursor": 3
+				},
+				{
+					"s": [
+						32
+					],
+					"key": {
+						"name": " ",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							32
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32
+					],
+					"cursor": 4
+				},
+				{
+					"s": [
+						98
+					],
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							98
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98
+					],
+					"cursor": 5
+				},
+				{
+					"s": [
+						97
+					],
+					"key": {
+						"name": "a",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							97
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97
+					],
+					"cursor": 6
+				},
+				{
+					"s": [
+						114
+					],
+					"key": {
+						"name": "r",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							114
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114
+					],
+					"cursor": 7
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "backspace",
+						"ctrl": false,
+						"meta": true,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32
+					],
+					"cursor": 4
+				}
+			]
+		},
+		{
+			"name": "ctrl backspace deletes word left",
+			"steps": [
+				{
+					"s": [
+						102
+					],
+					"key": {
+						"name": "f",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							102
+						]
+					},
+					"line": [
+						102
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						102,
+						111
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						102,
+						111,
+						111
+					],
+					"cursor": 3
+				},
+				{
+					"s": [
+						32
+					],
+					"key": {
+						"name": " ",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							32
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32
+					],
+					"cursor": 4
+				},
+				{
+					"s": [
+						98
+					],
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							98
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98
+					],
+					"cursor": 5
+				},
+				{
+					"s": [
+						97
+					],
+					"key": {
+						"name": "a",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							97
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97
+					],
+					"cursor": 6
+				},
+				{
+					"s": [
+						114
+					],
+					"key": {
+						"name": "r",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							114
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114
+					],
+					"cursor": 7
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "backspace",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32
+					],
+					"cursor": 4
+				}
+			]
+		},
+		{
+			"name": "alt d deletes word right",
+			"steps": [
+				{
+					"s": [
+						102
+					],
+					"key": {
+						"name": "f",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							102
+						]
+					},
+					"line": [
+						102
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						102,
+						111
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						102,
+						111,
+						111
+					],
+					"cursor": 3
+				},
+				{
+					"s": [
+						32
+					],
+					"key": {
+						"name": " ",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							32
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32
+					],
+					"cursor": 4
+				},
+				{
+					"s": [
+						98
+					],
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							98
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98
+					],
+					"cursor": 5
+				},
+				{
+					"s": [
+						97
+					],
+					"key": {
+						"name": "a",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							97
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97
+					],
+					"cursor": 6
+				},
+				{
+					"s": [
+						114
+					],
+					"key": {
+						"name": "r",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							114
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114
+					],
+					"cursor": 7
+				},
+				{
+					"s": [
+						32
+					],
+					"key": {
+						"name": " ",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							32
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114,
+						32
+					],
+					"cursor": 8
+				},
+				{
+					"s": [
+						98
+					],
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							98
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114,
+						32,
+						98
+					],
+					"cursor": 9
+				},
+				{
+					"s": [
+						97
+					],
+					"key": {
+						"name": "a",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							97
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114,
+						32,
+						98,
+						97
+					],
+					"cursor": 10
+				},
+				{
+					"s": [
+						122
+					],
+					"key": {
+						"name": "z",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							122
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114,
+						32,
+						98,
+						97,
+						122
+					],
+					"cursor": 11
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "a",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							1
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114,
+						32,
+						98,
+						97,
+						122
+					],
+					"cursor": 0
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "d",
+						"ctrl": false,
+						"meta": true,
+						"shift": false,
+						"sequence": [
+							27,
+							100
+						]
+					},
+					"line": [
+						98,
+						97,
+						114,
+						32,
+						98,
+						97,
+						122
+					],
+					"cursor": 0
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "d",
+						"ctrl": false,
+						"meta": true,
+						"shift": false,
+						"sequence": [
+							27,
+							100
+						]
+					},
+					"line": [
+						98,
+						97,
+						122
+					],
+					"cursor": 0
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "d",
+						"ctrl": false,
+						"meta": true,
+						"shift": false,
+						"sequence": [
+							27,
+							100
+						]
+					},
+					"line": [],
+					"cursor": 0
+				}
+			]
+		},
+		{
+			"name": "ctrl delete deletes word right",
+			"steps": [
+				{
+					"s": [
+						102
+					],
+					"key": {
+						"name": "f",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							102
+						]
+					},
+					"line": [
+						102
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						102,
+						111
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						102,
+						111,
+						111
+					],
+					"cursor": 3
+				},
+				{
+					"s": [
+						32
+					],
+					"key": {
+						"name": " ",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							32
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32
+					],
+					"cursor": 4
+				},
+				{
+					"s": [
+						98
+					],
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							98
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98
+					],
+					"cursor": 5
+				},
+				{
+					"s": [
+						97
+					],
+					"key": {
+						"name": "a",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							97
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97
+					],
+					"cursor": 6
+				},
+				{
+					"s": [
+						114
+					],
+					"key": {
+						"name": "r",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							114
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114
+					],
+					"cursor": 7
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "a",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							1
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114
+					],
+					"cursor": 0
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "delete",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						98,
+						97,
+						114
+					],
+					"cursor": 0
+				}
+			]
+		},
+		{
+			"name": "alt delete deletes word right",
+			"steps": [
+				{
+					"s": [
+						102
+					],
+					"key": {
+						"name": "f",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							102
+						]
+					},
+					"line": [
+						102
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						102,
+						111
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						102,
+						111,
+						111
+					],
+					"cursor": 3
+				},
+				{
+					"s": [
+						32
+					],
+					"key": {
+						"name": " ",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							32
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32
+					],
+					"cursor": 4
+				},
+				{
+					"s": [
+						98
+					],
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							98
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98
+					],
+					"cursor": 5
+				},
+				{
+					"s": [
+						97
+					],
+					"key": {
+						"name": "a",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							97
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97
+					],
+					"cursor": 6
+				},
+				{
+					"s": [
+						114
+					],
+					"key": {
+						"name": "r",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							114
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114
+					],
+					"cursor": 7
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "a",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							1
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114
+					],
+					"cursor": 0
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "delete",
+						"ctrl": false,
+						"meta": true,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						98,
+						97,
+						114
+					],
+					"cursor": 0
+				}
+			]
+		},
+		{
+			"name": "word right stops inside a punctuation run",
+			"steps": [
+				{
+					"s": [
+						33
+					],
+					"key": {
+						"name": "!",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							33
+						]
+					},
+					"line": [
+						33
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						32
+					],
+					"key": {
+						"name": " ",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							32
+						]
+					},
+					"line": [
+						33,
+						32
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						33
+					],
+					"key": {
+						"name": "!",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							33
+						]
+					},
+					"line": [
+						33,
+						32,
+						33
+					],
+					"cursor": 3
+				},
+				{
+					"s": [
+						120
+					],
+					"key": {
+						"name": "x",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							120
+						]
+					},
+					"line": [
+						33,
+						32,
+						33,
+						120
+					],
+					"cursor": 4
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "a",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							1
+						]
+					},
+					"line": [
+						33,
+						32,
+						33,
+						120
+					],
+					"cursor": 0
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "f",
+						"ctrl": false,
+						"meta": true,
+						"shift": false,
+						"sequence": [
+							27,
+							102
+						]
+					},
+					"line": [
+						33,
+						32,
+						33,
+						120
+					],
+					"cursor": 2
+				}
+			]
+		},
+		{
+			"name": "delete word right swallows the whole punctuation run",
+			"steps": [
+				{
+					"s": [
+						33
+					],
+					"key": {
+						"name": "!",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							33
+						]
+					},
+					"line": [
+						33
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						32
+					],
+					"key": {
+						"name": " ",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							32
+						]
+					},
+					"line": [
+						33,
+						32
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						33
+					],
+					"key": {
+						"name": "!",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							33
+						]
+					},
+					"line": [
+						33,
+						32,
+						33
+					],
+					"cursor": 3
+				},
+				{
+					"s": [
+						120
+					],
+					"key": {
+						"name": "x",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							120
+						]
+					},
+					"line": [
+						33,
+						32,
+						33,
+						120
+					],
+					"cursor": 4
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "a",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							1
+						]
+					},
+					"line": [
+						33,
+						32,
+						33,
+						120
+					],
+					"cursor": 0
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "d",
+						"ctrl": false,
+						"meta": true,
+						"shift": false,
+						"sequence": [
+							27,
+							100
+						]
+					},
+					"line": [
+						120
+					],
+					"cursor": 0
+				}
+			]
+		},
+		{
+			"name": "word motion in the middle of a word",
+			"steps": [
+				{
+					"s": [
+						102
+					],
+					"key": {
+						"name": "f",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							102
+						]
+					},
+					"line": [
+						102
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						102,
+						111
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						102,
+						111,
+						111
+					],
+					"cursor": 3
+				},
+				{
+					"s": [
+						98
+					],
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							98
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						98
+					],
+					"cursor": 4
+				},
+				{
+					"s": [
+						97
+					],
+					"key": {
+						"name": "a",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							97
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						98,
+						97
+					],
+					"cursor": 5
+				},
+				{
+					"s": [
+						114
+					],
+					"key": {
+						"name": "r",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							114
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						98,
+						97,
+						114
+					],
+					"cursor": 6
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "left",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						102,
+						111,
+						111,
+						98,
+						97,
+						114
+					],
+					"cursor": 5
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "left",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						102,
+						111,
+						111,
+						98,
+						97,
+						114
+					],
+					"cursor": 4
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": true,
+						"shift": false,
+						"sequence": [
+							27,
+							98
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						98,
+						97,
+						114
+					],
+					"cursor": 0
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "f",
+						"ctrl": false,
+						"meta": true,
+						"shift": false,
+						"sequence": [
+							27,
+							102
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						98,
+						97,
+						114
+					],
+					"cursor": 6
+				}
+			]
+		},
+		{
+			"name": "ctrl u and ctrl k",
+			"steps": [
+				{
+					"s": [
+						102
+					],
+					"key": {
+						"name": "f",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							102
+						]
+					},
+					"line": [
+						102
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						102,
+						111
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						102,
+						111,
+						111
+					],
+					"cursor": 3
+				},
+				{
+					"s": [
+						98
+					],
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							98
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						98
+					],
+					"cursor": 4
+				},
+				{
+					"s": [
+						97
+					],
+					"key": {
+						"name": "a",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							97
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						98,
+						97
+					],
+					"cursor": 5
+				},
+				{
+					"s": [
+						114
+					],
+					"key": {
+						"name": "r",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							114
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						98,
+						97,
+						114
+					],
+					"cursor": 6
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "left",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						102,
+						111,
+						111,
+						98,
+						97,
+						114
+					],
+					"cursor": 5
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "left",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						102,
+						111,
+						111,
+						98,
+						97,
+						114
+					],
+					"cursor": 4
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "left",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						102,
+						111,
+						111,
+						98,
+						97,
+						114
+					],
+					"cursor": 3
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "k",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							11
+						]
+					},
+					"line": [
+						102,
+						111,
+						111
+					],
+					"cursor": 3
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "u",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							21
+						]
+					},
+					"line": [],
+					"cursor": 0
+				}
+			]
+		},
+		{
+			"name": "ctrl u on an empty line",
+			"steps": [
+				{
+					"s": null,
+					"key": {
+						"name": "u",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							21
+						]
+					},
+					"line": [],
+					"cursor": 0
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "u",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							21
+						]
+					},
+					"line": [],
+					"cursor": 0
+				}
+			]
+		},
+		{
+			"name": "ctrl shift backspace and delete",
+			"steps": [
+				{
+					"s": [
+						102
+					],
+					"key": {
+						"name": "f",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							102
+						]
+					},
+					"line": [
+						102
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						102,
+						111
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						102,
+						111,
+						111
+					],
+					"cursor": 3
+				},
+				{
+					"s": [
+						98
+					],
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							98
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						98
+					],
+					"cursor": 4
+				},
+				{
+					"s": [
+						97
+					],
+					"key": {
+						"name": "a",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							97
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						98,
+						97
+					],
+					"cursor": 5
+				},
+				{
+					"s": [
+						114
+					],
+					"key": {
+						"name": "r",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							114
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						98,
+						97,
+						114
+					],
+					"cursor": 6
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "a",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							1
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						98,
+						97,
+						114
+					],
+					"cursor": 0
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "delete",
+						"ctrl": true,
+						"meta": false,
+						"shift": true,
+						"sequence": null
+					},
+					"line": [],
+					"cursor": 0
+				},
+				{
+					"s": [
+						120
+					],
+					"key": {
+						"name": "x",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							120
+						]
+					},
+					"line": [
+						120
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						121
+					],
+					"key": {
+						"name": "y",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							121
+						]
+					},
+					"line": [
+						120,
+						121
+					],
+					"cursor": 2
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "backspace",
+						"ctrl": true,
+						"meta": false,
+						"shift": true,
+						"sequence": null
+					},
+					"line": [],
+					"cursor": 0
+				}
+			]
+		},
+		{
+			"name": "yank a kill back",
+			"steps": [
+				{
+					"s": [
+						102
+					],
+					"key": {
+						"name": "f",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							102
+						]
+					},
+					"line": [
+						102
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						102,
+						111
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						102,
+						111,
+						111
+					],
+					"cursor": 3
+				},
+				{
+					"s": [
+						32
+					],
+					"key": {
+						"name": " ",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							32
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32
+					],
+					"cursor": 4
+				},
+				{
+					"s": [
+						98
+					],
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							98
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98
+					],
+					"cursor": 5
+				},
+				{
+					"s": [
+						97
+					],
+					"key": {
+						"name": "a",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							97
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97
+					],
+					"cursor": 6
+				},
+				{
+					"s": [
+						114
+					],
+					"key": {
+						"name": "r",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							114
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114
+					],
+					"cursor": 7
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "u",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							21
+						]
+					},
+					"line": [],
+					"cursor": 0
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "y",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							25
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114
+					],
+					"cursor": 7
+				}
+			]
+		},
+		{
+			"name": "yank into the middle",
+			"steps": [
+				{
+					"s": [
+						97
+					],
+					"key": {
+						"name": "a",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							97
+						]
+					},
+					"line": [
+						97
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						98
+					],
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							98
+						]
+					},
+					"line": [
+						97,
+						98
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						99
+					],
+					"key": {
+						"name": "c",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							99
+						]
+					},
+					"line": [
+						97,
+						98,
+						99
+					],
+					"cursor": 3
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "u",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							21
+						]
+					},
+					"line": [],
+					"cursor": 0
+				},
+				{
+					"s": [
+						120
+					],
+					"key": {
+						"name": "x",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							120
+						]
+					},
+					"line": [
+						120
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						121
+					],
+					"key": {
+						"name": "y",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							121
+						]
+					},
+					"line": [
+						120,
+						121
+					],
+					"cursor": 2
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "left",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						120,
+						121
+					],
+					"cursor": 1
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "y",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							25
+						]
+					},
+					"line": [
+						120,
+						97,
+						98,
+						99,
+						121
+					],
+					"cursor": 4
+				}
+			]
+		},
+		{
+			"name": "yank pop walks the ring",
+			"steps": [
+				{
+					"s": [
+						102
+					],
+					"key": {
+						"name": "f",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							102
+						]
+					},
+					"line": [
+						102
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						105
+					],
+					"key": {
+						"name": "i",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							105
+						]
+					},
+					"line": [
+						102,
+						105
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						114
+					],
+					"key": {
+						"name": "r",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							114
+						]
+					},
+					"line": [
+						102,
+						105,
+						114
+					],
+					"cursor": 3
+				},
+				{
+					"s": [
+						115
+					],
+					"key": {
+						"name": "s",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							115
+						]
+					},
+					"line": [
+						102,
+						105,
+						114,
+						115
+					],
+					"cursor": 4
+				},
+				{
+					"s": [
+						116
+					],
+					"key": {
+						"name": "t",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							116
+						]
+					},
+					"line": [
+						102,
+						105,
+						114,
+						115,
+						116
+					],
+					"cursor": 5
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "u",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							21
+						]
+					},
+					"line": [],
+					"cursor": 0
+				},
+				{
+					"s": [
+						115
+					],
+					"key": {
+						"name": "s",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							115
+						]
+					},
+					"line": [
+						115
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						101
+					],
+					"key": {
+						"name": "e",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							101
+						]
+					},
+					"line": [
+						115,
+						101
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						99
+					],
+					"key": {
+						"name": "c",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							99
+						]
+					},
+					"line": [
+						115,
+						101,
+						99
+					],
+					"cursor": 3
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						115,
+						101,
+						99,
+						111
+					],
+					"cursor": 4
+				},
+				{
+					"s": [
+						110
+					],
+					"key": {
+						"name": "n",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							110
+						]
+					},
+					"line": [
+						115,
+						101,
+						99,
+						111,
+						110
+					],
+					"cursor": 5
+				},
+				{
+					"s": [
+						100
+					],
+					"key": {
+						"name": "d",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							100
+						]
+					},
+					"line": [
+						115,
+						101,
+						99,
+						111,
+						110,
+						100
+					],
+					"cursor": 6
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "u",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							21
+						]
+					},
+					"line": [],
+					"cursor": 0
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "y",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							25
+						]
+					},
+					"line": [
+						115,
+						101,
+						99,
+						111,
+						110,
+						100
+					],
+					"cursor": 6
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "y",
+						"ctrl": false,
+						"meta": true,
+						"shift": false,
+						"sequence": [
+							27,
+							121
+						]
+					},
+					"line": [
+						102,
+						105,
+						114,
+						115,
+						116
+					],
+					"cursor": 5
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "y",
+						"ctrl": false,
+						"meta": true,
+						"shift": false,
+						"sequence": [
+							27,
+							121
+						]
+					},
+					"line": [
+						115,
+						101,
+						99,
+						111,
+						110,
+						100
+					],
+					"cursor": 6
+				}
+			]
+		},
+		{
+			"name": "yank pop needs a yank first",
+			"steps": [
+				{
+					"s": [
+						102
+					],
+					"key": {
+						"name": "f",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							102
+						]
+					},
+					"line": [
+						102
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						105
+					],
+					"key": {
+						"name": "i",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							105
+						]
+					},
+					"line": [
+						102,
+						105
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						114
+					],
+					"key": {
+						"name": "r",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							114
+						]
+					},
+					"line": [
+						102,
+						105,
+						114
+					],
+					"cursor": 3
+				},
+				{
+					"s": [
+						115
+					],
+					"key": {
+						"name": "s",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							115
+						]
+					},
+					"line": [
+						102,
+						105,
+						114,
+						115
+					],
+					"cursor": 4
+				},
+				{
+					"s": [
+						116
+					],
+					"key": {
+						"name": "t",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							116
+						]
+					},
+					"line": [
+						102,
+						105,
+						114,
+						115,
+						116
+					],
+					"cursor": 5
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "u",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							21
+						]
+					},
+					"line": [],
+					"cursor": 0
+				},
+				{
+					"s": [
+						115
+					],
+					"key": {
+						"name": "s",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							115
+						]
+					},
+					"line": [
+						115
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						101
+					],
+					"key": {
+						"name": "e",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							101
+						]
+					},
+					"line": [
+						115,
+						101
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						99
+					],
+					"key": {
+						"name": "c",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							99
+						]
+					},
+					"line": [
+						115,
+						101,
+						99
+					],
+					"cursor": 3
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						115,
+						101,
+						99,
+						111
+					],
+					"cursor": 4
+				},
+				{
+					"s": [
+						110
+					],
+					"key": {
+						"name": "n",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							110
+						]
+					},
+					"line": [
+						115,
+						101,
+						99,
+						111,
+						110
+					],
+					"cursor": 5
+				},
+				{
+					"s": [
+						100
+					],
+					"key": {
+						"name": "d",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							100
+						]
+					},
+					"line": [
+						115,
+						101,
+						99,
+						111,
+						110,
+						100
+					],
+					"cursor": 6
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "u",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							21
+						]
+					},
+					"line": [],
+					"cursor": 0
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "y",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							25
+						]
+					},
+					"line": [
+						115,
+						101,
+						99,
+						111,
+						110,
+						100
+					],
+					"cursor": 6
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "left",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						115,
+						101,
+						99,
+						111,
+						110,
+						100
+					],
+					"cursor": 5
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "y",
+						"ctrl": false,
+						"meta": true,
+						"shift": false,
+						"sequence": [
+							27,
+							121
+						]
+					},
+					"line": [
+						115,
+						101,
+						99,
+						111,
+						110,
+						100
+					],
+					"cursor": 5
+				}
+			]
+		},
+		{
+			"name": "a duplicate kill is not pushed twice",
+			"steps": [
+				{
+					"s": [
+						115
+					],
+					"key": {
+						"name": "s",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							115
+						]
+					},
+					"line": [
+						115
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						97
+					],
+					"key": {
+						"name": "a",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							97
+						]
+					},
+					"line": [
+						115,
+						97
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						109
+					],
+					"key": {
+						"name": "m",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							109
+						]
+					},
+					"line": [
+						115,
+						97,
+						109
+					],
+					"cursor": 3
+				},
+				{
+					"s": [
+						101
+					],
+					"key": {
+						"name": "e",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							101
+						]
+					},
+					"line": [
+						115,
+						97,
+						109,
+						101
+					],
+					"cursor": 4
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "u",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							21
+						]
+					},
+					"line": [],
+					"cursor": 0
+				},
+				{
+					"s": [
+						115
+					],
+					"key": {
+						"name": "s",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							115
+						]
+					},
+					"line": [
+						115
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						97
+					],
+					"key": {
+						"name": "a",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							97
+						]
+					},
+					"line": [
+						115,
+						97
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						109
+					],
+					"key": {
+						"name": "m",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							109
+						]
+					},
+					"line": [
+						115,
+						97,
+						109
+					],
+					"cursor": 3
+				},
+				{
+					"s": [
+						101
+					],
+					"key": {
+						"name": "e",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							101
+						]
+					},
+					"line": [
+						115,
+						97,
+						109,
+						101
+					],
+					"cursor": 4
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "u",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							21
+						]
+					},
+					"line": [],
+					"cursor": 0
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						111
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						116
+					],
+					"key": {
+						"name": "t",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							116
+						]
+					},
+					"line": [
+						111,
+						116
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						104
+					],
+					"key": {
+						"name": "h",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							104
+						]
+					},
+					"line": [
+						111,
+						116,
+						104
+					],
+					"cursor": 3
+				},
+				{
+					"s": [
+						101
+					],
+					"key": {
+						"name": "e",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							101
+						]
+					},
+					"line": [
+						111,
+						116,
+						104,
+						101
+					],
+					"cursor": 4
+				},
+				{
+					"s": [
+						114
+					],
+					"key": {
+						"name": "r",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							114
+						]
+					},
+					"line": [
+						111,
+						116,
+						104,
+						101,
+						114
+					],
+					"cursor": 5
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "u",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							21
+						]
+					},
+					"line": [],
+					"cursor": 0
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "y",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							25
+						]
+					},
+					"line": [
+						111,
+						116,
+						104,
+						101,
+						114
+					],
+					"cursor": 5
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "y",
+						"ctrl": false,
+						"meta": true,
+						"shift": false,
+						"sequence": [
+							27,
+							121
+						]
+					},
+					"line": [
+						115,
+						97,
+						109,
+						101
+					],
+					"cursor": 4
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "y",
+						"ctrl": false,
+						"meta": true,
+						"shift": false,
+						"sequence": [
+							27,
+							121
+						]
+					},
+					"line": [
+						111,
+						116,
+						104,
+						101,
+						114
+					],
+					"cursor": 5
+				}
+			]
+		},
+		{
+			"name": "yank with an empty ring does nothing",
+			"steps": [
+				{
+					"s": [
+						97
+					],
+					"key": {
+						"name": "a",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							97
+						]
+					},
+					"line": [
+						97
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						98
+					],
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							98
+						]
+					},
+					"line": [
+						97,
+						98
+					],
+					"cursor": 2
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "y",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							25
+						]
+					},
+					"line": [
+						97,
+						98
+					],
+					"cursor": 2
+				}
+			]
+		},
+		{
+			"name": "undo steps back through typing",
+			"steps": [
+				{
+					"s": [
+						97
+					],
+					"key": {
+						"name": "a",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							97
+						]
+					},
+					"line": [
+						97
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						98
+					],
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							98
+						]
+					},
+					"line": [
+						97,
+						98
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						99
+					],
+					"key": {
+						"name": "c",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							99
+						]
+					},
+					"line": [
+						97,
+						98,
+						99
+					],
+					"cursor": 3
+				},
+				{
+					"s": null,
+					"key": {
+						"name": null,
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							31
+						]
+					},
+					"line": [
+						97,
+						98
+					],
+					"cursor": 2
+				},
+				{
+					"s": null,
+					"key": {
+						"name": null,
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							31
+						]
+					},
+					"line": [
+						97
+					],
+					"cursor": 1
+				},
+				{
+					"s": null,
+					"key": {
+						"name": null,
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							31
+						]
+					},
+					"line": [],
+					"cursor": 0
+				},
+				{
+					"s": null,
+					"key": {
+						"name": null,
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							31
+						]
+					},
+					"line": [],
+					"cursor": 0
+				}
+			]
+		},
+		{
+			"name": "redo steps forward again",
+			"steps": [
+				{
+					"s": [
+						97
+					],
+					"key": {
+						"name": "a",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							97
+						]
+					},
+					"line": [
+						97
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						98
+					],
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							98
+						]
+					},
+					"line": [
+						97,
+						98
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						99
+					],
+					"key": {
+						"name": "c",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							99
+						]
+					},
+					"line": [
+						97,
+						98,
+						99
+					],
+					"cursor": 3
+				},
+				{
+					"s": null,
+					"key": {
+						"name": null,
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							31
+						]
+					},
+					"line": [
+						97,
+						98
+					],
+					"cursor": 2
+				},
+				{
+					"s": null,
+					"key": {
+						"name": null,
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							31
+						]
+					},
+					"line": [
+						97
+					],
+					"cursor": 1
+				},
+				{
+					"s": null,
+					"key": {
+						"name": null,
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							30
+						]
+					},
+					"line": [
+						97,
+						98
+					],
+					"cursor": 2
+				},
+				{
+					"s": null,
+					"key": {
+						"name": null,
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							30
+						]
+					},
+					"line": [
+						97,
+						98,
+						99
+					],
+					"cursor": 3
+				},
+				{
+					"s": null,
+					"key": {
+						"name": null,
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							30
+						]
+					},
+					"line": [
+						97,
+						98,
+						99
+					],
+					"cursor": 3
+				}
+			]
+		},
+		{
+			"name": "movement is not an edit",
+			"steps": [
+				{
+					"s": [
+						97
+					],
+					"key": {
+						"name": "a",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							97
+						]
+					},
+					"line": [
+						97
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						98
+					],
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							98
+						]
+					},
+					"line": [
+						97,
+						98
+					],
+					"cursor": 2
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "left",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						97,
+						98
+					],
+					"cursor": 1
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "left",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						97,
+						98
+					],
+					"cursor": 0
+				},
+				{
+					"s": null,
+					"key": {
+						"name": null,
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							31
+						]
+					},
+					"line": [
+						97
+					],
+					"cursor": 1
+				}
+			]
+		},
+		{
+			"name": "undo restores a killed line",
+			"steps": [
+				{
+					"s": [
+						102
+					],
+					"key": {
+						"name": "f",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							102
+						]
+					},
+					"line": [
+						102
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						102,
+						111
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						102,
+						111,
+						111
+					],
+					"cursor": 3
+				},
+				{
+					"s": [
+						32
+					],
+					"key": {
+						"name": " ",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							32
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32
+					],
+					"cursor": 4
+				},
+				{
+					"s": [
+						98
+					],
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							98
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98
+					],
+					"cursor": 5
+				},
+				{
+					"s": [
+						97
+					],
+					"key": {
+						"name": "a",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							97
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97
+					],
+					"cursor": 6
+				},
+				{
+					"s": [
+						114
+					],
+					"key": {
+						"name": "r",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							114
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114
+					],
+					"cursor": 7
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "u",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							21
+						]
+					},
+					"line": [],
+					"cursor": 0
+				},
+				{
+					"s": null,
+					"key": {
+						"name": null,
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							31
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114
+					],
+					"cursor": 7
+				}
+			]
+		},
+		{
+			"name": "undo after a word delete",
+			"steps": [
+				{
+					"s": [
+						102
+					],
+					"key": {
+						"name": "f",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							102
+						]
+					},
+					"line": [
+						102
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						102,
+						111
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						102,
+						111,
+						111
+					],
+					"cursor": 3
+				},
+				{
+					"s": [
+						32
+					],
+					"key": {
+						"name": " ",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							32
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32
+					],
+					"cursor": 4
+				},
+				{
+					"s": [
+						98
+					],
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							98
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98
+					],
+					"cursor": 5
+				},
+				{
+					"s": [
+						97
+					],
+					"key": {
+						"name": "a",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							97
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97
+					],
+					"cursor": 6
+				},
+				{
+					"s": [
+						114
+					],
+					"key": {
+						"name": "r",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							114
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114
+					],
+					"cursor": 7
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "w",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							23
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32
+					],
+					"cursor": 4
+				},
+				{
+					"s": null,
+					"key": {
+						"name": null,
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							31
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32,
+						98,
+						97,
+						114
+					],
+					"cursor": 7
+				},
+				{
+					"s": null,
+					"key": {
+						"name": null,
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							30
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						32
+					],
+					"cursor": 4
+				}
+			]
+		},
+		{
+			"name": "astral code points move as one",
+			"steps": [
+				{
+					"s": [
+						128512
+					],
+					"key": {
+						"name": "😀",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							128512
+						]
+					},
+					"line": [
+						128512
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						128514
+					],
+					"key": {
+						"name": "😂",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							128514
+						]
+					},
+					"line": [
+						128512,
+						128514
+					],
+					"cursor": 4
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "left",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						128512,
+						128514
+					],
+					"cursor": 2
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "left",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						128512,
+						128514
+					],
+					"cursor": 0
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "right",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						128512,
+						128514
+					],
+					"cursor": 2
+				}
+			]
+		},
+		{
+			"name": "backspace deletes a whole astral code point",
+			"steps": [
+				{
+					"s": [
+						97
+					],
+					"key": {
+						"name": "a",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							97
+						]
+					},
+					"line": [
+						97
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						128512
+					],
+					"key": {
+						"name": "😀",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							128512
+						]
+					},
+					"line": [
+						97,
+						128512
+					],
+					"cursor": 3
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "backspace",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						97
+					],
+					"cursor": 1
+				}
+			]
+		},
+		{
+			"name": "combining marks are separate stops",
+			"steps": [
+				{
+					"s": [
+						101
+					],
+					"key": {
+						"name": "e",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							101
+						]
+					},
+					"line": [
+						101
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						769
+					],
+					"key": {
+						"name": "́",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							769
+						]
+					},
+					"line": [
+						101,
+						769
+					],
+					"cursor": 2
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "left",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						101,
+						769
+					],
+					"cursor": 1
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "left",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						101,
+						769
+					],
+					"cursor": 0
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "right",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						101,
+						769
+					],
+					"cursor": 1
+				}
+			]
+		},
+		{
+			"name": "backspace peels one combining mark at a time",
+			"steps": [
+				{
+					"s": [
+						101
+					],
+					"key": {
+						"name": "e",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							101
+						]
+					},
+					"line": [
+						101
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						769
+					],
+					"key": {
+						"name": "́",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							769
+						]
+					},
+					"line": [
+						101,
+						769
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						770
+					],
+					"key": {
+						"name": "̂",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							770
+						]
+					},
+					"line": [
+						101,
+						769,
+						770
+					],
+					"cursor": 3
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "backspace",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						101,
+						769
+					],
+					"cursor": 2
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "backspace",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						101
+					],
+					"cursor": 1
+				}
+			]
+		},
+		{
+			"name": "latin one supplement is one unit wide in the buffer",
+			"steps": [
+				{
+					"s": [
+						233
+					],
+					"key": {
+						"name": "é",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							233
+						]
+					},
+					"line": [
+						233
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						232
+					],
+					"key": {
+						"name": "è",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							232
+						]
+					},
+					"line": [
+						233,
+						232
+					],
+					"cursor": 2
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "left",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						233,
+						232
+					],
+					"cursor": 1
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "backspace",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						232
+					],
+					"cursor": 0
+				}
+			]
+		},
+		{
+			"name": "cjk cursor steps",
+			"steps": [
+				{
+					"s": [
+						26085
+					],
+					"key": {
+						"name": "日",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							26085
+						]
+					},
+					"line": [
+						26085
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						26412
+					],
+					"key": {
+						"name": "本",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							26412
+						]
+					},
+					"line": [
+						26085,
+						26412
+					],
+					"cursor": 2
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "left",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						26085,
+						26412
+					],
+					"cursor": 1
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "backspace",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						26412
+					],
+					"cursor": 0
+				}
+			]
+		},
+		{
+			"name": "a byte order mark counts as whitespace",
+			"steps": [
+				{
+					"s": [
+						102
+					],
+					"key": {
+						"name": "f",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							102
+						]
+					},
+					"line": [
+						102
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						102,
+						111
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						102,
+						111,
+						111
+					],
+					"cursor": 3
+				},
+				{
+					"s": [
+						65279
+					],
+					"key": {
+						"name": "﻿",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							65279
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						65279
+					],
+					"cursor": 4
+				},
+				{
+					"s": [
+						98
+					],
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							98
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						65279,
+						98
+					],
+					"cursor": 5
+				},
+				{
+					"s": [
+						97
+					],
+					"key": {
+						"name": "a",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							97
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						65279,
+						98,
+						97
+					],
+					"cursor": 6
+				},
+				{
+					"s": [
+						114
+					],
+					"key": {
+						"name": "r",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							114
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						65279,
+						98,
+						97,
+						114
+					],
+					"cursor": 7
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "w",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							23
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						65279
+					],
+					"cursor": 4
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "w",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							23
+						]
+					},
+					"line": [],
+					"cursor": 0
+				}
+			]
+		},
+		{
+			"name": "an ideographic space counts as whitespace",
+			"steps": [
+				{
+					"s": [
+						102
+					],
+					"key": {
+						"name": "f",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							102
+						]
+					},
+					"line": [
+						102
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						102,
+						111
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						102,
+						111,
+						111
+					],
+					"cursor": 3
+				},
+				{
+					"s": [
+						12288
+					],
+					"key": {
+						"name": "　",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							12288
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						12288
+					],
+					"cursor": 4
+				},
+				{
+					"s": [
+						98
+					],
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							98
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						12288,
+						98
+					],
+					"cursor": 5
+				},
+				{
+					"s": [
+						97
+					],
+					"key": {
+						"name": "a",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							97
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						12288,
+						98,
+						97
+					],
+					"cursor": 6
+				},
+				{
+					"s": [
+						114
+					],
+					"key": {
+						"name": "r",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							114
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						12288,
+						98,
+						97,
+						114
+					],
+					"cursor": 7
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": true,
+						"shift": false,
+						"sequence": [
+							27,
+							98
+						]
+					},
+					"line": [
+						102,
+						111,
+						111,
+						12288,
+						98,
+						97,
+						114
+					],
+					"cursor": 4
+				}
+			]
+		},
+		{
+			"name": "accented letters are not word characters",
+			"steps": [
+				{
+					"s": [
+						99
+					],
+					"key": {
+						"name": "c",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							99
+						]
+					},
+					"line": [
+						99
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						97
+					],
+					"key": {
+						"name": "a",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							97
+						]
+					},
+					"line": [
+						99,
+						97
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						102
+					],
+					"key": {
+						"name": "f",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							102
+						]
+					},
+					"line": [
+						99,
+						97,
+						102
+					],
+					"cursor": 3
+				},
+				{
+					"s": [
+						233
+					],
+					"key": {
+						"name": "é",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							233
+						]
+					},
+					"line": [
+						99,
+						97,
+						102,
+						233
+					],
+					"cursor": 4
+				},
+				{
+					"s": [
+						32
+					],
+					"key": {
+						"name": " ",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							32
+						]
+					},
+					"line": [
+						99,
+						97,
+						102,
+						233,
+						32
+					],
+					"cursor": 5
+				},
+				{
+					"s": [
+						120
+					],
+					"key": {
+						"name": "x",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							120
+						]
+					},
+					"line": [
+						99,
+						97,
+						102,
+						233,
+						32,
+						120
+					],
+					"cursor": 6
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "a",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							1
+						]
+					},
+					"line": [
+						99,
+						97,
+						102,
+						233,
+						32,
+						120
+					],
+					"cursor": 0
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "f",
+						"ctrl": false,
+						"meta": true,
+						"shift": false,
+						"sequence": [
+							27,
+							102
+						]
+					},
+					"line": [
+						99,
+						97,
+						102,
+						233,
+						32,
+						120
+					],
+					"cursor": 3
+				}
+			]
+		},
+		{
+			"name": "word delete across an astral code point",
+			"steps": [
+				{
+					"s": [
+						97
+					],
+					"key": {
+						"name": "a",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							97
+						]
+					},
+					"line": [
+						97
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						98
+					],
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							98
+						]
+					},
+					"line": [
+						97,
+						98
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						128512
+					],
+					"key": {
+						"name": "😀",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							128512
+						]
+					},
+					"line": [
+						97,
+						98,
+						128512
+					],
+					"cursor": 4
+				},
+				{
+					"s": [
+						99
+					],
+					"key": {
+						"name": "c",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							99
+						]
+					},
+					"line": [
+						97,
+						98,
+						128512,
+						99
+					],
+					"cursor": 5
+				},
+				{
+					"s": [
+						100
+					],
+					"key": {
+						"name": "d",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							100
+						]
+					},
+					"line": [
+						97,
+						98,
+						128512,
+						99,
+						100
+					],
+					"cursor": 6
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "w",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							23
+						]
+					},
+					"line": [
+						97,
+						98,
+						128512
+					],
+					"cursor": 4
+				}
+			]
+		},
+		{
+			"name": "escape is ignored",
+			"steps": [
+				{
+					"s": [
+						97
+					],
+					"key": {
+						"name": "a",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							97
+						]
+					},
+					"line": [
+						97
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						98
+					],
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							98
+						]
+					},
+					"line": [
+						97,
+						98
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						27
+					],
+					"key": {
+						"name": "escape",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							27
+						]
+					},
+					"line": [
+						97,
+						98
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						99
+					],
+					"key": {
+						"name": "c",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							99
+						]
+					},
+					"line": [
+						97,
+						98,
+						99
+					],
+					"cursor": 3
+				}
+			]
+		},
+		{
+			"name": "tab types a tab",
+			"steps": [
+				{
+					"s": [
+						97
+					],
+					"key": {
+						"name": "a",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							97
+						]
+					},
+					"line": [
+						97
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						9
+					],
+					"key": {
+						"name": "tab",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							9
+						]
+					},
+					"line": [
+						97,
+						9
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						98
+					],
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							98
+						]
+					},
+					"line": [
+						97,
+						9,
+						98
+					],
+					"cursor": 3
+				}
+			]
+		},
+		{
+			"name": "up and down are inert with no history",
+			"steps": [
+				{
+					"s": [
+						97
+					],
+					"key": {
+						"name": "a",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							97
+						]
+					},
+					"line": [
+						97
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						98
+					],
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							98
+						]
+					},
+					"line": [
+						97,
+						98
+					],
+					"cursor": 2
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "up",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						97,
+						98
+					],
+					"cursor": 2
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "down",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						97,
+						98
+					],
+					"cursor": 2
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "p",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							16
+						]
+					},
+					"line": [
+						97,
+						98
+					],
+					"cursor": 2
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "n",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							14
+						]
+					},
+					"line": [
+						97,
+						98
+					],
+					"cursor": 2
+				}
+			]
+		},
+		{
+			"name": "return clears the line",
+			"steps": [
+				{
+					"s": [
+						104
+					],
+					"key": {
+						"name": "h",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							104
+						]
+					},
+					"line": [
+						104
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						101
+					],
+					"key": {
+						"name": "e",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							101
+						]
+					},
+					"line": [
+						104,
+						101
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						108
+					],
+					"key": {
+						"name": "l",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							108
+						]
+					},
+					"line": [
+						104,
+						101,
+						108
+					],
+					"cursor": 3
+				},
+				{
+					"s": [
+						108
+					],
+					"key": {
+						"name": "l",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							108
+						]
+					},
+					"line": [
+						104,
+						101,
+						108,
+						108
+					],
+					"cursor": 4
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						104,
+						101,
+						108,
+						108,
+						111
+					],
+					"cursor": 5
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "return",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							13
+						]
+					},
+					"line": [],
+					"cursor": 0
+				},
+				{
+					"s": [
+						120
+					],
+					"key": {
+						"name": "x",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							120
+						]
+					},
+					"line": [
+						120
+					],
+					"cursor": 1
+				}
+			]
+		},
+		{
+			"name": "return discards the undo history",
+			"steps": [
+				{
+					"s": [
+						104
+					],
+					"key": {
+						"name": "h",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							104
+						]
+					},
+					"line": [
+						104
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						101
+					],
+					"key": {
+						"name": "e",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							101
+						]
+					},
+					"line": [
+						104,
+						101
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						108
+					],
+					"key": {
+						"name": "l",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							108
+						]
+					},
+					"line": [
+						104,
+						101,
+						108
+					],
+					"cursor": 3
+				},
+				{
+					"s": [
+						108
+					],
+					"key": {
+						"name": "l",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							108
+						]
+					},
+					"line": [
+						104,
+						101,
+						108,
+						108
+					],
+					"cursor": 4
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						104,
+						101,
+						108,
+						108,
+						111
+					],
+					"cursor": 5
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "return",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							13
+						]
+					},
+					"line": [],
+					"cursor": 0
+				},
+				{
+					"s": null,
+					"key": {
+						"name": null,
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							31
+						]
+					},
+					"line": [],
+					"cursor": 0
+				}
+			]
+		},
+		{
+			"name": "a pasted string with newlines submits each line",
+			"steps": [
+				{
+					"s": [
+						111,
+						110,
+						101,
+						13,
+						10,
+						116,
+						119,
+						111,
+						13,
+						116,
+						104,
+						114,
+						101,
+						101,
+						10,
+						102,
+						111,
+						117,
+						114
+					],
+					"key": {
+						"name": null,
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						102,
+						111,
+						117,
+						114
+					],
+					"cursor": 4
+				}
+			]
+		},
+		{
+			"name": "a write with no key inserts",
+			"steps": [
+				{
+					"s": [
+						105,
+						110,
+						115,
+						101,
+						114,
+						116,
+						101,
+						100
+					],
+					"key": {
+						"name": null,
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						105,
+						110,
+						115,
+						101,
+						114,
+						116,
+						101,
+						100
+					],
+					"cursor": 8
+				}
+			]
+		},
+		{
+			"name": "ctrl d at the end of a line does nothing",
+			"steps": [
+				{
+					"s": [
+						97
+					],
+					"key": {
+						"name": "a",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							97
+						]
+					},
+					"line": [
+						97
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						98
+					],
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							98
+						]
+					},
+					"line": [
+						97,
+						98
+					],
+					"cursor": 2
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "d",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							4
+						]
+					},
+					"line": [
+						97,
+						98
+					],
+					"cursor": 2
+				}
+			]
+		},
+		{
+			"name": "delete at the end does nothing",
+			"steps": [
+				{
+					"s": [
+						97
+					],
+					"key": {
+						"name": "a",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							97
+						]
+					},
+					"line": [
+						97
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						98
+					],
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							98
+						]
+					},
+					"line": [
+						97,
+						98
+					],
+					"cursor": 2
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "delete",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						97,
+						98
+					],
+					"cursor": 2
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "delete",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [
+						97,
+						98
+					],
+					"cursor": 2
+				}
+			]
+		},
+		{
+			"name": "backspace on an empty line does nothing",
+			"steps": [
+				{
+					"s": null,
+					"key": {
+						"name": "backspace",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [],
+					"cursor": 0
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "backspace",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": null
+					},
+					"line": [],
+					"cursor": 0
+				}
+			]
+		},
+		{
+			"name": "word motion on an empty line does nothing",
+			"steps": [
+				{
+					"s": null,
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": true,
+						"shift": false,
+						"sequence": [
+							27,
+							98
+						]
+					},
+					"line": [],
+					"cursor": 0
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "f",
+						"ctrl": false,
+						"meta": true,
+						"shift": false,
+						"sequence": [
+							27,
+							102
+						]
+					},
+					"line": [],
+					"cursor": 0
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "w",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							23
+						]
+					},
+					"line": [],
+					"cursor": 0
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "d",
+						"ctrl": false,
+						"meta": true,
+						"shift": false,
+						"sequence": [
+							27,
+							100
+						]
+					},
+					"line": [],
+					"cursor": 0
+				}
+			]
+		},
+		{
+			"name": "a long edit session",
+			"steps": [
+				{
+					"s": [
+						116
+					],
+					"key": {
+						"name": "t",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							116
+						]
+					},
+					"line": [
+						116
+					],
+					"cursor": 1
+				},
+				{
+					"s": [
+						104
+					],
+					"key": {
+						"name": "h",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							104
+						]
+					},
+					"line": [
+						116,
+						104
+					],
+					"cursor": 2
+				},
+				{
+					"s": [
+						101
+					],
+					"key": {
+						"name": "e",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							101
+						]
+					},
+					"line": [
+						116,
+						104,
+						101
+					],
+					"cursor": 3
+				},
+				{
+					"s": [
+						32
+					],
+					"key": {
+						"name": " ",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							32
+						]
+					},
+					"line": [
+						116,
+						104,
+						101,
+						32
+					],
+					"cursor": 4
+				},
+				{
+					"s": [
+						113
+					],
+					"key": {
+						"name": "q",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							113
+						]
+					},
+					"line": [
+						116,
+						104,
+						101,
+						32,
+						113
+					],
+					"cursor": 5
+				},
+				{
+					"s": [
+						117
+					],
+					"key": {
+						"name": "u",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							117
+						]
+					},
+					"line": [
+						116,
+						104,
+						101,
+						32,
+						113,
+						117
+					],
+					"cursor": 6
+				},
+				{
+					"s": [
+						105
+					],
+					"key": {
+						"name": "i",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							105
+						]
+					},
+					"line": [
+						116,
+						104,
+						101,
+						32,
+						113,
+						117,
+						105
+					],
+					"cursor": 7
+				},
+				{
+					"s": [
+						99
+					],
+					"key": {
+						"name": "c",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							99
+						]
+					},
+					"line": [
+						116,
+						104,
+						101,
+						32,
+						113,
+						117,
+						105,
+						99
+					],
+					"cursor": 8
+				},
+				{
+					"s": [
+						107
+					],
+					"key": {
+						"name": "k",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							107
+						]
+					},
+					"line": [
+						116,
+						104,
+						101,
+						32,
+						113,
+						117,
+						105,
+						99,
+						107
+					],
+					"cursor": 9
+				},
+				{
+					"s": [
+						32
+					],
+					"key": {
+						"name": " ",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							32
+						]
+					},
+					"line": [
+						116,
+						104,
+						101,
+						32,
+						113,
+						117,
+						105,
+						99,
+						107,
+						32
+					],
+					"cursor": 10
+				},
+				{
+					"s": [
+						98
+					],
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							98
+						]
+					},
+					"line": [
+						116,
+						104,
+						101,
+						32,
+						113,
+						117,
+						105,
+						99,
+						107,
+						32,
+						98
+					],
+					"cursor": 11
+				},
+				{
+					"s": [
+						114
+					],
+					"key": {
+						"name": "r",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							114
+						]
+					},
+					"line": [
+						116,
+						104,
+						101,
+						32,
+						113,
+						117,
+						105,
+						99,
+						107,
+						32,
+						98,
+						114
+					],
+					"cursor": 12
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						116,
+						104,
+						101,
+						32,
+						113,
+						117,
+						105,
+						99,
+						107,
+						32,
+						98,
+						114,
+						111
+					],
+					"cursor": 13
+				},
+				{
+					"s": [
+						119
+					],
+					"key": {
+						"name": "w",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							119
+						]
+					},
+					"line": [
+						116,
+						104,
+						101,
+						32,
+						113,
+						117,
+						105,
+						99,
+						107,
+						32,
+						98,
+						114,
+						111,
+						119
+					],
+					"cursor": 14
+				},
+				{
+					"s": [
+						110
+					],
+					"key": {
+						"name": "n",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							110
+						]
+					},
+					"line": [
+						116,
+						104,
+						101,
+						32,
+						113,
+						117,
+						105,
+						99,
+						107,
+						32,
+						98,
+						114,
+						111,
+						119,
+						110
+					],
+					"cursor": 15
+				},
+				{
+					"s": [
+						32
+					],
+					"key": {
+						"name": " ",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							32
+						]
+					},
+					"line": [
+						116,
+						104,
+						101,
+						32,
+						113,
+						117,
+						105,
+						99,
+						107,
+						32,
+						98,
+						114,
+						111,
+						119,
+						110,
+						32
+					],
+					"cursor": 16
+				},
+				{
+					"s": [
+						102
+					],
+					"key": {
+						"name": "f",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							102
+						]
+					},
+					"line": [
+						116,
+						104,
+						101,
+						32,
+						113,
+						117,
+						105,
+						99,
+						107,
+						32,
+						98,
+						114,
+						111,
+						119,
+						110,
+						32,
+						102
+					],
+					"cursor": 17
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						116,
+						104,
+						101,
+						32,
+						113,
+						117,
+						105,
+						99,
+						107,
+						32,
+						98,
+						114,
+						111,
+						119,
+						110,
+						32,
+						102,
+						111
+					],
+					"cursor": 18
+				},
+				{
+					"s": [
+						120
+					],
+					"key": {
+						"name": "x",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							120
+						]
+					},
+					"line": [
+						116,
+						104,
+						101,
+						32,
+						113,
+						117,
+						105,
+						99,
+						107,
+						32,
+						98,
+						114,
+						111,
+						119,
+						110,
+						32,
+						102,
+						111,
+						120
+					],
+					"cursor": 19
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "a",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							1
+						]
+					},
+					"line": [
+						116,
+						104,
+						101,
+						32,
+						113,
+						117,
+						105,
+						99,
+						107,
+						32,
+						98,
+						114,
+						111,
+						119,
+						110,
+						32,
+						102,
+						111,
+						120
+					],
+					"cursor": 0
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "f",
+						"ctrl": false,
+						"meta": true,
+						"shift": false,
+						"sequence": [
+							27,
+							102
+						]
+					},
+					"line": [
+						116,
+						104,
+						101,
+						32,
+						113,
+						117,
+						105,
+						99,
+						107,
+						32,
+						98,
+						114,
+						111,
+						119,
+						110,
+						32,
+						102,
+						111,
+						120
+					],
+					"cursor": 4
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "f",
+						"ctrl": false,
+						"meta": true,
+						"shift": false,
+						"sequence": [
+							27,
+							102
+						]
+					},
+					"line": [
+						116,
+						104,
+						101,
+						32,
+						113,
+						117,
+						105,
+						99,
+						107,
+						32,
+						98,
+						114,
+						111,
+						119,
+						110,
+						32,
+						102,
+						111,
+						120
+					],
+					"cursor": 10
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "k",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							11
+						]
+					},
+					"line": [
+						116,
+						104,
+						101,
+						32,
+						113,
+						117,
+						105,
+						99,
+						107,
+						32
+					],
+					"cursor": 10
+				},
+				{
+					"s": [
+						108
+					],
+					"key": {
+						"name": "l",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							108
+						]
+					},
+					"line": [
+						116,
+						104,
+						101,
+						32,
+						113,
+						117,
+						105,
+						99,
+						107,
+						32,
+						108
+					],
+					"cursor": 11
+				},
+				{
+					"s": [
+						97
+					],
+					"key": {
+						"name": "a",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							97
+						]
+					},
+					"line": [
+						116,
+						104,
+						101,
+						32,
+						113,
+						117,
+						105,
+						99,
+						107,
+						32,
+						108,
+						97
+					],
+					"cursor": 12
+				},
+				{
+					"s": [
+						122
+					],
+					"key": {
+						"name": "z",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							122
+						]
+					},
+					"line": [
+						116,
+						104,
+						101,
+						32,
+						113,
+						117,
+						105,
+						99,
+						107,
+						32,
+						108,
+						97,
+						122
+					],
+					"cursor": 13
+				},
+				{
+					"s": [
+						121
+					],
+					"key": {
+						"name": "y",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							121
+						]
+					},
+					"line": [
+						116,
+						104,
+						101,
+						32,
+						113,
+						117,
+						105,
+						99,
+						107,
+						32,
+						108,
+						97,
+						122,
+						121
+					],
+					"cursor": 14
+				},
+				{
+					"s": [
+						32
+					],
+					"key": {
+						"name": " ",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							32
+						]
+					},
+					"line": [
+						116,
+						104,
+						101,
+						32,
+						113,
+						117,
+						105,
+						99,
+						107,
+						32,
+						108,
+						97,
+						122,
+						121,
+						32
+					],
+					"cursor": 15
+				},
+				{
+					"s": [
+						100
+					],
+					"key": {
+						"name": "d",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							100
+						]
+					},
+					"line": [
+						116,
+						104,
+						101,
+						32,
+						113,
+						117,
+						105,
+						99,
+						107,
+						32,
+						108,
+						97,
+						122,
+						121,
+						32,
+						100
+					],
+					"cursor": 16
+				},
+				{
+					"s": [
+						111
+					],
+					"key": {
+						"name": "o",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							111
+						]
+					},
+					"line": [
+						116,
+						104,
+						101,
+						32,
+						113,
+						117,
+						105,
+						99,
+						107,
+						32,
+						108,
+						97,
+						122,
+						121,
+						32,
+						100,
+						111
+					],
+					"cursor": 17
+				},
+				{
+					"s": [
+						103
+					],
+					"key": {
+						"name": "g",
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							103
+						]
+					},
+					"line": [
+						116,
+						104,
+						101,
+						32,
+						113,
+						117,
+						105,
+						99,
+						107,
+						32,
+						108,
+						97,
+						122,
+						121,
+						32,
+						100,
+						111,
+						103
+					],
+					"cursor": 18
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "b",
+						"ctrl": false,
+						"meta": true,
+						"shift": false,
+						"sequence": [
+							27,
+							98
+						]
+					},
+					"line": [
+						116,
+						104,
+						101,
+						32,
+						113,
+						117,
+						105,
+						99,
+						107,
+						32,
+						108,
+						97,
+						122,
+						121,
+						32,
+						100,
+						111,
+						103
+					],
+					"cursor": 15
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "w",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							23
+						]
+					},
+					"line": [
+						116,
+						104,
+						101,
+						32,
+						113,
+						117,
+						105,
+						99,
+						107,
+						32,
+						100,
+						111,
+						103
+					],
+					"cursor": 10
+				},
+				{
+					"s": null,
+					"key": {
+						"name": null,
+						"ctrl": false,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							31
+						]
+					},
+					"line": [
+						116,
+						104,
+						101,
+						32,
+						113,
+						117,
+						105,
+						99,
+						107,
+						32,
+						108,
+						97,
+						122,
+						121,
+						32,
+						100,
+						111,
+						103
+					],
+					"cursor": 15
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "e",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							5
+						]
+					},
+					"line": [
+						116,
+						104,
+						101,
+						32,
+						113,
+						117,
+						105,
+						99,
+						107,
+						32,
+						108,
+						97,
+						122,
+						121,
+						32,
+						100,
+						111,
+						103
+					],
+					"cursor": 18
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "u",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							21
+						]
+					},
+					"line": [],
+					"cursor": 0
+				},
+				{
+					"s": null,
+					"key": {
+						"name": "y",
+						"ctrl": true,
+						"meta": false,
+						"shift": false,
+						"sequence": [
+							25
+						]
+					},
+					"line": [
+						116,
+						104,
+						101,
+						32,
+						113,
+						117,
+						105,
+						99,
+						107,
+						32,
+						108,
+						97,
+						122,
+						121,
+						32,
+						100,
+						111,
+						103
+					],
+					"cursor": 18
+				}
+			]
+		}
+	]
+}
