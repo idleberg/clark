@@ -6,9 +6,11 @@ than merely modelled on it.
 
 Status: **M0 done, M1 under way.** The `ForcedWidth` probe passed, so the architecture below holds —
 with one correction recorded in
-[ADR-0007](./docs/adr/0007-forced-width-holds-but-the-emitter-owns-shrink-repaints.md). The width
-port has landed and agrees with `fast-string-width` on all 82 cases of its corpus
-([ADR-0008](./docs/adr/0008-width-parity-is-asserted-against-a-harvested-fixture.md)). See
+[ADR-0007](./docs/adr/0007-forced-width-holds-but-the-emitter-owns-shrink-repaints.md). Two of M1's
+ported primitives have landed, each against a harvested oracle
+([ADR-0008](./docs/adr/0008-width-parity-is-asserted-against-a-harvested-fixture.md)): the width
+port agrees with `fast-string-width` on all 82 cases of its corpus, and the `LineEditor` agrees with
+Node's `readline` on all 493 keypresses of its own. See
 [CONTEXT.md](./CONTEXT.md) for the vocabulary and [docs/adr/](./docs/adr/) for the decisions behind
 the shape below.
 
@@ -80,8 +82,8 @@ Three layers.
    emulator (`vt100`; `avt` as fallback) and compares Grids.
 2. **Conformance suites** — one per ported primitive, comparing against its JavaScript counterpart:
    `LineEditor` vs Node `readline`, text measurement vs `fast-string-width`, key parsing (Node
-   `readline` vs crossterm). The comparison is harvested rather than live — `prior-art/` is not
-   committed, so CI has no JavaScript to run
+   `readline` vs crossterm). The comparison is harvested rather than live: CI is one Rust job with
+   no JavaScript to run, and `prior-art/` is not committed
    ([ADR-0008](./docs/adr/0008-width-parity-is-asserted-against-a-harvested-fixture.md)).
 3. **Drift** — `mise run drift` re-runs the Recorder against pinned clack and reports Fixtures that
    no longer match. Run deliberately, not in CI.
@@ -104,7 +106,7 @@ upstream drift.
 | | |
 |---|---|
 | **M0** | ~~`ForcedWidth` probe — the one experiment the architecture rests on (below)~~ **done** |
-| **M1** | `text` end to end — Recorder, ~~width port~~, `LineEditor`, Emitter, `TextState`, `.interact()`, harvested text Scenarios green |
+| **M1** | `text` end to end — Recorder, ~~width port~~, ~~`LineEditor`~~, Emitter, `TextState`, `.interact()`, harvested text Scenarios green |
 | **M2** | password, confirm |
 | **M3** | select, multi-select, select-key |
 | **M4** | group-multi-select, autocomplete, date, multi-line |
