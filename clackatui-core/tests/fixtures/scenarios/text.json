@@ -1,0 +1,674 @@
+{
+	"source": "@clack/prompts test suite",
+	"tag": "@clack/prompts@1.7.0",
+	"commit": "dc5bce8aae84a57b5863124adfaa839c1db1fa23",
+	"describe": "@clack/core@1.4.3",
+	"node": "24.20.0",
+	"generatedBy": "scripts/harvest-scenarios.mjs",
+	"suites": [
+		"text"
+	],
+	"scenarios": [
+		{
+			"name": "text › can be aborted by a signal",
+			"prompts": [
+				{
+					"kind": "text",
+					"opts": {
+						"message": "foo"
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20
+					},
+					"keys": [],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m└\u001b[39m\n",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "text › can cancel",
+			"prompts": [
+				{
+					"kind": "text",
+					"opts": {
+						"message": "foo"
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20
+					},
+					"keys": [
+						{
+							"s": "escape",
+							"key": {
+								"name": "escape",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[31m■\u001b[39m  foo\n\u001b[90m│\u001b[39m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "text › defaultValue sets the value but does not render",
+			"prompts": [
+				{
+					"kind": "text",
+					"opts": {
+						"message": "foo",
+						"defaultValue": "bar"
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mbar\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "text › empty string when no value and no default",
+			"prompts": [
+				{
+					"kind": "text",
+					"opts": {
+						"message": "foo",
+						"placeholder": "  (hit Enter to use default)"
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[7m \u001b[27m\u001b[2m (hit Enter to use default)\u001b[22m\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "text › global withGuide: false removes guide",
+			"prompts": [
+				{
+					"kind": "text",
+					"opts": {
+						"message": "foo"
+					},
+					"settings": {
+						"withGuide": false
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[36m◆\u001b[39m  foo\n\u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\n",
+						"\u001b[999D\u001b[3A",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "text › placeholder is not used as value when pressing enter",
+			"prompts": [
+				{
+					"kind": "text",
+					"opts": {
+						"message": "foo",
+						"placeholder": "  (hit Enter to use default)",
+						"defaultValue": "default-value"
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[7m \u001b[27m\u001b[2m (hit Enter to use default)\u001b[22m\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mdefault-value\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "text › renders cancelled value if one set",
+			"prompts": [
+				{
+					"kind": "text",
+					"opts": {
+						"message": "foo"
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20
+					},
+					"keys": [
+						{
+							"s": "x",
+							"key": {
+								"name": "x",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "y",
+							"key": {
+								"name": "y",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "escape",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  x█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  xy█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[31m■\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[9m\u001b[2mxy\u001b[22m\u001b[29m\n\u001b[90m│\u001b[39m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "text › renders message",
+			"prompts": [
+				{
+					"kind": "text",
+					"opts": {
+						"message": "foo"
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "text › renders placeholder if set",
+			"prompts": [
+				{
+					"kind": "text",
+					"opts": {
+						"message": "foo",
+						"placeholder": "bar"
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[7mb\u001b[27m\u001b[2mar\u001b[22m\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "text › renders submitted value",
+			"prompts": [
+				{
+					"kind": "text",
+					"opts": {
+						"message": "foo"
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20
+					},
+					"keys": [
+						{
+							"s": "x",
+							"key": {
+								"name": "x",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "y",
+							"key": {
+								"name": "y",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  x█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  xy█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mxy\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "text › validation errors render and clear",
+			"prompts": [
+				{
+					"kind": "text",
+					"opts": {
+						"message": "foo",
+						"validate": {
+							"callback": true
+						}
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20
+					},
+					"keys": [
+						{
+							"s": "x",
+							"key": {
+								"name": "x",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "y",
+							"key": {
+								"name": "y",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  x█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[33m▲\u001b[39m  foo\n\u001b[33m│\u001b[39m  x█\n\u001b[33m└\u001b[39m  \u001b[33mshould be xy\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  xy█\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mxy\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "text › validation errors render and clear (using Error)",
+			"prompts": [
+				{
+					"kind": "text",
+					"opts": {
+						"message": "foo",
+						"validate": {
+							"callback": true
+						}
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20
+					},
+					"keys": [
+						{
+							"s": "x",
+							"key": {
+								"name": "x",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "y",
+							"key": {
+								"name": "y",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  x█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[33m▲\u001b[39m  foo\n\u001b[33m│\u001b[39m  x█\n\u001b[33m└\u001b[39m  \u001b[33mshould be xy\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  xy█\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mxy\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "text › withGuide: false removes guide",
+			"prompts": [
+				{
+					"kind": "text",
+					"opts": {
+						"message": "foo",
+						"withGuide": false
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[36m◆\u001b[39m  foo\n\u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\n",
+						"\u001b[999D\u001b[3A",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		}
+	]
+}

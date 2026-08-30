@@ -12,9 +12,12 @@ ported primitives have landed, each against a harvested oracle
 port agrees with `fast-string-width` on all 82 cases of its corpus, and the `LineEditor` agrees with
 Node's `readline` on all 493 keypresses of its own. On top of them sits the Prompt state machine and
 `TextState`, ported from `@clack/core` with its event emitter replaced by a trait
-([ADR-0009](./docs/adr/0009-a-prompt-owns-its-state-instead-of-subclassing-it.md)) — the first piece
-whose oracle is the harvested Scenarios rather than a primitive of its own, which is why they come
-next. See
+([ADR-0009](./docs/adr/0009-a-prompt-owns-its-state-instead-of-subclassing-it.md)). The Recorder
+that gives them their oracle now runs
+([ADR-0010](./docs/adr/0010-the-recorder-instruments-clacks-suite-from-outside-it.md)): clack's own
+`text` suite is harvested into 13 Scenarios, and replaying their keypresses settles where clack
+settled. Comparing the recorded frames as Grids waits on the Emitter, which is what M1 finishes
+with. See
 [CONTEXT.md](./CONTEXT.md) for the vocabulary and [docs/adr/](./docs/adr/) for the decisions behind
 the shape below.
 
@@ -83,7 +86,10 @@ Three layers.
 1. **Prompt Scenarios** — harvested from clack's own test suite, plus hand-authored coverage of what
    upstream never varies: narrow and wide terminals, mid-Prompt resize, CJK and emoji input, long
    values. `cargo test` replays both the recorded Fixture and live clackatui output through one
-   emulator (`vt100`; `avt` as fallback) and compares Grids.
+   emulator (`vt100`; `avt` as fallback) and compares Grids. `node scripts/harvest-scenarios.mjs
+   text` is the Recorder; it runs clack's suite from outside the checkout and refuses unless that
+   checkout is at the pinned tag
+   ([ADR-0010](./docs/adr/0010-the-recorder-instruments-clacks-suite-from-outside-it.md)).
 2. **Conformance suites** — one per ported primitive, comparing against its JavaScript counterpart:
    `LineEditor` vs Node `readline`, text measurement vs `fast-string-width`, key parsing (Node
    `readline` vs crossterm). The comparison is harvested rather than live: CI is one Rust job with
@@ -112,7 +118,7 @@ upstream drift.
 | | |
 |---|---|
 | **M0** | ~~`ForcedWidth` probe — the one experiment the architecture rests on (below)~~ **done** |
-| **M1** | `text` end to end — Recorder, ~~width port~~, ~~`LineEditor`~~, Emitter, ~~`TextState`~~, `.interact()`, harvested text Scenarios green |
+| **M1** | `text` end to end — ~~Recorder~~, ~~width port~~, ~~`LineEditor`~~, Emitter, ~~`TextState`~~, `.interact()`, harvested text Scenarios green |
 | **M2** | password, confirm |
 | **M3** | select, multi-select, select-key |
 | **M4** | group-multi-select, autocomplete, date, multi-line |
