@@ -61,7 +61,13 @@ inside the callback that draws it
 breaks ten columns early
 ([ADR-0019](./docs/adr/0019-confirm-wraps-its-message-against-the-length-of-an-escape-sequence.md)).
 None is reachable from upstream's own tests, so eleven more Scenarios were hand-authored to reach
-them, and **all forty-nine agree on the Grid**.
+them, and all forty-nine agree on the Grid. M3 adds the first Prompt with a list in it: `limitOptions`
+ported against a corpus of its own
+([ADR-0020](./docs/adr/0020-limit-options-is-ported-against-a-corpus-and-reaches-a-width-of-nothing.md)),
+then `select` on top of it, whose own suite is the first to hand a Prompt a terminal narrower than the
+one its Frames are written into
+([ADR-0021](./docs/adr/0021-select-reads-three-widths-and-a-strikethrough-outlives-its-row.md)) —
+**all sixty-eight agree on the Grid**.
 See
 [CONTEXT.md](./CONTEXT.md) for the vocabulary and [docs/adr/](./docs/adr/) for the decisions behind
 the shape below.
@@ -196,7 +202,7 @@ upstream drift.
 | **M0** | ~~`ForcedWidth` probe — the one experiment the architecture rests on (below)~~ **done** |
 | **M1** | ~~`text` end to end — Recorder, width port, `LineEditor`, `TextState`, `Frame`, Theme, `text` widget, wrap port, Emitter, `.interact()`, harvested text Scenarios green, hand-authored Scenarios (narrow, CJK, resize)~~ **done** |
 | **M2** | ~~`password` and `confirm` — states, widgets, builders, both suites harvested, eleven more hand-authored Scenarios~~ **done** |
-| **M3** | ~~`limit-options` ported against a 54-case corpus~~ **done**; select, multi-select, select-key |
+| **M3** | ~~`limit-options` against a 54-case corpus, `select` end to end with its suite harvested~~ **done**; multi-select, select-key |
 | **M4** | group-multi-select, autocomplete, date, multi-line |
 | **M5** | static renderers |
 | **M6** | theme polish, docs, publish |
@@ -234,6 +240,14 @@ passes thirteen for the padding, and so a narrow enough terminal reaches the wra
 — which upstream handles by dividing by zero and laying every code point on a row of its own. The
 wrap now does too
 ([ADR-0020](./docs/adr/0020-limit-options-is-ported-against-a-corpus-and-reaches-a-width-of-nothing.md)).
+
+`select` followed, and the prediction held this time: twenty harvested Scenarios, no new machinery
+except a height — `Session`'s draw callback carries one now, because how much of a list is drawn
+depends on it. Thirteen mutations of the port are caught, nine of them by upstream's own recordings.
+The one no reading would have found is a cancelled value's strikethrough, which `wrapAnsi` opens once
+and closes at the end while reopening the dim row by row — so the Guide bars in between are drawn
+struck through, and the port draws them that way too
+([ADR-0021](./docs/adr/0021-select-reads-three-widths-and-a-strikethrough-outlives-its-row.md)).
 
 M0 came first because it was cheap and load-bearing. Reusing `BufferDiff` under our own width model
 depends entirely on `CellDiffOption::ForcedWidth`, which is recent API on a pre-1.0 crate. The probe

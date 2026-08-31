@@ -35,7 +35,7 @@ use clackatui_core::prompt::Status;
 use ratatui_core::style::{Color, Modifier, Style};
 
 mod scenarios;
-use scenarios::{TAG, all, authored, confirm, harvested, password};
+use scenarios::{Scenario, TAG, all, authored, confirm, harvested, password, select};
 
 /// The state clack was in when it drew its last frame, read off the step symbol it prints.
 ///
@@ -480,7 +480,7 @@ fn the_harvested_fixture_is_a_plausible_recording() {
 /// Frame or the cancelled one would otherwise be merely smaller, and the count below would let it
 /// through.
 #[test]
-fn the_password_and_confirm_fixtures_are_plausible_recordings() {
+fn the_password_confirm_and_select_fixtures_are_plausible_recordings() {
 	for (kind, (json, scenarios), least, required) in [
 		(
 			"password",
@@ -509,6 +509,23 @@ fn the_password_and_confirm_fixtures_are_plausible_recordings() {
 				"confirm › renders multi-line messages correctly",
 				"confirm › right arrow moves to next choice",
 				"confirm › withGuide: false removes guide",
+			][..],
+		),
+		(
+			"select",
+			select(),
+			18,
+			&[
+				"select › renders options and message",
+				"select › down arrow selects next option",
+				"select › can cancel",
+				"select › renders option hints",
+				"select › renders disabled options",
+				"select › renders multi-line option labels",
+				"select › maxItems accounts for instruction footer",
+				"select › showInstructions: false hides instruction footer",
+				"select › correctly limits options when message wraps to multiple lines",
+				"select › withGuide: false removes guide",
 			][..],
 		),
 	] {
@@ -568,6 +585,63 @@ fn the_password_and_confirm_fixtures_are_plausible_recordings() {
 		2,
 		"password Scenarios carrying a validate callback"
 	);
+
+	// A `select` with no options is not a `select`, and a Scenario that lost its list would draw an
+	// empty Frame the port would agree with for the wrong reason.
+	let (_, select) = select();
+	for scenario in &select {
+		assert!(
+			!scenario.options.is_empty(),
+			"{}: a select with no options",
+			scenario.name
+		);
+	}
+
+	// The four things the widget can only be wrong about if the suite exercises them.
+	let any = |what: &str, f: &dyn Fn(&Scenario) -> bool| {
+		assert!(
+			select.iter().any(f),
+			"no select Scenario left that {what}; the port's branch for it is unverified"
+		);
+	};
+	any("disables an option", &|s| {
+		s.options.iter().any(|o| o.disabled)
+	});
+	any("gives an option a hint", &|s| {
+		s.options.iter().any(|o| o.hint.is_some())
+	});
+	any("breaks a label over two rows", &|s| {
+		s.options
+			.iter()
+			.any(|o| o.label.as_deref().is_some_and(|label| label.contains('\n')))
+	});
+	any("sets maxItems", &|s| s.max_items.is_some());
+	any("turns the instruction footer off", &|s| {
+		!s.show_instructions
+	});
+}
+
+/// The two terminal widths a Scenario carries, and the one thing that would make them ambiguous.
+///
+/// A widget measures against the Prompt's own stream and the Emitter wraps against `process.stdout`.
+/// `select`'s suite is the first to set the two apart, and a Scenario that also resized would need
+/// the stream's width to move with the Session's — which the loader cannot know, because a recording
+/// says only what the *global* was resized to. No such Scenario exists, and this is what says so
+/// before one is written.
+#[test]
+fn the_two_widths_only_come_apart_where_nothing_resizes() {
+	for scenario in all() {
+		if scenario.stream_columns != scenario.columns {
+			assert!(
+				!scenario.resizes(),
+				"{}: the Prompt's stream is {} columns and the Frame is wrapped at {}, and the \
+				 terminal resizes under it — `Scenario::run` has no width to hand the widget",
+				scenario.name,
+				scenario.stream_columns,
+				scenario.columns,
+			);
+		}
+	}
 }
 
 /// The hand-authored Fixture, guarded rather harder than the harvested one — for the reason

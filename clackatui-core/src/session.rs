@@ -49,13 +49,14 @@ const DEFAULT_COLUMNS: u16 = 80;
 /// Upstream's `getRows` fallback, likewise.
 const DEFAULT_ROWS: u16 = 20;
 
-/// Upstream's `render` option: a Prompt's state, drawn for a terminal of a given width.
+/// Upstream's `render` option: a Prompt's state, drawn for a terminal of a given width and height.
 ///
-/// The width is passed because one widget needs it: `confirm` wraps its own message before the
-/// Frame is wrapped again around it. Upstream reads that width from the Prompt's output stream and
-/// the Frame's from the global `process.stdout`, which are the same terminal outside a test
-/// harness; a Session carries the one number and hands it to both.
-pub type Draw<S> = dyn Fn(&Prompt<S>, u16) -> Frame;
+/// Both are passed because widgets need them. `confirm` wraps its own message before the Frame is
+/// wrapped again around it; `select` does that *and* cuts its option list to the rows it has left.
+/// Upstream reads both off the Prompt's own output stream — `getColumns(opts.output)` and
+/// `getRows(opts.output)` — while the Frame is wrapped against the global `process.stdout`. The two
+/// are one terminal outside a test harness, so a Session carries one size and hands it to both.
+pub type Draw<S> = dyn Fn(&Prompt<S>, u16, u16) -> Frame;
 
 /// A Prompt, an Emitter, and the order upstream asks them in.
 ///
@@ -80,7 +81,7 @@ impl<S: PromptState> Session<S> {
 	/// Frame. It is a closure rather than a trait method because that is what it is upstream — the
 	/// widget belongs to `@clack/prompts` and the state machine to `@clack/core`, and a `text()`
 	/// builder closes over the message and placeholder that never reach the state at all.
-	pub fn new(prompt: Prompt<S>, draw: impl Fn(&Prompt<S>, u16) -> Frame + 'static) -> Self {
+	pub fn new(prompt: Prompt<S>, draw: impl Fn(&Prompt<S>, u16, u16) -> Frame + 'static) -> Self {
 		Self {
 			prompt,
 			emitter: Emitter::new(),
@@ -174,7 +175,7 @@ impl<S: PromptState> Session<S> {
 	}
 
 	fn render(&mut self) -> String {
-		let frame = (self.draw)(&self.prompt, self.columns);
+		let frame = (self.draw)(&self.prompt, self.columns, self.rows);
 		let out = self.emitter.frame(&frame, self.columns, self.rows);
 		// Upstream's `render` callback is free to change the Prompt while it composes; `password`'s
 		// `clearOnError` is the one that does. The Frame above is the one it was read for.
@@ -206,7 +207,7 @@ impl<S: PromptState> Session<S> {
 	/// opening Frame against a recording, or a program embedding a Prompt in its own layout. It
 	/// deliberately skips [`Prompt::after_render`]: nothing was drawn, so nothing has happened.
 	pub fn frame(&self) -> Frame {
-		(self.draw)(&self.prompt, self.columns)
+		(self.draw)(&self.prompt, self.columns, self.rows)
 	}
 
 	/// The Prompt back, for a driver that wants the answer by ownership.
@@ -234,9 +235,10 @@ mod tests {
 	const SHOW: &str = "\u{1b}[?25h";
 
 	fn text(message: &'static str) -> Session<TextState> {
-		Session::new(Prompt::new(TextState::new()), move |prompt, _columns| {
-			TextWidget::new(prompt, message).frame()
-		})
+		Session::new(
+			Prompt::new(TextState::new()),
+			move |prompt, _columns, _rows| TextWidget::new(prompt, message).frame(),
+		)
 	}
 
 	fn typed(session: &mut Session<TextState>, s: &str) -> String {
@@ -250,8 +252,8 @@ mod tests {
 	}
 
 	/// A Frame with no styling in it, so that a test about sequencing is not also a test about SGR.
-	fn plain(lines: &'static [&'static str]) -> impl Fn(&Prompt<TextState>, u16) -> Frame {
-		move |_, _| {
+	fn plain(lines: &'static [&'static str]) -> impl Fn(&Prompt<TextState>, u16, u16) -> Frame {
+		move |_, _, _| {
 			let mut frame = Frame::new();
 			for line in lines {
 				frame.push(Line::from(Span::raw(*line)));

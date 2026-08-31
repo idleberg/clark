@@ -121,7 +121,7 @@ impl Confirm {
 		let theme = self.theme.unwrap_or_else(Theme::clack);
 		let with_guide = self.with_guide;
 
-		Session::new(prompt, move |prompt, columns| {
+		Session::new(prompt, move |prompt, columns, _rows| {
 			let mut widget = ConfirmWidget::new(prompt, &message)
 				.with_theme(&theme)
 				.with_vertical(vertical)

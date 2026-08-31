@@ -23,15 +23,18 @@ mod driver;
 mod error;
 pub mod keys;
 mod password;
+mod select;
 mod text;
 
 pub use confirm::{Confirm, confirm};
 pub use error::ClackError;
 pub use password::{Password, password};
+pub use select::{Select, select};
 pub use text::{Text, text};
 
 /// The pieces a caller needs to configure a Prompt or to drive one themselves.
 pub use clackatui_core::prompt::{Outcome, Validator};
+pub use clackatui_core::select::SelectOption;
 pub use clackatui_core::session::Session;
 pub use clackatui_core::settings::{Action, Settings};
 pub use clackatui_core::theme::Theme;

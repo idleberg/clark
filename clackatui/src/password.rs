@@ -109,7 +109,7 @@ impl Password {
 		let theme = self.theme.unwrap_or_else(Theme::clack);
 		let with_guide = self.with_guide;
 
-		Session::new(prompt, move |prompt, _columns| {
+		Session::new(prompt, move |prompt, _columns, _rows| {
 			// The Theme first: it carries the default mask, so setting one after a mask would undo
 			// it.
 			let mut widget = PasswordWidget::new(prompt, &message).with_theme(&theme);

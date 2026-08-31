@@ -30,6 +30,7 @@ use clackatui_core::frame::Frame;
 use clackatui_core::line_editor::{Key, KeyName};
 use clackatui_core::password::{PasswordState, PasswordWidget};
 use clackatui_core::prompt::{Prompt, Status};
+use clackatui_core::select::{SelectOption, SelectState, SelectWidget};
 use clackatui_core::session::Session;
 use clackatui_core::text::{TextState, TextWidget};
 
@@ -37,6 +38,7 @@ const HARVESTED: &str = include_str!("../fixtures/scenarios/text.json");
 const AUTHORED: &str = include_str!("../fixtures/scenarios/authored.json");
 const PASSWORD: &str = include_str!("../fixtures/scenarios/password.json");
 const CONFIRM: &str = include_str!("../fixtures/scenarios/confirm.json");
+const SELECT: &str = include_str!("../fixtures/scenarios/select.json");
 
 /// The tag `README.md` names. A fixture from anywhere else is not the thing we claim parity with.
 pub const TAG: &str = "@clack/prompts@1.7.0";
@@ -57,6 +59,10 @@ pub struct Scenario {
 	pub active: Option<String>,
 	pub inactive: Option<String>,
 	pub vertical: bool,
+	/// `select`'s list, and the two options that decide how much of it is drawn.
+	pub options: Vec<Choice>,
+	pub max_items: Option<usize>,
+	pub show_instructions: bool,
 	/// `opts.withGuide`, which falls back to `settings.withGuide` when absent.
 	pub with_guide: bool,
 	/// The width clack wrapped its Frames to — `process.stdout.columns`, recorded as
@@ -64,6 +70,14 @@ pub struct Scenario {
 	/// the global and ignores the stream, so the stream's number is the wrong one to wrap by; a
 	/// Fixture recorded before that was noticed falls back to it rather than guessing.
 	pub columns: usize,
+	/// The width the Prompt's *own* stream reports — `getColumns(opts.output)`, which is what a
+	/// widget measures its message and its option list against.
+	///
+	/// The same terminal as [`columns`](Self::columns) outside a harness, and the same number in
+	/// every Fixture up to `confirm`. `select`'s suite is the first to set them apart, by handing the
+	/// Prompt a 30- or 40-column stream while `process.stdout` stays at 80 — so a Scenario that does
+	/// that is a Scenario whose Frames are wrapped at one width and written at another.
+	pub stream_columns: usize,
 	/// Its height, which is a separate number for the reason `Emitter::frame` gives — that one
 	/// *does* come from the Prompt's own stream.
 	pub rows: usize,
@@ -99,6 +113,14 @@ pub struct Segment {
 	pub rows: usize,
 }
 
+/// One entry of a `select`'s `options` array, as a recording carries it.
+pub struct Choice {
+	pub value: String,
+	pub label: Option<String>,
+	pub hint: Option<String>,
+	pub disabled: bool,
+}
+
 pub struct Recorded {
 	pub s: Option<String>,
 	pub name: Option<String>,
@@ -128,6 +150,11 @@ pub fn confirm() -> (serde_json::Value, Vec<Scenario>) {
 	parse(CONFIRM, "fixtures/scenarios/confirm.json")
 }
 
+/// Clack's own `select` suite.
+pub fn select() -> (serde_json::Value, Vec<Scenario>) {
+	parse(SELECT, "fixtures/scenarios/select.json")
+}
+
 /// Every Scenario there is. Which Fixture one came from is a question about the evidence behind it,
 /// not about what the port owes it, so the tests do not ask.
 pub fn all() -> Vec<Scenario> {
@@ -135,6 +162,7 @@ pub fn all() -> Vec<Scenario> {
 	scenarios.extend(authored().1);
 	scenarios.extend(password().1);
 	scenarios.extend(confirm().1);
+	scenarios.extend(select().1);
 	scenarios
 }
 
@@ -173,6 +201,12 @@ fn parse(source: &str, path: &str) -> (serde_json::Value, Vec<Scenario>) {
 				active: opts["active"].as_str().map(str::to_owned),
 				inactive: opts["inactive"].as_str().map(str::to_owned),
 				vertical: opts["vertical"].as_bool() == Some(true),
+				options: opts["options"]
+					.as_array()
+					.map(|options| options.iter().map(choice).collect())
+					.unwrap_or_default(),
+				max_items: opts["maxItems"].as_u64().map(|n| n as usize),
+				show_instructions: opts["showInstructions"].as_bool().unwrap_or(true),
 				with_guide: opts["withGuide"]
 					.as_bool()
 					.or_else(|| run["settings"]["withGuide"].as_bool())
@@ -180,6 +214,10 @@ fn parse(source: &str, path: &str) -> (serde_json::Value, Vec<Scenario>) {
 				columns: run["terminal"]["stdout"]
 					.as_u64()
 					.or_else(|| run["terminal"]["columns"].as_u64())
+					.unwrap_or(80) as usize,
+				stream_columns: run["terminal"]["columns"]
+					.as_u64()
+					.or_else(|| run["terminal"]["stdout"].as_u64())
 					.unwrap_or(80) as usize,
 				rows: run["terminal"]["rows"].as_u64().unwrap_or(20) as usize,
 				validates: opts["validate"]["callback"].as_bool() == Some(true),
@@ -211,6 +249,20 @@ fn keys(run: &serde_json::Value) -> Vec<Recorded> {
 		.iter()
 		.map(keypress)
 		.collect()
+}
+
+fn choice(option: &serde_json::Value) -> Choice {
+	Choice {
+		// Every recorded `select` option holds a string. One holding anything else would be a
+		// Scenario this loader cannot build, and saying so here beats drawing the wrong list.
+		value: option["value"]
+			.as_str()
+			.expect("an option's value is a string")
+			.to_owned(),
+		label: option["label"].as_str().map(str::to_owned),
+		hint: option["hint"].as_str().map(str::to_owned),
+		disabled: option["disabled"].as_bool() == Some(true),
+	}
 }
 
 fn keypress(key: &serde_json::Value) -> Recorded {
@@ -262,7 +314,7 @@ impl Scenario {
 				let state = PasswordState::new().with_clear_on_error(self.clear_on_error);
 				let mask = self.mask.clone();
 				Run::Password(
-					Session::new(Prompt::new(state), move |prompt, _columns| {
+					Session::new(Prompt::new(state), move |prompt, _columns, _rows| {
 						let mut widget =
 							PasswordWidget::new(prompt, &message).with_guide(with_guide);
 						if let Some(mask) = &mask {
@@ -282,7 +334,7 @@ impl Scenario {
 				let (active, inactive) = (self.active.clone(), self.inactive.clone());
 				let vertical = self.vertical;
 				Run::Confirm(
-					Session::new(Prompt::new(state), move |prompt, columns| {
+					Session::new(Prompt::new(state), move |prompt, columns, _rows| {
 						let mut widget = ConfirmWidget::new(prompt, &message)
 							.with_guide(with_guide)
 							.with_vertical(vertical)
@@ -292,6 +344,50 @@ impl Scenario {
 						}
 						if let Some(inactive) = &inactive {
 							widget = widget.with_inactive(inactive);
+						}
+						widget.frame()
+					})
+					.with_size(size.0, size.1),
+				)
+			}
+
+			"select" => {
+				let options = self
+					.options
+					.iter()
+					.map(|choice| {
+						let mut option = match &choice.label {
+							Some(label) => SelectOption::labelled(choice.value.clone(), label),
+							None => SelectOption::new(choice.value.clone()),
+						};
+						if let Some(hint) = &choice.hint {
+							option = option.with_hint(hint);
+						}
+						option.with_disabled(choice.disabled)
+					})
+					.collect();
+				let mut state = SelectState::new(options);
+				if let Some(initial) = &self.initial_value {
+					state = state.with_initial_value(initial);
+				}
+				let max_items = self.max_items;
+				let show_instructions = self.show_instructions;
+				let stream = self.stream_columns;
+				Run::Select(
+					// The width handed to the widget is the Prompt's own stream, not the Session's —
+					// the two are different numbers in this suite. A resize would have to move both,
+					// which is why `the_two_widths_only_come_apart_where_nothing_resizes` insists that
+					// no Scenario asks for both at once.
+					// The height, on the other hand, is the Session's: it is the stream's number on
+					// both sides, and it is the one a resize moves.
+					Session::new(Prompt::new(state), move |prompt, _columns, rows| {
+						let mut widget = SelectWidget::new(prompt, &message)
+							.with_guide(with_guide)
+							.with_columns(stream)
+							.with_rows(rows as usize)
+							.with_instructions(show_instructions);
+						if let Some(max_items) = max_items {
+							widget = widget.with_max_items(max_items);
 						}
 						widget.frame()
 					})
@@ -310,7 +406,7 @@ impl Scenario {
 				}
 				let placeholder = self.placeholder.clone();
 				Run::Text(
-					Session::new(prompt, move |prompt, _columns| {
+					Session::new(prompt, move |prompt, _columns, _rows| {
 						let mut widget = TextWidget::new(prompt, &message).with_guide(with_guide);
 						if let Some(placeholder) = &placeholder {
 							widget = widget.with_placeholder(placeholder);
@@ -442,6 +538,7 @@ pub enum Run {
 	Text(Session<TextState>),
 	Password(Session<PasswordState>),
 	Confirm(Session<ConfirmState>),
+	Select(Session<SelectState<String>>),
 }
 
 /// The same call on whichever Session is inside. A macro because the three arms differ only in the
@@ -452,6 +549,7 @@ macro_rules! dispatch {
 			Run::Text($session) => $call,
 			Run::Password($session) => $call,
 			Run::Confirm($session) => $call,
+			Run::Select($session) => $call,
 		}
 	};
 }

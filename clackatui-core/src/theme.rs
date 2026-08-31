@@ -184,6 +184,13 @@ pub struct Styles {
 	pub separator: Style,
 	/// The `...` a list draws in place of the options it left out.
 	pub overflow: Style,
+	/// The note in brackets beside an option. Upstream's `dim`.
+	pub hint: Style,
+	/// An option that cannot be chosen — both its radio and its label. Upstream's `gray`, which is
+	/// the Guide's colour and not the dim the other unselected options are drawn in.
+	pub option_disabled: Style,
+	/// The key named in an instruction footer, as opposed to what pressing it does.
+	pub instruction_key: Style,
 	/// The value of a submitted Prompt.
 	pub submitted: Style,
 	/// The value of a cancelled Prompt.
@@ -214,6 +221,9 @@ impl Styles {
 		option_unselected: Style::new().add_modifier(Modifier::DIM),
 		separator: Style::new().add_modifier(Modifier::DIM),
 		overflow: Style::new().add_modifier(Modifier::DIM),
+		hint: Style::new().add_modifier(Modifier::DIM),
+		option_disabled: Style::new().fg(Color::DarkGray),
+		instruction_key: Style::new().add_modifier(Modifier::DIM),
 		submitted: Style::new().add_modifier(Modifier::DIM),
 		cancelled: Style::new().add_modifier(Modifier::CROSSED_OUT.union(Modifier::DIM)),
 		error: Style::new().fg(Color::Yellow),

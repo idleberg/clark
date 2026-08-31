@@ -1,0 +1,1363 @@
+{
+	"source": "@clack/prompts test suite",
+	"tag": "@clack/prompts@1.7.0",
+	"commit": "dc5bce8aae84a57b5863124adfaa839c1db1fa23",
+	"describe": "@clack/core@1.4.3",
+	"node": "24.20.0",
+	"generatedBy": "scripts/harvest-scenarios.mjs",
+	"suites": [
+		"select"
+	],
+	"scenarios": [
+		{
+			"name": "select › can be aborted by a signal",
+			"prompts": [
+				{
+					"kind": "select",
+					"opts": {
+						"message": "foo",
+						"options": [
+							{
+								"value": "opt0"
+							},
+							{
+								"value": "opt1"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m opt0\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mopt1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "select › can cancel",
+			"prompts": [
+				{
+					"kind": "select",
+					"opts": {
+						"message": "foo",
+						"options": [
+							{
+								"value": "opt0"
+							},
+							{
+								"value": "opt1"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "escape",
+							"key": {
+								"name": "escape",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m opt0\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mopt1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[6A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[31m■\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[9m\u001b[2mopt0\u001b[22m\u001b[29m\n\u001b[90m│\u001b[39m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "select › correctly limits options when message wraps to multiple lines",
+			"prompts": [
+				{
+					"kind": "select",
+					"opts": {
+						"message": "This is a very long message that will wrap to multiple lines",
+						"options": [
+							{
+								"value": "opt0",
+								"label": "Option 0"
+							},
+							{
+								"value": "opt1",
+								"label": "Option 1"
+							},
+							{
+								"value": "opt2",
+								"label": "Option 2"
+							},
+							{
+								"value": "opt3",
+								"label": "Option 3"
+							},
+							{
+								"value": "opt4",
+								"label": "Option 4"
+							},
+							{
+								"value": "opt5",
+								"label": "Option 5"
+							},
+							{
+								"value": "opt6",
+								"label": "Option 6"
+							},
+							{
+								"value": "opt7",
+								"label": "Option 7"
+							},
+							{
+								"value": "opt8",
+								"label": "Option 8"
+							},
+							{
+								"value": "opt9",
+								"label": "Option 9"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 30,
+						"rows": 12,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  This is a very \n\u001b[36m│\u001b[39m  long message that\n\u001b[36m│\u001b[39m   will wrap to \n\u001b[36m│\u001b[39m  multiple lines\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Option 0\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mOption 1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[10A",
+						"\u001b[5B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mOption 0\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Option 1\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[10A",
+						"\u001b[5B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Option 2\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[10A",
+						"\u001b[6B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Option 3",
+						"\u001b[4B",
+						"\u001b[999D\u001b[10A",
+						"\u001b[6B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Option 4",
+						"\u001b[4B",
+						"\u001b[999D\u001b[10A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  This is a very \n\u001b[32m│\u001b[39m  long message that\n\u001b[32m│\u001b[39m   will wrap to \n\u001b[32m│\u001b[39m  multiple lines\n\u001b[90m│\u001b[39m  \u001b[2mOption 4\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "select › correctly limits options with explicit multiline message",
+			"prompts": [
+				{
+					"kind": "select",
+					"opts": {
+						"message": "Choose an option:\nLine 2 of the message\nLine 3 of the message",
+						"options": [
+							{
+								"value": "opt0",
+								"label": "Option 0"
+							},
+							{
+								"value": "opt1",
+								"label": "Option 1"
+							},
+							{
+								"value": "opt2",
+								"label": "Option 2"
+							},
+							{
+								"value": "opt3",
+								"label": "Option 3"
+							},
+							{
+								"value": "opt4",
+								"label": "Option 4"
+							},
+							{
+								"value": "opt5",
+								"label": "Option 5"
+							},
+							{
+								"value": "opt6",
+								"label": "Option 6"
+							},
+							{
+								"value": "opt7",
+								"label": "Option 7"
+							},
+							{
+								"value": "opt8",
+								"label": "Option 8"
+							},
+							{
+								"value": "opt9",
+								"label": "Option 9"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 12,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Choose an option:\n\u001b[36m│\u001b[39m  Line 2 of the message\n\u001b[36m│\u001b[39m  Line 3 of the message\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Option 0\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mOption 1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mOption 2\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[10A",
+						"\u001b[4B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mOption 0\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Option 1\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mOption 2\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[10A",
+						"\u001b[5B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mOption 1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Option 2\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[10A",
+						"\u001b[4B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Option 3\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mOption 4\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[10A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Choose an option:\n\u001b[32m│\u001b[39m  Line 2 of the message\n\u001b[32m│\u001b[39m  Line 3 of the message\n\u001b[90m│\u001b[39m  \u001b[2mOption 3\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "select › down arrow selects next option",
+			"prompts": [
+				{
+					"kind": "select",
+					"opts": {
+						"message": "foo",
+						"options": [
+							{
+								"value": "opt0"
+							},
+							{
+								"value": "opt1"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m opt0\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mopt1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[6A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mopt0\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m opt1\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[6A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mopt1\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "select › global withGuide: false removes guide",
+			"prompts": [
+				{
+					"kind": "select",
+					"opts": {
+						"message": "foo",
+						"options": [
+							{
+								"value": "opt0"
+							},
+							{
+								"value": "opt1"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": false
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[36m◆\u001b[39m  foo\n\u001b[32m●\u001b[39m opt0\n\u001b[2m○\u001b[22m \u001b[2mopt1\u001b[22m\n\u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[2mopt0\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "select › handles mixed size re-renders",
+			"prompts": [
+				{
+					"kind": "select",
+					"opts": {
+						"message": "Whatever",
+						"options": [
+							{
+								"value": "longopt",
+								"label": "Long Option\nLong Option\nLong Option\nLong Option\nLong Option\nLong Option\nLong Option\nLong Option"
+							},
+							{
+								"value": "opt0",
+								"label": "Option 0"
+							},
+							{
+								"value": "opt1",
+								"label": "Option 1"
+							},
+							{
+								"value": "opt2",
+								"label": "Option 2"
+							},
+							{
+								"value": "opt3",
+								"label": "Option 3"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 10,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "up",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Whatever\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Long Option\n\u001b[36m│\u001b[39m  Long Option\n\u001b[36m│\u001b[39m  Long Option\n\u001b[36m│\u001b[39m  Long Option\n\u001b[36m│\u001b[39m  Long Option\n\u001b[36m│\u001b[39m  Long Option\n\u001b[36m│\u001b[39m  Long Option\n\u001b[36m│\u001b[39m  Long Option\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[13A",
+						"\u001b[J",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Whatever\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mOption 2\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Option 3\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[7A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Whatever\n\u001b[90m│\u001b[39m  \u001b[2mOption 3\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "select › maxItems accounts for instruction footer",
+			"prompts": [
+				{
+					"kind": "select",
+					"opts": {
+						"message": "foo",
+						"options": [
+							{
+								"value": "opt0"
+							},
+							{
+								"value": "opt1"
+							},
+							{
+								"value": "opt2"
+							},
+							{
+								"value": "opt3"
+							},
+							{
+								"value": "opt4"
+							},
+							{
+								"value": "opt5"
+							},
+							{
+								"value": "opt6"
+							},
+							{
+								"value": "opt7"
+							},
+							{
+								"value": "opt8"
+							},
+							{
+								"value": "opt9"
+							},
+							{
+								"value": "opt10"
+							},
+							{
+								"value": "opt11"
+							}
+						],
+						"maxItems": 6
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m opt0\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mopt1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mopt2\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mopt3\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mopt4\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[10A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mopt0\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m opt1\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mopt2\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mopt3\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mopt4\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[10A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mopt1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m opt2\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mopt3\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mopt4\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[10A",
+						"\u001b[4B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mopt2\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m opt3\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mopt4\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[10A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mopt2\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mopt3\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m opt4\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mopt5\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[10A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mopt3\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mopt4\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m opt5\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mopt6\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[10A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mopt4\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mopt5\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m opt6\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mopt7\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[10A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mopt6\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "select › renders disabled options",
+			"prompts": [
+				{
+					"kind": "select",
+					"opts": {
+						"message": "foo",
+						"options": [
+							{
+								"value": "opt0",
+								"label": "Option 0",
+								"disabled": true
+							},
+							{
+								"value": "opt1",
+								"label": "Option 1"
+							},
+							{
+								"value": "opt2",
+								"label": "Option 2",
+								"disabled": true,
+								"hint": "Hint 2"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[90m○\u001b[39m \u001b[90mOption 0\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Option 1\n\u001b[36m│\u001b[39m  \u001b[90m○\u001b[39m \u001b[90mOption 2\u001b[39m \u001b[2m(Hint 2)\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[7A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mOption 1\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "select › renders instructions without guide",
+			"prompts": [
+				{
+					"kind": "select",
+					"opts": {
+						"message": "foo",
+						"options": [
+							{
+								"value": "opt0"
+							},
+							{
+								"value": "opt1"
+							}
+						],
+						"withGuide": false
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[36m◆\u001b[39m  foo\n\u001b[32m●\u001b[39m opt0\n\u001b[2m○\u001b[22m \u001b[2mopt1\u001b[22m\n\u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[2mopt0\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "select › renders multi-line option labels",
+			"prompts": [
+				{
+					"kind": "select",
+					"opts": {
+						"message": "foo",
+						"options": [
+							{
+								"value": "opt0",
+								"label": "Option 0\nwith multiple lines"
+							},
+							{
+								"value": "opt1",
+								"label": "Option 1"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Option 0\n\u001b[36m│\u001b[39m  with multiple lines\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mOption 1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[7A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mOption 0\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2mwith multiple lines\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Option 1\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[7A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mOption 1\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "select › renders option hints",
+			"prompts": [
+				{
+					"kind": "select",
+					"opts": {
+						"message": "foo",
+						"options": [
+							{
+								"value": "opt0",
+								"hint": "Hint 0"
+							},
+							{
+								"value": "opt1",
+								"hint": "Hint 1"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m opt0 \u001b[2m(Hint 0)\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mopt1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[6A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mopt0\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "select › renders option labels",
+			"prompts": [
+				{
+					"kind": "select",
+					"opts": {
+						"message": "foo",
+						"options": [
+							{
+								"value": "opt0",
+								"label": "Option 0"
+							},
+							{
+								"value": "opt1",
+								"label": "Option 1"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Option 0\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mOption 1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[6A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mOption 0\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "select › renders options and message",
+			"prompts": [
+				{
+					"kind": "select",
+					"opts": {
+						"message": "foo",
+						"options": [
+							{
+								"value": "opt0"
+							},
+							{
+								"value": "opt1"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m opt0\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mopt1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[6A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mopt0\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "select › showInstructions: false hides instruction footer",
+			"prompts": [
+				{
+					"kind": "select",
+					"opts": {
+						"message": "foo",
+						"options": [
+							{
+								"value": "opt0"
+							},
+							{
+								"value": "opt1"
+							}
+						],
+						"showInstructions": false
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m opt0\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mopt1\u001b[22m\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[5A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mopt0\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "select › up arrow selects previous option",
+			"prompts": [
+				{
+					"kind": "select",
+					"opts": {
+						"message": "foo",
+						"options": [
+							{
+								"value": "opt0"
+							},
+							{
+								"value": "opt1"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "up",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m opt0\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mopt1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[6A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mopt0\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m opt1\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[6A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m opt0\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mopt1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[6A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mopt0\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "select › withGuide: false removes guide",
+			"prompts": [
+				{
+					"kind": "select",
+					"opts": {
+						"message": "foo",
+						"options": [
+							{
+								"value": "opt0"
+							},
+							{
+								"value": "opt1"
+							}
+						],
+						"withGuide": false
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[36m◆\u001b[39m  foo\n\u001b[32m●\u001b[39m opt0\n\u001b[2m○\u001b[22m \u001b[2mopt1\u001b[22m\n\u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[2mopt0\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "select › wraps long cancelled message",
+			"prompts": [
+				{
+					"kind": "select",
+					"opts": {
+						"message": "foo",
+						"options": [
+							{
+								"value": "opt0",
+								"label": "foo foo foo foo foo foo foo foo foo foo foo foo foo foo foo foo foo foo foo foo foo foo foo foo foo foo foo foo foo foo"
+							},
+							{
+								"value": "opt1",
+								"label": "Option 1"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 40,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "escape",
+							"key": {
+								"name": "escape",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m foo foo foo foo foo foo \n\u001b[36m│\u001b[39m  foo foo foo foo foo foo foo\n\u001b[36m│\u001b[39m   foo foo foo foo foo foo \n\u001b[36m│\u001b[39m  foo foo foo foo foo foo foo\n\u001b[36m│\u001b[39m   foo foo foo foo\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mOption 1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[10A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[31m■\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[9m\u001b[2mfoo foo foo foo foo foo foo\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2m foo foo foo foo foo foo \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mfoo foo foo foo foo foo foo\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2m foo foo foo foo foo foo \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mfoo foo foo foo\u001b[22m\u001b[29m\n\u001b[90m│\u001b[39m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "select › wraps long messages",
+			"prompts": [
+				{
+					"kind": "select",
+					"opts": {
+						"message": "foo foo foo foo foo foo foo foo foo foo foo foo foo foo foo foo foo foo foo foo",
+						"options": [
+							{
+								"value": "opt0"
+							},
+							{
+								"value": "opt1"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 40,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo foo foo foo foo foo foo\n\u001b[36m│\u001b[39m   foo foo foo foo foo foo \n\u001b[36m│\u001b[39m  foo foo foo foo foo foo foo\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m opt0\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mopt1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[8A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo foo foo foo foo foo foo\n\u001b[32m│\u001b[39m   foo foo foo foo foo foo \n\u001b[32m│\u001b[39m  foo foo foo foo foo foo foo\n\u001b[90m│\u001b[39m  \u001b[2mopt0\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "select › wraps long results",
+			"prompts": [
+				{
+					"kind": "select",
+					"opts": {
+						"message": "foo",
+						"options": [
+							{
+								"value": "opt0",
+								"label": "foo foo foo foo foo foo foo foo foo foo foo foo foo foo foo foo foo foo foo foo foo foo foo foo foo foo foo foo foo foo"
+							},
+							{
+								"value": "opt1",
+								"label": "Option 1"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 40,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m foo foo foo foo foo foo \n\u001b[36m│\u001b[39m  foo foo foo foo foo foo foo\n\u001b[36m│\u001b[39m   foo foo foo foo foo foo \n\u001b[36m│\u001b[39m  foo foo foo foo foo foo foo\n\u001b[36m│\u001b[39m   foo foo foo foo\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mOption 1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[10A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mfoo foo foo foo foo foo foo\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2m foo foo foo foo foo foo \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mfoo foo foo foo foo foo foo\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2m foo foo foo foo foo foo \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mfoo foo foo foo\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		}
+	]
+}

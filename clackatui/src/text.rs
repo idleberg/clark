@@ -146,7 +146,7 @@ impl Text {
 		let theme = self.theme.unwrap_or_else(Theme::clack);
 		let with_guide = self.with_guide;
 
-		Session::new(prompt, move |prompt, _columns| {
+		Session::new(prompt, move |prompt, _columns, _rows| {
 			let mut widget = TextWidget::new(prompt, &message).with_theme(&theme);
 			if let Some(placeholder) = &placeholder {
 				widget = widget.with_placeholder(placeholder);
