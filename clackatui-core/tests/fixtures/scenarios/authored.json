@@ -1,0 +1,2822 @@
+{
+	"source": "scripts/authored/cases.mjs",
+	"tag": "@clack/prompts@1.7.0",
+	"commit": "dc5bce8aae84a57b5863124adfaa839c1db1fa23",
+	"describe": "@clack/core@1.4.3",
+	"node": "24.20.0",
+	"generatedBy": "scripts/harvest-authored.mjs",
+	"scenarios": [
+		{
+			"name": "cjk › a wide message and a wide value",
+			"prompts": [
+				{
+					"kind": "text",
+					"opts": {
+						"message": "新しいパッケージの名前は何ですか"
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "日",
+							"key": {
+								"name": "日",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "本",
+							"key": {
+								"name": "本",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "語",
+							"key": {
+								"name": "語",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  新しいパッケージの名前は何ですか\n\u001b[36m│\u001b[39m  \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  日█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  日本█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  日本語█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  新しいパッケージの名前は何ですか\n\u001b[90m│\u001b[39m  \u001b[2m日本語\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "cjk › a wide message wraps where a character cannot split",
+			"prompts": [
+				{
+					"kind": "text",
+					"opts": {
+						"message": "新しいパッケージの名前を入力してください、よろしくお願いします"
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 40
+					},
+					"keys": [
+						{
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "c",
+							"key": {
+								"name": "c",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "m",
+							"key": {
+								"name": "m",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  新しいパッケージの名前を入力してくだ\nさい、よろしくお願いします\n\u001b[36m│\u001b[39m  \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  a█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  ac█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  acm█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  acme█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  新しいパッケージの名前を入力してくだ\nさい、よろしくお願いします\n\u001b[90m│\u001b[39m  \u001b[2macme\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "cjk › a wide value wraps",
+			"prompts": [
+				{
+					"kind": "text",
+					"opts": {
+						"message": "Name"
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 20
+					},
+					"keys": [
+						{
+							"s": "日",
+							"key": {
+								"name": "日",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "本",
+							"key": {
+								"name": "本",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "語",
+							"key": {
+								"name": "語",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "テ",
+							"key": {
+								"name": "テ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "キ",
+							"key": {
+								"name": "キ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "ス",
+							"key": {
+								"name": "ス",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "ト",
+							"key": {
+								"name": "ト",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "の",
+							"key": {
+								"name": "の",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "入",
+							"key": {
+								"name": "入",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "力",
+							"key": {
+								"name": "力",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Name\n\u001b[36m│\u001b[39m  \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  日█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  日本█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  日本語█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  日本語テ█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  日本語テキ█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  日本語テキス█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  日本語テキスト█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  日本語テキストの█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \n日本語テキストの入█\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  日本語テキストの\n入力█\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[5A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Name\n\u001b[90m│\u001b[39m  \n\u001b[2m日本語テキストの入力\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "narrow › a cancelled value wraps",
+			"prompts": [
+				{
+					"kind": "text",
+					"opts": {
+						"message": "Path"
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 40
+					},
+					"keys": [
+						{
+							"s": "p",
+							"key": {
+								"name": "p",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "c",
+							"key": {
+								"name": "c",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "k",
+							"key": {
+								"name": "k",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "g",
+							"key": {
+								"name": "g",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "s",
+							"key": {
+								"name": "s",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "/",
+							"key": {
+								"name": "/",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "p",
+							"key": {
+								"name": "p",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "r",
+							"key": {
+								"name": "r",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "o",
+							"key": {
+								"name": "o",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "m",
+							"key": {
+								"name": "m",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "p",
+							"key": {
+								"name": "p",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "t",
+							"key": {
+								"name": "t",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "s",
+							"key": {
+								"name": "s",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "/",
+							"key": {
+								"name": "/",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "s",
+							"key": {
+								"name": "s",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "r",
+							"key": {
+								"name": "r",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "c",
+							"key": {
+								"name": "c",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "/",
+							"key": {
+								"name": "/",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "p",
+							"key": {
+								"name": "p",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "r",
+							"key": {
+								"name": "r",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "o",
+							"key": {
+								"name": "o",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "m",
+							"key": {
+								"name": "m",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "p",
+							"key": {
+								"name": "p",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "t",
+							"key": {
+								"name": "t",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "s",
+							"key": {
+								"name": "s",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "/",
+							"key": {
+								"name": "/",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "t",
+							"key": {
+								"name": "t",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "x",
+							"key": {
+								"name": "x",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "t",
+							"key": {
+								"name": "t",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "-",
+							"key": {
+								"name": "-",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "i",
+							"key": {
+								"name": "i",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "n",
+							"key": {
+								"name": "n",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "p",
+							"key": {
+								"name": "p",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "u",
+							"key": {
+								"name": "u",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "t",
+							"key": {
+								"name": "t",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": ".",
+							"key": {
+								"name": ".",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "t",
+							"key": {
+								"name": "t",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "s",
+							"key": {
+								"name": "s",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "escape",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Path\n\u001b[36m│\u001b[39m  \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  p█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  pa█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  pac█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  pack█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packa█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packag█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  package█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/p█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/pr█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/pro█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prom█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/promp█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompt█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/s█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/sr█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/p█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/pr█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/pro█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prom█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/promp█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prompt█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prompts█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prompts/█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prompts/t█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prompts/te█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prompts/tex█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prompts/text█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prompts/text-█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prompts/text-i█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prompts/text-in█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \npackages/prompts/src/prompts/text-inp█\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"packages/prompts/src/prompts/text-inpu█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"packages/prompts/src/prompts/text-input█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prompts/text-inp\nut.█\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"ut.t█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"ut.ts█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[31m■\u001b[39m  Path\n\u001b[90m│\u001b[39m  \u001b[9m\u001b[2mpackages/prompts/src/prompts/text-inp\u001b[22m\n\u001b[2mut.ts\u001b[22m\u001b[29m\n\u001b[90m│\u001b[39m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "narrow › deleting back across the wrap",
+			"prompts": [
+				{
+					"kind": "text",
+					"opts": {
+						"message": "Path"
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 40
+					},
+					"keys": [
+						{
+							"s": "p",
+							"key": {
+								"name": "p",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "c",
+							"key": {
+								"name": "c",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "k",
+							"key": {
+								"name": "k",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "g",
+							"key": {
+								"name": "g",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "s",
+							"key": {
+								"name": "s",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "/",
+							"key": {
+								"name": "/",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "p",
+							"key": {
+								"name": "p",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "r",
+							"key": {
+								"name": "r",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "o",
+							"key": {
+								"name": "o",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "m",
+							"key": {
+								"name": "m",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "p",
+							"key": {
+								"name": "p",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "t",
+							"key": {
+								"name": "t",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "s",
+							"key": {
+								"name": "s",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "/",
+							"key": {
+								"name": "/",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "s",
+							"key": {
+								"name": "s",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "r",
+							"key": {
+								"name": "r",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "c",
+							"key": {
+								"name": "c",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "/",
+							"key": {
+								"name": "/",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "p",
+							"key": {
+								"name": "p",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "r",
+							"key": {
+								"name": "r",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "o",
+							"key": {
+								"name": "o",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "m",
+							"key": {
+								"name": "m",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "p",
+							"key": {
+								"name": "p",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "t",
+							"key": {
+								"name": "t",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "s",
+							"key": {
+								"name": "s",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "/",
+							"key": {
+								"name": "/",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "t",
+							"key": {
+								"name": "t",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "x",
+							"key": {
+								"name": "x",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "t",
+							"key": {
+								"name": "t",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "-",
+							"key": {
+								"name": "-",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "i",
+							"key": {
+								"name": "i",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "n",
+							"key": {
+								"name": "n",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "p",
+							"key": {
+								"name": "p",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "u",
+							"key": {
+								"name": "u",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "t",
+							"key": {
+								"name": "t",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": ".",
+							"key": {
+								"name": ".",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "t",
+							"key": {
+								"name": "t",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "s",
+							"key": {
+								"name": "s",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "backspace",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "backspace",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "backspace",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "backspace",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "backspace",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "backspace",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "backspace",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "backspace",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "backspace",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "backspace",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "backspace",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "backspace",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "backspace",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "backspace",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "backspace",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "backspace",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "backspace",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "backspace",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "backspace",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "backspace",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "backspace",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "backspace",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Path\n\u001b[36m│\u001b[39m  \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  p█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  pa█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  pac█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  pack█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packa█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packag█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  package█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/p█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/pr█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/pro█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prom█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/promp█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompt█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/s█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/sr█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/p█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/pr█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/pro█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prom█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/promp█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prompt█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prompts█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prompts/█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prompts/t█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prompts/te█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prompts/tex█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prompts/text█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prompts/text-█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prompts/text-i█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prompts/text-in█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \npackages/prompts/src/prompts/text-inp█\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"packages/prompts/src/prompts/text-inpu█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"packages/prompts/src/prompts/text-input█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prompts/text-inp\nut.█\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"ut.t█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"ut.ts█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"ut.t█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"ut.█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \npackages/prompts/src/prompts/text-input█\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"packages/prompts/src/prompts/text-inpu█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"packages/prompts/src/prompts/text-inp█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prompts/text-in█\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prompts/text-i█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prompts/text-█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prompts/text█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prompts/tex█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prompts/te█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prompts/t█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prompts/█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prompts█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prompt█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/promp█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prom█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/pro█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/pr█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/p█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Path\n\u001b[90m│\u001b[39m  \u001b[2mpackages/prompts/src\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "narrow › the message wraps",
+			"prompts": [
+				{
+					"kind": "text",
+					"opts": {
+						"message": "What is the name of the package you would like to publish?"
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 40
+					},
+					"keys": [
+						{
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "c",
+							"key": {
+								"name": "c",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "m",
+							"key": {
+								"name": "m",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  What is the name of the package you \nwould like to publish?\n\u001b[36m│\u001b[39m  \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  a█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  ac█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  acm█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  acme█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  What is the name of the package you \nwould like to publish?\n\u001b[90m│\u001b[39m  \u001b[2macme\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "narrow › the value wraps as it is typed",
+			"prompts": [
+				{
+					"kind": "text",
+					"opts": {
+						"message": "Path"
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 40
+					},
+					"keys": [
+						{
+							"s": "p",
+							"key": {
+								"name": "p",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "c",
+							"key": {
+								"name": "c",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "k",
+							"key": {
+								"name": "k",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "g",
+							"key": {
+								"name": "g",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "s",
+							"key": {
+								"name": "s",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "/",
+							"key": {
+								"name": "/",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "p",
+							"key": {
+								"name": "p",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "r",
+							"key": {
+								"name": "r",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "o",
+							"key": {
+								"name": "o",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "m",
+							"key": {
+								"name": "m",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "p",
+							"key": {
+								"name": "p",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "t",
+							"key": {
+								"name": "t",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "s",
+							"key": {
+								"name": "s",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "/",
+							"key": {
+								"name": "/",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "s",
+							"key": {
+								"name": "s",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "r",
+							"key": {
+								"name": "r",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "c",
+							"key": {
+								"name": "c",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "/",
+							"key": {
+								"name": "/",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "p",
+							"key": {
+								"name": "p",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "r",
+							"key": {
+								"name": "r",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "o",
+							"key": {
+								"name": "o",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "m",
+							"key": {
+								"name": "m",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "p",
+							"key": {
+								"name": "p",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "t",
+							"key": {
+								"name": "t",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "s",
+							"key": {
+								"name": "s",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "/",
+							"key": {
+								"name": "/",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "t",
+							"key": {
+								"name": "t",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "x",
+							"key": {
+								"name": "x",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "t",
+							"key": {
+								"name": "t",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "-",
+							"key": {
+								"name": "-",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "i",
+							"key": {
+								"name": "i",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "n",
+							"key": {
+								"name": "n",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "p",
+							"key": {
+								"name": "p",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "u",
+							"key": {
+								"name": "u",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "t",
+							"key": {
+								"name": "t",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": ".",
+							"key": {
+								"name": ".",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "t",
+							"key": {
+								"name": "t",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "s",
+							"key": {
+								"name": "s",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Path\n\u001b[36m│\u001b[39m  \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  p█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  pa█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  pac█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  pack█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packa█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packag█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  package█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/p█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/pr█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/pro█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prom█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/promp█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompt█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/s█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/sr█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/p█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/pr█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/pro█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prom█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/promp█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prompt█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prompts█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prompts/█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prompts/t█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prompts/te█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prompts/tex█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prompts/text█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prompts/text-█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prompts/text-i█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prompts/text-in█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \npackages/prompts/src/prompts/text-inp█\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"packages/prompts/src/prompts/text-inpu█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"packages/prompts/src/prompts/text-input█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  packages/prompts/src/prompts/text-inp\nut.█\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"ut.t█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"ut.ts█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Path\n\u001b[90m│\u001b[39m  \u001b[2mpackages/prompts/src/prompts/text-inp\u001b[22m\n\u001b[2mut.ts\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		}
+	]
+}

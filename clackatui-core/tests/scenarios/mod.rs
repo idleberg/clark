@@ -1,4 +1,4 @@
-//! The harvested `text` Scenarios, read back out of the Fixture.
+//! The `text` Scenarios, read back out of the Fixtures.
 //!
 //! Shared by `scenario_replay.rs` and `scenario_parity.rs` rather than duplicated: the two ask
 //! different questions of the same recording, and a Scenario that one of them reads differently
@@ -8,6 +8,14 @@
 //! of keys, a terminal size — plus the bytes clack wrote back, verbatim, exactly as CONTEXT.md
 //! defines a Fixture. What those bytes *mean* is decided on the Rust side, by whichever test is
 //! asking.
+//!
+//! # Two Fixtures, one shape
+//!
+//! [`harvested`] is clack's own test suite, recorded while it passed its own snapshots. [`authored`]
+//! is `scripts/authored/cases.mjs`, written because upstream's tests never vary the terminal and so
+//! can say nothing about wrapping. They are recorded by different scripts and carry different
+//! evidence behind them — ADR-0016 — but they are the same shape and are read the same way, and
+//! [`all`] is what the tests run over.
 
 #![allow(dead_code)]
 
@@ -16,7 +24,8 @@ use clackatui_core::prompt::Prompt;
 use clackatui_core::session::Session;
 use clackatui_core::text::{TextState, TextWidget};
 
-const FIXTURE: &str = include_str!("../fixtures/scenarios/text.json");
+const HARVESTED: &str = include_str!("../fixtures/scenarios/text.json");
+const AUTHORED: &str = include_str!("../fixtures/scenarios/authored.json");
 
 /// The tag `README.md` names. A fixture from anywhere else is not the thing we claim parity with.
 pub const TAG: &str = "@clack/prompts@1.7.0";
@@ -30,9 +39,13 @@ pub struct Scenario {
 	pub initial_value: Option<String>,
 	/// `opts.withGuide`, which falls back to `settings.withGuide` when absent.
 	pub with_guide: bool,
-	/// The terminal clack wrapped its Frames to.
+	/// The width clack wrapped its Frames to — `process.stdout.columns`, recorded as
+	/// `terminal.stdout`, not the `columns` the Prompt's own stream reports. `Prompt.render` reads
+	/// the global and ignores the stream, so the stream's number is the wrong one to wrap by; a
+	/// Fixture recorded before that was noticed falls back to it rather than guessing.
 	pub columns: usize,
-	/// Its height, which is a separate number for the reason `Emitter::frame` gives.
+	/// Its height, which is a separate number for the reason `Emitter::frame` gives — that one
+	/// *does* come from the Prompt's own stream.
 	pub rows: usize,
 	/// Upstream passed a `validate` callback, which a recording cannot carry across.
 	pub validates: bool,
@@ -49,9 +62,27 @@ pub struct Recorded {
 	pub sequence: Option<String>,
 }
 
-pub fn fixture() -> (serde_json::Value, Vec<Scenario>) {
+/// Clack's own test suite, recorded while it passed its own snapshots.
+pub fn harvested() -> (serde_json::Value, Vec<Scenario>) {
+	parse(HARVESTED, "fixtures/scenarios/text.json")
+}
+
+/// The hand-authored cases: the widths upstream never varies. See ADR-0016.
+pub fn authored() -> (serde_json::Value, Vec<Scenario>) {
+	parse(AUTHORED, "fixtures/scenarios/authored.json")
+}
+
+/// Every Scenario there is. Which Fixture one came from is a question about the evidence behind it,
+/// not about what the port owes it, so the tests do not ask.
+pub fn all() -> Vec<Scenario> {
+	let (_, mut scenarios) = harvested();
+	scenarios.extend(authored().1);
+	scenarios
+}
+
+fn parse(source: &str, path: &str) -> (serde_json::Value, Vec<Scenario>) {
 	let json: serde_json::Value =
-		serde_json::from_str(FIXTURE).expect("fixtures/scenarios/text.json parses");
+		serde_json::from_str(source).unwrap_or_else(|_| panic!("{path} parses"));
 
 	let scenarios = json["scenarios"]
 		.as_array()
@@ -82,7 +113,10 @@ pub fn fixture() -> (serde_json::Value, Vec<Scenario>) {
 					.as_bool()
 					.or_else(|| run["settings"]["withGuide"].as_bool())
 					.unwrap_or(true),
-				columns: run["terminal"]["columns"].as_u64().unwrap_or(80) as usize,
+				columns: run["terminal"]["stdout"]
+					.as_u64()
+					.or_else(|| run["terminal"]["columns"].as_u64())
+					.unwrap_or(80) as usize,
 				rows: run["terminal"]["rows"].as_u64().unwrap_or(20) as usize,
 				validates: opts["validate"]["callback"].as_bool() == Some(true),
 				keys: run["keys"]

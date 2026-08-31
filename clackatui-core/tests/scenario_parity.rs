@@ -23,13 +23,20 @@
 //!
 //! # What is still missing
 //!
-//! The Scenarios themselves. Thirteen are harvested and ten can be replayed, but every one of them
-//! runs at 80 columns and none resizes, so the wrap and the re-layout paths — the two places
-//! `session.rs` records a known divergence — reach this comparison untested. The hand-authored
-//! Scenarios README promises are what close that, and this file is what they will be run through.
+//! Not the wrap, any more. Seventeen Scenarios reach this comparison: ten replayable ones harvested
+//! from clack's own suite, all at 80 columns because upstream's tests never vary the terminal, and
+//! seven hand-authored ones written to reach the widths a harvest cannot supply — 40 and 20
+//! columns, CJK text, a wrap that grows as a value is typed and shrinks again as it is deleted
+//! (ADR-0016).
+//!
+//! What is left is the resize. A Scenario carries one terminal size for its whole life, so the
+//! other divergence `session.rs` records — upstream re-wraps the previous Frame to count the rows
+//! it walks back over, the Emitter keeps the rows it laid out, and the two agree unless the
+//! terminal *narrows* — has no recording behind it either way. That needs a resize to be an event
+//! in the Fixture rather than a number at the top of it.
 
 mod scenarios;
-use scenarios::fixture;
+use scenarios::all;
 
 use avt::{Cell, Vt};
 
@@ -51,7 +58,7 @@ impl Grid {
 	fn text(&self) -> String {
 		self.rows
 			.iter()
-			.map(|cells| cells.iter().map(Cell::char).collect::<String>())
+			.map(|cells| characters(cells))
 			.collect::<Vec<_>>()
 			.join("\n")
 	}
@@ -73,7 +80,7 @@ fn grid(stream: &str, columns: usize, rows: usize) -> Grid {
 /// The one that matters.
 #[test]
 fn every_scenario_leaves_the_terminal_the_way_clack_left_it() {
-	let (_, scenarios) = fixture();
+	let scenarios = all();
 	let mut failures = Vec::new();
 	let mut compared = 0;
 
@@ -86,10 +93,12 @@ fn every_scenario_leaves_the_terminal_the_way_clack_left_it() {
 		let ours = grid(&scenario.replay(), scenario.columns, scenario.rows);
 
 		// Two blank terminals are equal, so a Scenario whose stream never reached the emulator
-		// would agree for free. clack's side is asserted to have drawn the message it was given.
+		// would agree for free. clack's side is asserted to have drawn the message it was given —
+		// in order, but not necessarily unbroken, because a narrow terminal wraps it across rows.
 		assert!(
-			theirs.text().contains(&scenario.message),
-			"{}: clack's stream left no message on the terminal, so there is nothing to compare",
+			drew(&theirs.text(), &scenario.message),
+			"{}: clack's stream did not leave this Scenario's message on the terminal, so there is \
+			 nothing to compare",
 			scenario.name
 		);
 
@@ -113,9 +122,22 @@ fn every_scenario_leaves_the_terminal_the_way_clack_left_it() {
 	);
 
 	assert!(
-		compared >= 10,
-		"only {compared} Scenarios were compared; the fixture has stopped carrying them"
+		compared >= 17,
+		"only {compared} Scenarios were compared; the fixtures have stopped carrying them"
 	);
+}
+
+/// Whether the terminal holds `message`, allowing for the row breaks a wrap puts through it.
+///
+/// A subsequence rather than a substring: a wrap inserts a break inside the message and may eat the
+/// space it broke at, so `contains` only works at a width nothing reaches. It stays a real check on
+/// *this* Scenario having been drawn — the characters have to be there, in order — rather than
+/// softening to "something was written".
+fn drew(terminal: &str, message: &str) -> bool {
+	let mut written = terminal.chars();
+	message
+		.chars()
+		.all(|wanted| written.any(|drawn| drawn == wanted))
 }
 
 /// Two Grids, with the parts that agree left out.
@@ -169,10 +191,23 @@ fn difference(theirs: &Grid, ours: &Grid) -> String {
 	out.join("\n")
 }
 
+/// The characters of a row, read once each.
+///
+/// A wide character occupies two cells and `avt` stores it in both, so taking `char` from every
+/// cell would read it twice — which is only visible when a Scenario has wide characters in it, and
+/// so was invisible until the hand-authored ones arrived. The tail cell is the one with no width of
+/// its own. The comparison itself is unaffected: it is over whole `Cell`s, occupancy included.
+fn characters(cells: &[Cell]) -> String {
+	cells
+		.iter()
+		.filter(|cell| cell.width() > 0)
+		.map(Cell::char)
+		.collect()
+}
+
 /// A row as text, with the trailing blanks cut off so that a failure fits on a line.
 fn row(cells: &[Cell]) -> String {
-	let text: String = cells.iter().map(Cell::char).collect();
-	format!("{:?}", text.trim_end())
+	format!("{:?}", characters(cells).trim_end())
 }
 
 fn shown(visible: bool) -> &'static str {

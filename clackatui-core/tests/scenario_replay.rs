@@ -1,8 +1,11 @@
-//! The `text` Scenarios, harvested from clack's own test suite by `scripts/harvest-scenarios.mjs`.
+//! The `text` Scenarios, read back out of their recordings.
 //!
 //! ADR-0003 makes upstream's tests the specification: each of them is a Prompt configuration, a
-//! sequence of keypresses, and the output clack wrote back. ADR-0010 describes how they are caught.
-//! The recording is what this file reads; no JavaScript runs here, for the reasons ADR-0008 gives.
+//! sequence of keypresses, and the output clack wrote back. ADR-0010 describes how they are caught,
+//! by `scripts/harvest-scenarios.mjs`. Seven more are hand-authored, because upstream's tests never
+//! vary the terminal and so can say nothing about a wrap; ADR-0016 describes what that costs and
+//! what stands in for the oracle a harvest has. The recordings are what this file reads; no
+//! JavaScript runs here, for the reasons ADR-0008 gives.
 //!
 //! No emulator runs here either. That is `scenario_parity.rs`, which is where the Grid comparison
 //! ADR-0001 asks for lives. What is left in this file is the set of checks that read the recording
@@ -30,7 +33,7 @@ use clackatui_core::prompt::Status;
 use ratatui_core::style::{Color, Modifier, Style};
 
 mod scenarios;
-use scenarios::{TAG, fixture};
+use scenarios::{TAG, all, authored, harvested};
 
 /// The state clack was in when it drew its last frame, read off the step symbol it prints.
 ///
@@ -54,7 +57,7 @@ fn settled(output: &[String]) -> Option<Status> {
 /// disagreement rather than the first.
 #[test]
 fn every_scenario_settles_the_way_clack_settled() {
-	let (_, scenarios) = fixture();
+	let scenarios = all();
 	let mut failures = Vec::new();
 	let mut replayed = 0;
 
@@ -112,11 +115,18 @@ fn every_scenario_settles_the_way_clack_settled() {
 /// Scenario, including the ones a recording cannot replay; and it compares styles the emulator has
 /// no model for, conceal in particular, which is exactly the attribute clack's empty placeholder is
 /// drawn with.
+///
+/// What it cannot do is a Scenario whose opening Frame wraps. What clack recorded is post-wrap —
+/// `render` wraps the Frame to the terminal before it writes it (ADR-0012) — and the port's side
+/// here is a [`Frame`], which is pre-wrap by definition; laying it out is `Frame::rows`, which is
+/// the Emitter's and not public. Those Scenarios are left to the Grid, which sees the same rows
+/// clack wrote, and counted here so that "left to the Grid" cannot quietly become "left out".
 #[test]
 fn every_scenario_draws_clacks_opening_frame() {
-	let (_, scenarios) = fixture();
+	let scenarios = all();
 	let mut failures = Vec::new();
 	let mut compared = 0;
+	let mut wrapped = 0;
 
 	for scenario in &scenarios {
 		let Some(recorded) = opening_frame(&scenario.output) else {
@@ -126,25 +136,18 @@ fn every_scenario_draws_clacks_opening_frame() {
 
 		let prompt = scenario.prompt();
 		let widget = scenario.widget(&prompt);
-
-		compared += 1;
 		let frame = widget.frame();
 
-		// What clack recorded is post-wrap: `render` wraps the Frame to the terminal before it
-		// writes it (ADR-0012). Comparing an unwrapped Frame against it is only sound while no line
-		// reaches the margin, which at 80 columns none of the harvested Scenarios does. The
-		// hand-authored narrow ones will need the rows compared instead.
-		for (index, line) in frame.lines.iter().enumerate() {
-			assert!(
-				line.width() <= scenario.columns,
-				"{}: line {index} is {} columns wide in a terminal of {}, so clack wrapped it and \
-				 this comparison no longer holds",
-				scenario.name,
-				line.width(),
-				scenario.columns,
-			);
+		if frame
+			.lines
+			.iter()
+			.any(|line| line.width() > scenario.columns)
+		{
+			wrapped += 1;
+			continue;
 		}
 
+		compared += 1;
 		let ours = flatten(&frame);
 		let theirs = parse(recorded);
 		if ours != theirs {
@@ -163,8 +166,16 @@ fn every_scenario_draws_clacks_opening_frame() {
 	);
 
 	assert!(
-		compared >= 13,
-		"only {compared} Frames were compared; the fixture has stopped carrying them"
+		compared >= 18,
+		"only {compared} Frames were compared; the fixtures have stopped carrying them"
+	);
+
+	// The hand-authored Fixture exists to reach a wrap, so at least one of its Scenarios has to be
+	// past this test's reach. If none is, it is not testing what it was written for.
+	assert!(
+		wrapped >= 2,
+		"{wrapped} opening Frames were too wide to compare unwrapped; the authored Scenarios have \
+		 stopped wrapping"
 	);
 }
 
@@ -187,7 +198,7 @@ fn every_scenario_draws_clacks_opening_frame() {
 /// is the right question: cursor movement, erasure, and text.
 #[test]
 fn every_scenario_is_written_the_way_clack_wrote_it() {
-	let (_, scenarios) = fixture();
+	let scenarios = all();
 	let mut failures = Vec::new();
 	let mut compared = 0;
 
@@ -404,8 +415,8 @@ fn the_sgr_table_reads_the_theme_back() {
 
 /// A fixture is only worth trusting if it is complete. These guard the recording, not the port.
 #[test]
-fn the_fixture_is_a_plausible_recording() {
-	let (json, scenarios) = fixture();
+fn the_harvested_fixture_is_a_plausible_recording() {
+	let (json, scenarios) = harvested();
 
 	assert_eq!(
 		json["tag"].as_str(),
@@ -465,4 +476,76 @@ fn the_fixture_is_a_plausible_recording() {
 
 	let keyless = scenarios.iter().filter(|s| s.keys.is_empty()).count();
 	assert_eq!(keyless, 1, "Scenarios that send no keypresses");
+}
+
+/// The hand-authored Fixture, guarded rather harder than the harvested one — for the reason
+/// ADR-0016 gives, it has no upstream snapshot behind it.
+///
+/// The recording is made by pinning `process.stdout.columns`, which is a thing done to the
+/// environment rather than observed in it, and which nothing downstream would notice if it stopped
+/// working: the Scenarios would quietly become seven more 80-column cases and go on passing. So the
+/// check is that clack's own bytes show the width it was told about — no row of an opening Frame
+/// wider than the Scenario says the terminal is.
+#[test]
+fn the_authored_fixture_records_the_widths_it_claims() {
+	let (json, scenarios) = authored();
+
+	assert_eq!(
+		json["tag"].as_str(),
+		Some(TAG),
+		"the authored Fixture was recorded from a clack other than the harvested one, so the two \
+		 are being compared side by side against different upstreams"
+	);
+
+	assert!(
+		scenarios.len() >= 7,
+		"the authored Fixture has shrunk to {} Scenarios",
+		scenarios.len()
+	);
+
+	// The point of the whole Fixture: it has to reach widths the harvest cannot.
+	let narrow = scenarios.iter().filter(|s| s.columns < 80).count();
+	assert!(
+		narrow >= 4,
+		"only {narrow} authored Scenarios are narrower than the harvest's 80 columns, which is \
+		 what this Fixture exists for"
+	);
+
+	for scenario in &scenarios {
+		assert!(
+			scenario.is_replayable(),
+			"{}: not replayable",
+			scenario.name
+		);
+
+		let opening = opening_frame(&scenario.output)
+			.unwrap_or_else(|| panic!("{}: no opening Frame", scenario.name));
+
+		for line in strip_sgr(opening).lines() {
+			assert!(
+				clackatui_core::width::width(line) <= scenario.columns,
+				"{}: clack wrote a {}-column row into a {}-column terminal, so the recording was \
+				 not made at the width it claims: {}",
+				scenario.name,
+				clackatui_core::width::width(line),
+				scenario.columns,
+				readable(line),
+			);
+		}
+	}
+
+	// And at least one of them has to have actually wrapped, or the widths above are satisfied by
+	// Scenarios that were simply too short to reach the edge.
+	let wrapped = scenarios.iter().any(|scenario| {
+		opening_frame(&scenario.output).is_some_and(|opening| {
+			strip_sgr(opening)
+				.lines()
+				.any(|line| clackatui_core::width::width(line) > scenario.columns - 4)
+		})
+	});
+	assert!(
+		wrapped,
+		"no authored Scenario has a row anywhere near its terminal's width, so none of them \
+		 exercises the wrap this Fixture exists to test"
+	);
 }

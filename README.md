@@ -38,9 +38,15 @@ position.** That is the comparison [ADR-0001](./docs/adr/0001-parity-is-measured
 built around and the thing M1 existed to reach. One requirement in it cannot be met — no emulator
 models conceal, which is half of how clack draws its text cursor — so the Grid runs beside the
 Frame-level style comparison rather than replacing it
-([ADR-0015](./docs/adr/0015-the-emulator-is-avt-and-it-cannot-see-conceal.md)). What is left of M1
-is Scenarios rather than machinery: every harvested one runs at 80 columns and none resizes, so the
-wrap and re-layout paths reach the Grid untested.
+([ADR-0015](./docs/adr/0015-the-emulator-is-avt-and-it-cannot-see-conceal.md)). Upstream's tests
+never vary the terminal, so seven more Scenarios are hand-authored against the same clack — 40 and
+20 columns, CJK text, a wrap that grows as a value is typed and shrinks again as it is deleted — and
+**all seventeen agree**. Recording them turned up the width clack really wraps to, which is not the
+one the Recorder had been writing down
+([ADR-0016](./docs/adr/0016-hand-authored-scenarios-and-the-width-clack-actually-wraps-to.md)). What
+is left of M1 is the resize: a Scenario carries one terminal size for its whole life, so the second
+divergence [ADR-0014](./docs/adr/0014-the-sequence-is-a-compatibility-surface.md) records has no
+recording behind it either way.
 See
 [CONTEXT.md](./CONTEXT.md) for the vocabulary and [docs/adr/](./docs/adr/) for the decisions behind
 the shape below.
@@ -113,12 +119,17 @@ not two.
 Three layers.
 
 1. **Prompt Scenarios** — harvested from clack's own test suite, plus hand-authored coverage of what
-   upstream never varies: narrow and wide terminals, mid-Prompt resize, CJK and emoji input, long
-   values. `cargo test` replays both the recorded Fixture and the port's own bytes through one
-   emulator (`avt`) and compares Grids — characters, styles and cursor position. `node
-   scripts/harvest-scenarios.mjs text` is the Recorder; it runs clack's suite from outside the
-   checkout and refuses unless that checkout is at the pinned tag
-   ([ADR-0010](./docs/adr/0010-the-recorder-instruments-clacks-suite-from-outside-it.md)).
+   upstream never varies: narrow terminals, CJK input, long values. `cargo test` replays both the
+   recorded Fixture and the port's own bytes through one emulator (`avt`) and compares Grids —
+   characters, styles and cursor position. Two Recorders write the Fixtures, both refusing unless
+   the clack checkout is at the pinned tag: `node scripts/harvest-scenarios.mjs text` runs clack's
+   suite from outside the checkout
+   ([ADR-0010](./docs/adr/0010-the-recorder-instruments-clacks-suite-from-outside-it.md)), and `node
+   scripts/harvest-authored.mjs` runs `scripts/authored/cases.mjs`, which has no upstream snapshot
+   behind it and so is guarded differently
+   ([ADR-0016](./docs/adr/0016-hand-authored-scenarios-and-the-width-clack-actually-wraps-to.md)).
+   Still missing: a mid-Prompt resize, which needs a shape the Fixture does not have yet, and emoji
+   at a margin.
 
    Two narrower comparisons run beside the Grid and are not redundant with it, because each catches
    mutations the other misses
@@ -159,7 +170,7 @@ upstream drift.
 | | |
 |---|---|
 | **M0** | ~~`ForcedWidth` probe — the one experiment the architecture rests on (below)~~ **done** |
-| **M1** | `text` end to end — ~~Recorder~~, ~~width port~~, ~~`LineEditor`~~, ~~`TextState`~~, ~~`Frame`~~, ~~Theme~~, ~~`text` widget~~, ~~wrap port~~, ~~Emitter~~, ~~`.interact()`~~, ~~harvested text Scenarios green~~, hand-authored Scenarios (narrow, resize, CJK) |
+| **M1** | `text` end to end — ~~Recorder~~, ~~width port~~, ~~`LineEditor`~~, ~~`TextState`~~, ~~`Frame`~~, ~~Theme~~, ~~`text` widget~~, ~~wrap port~~, ~~Emitter~~, ~~`.interact()`~~, ~~harvested text Scenarios green~~, ~~hand-authored Scenarios (narrow, CJK)~~, resize Scenarios |
 | **M2** | password, confirm |
 | **M3** | select, multi-select, select-key |
 | **M4** | group-multi-select, autocomplete, date, multi-line |
@@ -168,10 +179,13 @@ upstream drift.
 
 M1 is one Prompt rather than one layer on purpose. Every decision here assumed Grid parity through an
 emulator was achievable, and that assumption is now tested rather than hoped for: `text` runs end to
-end and its ten replayable Scenarios agree with clack on the Grid. What the harvest cannot supply is
-the terminal upstream never varies — every recorded Scenario is 80 columns wide and none resizes —
-so the hand-authored Scenarios are the rest of M1, and the first thing they will exercise is the
-resize divergence [ADR-0014](./docs/adr/0014-the-sequence-is-a-compatibility-surface.md) records.
+end and seventeen Scenarios agree with clack on the Grid — ten of them harvested, seven written to
+reach the widths a harvest cannot supply, since upstream's tests never vary the terminal. What is
+left of M1 is the resize divergence
+[ADR-0014](./docs/adr/0014-the-sequence-is-a-compatibility-surface.md) records: upstream re-wraps
+the previous Frame to count the rows it walks back over and the Emitter keeps the rows it laid out,
+which agree unless the terminal narrows. A Scenario carries one terminal size for its whole life, so
+settling it needs a resize to become an event in the Fixture rather than a number at the top of it.
 
 M0 came first because it was cheap and load-bearing. Reusing `BufferDiff` under our own width model
 depends entirely on `CellDiffOption::ForcedWidth`, which is recent API on a pre-1.0 crate. The probe

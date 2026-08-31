@@ -22,7 +22,8 @@
 					},
 					"terminal": {
 						"columns": 80,
-						"rows": 20
+						"rows": 20,
+						"stdout": 80
 					},
 					"keys": [],
 					"output": [
@@ -47,7 +48,8 @@
 					},
 					"terminal": {
 						"columns": 80,
-						"rows": 20
+						"rows": 20,
+						"stdout": 80
 					},
 					"keys": [
 						{
@@ -88,7 +90,8 @@
 					},
 					"terminal": {
 						"columns": 80,
-						"rows": 20
+						"rows": 20,
+						"stdout": 80
 					},
 					"keys": [
 						{
@@ -129,7 +132,8 @@
 					},
 					"terminal": {
 						"columns": 80,
-						"rows": 20
+						"rows": 20,
+						"stdout": 80
 					},
 					"keys": [
 						{
@@ -169,7 +173,8 @@
 					},
 					"terminal": {
 						"columns": 80,
-						"rows": 20
+						"rows": 20,
+						"stdout": 80
 					},
 					"keys": [
 						{
@@ -210,7 +215,8 @@
 					},
 					"terminal": {
 						"columns": 80,
-						"rows": 20
+						"rows": 20,
+						"stdout": 80
 					},
 					"keys": [
 						{
@@ -250,7 +256,8 @@
 					},
 					"terminal": {
 						"columns": 80,
-						"rows": 20
+						"rows": 20,
+						"stdout": 80
 					},
 					"keys": [
 						{
@@ -320,7 +327,8 @@
 					},
 					"terminal": {
 						"columns": 80,
-						"rows": 20
+						"rows": 20,
+						"stdout": 80
 					},
 					"keys": [
 						{
@@ -361,7 +369,8 @@
 					},
 					"terminal": {
 						"columns": 80,
-						"rows": 20
+						"rows": 20,
+						"stdout": 80
 					},
 					"keys": [
 						{
@@ -401,7 +410,8 @@
 					},
 					"terminal": {
 						"columns": 80,
-						"rows": 20
+						"rows": 20,
+						"stdout": 80
 					},
 					"keys": [
 						{
@@ -474,7 +484,8 @@
 					},
 					"terminal": {
 						"columns": 80,
-						"rows": 20
+						"rows": 20,
+						"stdout": 80
 					},
 					"keys": [
 						{
@@ -560,7 +571,8 @@
 					},
 					"terminal": {
 						"columns": 80,
-						"rows": 20
+						"rows": 20,
+						"stdout": 80
 					},
 					"keys": [
 						{
@@ -644,7 +656,8 @@
 					},
 					"terminal": {
 						"columns": 80,
-						"rows": 20
+						"rows": 20,
+						"stdout": 80
 					},
 					"keys": [
 						{
