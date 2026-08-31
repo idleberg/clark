@@ -24,6 +24,7 @@
 //! | `hidden` | 8 | [`Modifier::HIDDEN`] |
 //! | `strikethrough` | 9 | [`Modifier::CROSSED_OUT`] |
 //! | `bgWhite` | 47 | `bg(`[`Color::Gray`]`)` |
+//! | `bgCyan` | 46 | `bg(`[`Color::Cyan`]`)` |
 //!
 //! Node's `gray` is bright black, SGR 90 — not SGR 30 — which is why the Guide is `DarkGray` and
 //! not `Black`. Its `bgWhite` is the other way round: SGR 47, the dim white, which ratatui spells
@@ -198,6 +199,14 @@ pub struct Styles {
 	/// The label of a ticked option the cursor is not on. Dim, as an unticked one is — the tick is
 	/// carried by the box rather than by the text.
 	pub option_selected: Style,
+	/// The key a `selectKey` option is chosen with, drawn as a chip beside its label — this one on
+	/// the option the cursor opened on. Cyan behind Node's `gray`, which is the one place in clack a
+	/// background is set without also inverting it.
+	pub key_active: Style,
+	/// The same chip on every other option: inverse, on white, in gray. The same three codes as
+	/// [`error_key`](Self::error_key) without the `dim` that a `multiselect`'s advice wraps its own in.
+	pub key_inactive: Style,
+
 	/// The `/` between a `confirm`'s two choices, and the `, ` between the values a `multiselect`
 	/// settled on.
 	pub separator: Style,
@@ -252,6 +261,12 @@ impl Styles {
 		checkbox_selected: Style::new().fg(Color::Green),
 		checkbox_inactive: Style::new().add_modifier(Modifier::DIM),
 		option_selected: Style::new().add_modifier(Modifier::DIM),
+
+		key_active: Style::new().fg(Color::DarkGray).bg(Color::Cyan),
+		key_inactive: Style::new()
+			.fg(Color::DarkGray)
+			.bg(Color::Gray)
+			.add_modifier(Modifier::REVERSED),
 
 		separator: Style::new().add_modifier(Modifier::DIM),
 		overflow: Style::new().add_modifier(Modifier::DIM),

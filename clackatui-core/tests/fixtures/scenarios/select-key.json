@@ -1,0 +1,640 @@
+{
+	"source": "@clack/prompts test suite",
+	"tag": "@clack/prompts@1.7.0",
+	"commit": "dc5bce8aae84a57b5863124adfaa839c1db1fa23",
+	"describe": "@clack/core@1.4.3",
+	"node": "24.20.0",
+	"generatedBy": "scripts/harvest-scenarios.mjs",
+	"suites": [
+		"select-key"
+	],
+	"scenarios": [
+		{
+			"name": "text › can cancel by pressing escape",
+			"prompts": [
+				{
+					"kind": "selectKey",
+					"opts": {
+						"message": "foo",
+						"options": [
+							{
+								"label": "Option A",
+								"value": "a"
+							},
+							{
+								"label": "Option B",
+								"value": "b"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "escape",
+							"key": {
+								"name": "escape",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[46m\u001b[90m a \u001b[39m\u001b[49m Option A\n\u001b[36m│\u001b[39m  \u001b[90m\u001b[47m\u001b[7m b \u001b[27m\u001b[49m\u001b[39m Option B\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[5A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[31m■\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[9m\u001b[2mOption A\u001b[22m\u001b[29m\n\u001b[90m│\u001b[39m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "text › caseSensitive: true makes input case-sensitive",
+			"prompts": [
+				{
+					"kind": "selectKey",
+					"opts": {
+						"message": "foo",
+						"options": [
+							{
+								"label": "Option a",
+								"value": "a"
+							},
+							{
+								"label": "Option A",
+								"value": "A"
+							},
+							{
+								"label": "Option B",
+								"value": "b"
+							}
+						],
+						"caseSensitive": true
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "A",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": true,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[46m\u001b[90m a \u001b[39m\u001b[49m Option a\n\u001b[36m│\u001b[39m  \u001b[90m\u001b[47m\u001b[7m A \u001b[27m\u001b[49m\u001b[39m Option A\n\u001b[36m│\u001b[39m  \u001b[90m\u001b[47m\u001b[7m b \u001b[27m\u001b[49m\u001b[39m Option B\n\u001b[36m└\u001b[39m\n",
+						"\u001b[?25h",
+						"\u001b[999D\u001b[6A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mOption A\u001b[22m",
+						"\n"
+					]
+				}
+			]
+		},
+		{
+			"name": "text › caseSensitive: true makes options case-sensitive",
+			"prompts": [
+				{
+					"kind": "selectKey",
+					"opts": {
+						"message": "foo",
+						"options": [
+							{
+								"label": "Option A",
+								"value": "A"
+							},
+							{
+								"label": "Option B",
+								"value": "b"
+							}
+						],
+						"caseSensitive": true
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "escape",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[46m\u001b[90m A \u001b[39m\u001b[49m Option A\n\u001b[36m│\u001b[39m  \u001b[90m\u001b[47m\u001b[7m b \u001b[27m\u001b[49m\u001b[39m Option B\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[5A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[31m■\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[9m\u001b[2mOption A\u001b[22m\u001b[29m\n\u001b[90m│\u001b[39m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "text › global withGuide: false removes guide",
+			"prompts": [
+				{
+					"kind": "selectKey",
+					"opts": {
+						"message": "foo",
+						"options": [
+							{
+								"label": "Option A",
+								"value": "a"
+							},
+							{
+								"label": "Option B",
+								"value": "b"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": false
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[36m◆\u001b[39m  foo\n\u001b[46m\u001b[90m a \u001b[39m\u001b[49m Option A\n\u001b[90m\u001b[47m\u001b[7m b \u001b[27m\u001b[49m\u001b[39m Option B\n\n",
+						"\u001b[?25h",
+						"\u001b[999D\u001b[4A",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[2mOption A\u001b[22m",
+						"\n"
+					]
+				}
+			]
+		},
+		{
+			"name": "text › input is case-insensitive by default",
+			"prompts": [
+				{
+					"kind": "selectKey",
+					"opts": {
+						"message": "foo",
+						"options": [
+							{
+								"label": "Option A",
+								"value": "a"
+							},
+							{
+								"label": "Option B",
+								"value": "b"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "A",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": true,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[46m\u001b[90m a \u001b[39m\u001b[49m Option A\n\u001b[36m│\u001b[39m  \u001b[90m\u001b[47m\u001b[7m b \u001b[27m\u001b[49m\u001b[39m Option B\n\u001b[36m└\u001b[39m\n",
+						"\u001b[?25h",
+						"\u001b[999D\u001b[5A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mOption A\u001b[22m",
+						"\n"
+					]
+				}
+			]
+		},
+		{
+			"name": "text › long cancelled labels are wrapped correctly",
+			"prompts": [
+				{
+					"kind": "selectKey",
+					"opts": {
+						"message": "Select an option:",
+						"options": [
+							{
+								"label": "This is a somewhat long label This is a somewhat long label This is a somewhat long label This is a somewhat long label This is a somewhat long label This is a somewhat long label This is a somewhat long label This is a somewhat long label This is a somewhat long label This is a somewhat long label",
+								"value": "a"
+							},
+							{
+								"label": "Short label",
+								"value": "b"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 40,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "escape",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Select an option:\n\u001b[36m│\u001b[39m  \u001b[46m\u001b[90m a \u001b[39m\u001b[49m This is a somewhat long\n\u001b[36m│\u001b[39m   label This is a somewhat \n\u001b[36m│\u001b[39m  long label This is a \n\u001b[36m│\u001b[39m  somewhat long label This is\n\u001b[36m│\u001b[39m   a somewhat long label This\n\u001b[36m│\u001b[39m   is a somewhat long label \n\u001b[36m│\u001b[39m  This is a somewhat long \n\u001b[36m│\u001b[39m  label This is a somewhat \n\u001b[36m│\u001b[39m  long label This is a \n\u001b[36m│\u001b[39m  somewhat long label This is\n\u001b[36m│\u001b[39m   a somewhat long label This\n\u001b[36m│\u001b[39m   is a somewhat long label\n\u001b[36m│\u001b[39m  \u001b[90m\u001b[47m\u001b[7m b \u001b[27m\u001b[49m\u001b[39m Short label\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[16A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[31m■\u001b[39m  Select an option:\n\u001b[90m│\u001b[39m  \u001b[9m\u001b[2mThis is a somewhat long \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mlabel This is a somewhat \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mlong label This is a \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2msomewhat long label This is\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2m a somewhat long label This\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2m is a somewhat long label \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mThis is a somewhat long \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mlabel This is a somewhat \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mlong label This is a \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2msomewhat long label This is\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2m a somewhat long label This\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2m is a somewhat long label\u001b[22m\u001b[29m\n\u001b[90m│\u001b[39m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "text › long option labels are wrapped correctly",
+			"prompts": [
+				{
+					"kind": "selectKey",
+					"opts": {
+						"message": "Select an option:",
+						"options": [
+							{
+								"label": "This is a somewhat long label This is a somewhat long label This is a somewhat long label This is a somewhat long label This is a somewhat long label This is a somewhat long label This is a somewhat long label This is a somewhat long label This is a somewhat long label This is a somewhat long label",
+								"value": "a"
+							},
+							{
+								"label": "Short label",
+								"value": "b"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 40,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Select an option:\n\u001b[36m│\u001b[39m  \u001b[46m\u001b[90m a \u001b[39m\u001b[49m This is a somewhat long\n\u001b[36m│\u001b[39m   label This is a somewhat \n\u001b[36m│\u001b[39m  long label This is a \n\u001b[36m│\u001b[39m  somewhat long label This is\n\u001b[36m│\u001b[39m   a somewhat long label This\n\u001b[36m│\u001b[39m   is a somewhat long label \n\u001b[36m│\u001b[39m  This is a somewhat long \n\u001b[36m│\u001b[39m  label This is a somewhat \n\u001b[36m│\u001b[39m  long label This is a \n\u001b[36m│\u001b[39m  somewhat long label This is\n\u001b[36m│\u001b[39m   a somewhat long label This\n\u001b[36m│\u001b[39m   is a somewhat long label\n\u001b[36m│\u001b[39m  \u001b[90m\u001b[47m\u001b[7m b \u001b[27m\u001b[49m\u001b[39m Short label\n\u001b[36m└\u001b[39m\n",
+						"\u001b[?25h",
+						"\u001b[999D\u001b[16A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Select an option:\n\u001b[90m│\u001b[39m  \u001b[2mThis is a somewhat long \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mlabel This is a somewhat \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mlong label This is a \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2msomewhat long label This is\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2m a somewhat long label This\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2m is a somewhat long label \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mThis is a somewhat long \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mlabel This is a somewhat \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mlong label This is a \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2msomewhat long label This is\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2m a somewhat long label This\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2m is a somewhat long label\u001b[22m",
+						"\n"
+					]
+				}
+			]
+		},
+		{
+			"name": "text › long submitted labels are wrapped correctly",
+			"prompts": [
+				{
+					"kind": "selectKey",
+					"opts": {
+						"message": "Select an option:",
+						"options": [
+							{
+								"label": "This is a somewhat long label This is a somewhat long label This is a somewhat long label This is a somewhat long label This is a somewhat long label This is a somewhat long label This is a somewhat long label This is a somewhat long label This is a somewhat long label This is a somewhat long label",
+								"value": "a"
+							},
+							{
+								"label": "Short label",
+								"value": "b"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 40,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Select an option:\n\u001b[36m│\u001b[39m  \u001b[46m\u001b[90m a \u001b[39m\u001b[49m This is a somewhat long\n\u001b[36m│\u001b[39m   label This is a somewhat \n\u001b[36m│\u001b[39m  long label This is a \n\u001b[36m│\u001b[39m  somewhat long label This is\n\u001b[36m│\u001b[39m   a somewhat long label This\n\u001b[36m│\u001b[39m   is a somewhat long label \n\u001b[36m│\u001b[39m  This is a somewhat long \n\u001b[36m│\u001b[39m  label This is a somewhat \n\u001b[36m│\u001b[39m  long label This is a \n\u001b[36m│\u001b[39m  somewhat long label This is\n\u001b[36m│\u001b[39m   a somewhat long label This\n\u001b[36m│\u001b[39m   is a somewhat long label\n\u001b[36m│\u001b[39m  \u001b[90m\u001b[47m\u001b[7m b \u001b[27m\u001b[49m\u001b[39m Short label\n\u001b[36m└\u001b[39m\n",
+						"\u001b[?25h",
+						"\u001b[999D\u001b[16A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Select an option:\n\u001b[90m│\u001b[39m  \u001b[2mThis is a somewhat long \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mlabel This is a somewhat \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mlong label This is a \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2msomewhat long label This is\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2m a somewhat long label This\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2m is a somewhat long label \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mThis is a somewhat long \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mlabel This is a somewhat \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mlong label This is a \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2msomewhat long label This is\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2m a somewhat long label This\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2m is a somewhat long label\u001b[22m",
+						"\n"
+					]
+				}
+			]
+		},
+		{
+			"name": "text › options are case-insensitive by default",
+			"prompts": [
+				{
+					"kind": "selectKey",
+					"opts": {
+						"message": "foo",
+						"options": [
+							{
+								"label": "Option A",
+								"value": "A"
+							},
+							{
+								"label": "Option B",
+								"value": "b"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[46m\u001b[90m A \u001b[39m\u001b[49m Option A\n\u001b[36m│\u001b[39m  \u001b[90m\u001b[47m\u001b[7m b \u001b[27m\u001b[49m\u001b[39m Option B\n\u001b[36m└\u001b[39m\n",
+						"\u001b[?25h",
+						"\u001b[999D\u001b[5A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mOption A\u001b[22m",
+						"\n"
+					]
+				}
+			]
+		},
+		{
+			"name": "text › renders message with options",
+			"prompts": [
+				{
+					"kind": "selectKey",
+					"opts": {
+						"message": "foo",
+						"options": [
+							{
+								"label": "Option A",
+								"value": "a"
+							},
+							{
+								"label": "Option B",
+								"value": "b"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[46m\u001b[90m a \u001b[39m\u001b[49m Option A\n\u001b[36m│\u001b[39m  \u001b[90m\u001b[47m\u001b[7m b \u001b[27m\u001b[49m\u001b[39m Option B\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[5A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mOption A\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "text › selects option by keypress",
+			"prompts": [
+				{
+					"kind": "selectKey",
+					"opts": {
+						"message": "foo",
+						"options": [
+							{
+								"label": "Option A",
+								"value": "a"
+							},
+							{
+								"label": "Option B",
+								"value": "b"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "b",
+							"key": {
+								"name": "b",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[46m\u001b[90m a \u001b[39m\u001b[49m Option A\n\u001b[36m│\u001b[39m  \u001b[90m\u001b[47m\u001b[7m b \u001b[27m\u001b[49m\u001b[39m Option B\n\u001b[36m└\u001b[39m\n",
+						"\u001b[?25h",
+						"\u001b[999D\u001b[5A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mOption B\u001b[22m",
+						"\n"
+					]
+				}
+			]
+		},
+		{
+			"name": "text › withGuide: false removes guide",
+			"prompts": [
+				{
+					"kind": "selectKey",
+					"opts": {
+						"message": "foo",
+						"options": [
+							{
+								"label": "Option A",
+								"value": "a"
+							},
+							{
+								"label": "Option B",
+								"value": "b"
+							}
+						],
+						"withGuide": false
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[36m◆\u001b[39m  foo\n\u001b[46m\u001b[90m a \u001b[39m\u001b[49m Option A\n\u001b[90m\u001b[47m\u001b[7m b \u001b[27m\u001b[49m\u001b[39m Option B\n\n",
+						"\u001b[?25h",
+						"\u001b[999D\u001b[4A",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[2mOption A\u001b[22m",
+						"\n"
+					]
+				}
+			]
+		}
+	]
+}

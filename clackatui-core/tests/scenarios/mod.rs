@@ -9,16 +9,16 @@
 //! defines a Fixture. What those bytes *mean* is decided on the Rust side, by whichever test is
 //! asking.
 //!
-//! # Six Fixtures, one shape
+//! # Seven Fixtures, one shape
 //!
-//! [`harvested`], [`password`], [`confirm`], [`select`] and [`multi_select`] are clack's own test
-//! suite, one file per Prompt,
+//! [`harvested`], [`password`], [`confirm`], [`select`], [`multi_select`] and [`select_key`] are
+//! clack's own test suite, one file per Prompt,
 //! recorded while the suite passed its own snapshots. [`authored`] is `scripts/authored/cases.mjs`,
 //! written because upstream's tests never vary the terminal and so can say nothing about wrapping.
 //! They are recorded by different scripts and carry different evidence behind them — ADR-0016 — but
 //! they are the same shape and are read the same way, and [`all`] is what the tests run over.
 //!
-//! # Five kinds of Prompt
+//! # Six kinds of Prompt
 //!
 //! A Scenario names the Prompt it configures, and [`Run`] is all of them behind one door.
 //! Nothing above this module branches on the kind: a Scenario opens, takes keys, resizes and
@@ -33,6 +33,7 @@ use clackatui_core::multi_select::{MultiSelectState, MultiSelectWidget, required
 use clackatui_core::password::{PasswordState, PasswordWidget};
 use clackatui_core::prompt::{Prompt, Status};
 use clackatui_core::select::{SelectOption, SelectState, SelectWidget};
+use clackatui_core::select_key::{SelectKeyState, SelectKeyWidget};
 use clackatui_core::session::Session;
 use clackatui_core::text::{TextState, TextWidget};
 
@@ -42,6 +43,7 @@ const PASSWORD: &str = include_str!("../fixtures/scenarios/password.json");
 const CONFIRM: &str = include_str!("../fixtures/scenarios/confirm.json");
 const SELECT: &str = include_str!("../fixtures/scenarios/select.json");
 const MULTI_SELECT: &str = include_str!("../fixtures/scenarios/multi-select.json");
+const SELECT_KEY: &str = include_str!("../fixtures/scenarios/select-key.json");
 
 /// The tag `README.md` names. A fixture from anywhere else is not the thing we claim parity with.
 pub const TAG: &str = "@clack/prompts@1.7.0";
@@ -66,6 +68,8 @@ pub struct Scenario {
 	pub options: Vec<Choice>,
 	pub max_items: Option<usize>,
 	pub show_instructions: bool,
+	/// `selectKey`'s `caseSensitive`.
+	pub case_sensitive: bool,
 	/// `multiselect`'s `initialValues`, `cursorAt` and `required`.
 	pub initial_values: Vec<String>,
 	pub cursor_at: Option<String>,
@@ -167,6 +171,11 @@ pub fn multi_select() -> (serde_json::Value, Vec<Scenario>) {
 	parse(MULTI_SELECT, "fixtures/scenarios/multi-select.json")
 }
 
+/// Clack's own `selectKey` suite.
+pub fn select_key() -> (serde_json::Value, Vec<Scenario>) {
+	parse(SELECT_KEY, "fixtures/scenarios/select-key.json")
+}
+
 /// Every Scenario there is. Which Fixture one came from is a question about the evidence behind it,
 /// not about what the port owes it, so the tests do not ask.
 pub fn all() -> Vec<Scenario> {
@@ -176,6 +185,7 @@ pub fn all() -> Vec<Scenario> {
 	scenarios.extend(confirm().1);
 	scenarios.extend(select().1);
 	scenarios.extend(multi_select().1);
+	scenarios.extend(select_key().1);
 	scenarios
 }
 
@@ -219,6 +229,7 @@ fn parse(source: &str, path: &str) -> (serde_json::Value, Vec<Scenario>) {
 					.map(|options| options.iter().map(choice).collect())
 					.unwrap_or_default(),
 				max_items: opts["maxItems"].as_u64().map(|n| n as usize),
+				case_sensitive: opts["caseSensitive"].as_bool() == Some(true),
 				show_instructions: opts["showInstructions"].as_bool().unwrap_or(true),
 				initial_values: opts["initialValues"]
 					.as_array()
@@ -462,6 +473,26 @@ impl Scenario {
 				)
 			}
 
+			"selectKey" => {
+				let mut state =
+					SelectKeyState::new(self.choices()).with_case_sensitive(self.case_sensitive);
+				if let Some(initial) = &self.initial_value {
+					state = state.with_initial_value(initial);
+				}
+				let stream = self.stream_columns;
+				Run::SelectKey(
+					// No height: a `selectKey` has no `limitOptions`, so it draws its whole list
+					// however tall the terminal is.
+					Session::new(Prompt::new(state), move |prompt, _columns, _rows| {
+						SelectKeyWidget::new(prompt, &message)
+							.with_guide(with_guide)
+							.with_columns(stream)
+							.frame()
+					})
+					.with_size(size.0, size.1),
+				)
+			}
+
 			_ => {
 				let mut state = TextState::new();
 				if let Some(default) = &self.default_value {
@@ -607,6 +638,7 @@ pub enum Run {
 	Confirm(Session<ConfirmState>),
 	Select(Session<SelectState<String>>),
 	MultiSelect(Session<MultiSelectState<String>>),
+	SelectKey(Session<SelectKeyState<String>>),
 }
 
 /// The same call on whichever Session is inside. A macro because the arms differ only in the
@@ -619,6 +651,7 @@ macro_rules! dispatch {
 			Run::Confirm($session) => $call,
 			Run::Select($session) => $call,
 			Run::MultiSelect($session) => $call,
+			Run::SelectKey($session) => $call,
 		}
 	};
 }

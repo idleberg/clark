@@ -25,6 +25,7 @@ pub mod keys;
 mod multi_select;
 mod password;
 mod select;
+mod select_key;
 mod text;
 
 pub use confirm::{Confirm, confirm};
@@ -32,6 +33,7 @@ pub use error::ClackError;
 pub use multi_select::{MultiSelect, multiselect};
 pub use password::{Password, password};
 pub use select::{Select, select};
+pub use select_key::{SelectKey, select_key};
 pub use text::{Text, text};
 
 /// The pieces a caller needs to configure a Prompt or to drive one themselves.

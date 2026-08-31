@@ -12,6 +12,7 @@ pub mod multi_select;
 pub mod password;
 pub mod prompt;
 pub mod select;
+pub mod select_key;
 pub mod session;
 pub mod settings;
 pub mod text;

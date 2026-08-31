@@ -71,6 +71,30 @@ impl Line {
 		self
 	}
 
+	/// This line cut into paragraphs wherever one of its spans carried a line break of its own.
+	///
+	/// `wrapAnsi` breaks on `\n` before it breaks on width, and it styles each of the pieces
+	/// separately — so nothing leaks across one, and a widget that wraps a Line has to hand it the
+	/// paragraphs one at a time rather than the whole. Never empty: a Line with no break in it comes
+	/// back as itself.
+	pub fn paragraphs(&self) -> Vec<Line> {
+		let mut lines = vec![Line::blank()];
+		for span in &self.spans {
+			for (index, part) in span.text.split('\n').enumerate() {
+				if index > 0 {
+					lines.push(Line::blank());
+				}
+				if !part.is_empty() {
+					lines
+						.last_mut()
+						.expect("a paragraph is pushed before anything is written into it")
+						.push(Span::styled(part, span.style));
+				}
+			}
+		}
+		lines
+	}
+
 	/// The columns this line occupies before any wrapping.
 	pub fn width(&self) -> usize {
 		self.spans.iter().map(Span::width).sum()
@@ -589,6 +613,48 @@ mod tests {
 	#[test]
 	fn an_empty_line_is_still_one_row() {
 		assert_eq!(wrapped(&Line::blank(), 10), [""]);
+	}
+
+	fn text(line: &Line) -> String {
+		line.spans.iter().map(|span| span.text.as_str()).collect()
+	}
+
+	/// A break splits the line, and the span it fell inside keeps its style on both sides of it.
+	#[test]
+	fn a_line_break_inside_a_span_starts_a_paragraph() {
+		let green = Style::new().fg(Color::Green);
+		let mut line = Line::from(Span::raw("a, "));
+		line.push(Span::styled("one\ntwo", green));
+		line.push(Span::raw(" tail"));
+
+		let paragraphs = line.paragraphs();
+		assert_eq!(paragraphs.len(), 2);
+		assert_eq!(text(&paragraphs[0]), "a, one");
+		assert_eq!(text(&paragraphs[1]), "two tail");
+		assert_eq!(paragraphs[1].spans[0].style, green);
+	}
+
+	/// A break at either end of a span leaves a paragraph with nothing in it, and it is left with
+	/// nothing in it — an empty span would draw the same and compare differently, and `slice` makes
+	/// the same promise about not writing spans a caller did not.
+	#[test]
+	fn a_break_at_the_edge_of_a_span_leaves_an_empty_paragraph_empty() {
+		let mut line = Line::from(Span::raw("one\n"));
+		line.push(Span::raw("\ntwo"));
+
+		let paragraphs = line.paragraphs();
+		assert_eq!(paragraphs.len(), 3);
+		assert_eq!(text(&paragraphs[0]), "one");
+		assert_eq!(paragraphs[1], Line::blank());
+		assert_eq!(text(&paragraphs[2]), "two");
+	}
+
+	/// A line with nothing to split comes back as itself rather than as nothing.
+	#[test]
+	fn a_line_with_no_break_is_one_paragraph() {
+		let line = Line::from(Span::raw("hello"));
+		assert_eq!(line.paragraphs(), std::slice::from_ref(&line));
+		assert_eq!(Line::blank().paragraphs(), [Line::blank()]);
 	}
 
 	#[test]

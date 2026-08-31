@@ -654,7 +654,11 @@ impl<T: Clone + PartialEq> MultiSelectWidget<'_, T> {
 		let mut out = Vec::new();
 		// A line break inside a label is upstream's `computeLabel` splitting it and styling each row
 		// on its own, so nothing leaks across one. Each paragraph is therefore wrapped by itself.
-		for paragraph in paragraphs(spans) {
+		let mut whole = Line::blank();
+		for span in spans {
+			whole.push(span);
+		}
+		for paragraph in whole.paragraphs() {
 			let rows = paragraph.wrap(width);
 			for (index, row) in rows.iter().enumerate() {
 				let mut line = Line::blank();
@@ -675,25 +679,6 @@ impl<T: Clone + PartialEq> MultiSelectWidget<'_, T> {
 		}
 		out
 	}
-}
-
-/// The spans cut into paragraphs wherever a label carried a line break of its own.
-fn paragraphs(spans: Vec<Span>) -> Vec<Line> {
-	let mut lines = vec![Line::blank()];
-	for span in spans {
-		for (index, part) in span.text.split('\n').enumerate() {
-			if index > 0 {
-				lines.push(Line::blank());
-			}
-			if !part.is_empty() {
-				lines
-					.last_mut()
-					.expect("a paragraph is pushed before anything is written into it")
-					.push(Span::styled(part, span.style));
-			}
-		}
-	}
-	lines
 }
 
 /// What is still open where two rows of a wrapped value meet.

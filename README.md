@@ -68,8 +68,11 @@ then `select` on top of it, whose own suite is the first to hand a Prompt a term
 one its Frames are written into
 ([ADR-0021](./docs/adr/0021-select-reads-three-widths-and-a-strikethrough-outlives-its-row.md)), then
 `multiselect`, whose validator returns a message with escapes in it that a Frame has no way to carry
-([ADR-0022](./docs/adr/0022-multiselect-draws-an-error-a-frame-cannot-carry.md)) —
-**all ninety-one agree on the Grid**.
+([ADR-0022](./docs/adr/0022-multiselect-draws-an-error-a-frame-cannot-carry.md)), then `selectKey`,
+which resolves its promise from inside its own key listener and whose suite caught the emulator
+reading cells no terminal has
+([ADR-0023](./docs/adr/0023-selectkey-resolves-before-it-draws.md)) —
+**all a hundred and three agree on the Grid**.
 See
 [CONTEXT.md](./CONTEXT.md) for the vocabulary and [docs/adr/](./docs/adr/) for the decisions behind
 the shape below.
@@ -204,7 +207,7 @@ upstream drift.
 | **M0** | ~~`ForcedWidth` probe — the one experiment the architecture rests on (below)~~ **done** |
 | **M1** | ~~`text` end to end — Recorder, width port, `LineEditor`, `TextState`, `Frame`, Theme, `text` widget, wrap port, Emitter, `.interact()`, harvested text Scenarios green, hand-authored Scenarios (narrow, CJK, resize)~~ **done** |
 | **M2** | ~~`password` and `confirm` — states, widgets, builders, both suites harvested, eleven more hand-authored Scenarios~~ **done** |
-| **M3** | ~~`limit-options` against a 54-case corpus, `select` and `multiselect` end to end with their suites harvested~~ **done**; select-key |
+| **M3** | ~~`limit-options` against a 54-case corpus, `select`, `multiselect` and `select-key` end to end with their suites harvested~~ **done** |
 | **M4** | group-multi-select, autocomplete, date, multi-line |
 | **M5** | static renderers |
 | **M6** | theme polish, docs, publish |
@@ -261,6 +264,18 @@ found the gap that mattered more than any of that: an error Frame is never the *
 draws, so the Grid comparison never sees one and the stream comparison strips its styles — three
 mutations of the error Frame's colours survived every recording upstream has. Unit tests now hold
 them.
+
+`selectKey` is the smallest of the three — no windowing, no footer, no validator, and a cursor that
+never moves — and it paid for one ordering: it sets `state = 'submit'` and resolves from inside its
+own `key` listener, so the cursor is shown before the settled Frame rather than after the newline
+that follows it. It also found something worth more than the Prompt. It is the first suite to cancel
+on a value long enough to wrap, and it failed the Grid comparison on a single cell. The port was
+right and so was the recording: `avt` had been fed `\n` as a bare line feed, where clack writes to a
+tty whose output discipline turns every one into a carriage-return line feed. Every Frame had been
+drawn down a staircase, and the cells to the left of each row — ones no terminal ever has — were
+being compared for the style that happened to be open when they were skipped. The emulator is fed
+through the line discipline now
+([ADR-0023](./docs/adr/0023-selectkey-resolves-before-it-draws.md)).
 
 M0 came first because it was cheap and load-bearing. Reusing `BufferDiff` under our own width model
 depends entirely on `CellDiffOption::ForcedWidth`, which is recent API on a pre-1.0 crate. The probe

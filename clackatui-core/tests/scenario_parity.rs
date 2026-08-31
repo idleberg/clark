@@ -23,14 +23,15 @@
 //!
 //! # What reaches it
 //!
-//! Forty-nine Scenarios across three Prompts. Twenty-seven are replayable ones harvested from
-//! clack's own suite — `text`, `password` and `confirm` — all at 80 columns, because upstream's
-//! tests never vary the terminal. Twenty-two are hand-authored, written to reach what a harvest
-//! cannot supply (ADR-0016): 40 and 20 columns, CJK text, a wrap that grows as a value is typed and
-//! shrinks again as it is deleted, four that change the terminal's size under an open Prompt, and
-//! the three things M2 found that no upstream test touches — a `y` that settles a `confirm` without
-//! a `return` (ADR-0018), a `confirm` message wrapped against the length of an escape sequence
-//! (ADR-0019), and a masked astral character.
+//! A hundred and three Scenarios across six Prompts. Eighty-one are replayable ones harvested from
+//! clack's own suite — `text`, `password`, `confirm`, `select`, `multiselect` and `selectKey` — and
+//! all but a handful are at 80 columns, because upstream's tests barely vary the terminal.
+//! Twenty-two are hand-authored, written to reach what a harvest cannot supply (ADR-0016): 40 and 20
+//! columns, CJK text, a wrap that grows as a value is typed and shrinks again as it is deleted, four
+//! that change the terminal's size under an open Prompt, and the three things M2 found that no
+//! upstream test touches — a `y` that settles a `confirm` without a `return` (ADR-0018), a `confirm`
+//! message wrapped against the length of an escape sequence (ADR-0019), and a masked astral
+//! character.
 //!
 //! The resizes are why a Grid is built from segments rather than from one string. The emulator has
 //! to change size at the same point in the stream that the real terminal did, on both sides, or the
@@ -89,7 +90,7 @@ fn grid(segments: &[Segment]) -> Grid {
 		if (segment.columns, segment.rows) != vt.size() {
 			vt.resize(segment.columns, segment.rows);
 		}
-		vt.feed_str(&segment.bytes);
+		vt.feed_str(&onlcr(&segment.bytes));
 	}
 
 	let cursor = vt.cursor();
@@ -98,6 +99,25 @@ fn grid(segments: &[Segment]) -> Grid {
 		cursor: (cursor.col, cursor.row),
 		cursor_visible: cursor.visible,
 	}
+}
+
+/// `ONLCR`: the line feeds a terminal turns into carriage-return line feeds.
+///
+/// clack writes its Frames to `process.stdout`, which is a tty in normal output mode — it puts the
+/// terminal's *input* into raw mode and leaves the output discipline alone — so every `\n` in a
+/// Frame returns the cursor to the first column before moving down. `avt` is the emulator and not
+/// the line discipline, so it has to be told. Without this the second row of every Frame starts
+/// wherever the first row ended, and a Prompt that draws six rows draws them down a staircase no
+/// terminal has ever shown anyone.
+///
+/// It is not cosmetic. A staircase leaves cells to the left of each row that nothing ever wrote, and
+/// `avt` pads them with whatever style was open at the time — so the comparison was reading a
+/// difference in the escape *before* a newline off cells that do not exist on a real terminal. That
+/// is also the answer to why `ESC[999D` is written before every cursor walk: after a Frame whose
+/// last row has no newline after it the cursor is at the end of that row, and clack has to get back
+/// to the first column to count rows.
+fn onlcr(bytes: &str) -> String {
+	bytes.replace('\n', "\r\n")
 }
 
 /// The one that matters.
@@ -145,7 +165,7 @@ fn every_scenario_leaves_the_terminal_the_way_clack_left_it() {
 	);
 
 	assert!(
-		compared >= 91,
+		compared >= 103,
 		"only {compared} Scenarios were compared; the fixtures have stopped carrying them"
 	);
 }

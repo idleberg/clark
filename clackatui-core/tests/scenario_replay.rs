@@ -35,7 +35,9 @@ use clackatui_core::prompt::Status;
 use ratatui_core::style::{Color, Modifier, Style};
 
 mod scenarios;
-use scenarios::{Scenario, TAG, all, authored, confirm, harvested, multi_select, password, select};
+use scenarios::{
+	Scenario, TAG, all, authored, confirm, harvested, multi_select, password, select, select_key,
+};
 
 /// The state clack was in when it drew its last frame, read off the step symbol it prints.
 ///
@@ -377,6 +379,10 @@ fn sgr(style: Style, param: &str) -> Style {
 		// `\x1b[39m` is "default foreground", which is the absence of a colour rather than a colour
 		// named Reset — the same thing `Style::new()` means by `fg: None`.
 		"39" => Style { fg: None, ..style },
+		"46" => style.bg(Color::Cyan),
+		"47" => style.bg(Color::Gray),
+		// The background's `39`, and the same reasoning.
+		"49" => Style { bg: None, ..style },
 		other => panic!("clack styled a Frame with SGR {other}, which the Theme has no name for"),
 	}
 }
@@ -480,7 +486,7 @@ fn the_harvested_fixture_is_a_plausible_recording() {
 /// Frame or the cancelled one would otherwise be merely smaller, and the count below would let it
 /// through.
 #[test]
-fn the_password_confirm_select_and_multiselect_fixtures_are_plausible_recordings() {
+fn the_five_harvested_prompt_fixtures_are_plausible_recordings() {
 	for (kind, (json, scenarios), least, required) in [
 		(
 			"password",
@@ -548,6 +554,29 @@ fn the_password_confirm_select_and_multiselect_fixtures_are_plausible_recordings
 				"multiselect › withGuide: false removes guide",
 			][..],
 		),
+		(
+			// Every name here begins `text ›` because upstream's `select-key.test.ts` opens with
+			// `describe.each([...])('text (isCI = %s)')` — a copy-paste from `text.test.ts` that
+			// nothing downstream of it notices. Two of them collide with the `text` Fixture's own,
+			// which is left alone: a Fixture is a recording, and renaming a case would be editing
+			// the evidence to make a failure message read better.
+			"selectKey",
+			select_key(),
+			11,
+			&[
+				"text › renders message with options",
+				"text › selects option by keypress",
+				"text › can cancel by pressing escape",
+				"text › input is case-insensitive by default",
+				"text › options are case-insensitive by default",
+				"text › caseSensitive: true makes input case-sensitive",
+				"text › caseSensitive: true makes options case-sensitive",
+				"text › long option labels are wrapped correctly",
+				"text › long submitted labels are wrapped correctly",
+				"text › long cancelled labels are wrapped correctly",
+				"text › withGuide: false removes guide",
+			][..],
+		),
 	] {
 		assert_eq!(
 			json["tag"].as_str(),
@@ -589,9 +618,14 @@ fn the_password_confirm_select_and_multiselect_fixtures_are_plausible_recordings
 			);
 		}
 
-		// One Scenario in each suite is driven by an `AbortSignal` rather than by keys.
+		// One Scenario in most suites is driven by an `AbortSignal` rather than by keys.
+		// `select-key.test.ts` is the one with no such case, so its count is nought rather than one.
 		let keyless = scenarios.iter().filter(|s| s.keys.is_empty()).count();
-		assert_eq!(keyless, 1, "{kind} Scenarios that send no keypresses");
+		let expected = usize::from(kind != "selectKey");
+		assert_eq!(
+			keyless, expected,
+			"{kind} Scenarios that send no keypresses"
+		);
 	}
 
 	// `confirm` takes no validator at all, so a `validate` callback in its Fixture would mean
@@ -640,6 +674,25 @@ fn the_password_confirm_select_and_multiselect_fixtures_are_plausible_recordings
 	any("turns the instruction footer off", &|s| {
 		!s.show_instructions
 	});
+
+	// And for `selectKey`, whose two branches nothing else has: the folding that decides whether a
+	// keypress matches, and a list where every option is drawn because there is no `limitOptions`.
+	let (_, key) = select_key();
+	for scenario in &key {
+		assert!(
+			!scenario.options.is_empty(),
+			"{}: a list prompt with no options",
+			scenario.name
+		);
+	}
+	assert!(
+		key.iter().any(|s| s.case_sensitive),
+		"no selectKey Scenario left that sets caseSensitive; the folding is unverified"
+	);
+	assert!(
+		key.iter().any(|s| !s.with_guide),
+		"no selectKey Scenario left that turns the Guide off"
+	);
 
 	// And the same for `multiselect`, whose extra branches are the ones `select` has no notion of:
 	// a selection that starts non-empty, a cursor that starts somewhere else, and the validation

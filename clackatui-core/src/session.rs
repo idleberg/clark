@@ -135,6 +135,14 @@ impl<S: PromptState> Session<S> {
 			out.push_str(&self.close());
 			self.closed = false;
 		}
+		if self.prompt.resolved_early() && !self.resolved {
+			// `selectKey` settles inside its own listener too, but it only *resolves* there — the
+			// promise's `submit` listener shows the cursor, and `close()` later finds it already gone
+			// and writes the newline alone. So the cursor comes back before the settled Frame is
+			// drawn rather than after it.
+			self.resolved = true;
+			out.push_str(&self.emitter.show_cursor());
+		}
 
 		out.push_str(&self.render());
 		if self.prompt.status().is_finished() {

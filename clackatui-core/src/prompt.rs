@@ -146,6 +146,17 @@ pub trait PromptState {
 		let _ = (s, key);
 	}
 
+	/// Whether the [`key`](Self::key) just delivered settled the Prompt from inside the listener.
+	///
+	/// `selectKey` is the only Prompt in clack that does this: its `key` handler sets `state =
+	/// 'submit'` and emits `submit` there and then, which resolves the promise — and therefore shows
+	/// the cursor — several writes before `onKeypress` reaches the render. It does not `close()`, so
+	/// this is a smaller thing than [`CONFIRMS_ON_KEY`](Self::CONFIRMS_ON_KEY); see
+	/// [`Prompt::resolved_early`].
+	fn submits_from_key(&self) -> bool {
+		false
+	}
+
 	/// `on('finalize')`: the Prompt has settled on submit or cancel. The last chance to set a value.
 	fn finalize(&mut self) {}
 
@@ -201,6 +212,7 @@ pub struct Prompt<S: PromptState> {
 	validator: Option<Box<dyn Validator<S::Value>>>,
 	/// Whether the last keypress settled the Prompt from inside a listener rather than at the end.
 	closed_early: bool,
+	resolved_early: bool,
 }
 
 impl<S: PromptState> Prompt<S> {
@@ -216,6 +228,7 @@ impl<S: PromptState> Prompt<S> {
 			settings: Settings::default(),
 			validator: None,
 			closed_early: false,
+			resolved_early: false,
 		}
 	}
 
@@ -334,6 +347,7 @@ impl<S: PromptState> Prompt<S> {
 	/// for every Prompt: upstream's interface is live whether or not the Prompt tracks its text.
 	pub fn key(&mut self, s: Option<&str>, key: &Key) {
 		self.closed_early = false;
+		self.resolved_early = false;
 		self.editor.write(s, key);
 
 		if S::TRACKS_INPUT && key.name != Some(KeyName::Return) {
@@ -377,6 +391,10 @@ impl<S: PromptState> Prompt<S> {
 		}
 
 		self.state.key(s, key);
+		if self.state.submits_from_key() && self.status != Status::Submit {
+			self.status = Status::Submit;
+			self.resolved_early = true;
+		}
 
 		if key.name == Some(KeyName::Return) && self.state.should_submit(s, key) {
 			if let Some(validator) = &mut self.validator {
@@ -413,6 +431,15 @@ impl<S: PromptState> Prompt<S> {
 	/// two sequences upstream writes before the settled Frame. See [`crate::session::Session::key`].
 	pub fn closed_early(&self) -> bool {
 		self.closed_early
+	}
+
+	/// Whether the last keypress resolved the Prompt from inside its own `key` listener.
+	///
+	/// Only ever true for a state with [`PromptState::submits_from_key`], which is `selectKey` and
+	/// nothing else. What it costs is one sequence: the cursor is shown before the settled Frame
+	/// rather than after the newline that follows it.
+	pub fn resolved_early(&self) -> bool {
+		self.resolved_early
 	}
 
 	/// What the `render` callback does to the Prompt on its way past.
