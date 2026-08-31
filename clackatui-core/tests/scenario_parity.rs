@@ -21,22 +21,22 @@
 //! Frames as styles: that comparison is in `Style` terms, where conceal is a bit like any other.
 //! The two tests are complementary rather than redundant, and neither subsumes the other.
 //!
-//! # What is still missing
+//! # What reaches it
 //!
-//! Not the wrap, any more. Seventeen Scenarios reach this comparison: ten replayable ones harvested
-//! from clack's own suite, all at 80 columns because upstream's tests never vary the terminal, and
-//! seven hand-authored ones written to reach the widths a harvest cannot supply — 40 and 20
-//! columns, CJK text, a wrap that grows as a value is typed and shrinks again as it is deleted
-//! (ADR-0016).
+//! Twenty-one Scenarios: ten replayable ones harvested from clack's own suite, all at 80 columns
+//! because upstream's tests never vary the terminal, and eleven hand-authored ones written to reach
+//! what a harvest cannot supply — 40 and 20 columns, CJK text, a wrap that grows as a value is
+//! typed and shrinks again as it is deleted, and four that change the terminal's size under an open
+//! Prompt (ADR-0016).
 //!
-//! What is left is the resize. A Scenario carries one terminal size for its whole life, so the
-//! other divergence `session.rs` records — upstream re-wraps the previous Frame to count the rows
-//! it walks back over, the Emitter keeps the rows it laid out, and the two agree unless the
-//! terminal *narrows* — has no recording behind it either way. That needs a resize to be an event
-//! in the Fixture rather than a number at the top of it.
+//! The resizes are why a Grid is built from segments rather than from one string. The emulator has
+//! to change size at the same point in the stream that the real terminal did, on both sides, or the
+//! bytes after a resize are being read at a width nothing wrote them for. Those four are also what
+//! settled the last divergence `session.rs` recorded: two of them disagreed, and the port follows
+//! upstream now (ADR-0017).
 
 mod scenarios;
-use scenarios::all;
+use scenarios::{Segment, all};
 
 use avt::{Cell, Vt};
 
@@ -65,9 +65,21 @@ impl Grid {
 }
 
 /// A byte stream, replayed into the terminal it was written for.
-fn grid(stream: &str, columns: usize, rows: usize) -> Grid {
+///
+/// Segments rather than one string, because a Scenario may change the terminal's size part-way
+/// through: the emulator has to change with it, at the same point in the stream, or the bytes after
+/// the resize are being read at a width nothing wrote them for. A Scenario that never resizes is
+/// one segment and this is the same thing it always was.
+fn grid(segments: &[Segment]) -> Grid {
+	let (columns, rows) = (segments[0].columns, segments[0].rows);
 	let mut vt = Vt::new(columns, rows);
-	vt.feed_str(stream);
+
+	for segment in segments {
+		if (segment.columns, segment.rows) != vt.size() {
+			vt.resize(segment.columns, segment.rows);
+		}
+		vt.feed_str(&segment.bytes);
+	}
 
 	let cursor = vt.cursor();
 	Grid {
@@ -89,8 +101,8 @@ fn every_scenario_leaves_the_terminal_the_way_clack_left_it() {
 			continue;
 		}
 
-		let theirs = grid(&scenario.recorded(), scenario.columns, scenario.rows);
-		let ours = grid(&scenario.replay(), scenario.columns, scenario.rows);
+		let theirs = grid(&scenario.recorded_segments());
+		let ours = grid(&scenario.replayed());
 
 		// Two blank terminals are equal, so a Scenario whose stream never reached the emulator
 		// would agree for free. clack's side is asserted to have drawn the message it was given —
@@ -122,7 +134,7 @@ fn every_scenario_leaves_the_terminal_the_way_clack_left_it() {
 	);
 
 	assert!(
-		compared >= 17,
+		compared >= 21,
 		"only {compared} Scenarios were compared; the fixtures have stopped carrying them"
 	);
 }

@@ -21,7 +21,7 @@
 //! Scenario recorded and it produces the byte stream clack would have produced, with no terminal
 //! and no threads involved.
 //!
-//! # Two divergences, both recorded rather than smoothed over
+//! # One divergence, recorded rather than smoothed over
 //!
 //! **The status after the opening Frame.** Upstream's `state` is one field shared by the state
 //! machine and the writer, and `render()` moves it from `initial` to `active` once it has written
@@ -31,14 +31,13 @@
 //! [`crate::text::TextWidget`] matches them in one arm — but a Prompt added later that told the two
 //! apart would need this revisited.
 //!
-//! **Re-wrapping on resize.** Upstream keeps `_prevFrame` as the *wrapped* string and, on every
-//! render, re-wraps it at the terminal's current width to count the rows it must walk back over.
-//! The Emitter keeps the rows it last laid out instead. The two agree whenever the terminal has not
-//! narrowed since the previous Frame — an already-wrapped row cannot wrap again at the same width
-//! or a wider one — and can disagree when it has. No harvested Scenario resizes mid-Prompt, so
-//! there is no oracle to settle it against yet; [`Session::resize`] is written the straightforward
-//! way and the gap is named here so that the hand-authored resize Scenario finds it rather than
-//! discovers it.
+//! The second divergence this file used to record — re-wrapping on resize — has been settled and is
+//! gone. Upstream keeps `_prevFrame` as the *wrapped* string and re-wraps it at the terminal's
+//! current width to count the rows it walks back over, while the Emitter kept the rows it last laid
+//! out; the two agree unless the terminal narrowed. There was no oracle for it, so it was left as
+//! the straightforward thing and named here. The hand-authored resize Scenarios are that oracle,
+//! and they found it: two of them differed on the Grid. `Emitter::restored` is upstream's count
+//! now, and ADR-0017 has the reasoning.
 
 use crate::emitter::Emitter;
 use crate::frame::Frame;

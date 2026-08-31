@@ -49,8 +49,34 @@ pub struct Scenario {
 	pub rows: usize,
 	/// Upstream passed a `validate` callback, which a recording cannot carry across.
 	pub validates: bool,
+	/// The keypresses on their own, for everything that drives a bare [`Prompt`] and has no notion
+	/// of a terminal. A Scenario that resizes says so in [`Scenario::events`] instead.
 	pub keys: Vec<Recorded>,
+	/// Everything that happened to the Prompt, in order.
+	pub events: Vec<Event>,
 	pub output: Vec<String>,
+}
+
+/// One thing that happened to an open Prompt.
+pub enum Event {
+	Key(Recorded),
+	/// The terminal changed size, `at` chunks into what clack wrote.
+	///
+	/// The position is what a keypress does not need. Anything replaying the recording has to
+	/// change the terminal it is replaying *into* at the same point clack's did, or the two streams
+	/// are being read at different widths and the comparison means nothing.
+	Resize {
+		columns: usize,
+		rows: usize,
+		at: usize,
+	},
+}
+
+/// A run of bytes and the terminal they were written into.
+pub struct Segment {
+	pub bytes: String,
+	pub columns: usize,
+	pub rows: usize,
 }
 
 pub struct Recorded {
@@ -119,19 +145,14 @@ fn parse(source: &str, path: &str) -> (serde_json::Value, Vec<Scenario>) {
 					.unwrap_or(80) as usize,
 				rows: run["terminal"]["rows"].as_u64().unwrap_or(20) as usize,
 				validates: opts["validate"]["callback"].as_bool() == Some(true),
-				keys: run["keys"]
-					.as_array()
-					.expect("keys is an array")
-					.iter()
-					.map(|key| Recorded {
-						s: key["s"].as_str().map(str::to_owned),
-						name: key["key"]["name"].as_str().map(str::to_owned),
-						ctrl: key["key"]["ctrl"].as_bool() == Some(true),
-						meta: key["key"]["meta"].as_bool() == Some(true),
-						shift: key["key"]["shift"].as_bool() == Some(true),
-						sequence: key["key"]["sequence"].as_str().map(str::to_owned),
-					})
-					.collect(),
+				keys: keys(run),
+				// A Fixture whose Recorder predates resizes says nothing about them, and a Scenario
+				// that never resized is its keys in order — so the one reads as the other rather
+				// than as a missing field.
+				events: match run["events"].as_array() {
+					Some(events) => events.iter().map(event).collect(),
+					None => keys(run).into_iter().map(Event::Key).collect(),
+				},
 				output: run["output"]
 					.as_array()
 					.expect("output is an array")
@@ -143,6 +164,38 @@ fn parse(source: &str, path: &str) -> (serde_json::Value, Vec<Scenario>) {
 		.collect();
 
 	(json, scenarios)
+}
+
+fn keys(run: &serde_json::Value) -> Vec<Recorded> {
+	run["keys"]
+		.as_array()
+		.expect("keys is an array")
+		.iter()
+		.map(keypress)
+		.collect()
+}
+
+fn keypress(key: &serde_json::Value) -> Recorded {
+	Recorded {
+		s: key["s"].as_str().map(str::to_owned),
+		name: key["key"]["name"].as_str().map(str::to_owned),
+		ctrl: key["key"]["ctrl"].as_bool() == Some(true),
+		meta: key["key"]["meta"].as_bool() == Some(true),
+		shift: key["key"]["shift"].as_bool() == Some(true),
+		sequence: key["key"]["sequence"].as_str().map(str::to_owned),
+	}
+}
+
+fn event(event: &serde_json::Value) -> Event {
+	match event["kind"].as_str() {
+		Some("resize") => Event::Resize {
+			columns: event["columns"].as_u64().expect("a resize has a width") as usize,
+			rows: event["rows"].as_u64().expect("a resize has a height") as usize,
+			at: event["at"].as_u64().expect("a resize has a position") as usize,
+		},
+		Some("key") => Event::Key(keypress(event)),
+		other => panic!("unknown event kind {other:?}"),
+	}
 }
 
 impl Scenario {
@@ -196,18 +249,96 @@ impl Scenario {
 
 	/// Every byte the port writes for this Scenario, from the opening Frame to the closing cursor.
 	pub fn replay(&self) -> String {
-		let mut session = self.session();
-		let mut out = session.open();
-		for recorded in &self.keys {
-			out.push_str(&session.key(recorded.s.as_deref(), &recorded.key()));
-		}
-		out
+		self.replayed()
+			.into_iter()
+			.map(|segment| segment.bytes)
+			.collect()
 	}
 
 	/// Every byte clack wrote for it. The chunks are one `output.write` call each; a terminal sees
 	/// them as one stream, so that is how they are handed on.
 	pub fn recorded(&self) -> String {
 		self.output.concat()
+	}
+
+	/// What the port writes, cut where the terminal changed size under it.
+	pub fn replayed(&self) -> Vec<Segment> {
+		let mut session = self.session();
+		let mut segments = Vec::new();
+		let (mut columns, mut rows) = (self.columns, self.rows);
+		let mut bytes = session.open();
+
+		for event in &self.events {
+			match event {
+				Event::Key(recorded) => {
+					bytes.push_str(&session.key(recorded.s.as_deref(), &recorded.key()));
+				}
+				Event::Resize {
+					columns: to,
+					rows: high,
+					..
+				} => {
+					// Everything so far belongs to the terminal it was written into; the resize's
+					// own output belongs to the new one, as it does on clack's side.
+					segments.push(Segment {
+						bytes: std::mem::take(&mut bytes),
+						columns,
+						rows,
+					});
+					(columns, rows) = (*to, *high);
+					bytes.push_str(&session.resize(*to as u16, *high as u16));
+				}
+			}
+		}
+
+		segments.push(Segment {
+			bytes,
+			columns,
+			rows,
+		});
+		segments
+	}
+
+	/// What clack wrote, cut at the same points.
+	///
+	/// A resize records how many chunks had been written when it arrived, which is what makes the
+	/// two sides splittable in the same places. Without that the recording would be one stream with
+	/// no way to know which width any part of it was meant for.
+	pub fn recorded_segments(&self) -> Vec<Segment> {
+		let mut segments = Vec::new();
+		let (mut columns, mut rows) = (self.columns, self.rows);
+		let mut start = 0;
+
+		for event in &self.events {
+			let Event::Resize {
+				columns: to,
+				rows: high,
+				at,
+			} = event
+			else {
+				continue;
+			};
+			segments.push(Segment {
+				bytes: self.output[start..*at].concat(),
+				columns,
+				rows,
+			});
+			(columns, rows, start) = (*to, *high, *at);
+		}
+
+		segments.push(Segment {
+			bytes: self.output[start..].concat(),
+			columns,
+			rows,
+		});
+		segments
+	}
+
+	/// Whether the terminal ever changed size under this Prompt.
+	pub fn resizes(&self) -> bool {
+		self.events
+			.iter()
+			.any(|event| matches!(event, Event::Resize { .. }))
 	}
 }
 

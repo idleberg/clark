@@ -5,20 +5,29 @@
 // in the port and the two places `session.rs` records a known divergence. These cases exist to put
 // a recording under them.
 //
-// A case is upstream's input and nothing else — options, a terminal width, a sequence of
-// keypresses, and what `text()` should return. No expected output appears here: that is the whole
-// point of a Scenario, and the bytes are whatever clack writes when the case is run.
+// A case is upstream's input and nothing else — options, a terminal width, an ordered sequence of
+// events, and what `text()` should return. No expected output appears here: that is the whole point
+// of a Scenario, and the bytes are whatever clack writes when the case is run.
 //
 // `value` is not decoration. A hand-authored Scenario has no upstream snapshot behind it, so the
-// only evidence that the keys drove clack anywhere is what clack handed back; ./record.test.mjs
+// only evidence that the events drove clack anywhere is what clack handed back; ./record.test.mjs
 // asserts it and refuses to write a recording that fails.
 
 /** A run of ordinary characters, as readline reports them: the character, named after itself. */
-const typing = (text) => [...text].map((s) => ({ s, key: { name: s } }));
+const typing = (text) => [...text].map((s) => ({ kind: 'key', s, key: { name: s } }));
 
-const enter = { s: '', key: { name: 'return' } };
-const escape = { s: '', key: { name: 'escape' } };
-const backspace = (n) => Array.from({ length: n }, () => ({ s: '', key: { name: 'backspace' } }));
+const enter = { kind: 'key', s: '', key: { name: 'return' } };
+const escape = { kind: 'key', s: '', key: { name: 'escape' } };
+const backspace = (n) =>
+	Array.from({ length: n }, () => ({ kind: 'key', s: '', key: { name: 'backspace' } }));
+
+/** The terminal changes width under a Prompt that is already open.
+ *
+ * This is the event upstream's tests never send, and the only thing that can settle the divergence
+ * `session.rs` records: on re-render clack re-wraps the *previous* Frame at the terminal's current
+ * width to count the rows it walks back over, while the Emitter keeps the rows it laid out. The two
+ * agree whenever the terminal has not narrowed, so a narrowing is the case that decides it. */
+const resize = (columns) => ({ kind: 'resize', columns });
 
 /** Wide enough that the prompt's own `◇  ` prefix matters, narrow enough to wrap a short sentence. */
 const NARROW = 40;
@@ -29,7 +38,7 @@ export const cases = [
 		name: 'narrow › the message wraps',
 		columns: NARROW,
 		opts: { message: 'What is the name of the package you would like to publish?' },
-		keys: [...typing('acme'), enter],
+		events: [...typing('acme'), enter],
 		value: 'acme',
 	},
 	{
@@ -39,7 +48,7 @@ export const cases = [
 		name: 'narrow › the value wraps as it is typed',
 		columns: NARROW,
 		opts: { message: 'Path' },
-		keys: [...typing('packages/prompts/src/prompts/text-input.ts'), enter],
+		events: [...typing('packages/prompts/src/prompts/text-input.ts'), enter],
 		value: 'packages/prompts/src/prompts/text-input.ts',
 	},
 	{
@@ -48,7 +57,7 @@ export const cases = [
 		name: 'narrow › deleting back across the wrap',
 		columns: NARROW,
 		opts: { message: 'Path' },
-		keys: [...typing('packages/prompts/src/prompts/text-input.ts'), ...backspace(22), enter],
+		events: [...typing('packages/prompts/src/prompts/text-input.ts'), ...backspace(22), enter],
 		value: 'packages/prompts/src',
 	},
 	{
@@ -57,7 +66,7 @@ export const cases = [
 		name: 'narrow › a cancelled value wraps',
 		columns: NARROW,
 		opts: { message: 'Path' },
-		keys: [...typing('packages/prompts/src/prompts/text-input.ts'), escape],
+		events: [...typing('packages/prompts/src/prompts/text-input.ts'), escape],
 		cancelled: true,
 	},
 	{
@@ -66,7 +75,7 @@ export const cases = [
 		name: 'cjk › a wide message and a wide value',
 		columns: 80,
 		opts: { message: '新しいパッケージの名前は何ですか' },
-		keys: [...typing('日本語'), enter],
+		events: [...typing('日本語'), enter],
 		value: '日本語',
 	},
 	{
@@ -75,7 +84,7 @@ export const cases = [
 		name: 'cjk › a wide message wraps where a character cannot split',
 		columns: NARROW,
 		opts: { message: '新しいパッケージの名前を入力してください、よろしくお願いします' },
-		keys: [...typing('acme'), enter],
+		events: [...typing('acme'), enter],
 		value: 'acme',
 	},
 	{
@@ -84,7 +93,58 @@ export const cases = [
 		name: 'cjk › a wide value wraps',
 		columns: 20,
 		opts: { message: 'Name' },
-		keys: [...typing('日本語テキストの入力'), enter],
+		events: [...typing('日本語テキストの入力'), enter],
 		value: '日本語テキストの入力',
+	},
+	{
+		// The one that decides it. The value already occupies two rows at 40; at 20 it needs four, so
+		// the previous Frame re-wraps under the cursor and upstream's row count and the Emitter's part
+		// company — if they do.
+		name: 'resize › the terminal narrows under a wrapped value',
+		columns: NARROW,
+		opts: { message: 'Path' },
+		events: [
+			...typing('packages/prompts/src/prompts/text-input.ts'),
+			resize(20),
+			enter,
+		],
+		value: 'packages/prompts/src/prompts/text-input.ts',
+	},
+	{
+		// Widening is the direction they are expected to agree on: an already-wrapped row cannot wrap
+		// again at a greater width, so re-wrapping the previous Frame and remembering it come to the
+		// same number. Recorded anyway, because "expected to agree" is a claim and this is what
+		// turns it into a test.
+		name: 'resize › the terminal widens and the value fits again',
+		columns: 20,
+		opts: { message: 'Path' },
+		events: [...typing('packages/prompts/src'), resize(60), enter],
+		value: 'packages/prompts/src',
+	},
+	{
+		// Narrowing with nothing typed, so what re-wraps is the message rather than the value, and
+		// the Frame grows a row without any key being pressed.
+		name: 'resize › the terminal narrows under a wrapped message',
+		columns: NARROW,
+		opts: { message: 'What is the name of the package you would like to publish?' },
+		events: [resize(24), ...typing('acme'), enter],
+		value: 'acme',
+	},
+	{
+		// Twice, and back, so the recording covers a Frame that has been re-laid-out more than once
+		// and a port that only resets its remembered rows on the first resize is caught.
+		name: 'resize › narrowed, widened and narrowed again',
+		columns: NARROW,
+		opts: { message: 'Path' },
+		events: [
+			...typing('packages/prompts/src'),
+			resize(20),
+			...typing('/text.ts'),
+			resize(60),
+			...typing('!'),
+			resize(24),
+			enter,
+		],
+		value: 'packages/prompts/src/text.ts!',
 	},
 ];

@@ -47,6 +47,7 @@
 use ratatui_core::style::{Color, Modifier, Style};
 
 use crate::frame::{Frame, Row};
+use crate::wrap::breaks;
 
 const CSI: &str = "\u{1b}[";
 
@@ -110,9 +111,15 @@ impl Emitter {
 
 		// Back to where the previous Frame began. Column -999 rather than column 0 is upstream's:
 		// `cursor.move` emits a relative `CUB`, and 999 is further left than any terminal is wide.
+		//
+		// The row count is upstream's `restoreCursor`, which is not `before`. It re-wraps the
+		// previous Frame at the terminal's *current* width, while the diff below splits it at the
+		// newlines it was written with. The two are the same number unless the terminal narrowed
+		// between the Frames, and when it has, upstream walks the cursor further up than it drew.
+		// See ADR-0017: this is reproduced because the terminal can see it.
 		let before = self.previous.len();
 		let after = next.len();
-		out.push_str(&cursor_move(-999, -(before as i64 - 1)));
+		out.push_str(&cursor_move(-999, -(self.restored(columns) as i64 - 1)));
 
 		let changed: Vec<usize> = (0..before.max(after))
 			.filter(|&index| self.previous.get(index) != next.get(index))
@@ -155,6 +162,23 @@ impl Emitter {
 		out
 	}
 
+	/// How many rows upstream's `restoreCursor` walks the cursor back over.
+	///
+	/// Upstream keeps the previous Frame as the wrapped *string* it wrote, and re-wraps that string
+	/// at whatever the terminal is now. A row that already fits cannot wrap again at the same width
+	/// or a greater one, so this is `self.previous.len()` in every case but one: the terminal
+	/// narrowed since the previous Frame, and rows laid out for the old width now need more than
+	/// one each.
+	///
+	/// Whether that is *right* is a separate question — it walks back over rows the terminal has
+	/// re-flowed rather than over the rows that are there — and not one this port gets to answer.
+	fn restored(&self, columns: u16) -> usize {
+		self.previous
+			.iter()
+			.map(|row| breaks(&row_text(row), columns as usize).len() + 1)
+			.sum()
+	}
+
 	/// The newline upstream writes when a Prompt closes, leaving the Frame in the scrollback.
 	pub fn finish(&self) -> String {
 		"\n".to_owned()
@@ -165,6 +189,11 @@ impl Emitter {
 	pub fn show_cursor(&self) -> String {
 		format!("{CSI}?25h")
 	}
+}
+
+/// A laid-out row back as the text it was laid out from, for measuring it again at another width.
+fn row_text(row: &Row) -> String {
+	row.iter().map(|placed| placed.symbol.as_str()).collect()
 }
 
 /// Every row from `first` on, joined the way upstream joins them.
@@ -388,6 +417,32 @@ mod tests {
 			emitter
 				.frame(&frame("abcdefgh\ny"), 4, 10)
 				.starts_with("\u{1b}[999D\u{1b}[2A")
+		);
+	}
+
+	#[test]
+	fn a_narrowed_terminal_walks_the_cursor_back_over_rows_that_are_not_there() {
+		// One row at 8 columns; the terminal is then 4, where that row would have been two. Upstream
+		// re-wraps the previous Frame at the current width and walks back over the two rows it now
+		// computes, rather than over the one it drew. That is what a terminal sees, so it is what
+		// this emits (ADR-0017).
+		let mut emitter = Emitter::new();
+		emitter.frame(&frame("abcdefgh"), 8, 10);
+		assert!(
+			emitter
+				.frame(&frame("abcdefgz"), 4, 10)
+				.starts_with("\u{1b}[999D\u{1b}[1A"),
+			"a narrowed terminal should walk back over the re-wrapped row count"
+		);
+
+		// And widening cannot change it: a row that already fits is still one row.
+		let mut emitter = Emitter::new();
+		emitter.frame(&frame("abcdefgh"), 8, 10);
+		assert!(
+			emitter
+				.frame(&frame("abcdefgz"), 40, 10)
+				.starts_with("\u{1b}[999D\u{1b}[2K"),
+			"a widened terminal should walk back over the one row it drew, which is no rows at all"
 		);
 	}
 

@@ -2,10 +2,10 @@
 //!
 //! ADR-0003 makes upstream's tests the specification: each of them is a Prompt configuration, a
 //! sequence of keypresses, and the output clack wrote back. ADR-0010 describes how they are caught,
-//! by `scripts/harvest-scenarios.mjs`. Seven more are hand-authored, because upstream's tests never
-//! vary the terminal and so can say nothing about a wrap; ADR-0016 describes what that costs and
-//! what stands in for the oracle a harvest has. The recordings are what this file reads; no
-//! JavaScript runs here, for the reasons ADR-0008 gives.
+//! by `scripts/harvest-scenarios.mjs`. Eleven more are hand-authored, because upstream's tests
+//! never vary the terminal and so can say nothing about a wrap or a resize; ADR-0016 describes what
+//! that costs and what stands in for the oracle a harvest has. The recordings are what this file
+//! reads; no JavaScript runs here, for the reasons ADR-0008 gives.
 //!
 //! No emulator runs here either. That is `scenario_parity.rs`, which is where the Grid comparison
 //! ADR-0001 asks for lives. What is left in this file is the set of checks that read the recording
@@ -99,7 +99,7 @@ fn every_scenario_settles_the_way_clack_settled() {
 	);
 
 	assert!(
-		replayed >= 9,
+		replayed >= 21,
 		"only {replayed} Scenarios were replayable; the filters above have eaten the suite"
 	);
 }
@@ -166,14 +166,14 @@ fn every_scenario_draws_clacks_opening_frame() {
 	);
 
 	assert!(
-		compared >= 18,
+		compared >= 21,
 		"only {compared} Frames were compared; the fixtures have stopped carrying them"
 	);
 
 	// The hand-authored Fixture exists to reach a wrap, so at least one of its Scenarios has to be
 	// past this test's reach. If none is, it is not testing what it was written for.
 	assert!(
-		wrapped >= 2,
+		wrapped >= 3,
 		"{wrapped} opening Frames were too wide to compare unwrapped; the authored Scenarios have \
 		 stopped wrapping"
 	);
@@ -228,7 +228,7 @@ fn every_scenario_is_written_the_way_clack_wrote_it() {
 	);
 
 	assert!(
-		compared >= 10,
+		compared >= 21,
 		"only {compared} Scenarios were compared; the filters above have eaten the suite"
 	);
 }
@@ -498,7 +498,7 @@ fn the_authored_fixture_records_the_widths_it_claims() {
 	);
 
 	assert!(
-		scenarios.len() >= 7,
+		scenarios.len() >= 11,
 		"the authored Fixture has shrunk to {} Scenarios",
 		scenarios.len()
 	);
@@ -506,9 +506,18 @@ fn the_authored_fixture_records_the_widths_it_claims() {
 	// The point of the whole Fixture: it has to reach widths the harvest cannot.
 	let narrow = scenarios.iter().filter(|s| s.columns < 80).count();
 	assert!(
-		narrow >= 4,
+		narrow >= 8,
 		"only {narrow} authored Scenarios are narrower than the harvest's 80 columns, which is \
 		 what this Fixture exists for"
+	);
+
+	// And the other thing upstream's tests never do. A Scenario that resizes is the only evidence
+	// there is for the `restoreCursor` behaviour ADR-0017 records, so losing them would leave that
+	// behaviour asserted by nothing but the unit test that was written from it.
+	let resizing = scenarios.iter().filter(|s| s.resizes()).count();
+	assert!(
+		resizing >= 4,
+		"only {resizing} authored Scenarios resize the terminal"
 	);
 
 	for scenario in &scenarios {
