@@ -8,6 +8,7 @@ pub mod emitter;
 pub mod frame;
 pub mod limit_options;
 pub mod line_editor;
+pub mod multi_select;
 pub mod password;
 pub mod prompt;
 pub mod select;

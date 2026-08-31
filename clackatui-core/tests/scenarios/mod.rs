@@ -9,17 +9,18 @@
 //! defines a Fixture. What those bytes *mean* is decided on the Rust side, by whichever test is
 //! asking.
 //!
-//! # Four Fixtures, one shape
+//! # Six Fixtures, one shape
 //!
-//! [`harvested`], [`password`] and [`confirm`] are clack's own test suite, one file per Prompt,
+//! [`harvested`], [`password`], [`confirm`], [`select`] and [`multi_select`] are clack's own test
+//! suite, one file per Prompt,
 //! recorded while the suite passed its own snapshots. [`authored`] is `scripts/authored/cases.mjs`,
 //! written because upstream's tests never vary the terminal and so can say nothing about wrapping.
 //! They are recorded by different scripts and carry different evidence behind them — ADR-0016 — but
 //! they are the same shape and are read the same way, and [`all`] is what the tests run over.
 //!
-//! # Three kinds of Prompt
+//! # Five kinds of Prompt
 //!
-//! A Scenario names the Prompt it configures, and [`Run`] is the three of them behind one door.
+//! A Scenario names the Prompt it configures, and [`Run`] is all of them behind one door.
 //! Nothing above this module branches on the kind: a Scenario opens, takes keys, resizes and
 //! settles, and which widget is doing the drawing is the loader's business.
 
@@ -28,6 +29,7 @@
 use clackatui_core::confirm::{ConfirmState, ConfirmWidget};
 use clackatui_core::frame::Frame;
 use clackatui_core::line_editor::{Key, KeyName};
+use clackatui_core::multi_select::{MultiSelectState, MultiSelectWidget, required};
 use clackatui_core::password::{PasswordState, PasswordWidget};
 use clackatui_core::prompt::{Prompt, Status};
 use clackatui_core::select::{SelectOption, SelectState, SelectWidget};
@@ -39,6 +41,7 @@ const AUTHORED: &str = include_str!("../fixtures/scenarios/authored.json");
 const PASSWORD: &str = include_str!("../fixtures/scenarios/password.json");
 const CONFIRM: &str = include_str!("../fixtures/scenarios/confirm.json");
 const SELECT: &str = include_str!("../fixtures/scenarios/select.json");
+const MULTI_SELECT: &str = include_str!("../fixtures/scenarios/multi-select.json");
 
 /// The tag `README.md` names. A fixture from anywhere else is not the thing we claim parity with.
 pub const TAG: &str = "@clack/prompts@1.7.0";
@@ -63,6 +66,10 @@ pub struct Scenario {
 	pub options: Vec<Choice>,
 	pub max_items: Option<usize>,
 	pub show_instructions: bool,
+	/// `multiselect`'s `initialValues`, `cursorAt` and `required`.
+	pub initial_values: Vec<String>,
+	pub cursor_at: Option<String>,
+	pub required: bool,
 	/// `opts.withGuide`, which falls back to `settings.withGuide` when absent.
 	pub with_guide: bool,
 	/// The width clack wrapped its Frames to — `process.stdout.columns`, recorded as
@@ -155,6 +162,11 @@ pub fn select() -> (serde_json::Value, Vec<Scenario>) {
 	parse(SELECT, "fixtures/scenarios/select.json")
 }
 
+/// Clack's own `multiselect` suite.
+pub fn multi_select() -> (serde_json::Value, Vec<Scenario>) {
+	parse(MULTI_SELECT, "fixtures/scenarios/multi-select.json")
+}
+
 /// Every Scenario there is. Which Fixture one came from is a question about the evidence behind it,
 /// not about what the port owes it, so the tests do not ask.
 pub fn all() -> Vec<Scenario> {
@@ -163,6 +175,7 @@ pub fn all() -> Vec<Scenario> {
 	scenarios.extend(password().1);
 	scenarios.extend(confirm().1);
 	scenarios.extend(select().1);
+	scenarios.extend(multi_select().1);
 	scenarios
 }
 
@@ -207,6 +220,24 @@ fn parse(source: &str, path: &str) -> (serde_json::Value, Vec<Scenario>) {
 					.unwrap_or_default(),
 				max_items: opts["maxItems"].as_u64().map(|n| n as usize),
 				show_instructions: opts["showInstructions"].as_bool().unwrap_or(true),
+				initial_values: opts["initialValues"]
+					.as_array()
+					.map(|values| {
+						values
+							.iter()
+							.map(|value| {
+								value
+									.as_str()
+									.expect("an initial value is a string")
+									.to_owned()
+							})
+							.collect()
+					})
+					.unwrap_or_default(),
+				cursor_at: opts["cursorAt"].as_str().map(str::to_owned),
+				// `opts.required ?? true`. The one option in any Fixture whose default is on, and so the
+				// one a Scenario carries as an absence rather than as a value.
+				required: opts["required"].as_bool().unwrap_or(true),
 				with_guide: opts["withGuide"]
 					.as_bool()
 					.or_else(|| run["settings"]["withGuide"].as_bool())
@@ -304,6 +335,24 @@ impl Scenario {
 	/// Everything a Scenario configures is resolved here, once. A widget option that a Fixture does
 	/// not carry — a `text`'s placeholder in a `confirm` recording — is simply absent, so the three
 	/// arms read like the three builders in `@clack/prompts` do.
+	/// The `options` array as the two list Prompts want it. Both read the same four fields, because
+	/// `multi-select.ts` imports `Option<Value>` from `select.ts` rather than declaring one.
+	fn choices(&self) -> Vec<SelectOption<String>> {
+		self.options
+			.iter()
+			.map(|choice| {
+				let mut option = match &choice.label {
+					Some(label) => SelectOption::labelled(choice.value.clone(), label),
+					None => SelectOption::new(choice.value.clone()),
+				};
+				if let Some(hint) = &choice.hint {
+					option = option.with_hint(hint);
+				}
+				option.with_disabled(choice.disabled)
+			})
+			.collect()
+	}
+
 	pub fn run(&self) -> Run {
 		let size = (self.columns as u16, self.rows as u16);
 		let message = self.message.clone();
@@ -352,21 +401,7 @@ impl Scenario {
 			}
 
 			"select" => {
-				let options = self
-					.options
-					.iter()
-					.map(|choice| {
-						let mut option = match &choice.label {
-							Some(label) => SelectOption::labelled(choice.value.clone(), label),
-							None => SelectOption::new(choice.value.clone()),
-						};
-						if let Some(hint) = &choice.hint {
-							option = option.with_hint(hint);
-						}
-						option.with_disabled(choice.disabled)
-					})
-					.collect();
-				let mut state = SelectState::new(options);
+				let mut state = SelectState::new(self.choices());
 				if let Some(initial) = &self.initial_value {
 					state = state.with_initial_value(initial);
 				}
@@ -382,6 +417,38 @@ impl Scenario {
 					// both sides, and it is the one a resize moves.
 					Session::new(Prompt::new(state), move |prompt, _columns, rows| {
 						let mut widget = SelectWidget::new(prompt, &message)
+							.with_guide(with_guide)
+							.with_columns(stream)
+							.with_rows(rows as usize)
+							.with_instructions(show_instructions);
+						if let Some(max_items) = max_items {
+							widget = widget.with_max_items(max_items);
+						}
+						widget.frame()
+					})
+					.with_size(size.0, size.1),
+				)
+			}
+
+			"multiselect" => {
+				let mut state = MultiSelectState::new(self.choices())
+					.with_initial_values(self.initial_values.clone());
+				if let Some(at) = &self.cursor_at {
+					state = state.with_cursor_at(at);
+				}
+				let mut prompt = Prompt::new(state);
+				// The one validator any Scenario installs. Upstream's is not a `validate` a recording
+				// could carry — `multiselect()` writes it itself — so a Scenario reproduces the option
+				// that turns it on rather than the callback it produced.
+				if self.required {
+					prompt = prompt.with_validator(required);
+				}
+				let max_items = self.max_items;
+				let show_instructions = self.show_instructions;
+				let stream = self.stream_columns;
+				Run::MultiSelect(
+					Session::new(prompt, move |prompt, _columns, rows| {
+						let mut widget = MultiSelectWidget::new(prompt, &message)
 							.with_guide(with_guide)
 							.with_columns(stream)
 							.with_rows(rows as usize)
@@ -539,10 +606,11 @@ pub enum Run {
 	Password(Session<PasswordState>),
 	Confirm(Session<ConfirmState>),
 	Select(Session<SelectState<String>>),
+	MultiSelect(Session<MultiSelectState<String>>),
 }
 
-/// The same call on whichever Session is inside. A macro because the three arms differ only in the
-/// variant name, and three copies of each method would be three places to forget one.
+/// The same call on whichever Session is inside. A macro because the arms differ only in the
+/// variant name, and one copy of each method per Prompt would be one place per Prompt to forget one.
 macro_rules! dispatch {
 	($self:ident, $session:ident => $call:expr) => {
 		match $self {
@@ -550,6 +618,7 @@ macro_rules! dispatch {
 			Run::Password($session) => $call,
 			Run::Confirm($session) => $call,
 			Run::Select($session) => $call,
+			Run::MultiSelect($session) => $call,
 		}
 	};
 }

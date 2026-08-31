@@ -66,8 +66,10 @@ ported against a corpus of its own
 ([ADR-0020](./docs/adr/0020-limit-options-is-ported-against-a-corpus-and-reaches-a-width-of-nothing.md)),
 then `select` on top of it, whose own suite is the first to hand a Prompt a terminal narrower than the
 one its Frames are written into
-([ADR-0021](./docs/adr/0021-select-reads-three-widths-and-a-strikethrough-outlives-its-row.md)) —
-**all sixty-eight agree on the Grid**.
+([ADR-0021](./docs/adr/0021-select-reads-three-widths-and-a-strikethrough-outlives-its-row.md)), then
+`multiselect`, whose validator returns a message with escapes in it that a Frame has no way to carry
+([ADR-0022](./docs/adr/0022-multiselect-draws-an-error-a-frame-cannot-carry.md)) —
+**all ninety-one agree on the Grid**.
 See
 [CONTEXT.md](./CONTEXT.md) for the vocabulary and [docs/adr/](./docs/adr/) for the decisions behind
 the shape below.
@@ -202,7 +204,7 @@ upstream drift.
 | **M0** | ~~`ForcedWidth` probe — the one experiment the architecture rests on (below)~~ **done** |
 | **M1** | ~~`text` end to end — Recorder, width port, `LineEditor`, `TextState`, `Frame`, Theme, `text` widget, wrap port, Emitter, `.interact()`, harvested text Scenarios green, hand-authored Scenarios (narrow, CJK, resize)~~ **done** |
 | **M2** | ~~`password` and `confirm` — states, widgets, builders, both suites harvested, eleven more hand-authored Scenarios~~ **done** |
-| **M3** | ~~`limit-options` against a 54-case corpus, `select` end to end with its suite harvested~~ **done**; multi-select, select-key |
+| **M3** | ~~`limit-options` against a 54-case corpus, `select` and `multiselect` end to end with their suites harvested~~ **done**; select-key |
 | **M4** | group-multi-select, autocomplete, date, multi-line |
 | **M5** | static renderers |
 | **M6** | theme polish, docs, publish |
@@ -248,6 +250,17 @@ The one no reading would have found is a cancelled value's strikethrough, which 
 and closes at the end while reopening the dim row by row — so the Guide bars in between are drawn
 struck through, and the port draws them that way too
 ([ADR-0021](./docs/adr/0021-select-reads-three-widths-and-a-strikethrough-outlives-its-row.md)).
+
+`multiselect` then reused all of it — the same `Option`, the same cursor walk, the same windowing —
+and paid for its one new thing. Upstream's `required` check returns a two-line message whose second
+line is a styled `Press ␣space␣ to select`, and a Frame holds no escapes at all, so the error is split
+where the architecture already cuts: the Prompt carries the sentence, the widget draws the advice from
+the Theme. The Grid is identical and the message is now restylable
+([ADR-0022](./docs/adr/0022-multiselect-draws-an-error-a-frame-cannot-carry.md)). Mutation testing
+found the gap that mattered more than any of that: an error Frame is never the *last* Frame a Scenario
+draws, so the Grid comparison never sees one and the stream comparison strips its styles — three
+mutations of the error Frame's colours survived every recording upstream has. Unit tests now hold
+them.
 
 M0 came first because it was cheap and load-bearing. Reusing `BufferDiff` under our own width model
 depends entirely on `CellDiffOption::ForcedWidth`, which is recent API on a pre-1.0 crate. The probe

@@ -48,6 +48,7 @@
 
 use std::borrow::Cow;
 
+use ratatui_core::style::{Modifier, Style};
 use unicode_normalization::{UnicodeNormalization, is_nfc_quick};
 
 use crate::width::width;
@@ -240,6 +241,24 @@ pub fn wrap(input: &str, columns: usize) -> String {
 		}
 	}
 	out
+}
+
+/// What styling survives a break instead of being reopened on the far side of it.
+///
+/// The escape bookkeeping this module deliberately omits is not symmetric upstream. `wrapAnsi`
+/// closes the codes it recognises at the end of a row and reopens them at the start of the next, and
+/// a code it does not recognise is neither closed nor reopened — it simply stays open across the
+/// break, and across whatever a caller prepends to the following row. Strikethrough is such a code
+/// and `dim` is not, so a cancelled value written `styleText(['strikethrough','dim'], …)` and then
+/// wrapped comes back as a `2m`/`22m` pair around every row and a single `9m` around all of them,
+/// and the Guide bars the rows in between are prefixed with are drawn struck through.
+///
+/// A Frame carries no escapes, so nothing here can be inherited by accident (ADR-0011) — which means
+/// the leak has to be reproduced deliberately. It is expressed as "the style, less the part that is
+/// reopened per row" rather than as the strikethrough by name, so that a Theme changing what a
+/// cancelled value looks like changes what leaks out of it too.
+pub fn leaked(style: Style) -> Style {
+	Style::new().add_modifier(style.add_modifier.difference(Modifier::DIM))
 }
 
 #[cfg(test)]

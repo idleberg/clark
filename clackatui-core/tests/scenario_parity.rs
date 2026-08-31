@@ -145,7 +145,7 @@ fn every_scenario_leaves_the_terminal_the_way_clack_left_it() {
 	);
 
 	assert!(
-		compared >= 49,
+		compared >= 91,
 		"only {compared} Scenarios were compared; the fixtures have stopped carrying them"
 	);
 }

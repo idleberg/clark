@@ -35,7 +35,7 @@ use clackatui_core::prompt::Status;
 use ratatui_core::style::{Color, Modifier, Style};
 
 mod scenarios;
-use scenarios::{Scenario, TAG, all, authored, confirm, harvested, password, select};
+use scenarios::{Scenario, TAG, all, authored, confirm, harvested, multi_select, password, select};
 
 /// The state clack was in when it drew its last frame, read off the step symbol it prints.
 ///
@@ -480,7 +480,7 @@ fn the_harvested_fixture_is_a_plausible_recording() {
 /// Frame or the cancelled one would otherwise be merely smaller, and the count below would let it
 /// through.
 #[test]
-fn the_password_confirm_and_select_fixtures_are_plausible_recordings() {
+fn the_password_confirm_select_and_multiselect_fixtures_are_plausible_recordings() {
 	for (kind, (json, scenarios), least, required) in [
 		(
 			"password",
@@ -526,6 +526,26 @@ fn the_password_confirm_and_select_fixtures_are_plausible_recordings() {
 				"select › showInstructions: false hides instruction footer",
 				"select › correctly limits options when message wraps to multiple lines",
 				"select › withGuide: false removes guide",
+			][..],
+		),
+		(
+			"multiselect",
+			multi_select(),
+			22,
+			&[
+				"multiselect › renders message",
+				"multiselect › can cancel",
+				"multiselect › renders multiple selected options",
+				"multiselect › renders multiple cancelled values",
+				"multiselect › renders validation errors",
+				"multiselect › renders disabled options",
+				"multiselect › can render option hints",
+				"multiselect › can set initial values",
+				"multiselect › can set cursorAt to preselect an option",
+				"multiselect › can submit without selection when required = false",
+				"multiselect › maxItems renders a sliding window",
+				"multiselect › showInstructions: false hides instruction footer",
+				"multiselect › withGuide: false removes guide",
 			][..],
 		),
 	] {
@@ -586,18 +606,19 @@ fn the_password_confirm_and_select_fixtures_are_plausible_recordings() {
 		"password Scenarios carrying a validate callback"
 	);
 
-	// A `select` with no options is not a `select`, and a Scenario that lost its list would draw an
+	// A list Prompt with no options is not one, and a Scenario that lost its list would draw an
 	// empty Frame the port would agree with for the wrong reason.
 	let (_, select) = select();
-	for scenario in &select {
+	let (_, multi) = multi_select();
+	for scenario in select.iter().chain(&multi) {
 		assert!(
 			!scenario.options.is_empty(),
-			"{}: a select with no options",
+			"{}: a list prompt with no options",
 			scenario.name
 		);
 	}
 
-	// The four things the widget can only be wrong about if the suite exercises them.
+	// The things a list widget can only be wrong about if the suite exercises them.
 	let any = |what: &str, f: &dyn Fn(&Scenario) -> bool| {
 		assert!(
 			select.iter().any(f),
@@ -619,6 +640,38 @@ fn the_password_confirm_and_select_fixtures_are_plausible_recordings() {
 	any("turns the instruction footer off", &|s| {
 		!s.show_instructions
 	});
+
+	// And the same for `multiselect`, whose extra branches are the ones `select` has no notion of:
+	// a selection that starts non-empty, a cursor that starts somewhere else, and the validation
+	// failure that is the only reason its widget has an error Frame at all.
+	let any = |what: &str, f: &dyn Fn(&Scenario) -> bool| {
+		assert!(
+			multi.iter().any(f),
+			"no multiselect Scenario left that {what}; the port's branch for it is unverified"
+		);
+	};
+	any("starts with values selected", &|s| {
+		!s.initial_values.is_empty()
+	});
+	any("sets cursorAt", &|s| s.cursor_at.is_some());
+	any("turns `required` off", &|s| !s.required);
+	any("disables an option", &|s| {
+		s.options.iter().any(|o| o.disabled)
+	});
+	any("gives an option a hint", &|s| {
+		s.options.iter().any(|o| o.hint.is_some())
+	});
+	any("sets maxItems", &|s| s.max_items.is_some());
+	any("turns the instruction footer off", &|s| {
+		!s.show_instructions
+	});
+	// Nothing installs a `validate` here — upstream's `multiselect` overwrites the option with its
+	// own — so a Fixture carrying one would mean the port's single error message is no longer the
+	// only one a `multiselect` can show.
+	assert!(
+		multi.iter().all(|s| !s.validates),
+		"a multiselect Scenario carries a validate callback; upstream's `multiselect` writes its own"
+	);
 }
 
 /// The two terminal widths a Scenario carries, and the one thing that would make them ambiguous.

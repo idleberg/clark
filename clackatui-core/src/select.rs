@@ -27,7 +27,7 @@ use std::fmt::Display;
 
 use ratatui_core::buffer::Buffer;
 use ratatui_core::layout::Rect;
-use ratatui_core::style::{Modifier, Style};
+use ratatui_core::style::Style;
 use ratatui_core::widgets::Widget;
 
 use crate::cursor::find_cursor;
@@ -36,7 +36,7 @@ use crate::limit_options::LimitOptions;
 use crate::prompt::{Prompt, PromptState, Status};
 use crate::settings::Action;
 use crate::theme::Theme;
-use crate::wrap::wrap;
+use crate::wrap::{leaked, wrap};
 
 /// The columns upstream takes off the terminal for a prefix that draws three of them.
 ///
@@ -287,7 +287,7 @@ impl<'a, T> SelectWidget<'a, T> {
 				};
 				let label = state.selected().map(SelectOption::label).unwrap_or("");
 				let width = self.width(guide);
-				// What a break leaves open behind it — see `leaked`. Nothing, on a submitted value.
+				// What a break leaves open behind it — see [`leaked`]. Nothing, on a submitted value.
 				let leaked = if status == Status::Cancel {
 					leaked(style)
 				} else {
@@ -493,24 +493,6 @@ impl<'a, T> SelectWidget<'a, T> {
 			self.columns
 		}
 	}
-}
-
-/// The styling a wrapped value carries across its own line breaks, and onto the prefix of the row
-/// after them.
-///
-/// `wrapAnsi` closes the styles it found open at the end of each row and reopens them at the start
-/// of the next — but only the ones it knows how to close. A cancelled value is written
-/// `styleText(['strikethrough','dim'], …)`, and what comes back out of the wrap is a `2m`/`22m` pair
-/// around every row and a single `9m` around all of them: the dim is reopened row by row, the
-/// strikethrough is opened once and closed at the very end. So the Guide bars the rows in between
-/// are prefixed with are drawn *inside* it, struck through and gray at the same time, which is
-/// visible in `select › wraps long cancelled message` and reproduced on ADR-0013's rule.
-///
-/// Expressed as "the cancelled style, less the part that is reopened per row" rather than as the
-/// strikethrough by name, so that a Theme changing what a cancelled value looks like changes what
-/// leaks out of it too.
-fn leaked(style: Style) -> Style {
-	Style::new().add_modifier(style.add_modifier.difference(Modifier::DIM))
 }
 
 /// The default Theme, as somewhere to borrow from.

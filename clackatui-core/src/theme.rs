@@ -23,11 +23,15 @@
 //! | `inverse` | 7 | [`Modifier::REVERSED`] |
 //! | `hidden` | 8 | [`Modifier::HIDDEN`] |
 //! | `strikethrough` | 9 | [`Modifier::CROSSED_OUT`] |
+//! | `bgWhite` | 47 | `bg(`[`Color::Gray`]`)` |
 //!
 //! Node's `gray` is bright black, SGR 90 — not SGR 30 — which is why the Guide is `DarkGray` and
-//! not `Black`. Whether any of it is written at all is the Emitter's decision, not the Theme's:
-//! upstream suppresses colour by having `styleText` return the string unchanged, and the equivalent
-//! seam here is at the point Styles become bytes.
+//! not `Black`. Its `bgWhite` is the other way round: SGR 47, the dim white, which ratatui spells
+//! `Gray` — `Color::White` is SGR 107 and would be a different cell.
+//!
+//! Whether any of it is written at all is the Emitter's decision, not the Theme's: upstream
+//! suppresses colour by having `styleText` return the string unchanged, and the equivalent seam here
+//! is at the point Styles become bytes.
 
 use ratatui_core::style::{Color, Modifier, Style};
 
@@ -180,15 +184,35 @@ pub struct Styles {
 	pub radio_unselected: Style,
 	/// The label beside an unselected radio. A selected one's label is unstyled.
 	pub option_unselected: Style,
-	/// The `/` between a `confirm`'s two choices.
+
+	/// A `multiselect` checkbox the cursor is on and which is not ticked.
+	///
+	/// Three styles where a radio has two, because a checkbox answers two questions at once — is the
+	/// cursor here, and is this one chosen — and upstream gives each of the three reachable answers a
+	/// colour of its own.
+	pub checkbox_active: Style,
+	/// A ticked checkbox, whether or not the cursor is on it.
+	pub checkbox_selected: Style,
+	/// An unticked checkbox the cursor is not on.
+	pub checkbox_inactive: Style,
+	/// The label of a ticked option the cursor is not on. Dim, as an unticked one is — the tick is
+	/// carried by the box rather than by the text.
+	pub option_selected: Style,
+	/// The `/` between a `confirm`'s two choices, and the `, ` between the values a `multiselect`
+	/// settled on.
 	pub separator: Style,
 	/// The `...` a list draws in place of the options it left out.
 	pub overflow: Style,
 	/// The note in brackets beside an option. Upstream's `dim`.
 	pub hint: Style,
-	/// An option that cannot be chosen — both its radio and its label. Upstream's `gray`, which is
-	/// the Guide's colour and not the dim the other unselected options are drawn in.
+	/// An option that cannot be chosen — its radio or checkbox, and in a `select` its label too.
+	/// Upstream's `gray`, which is the Guide's colour and not the dim the other unselected options
+	/// are drawn in.
 	pub option_disabled: Style,
+	/// A disabled option's label in a `multiselect`, which is struck through as well as gray — where
+	/// `select` draws the same option gray and legible. Not a distinction either Prompt argues for;
+	/// it is simply what the two `opt()` functions were written to do.
+	pub option_disabled_label: Style,
 	/// The key named in an instruction footer, as opposed to what pressing it does.
 	pub instruction_key: Style,
 	/// The value of a submitted Prompt.
@@ -197,6 +221,10 @@ pub struct Styles {
 	pub cancelled: Style,
 	/// A validation message.
 	pub error: Style,
+	/// The advice a `multiselect` prints under its validation message.
+	pub error_hint: Style,
+	/// A key named inside that advice, drawn as a chip: inverse, on white, in gray.
+	pub error_key: Style,
 }
 
 impl Styles {
@@ -219,14 +247,28 @@ impl Styles {
 		radio_selected: Style::new().fg(Color::Green),
 		radio_unselected: Style::new().add_modifier(Modifier::DIM),
 		option_unselected: Style::new().add_modifier(Modifier::DIM),
+
+		checkbox_active: Style::new().fg(Color::Cyan),
+		checkbox_selected: Style::new().fg(Color::Green),
+		checkbox_inactive: Style::new().add_modifier(Modifier::DIM),
+		option_selected: Style::new().add_modifier(Modifier::DIM),
+
 		separator: Style::new().add_modifier(Modifier::DIM),
 		overflow: Style::new().add_modifier(Modifier::DIM),
 		hint: Style::new().add_modifier(Modifier::DIM),
 		option_disabled: Style::new().fg(Color::DarkGray),
+		option_disabled_label: Style::new()
+			.fg(Color::DarkGray)
+			.add_modifier(Modifier::CROSSED_OUT),
 		instruction_key: Style::new().add_modifier(Modifier::DIM),
 		submitted: Style::new().add_modifier(Modifier::DIM),
 		cancelled: Style::new().add_modifier(Modifier::CROSSED_OUT.union(Modifier::DIM)),
 		error: Style::new().fg(Color::Yellow),
+		error_hint: Style::new().add_modifier(Modifier::DIM),
+		error_key: Style::new()
+			.fg(Color::DarkGray)
+			.bg(Color::Gray)
+			.add_modifier(Modifier::DIM.union(Modifier::REVERSED)),
 	};
 }
 
