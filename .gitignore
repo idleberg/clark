@@ -1,6 +1,6 @@
 /target
 .DS_Store
-
-prior-art/
-docs/
 node_modules/
+
+# A checkout of someone else's repository, pinned by tag from the harvest scripts.
+prior-art/

@@ -1,4 +1,4 @@
-//! The `text` Scenarios, read back out of the Fixtures.
+//! The Scenarios, read back out of the Fixtures.
 //!
 //! Shared by `scenario_replay.rs` and `scenario_parity.rs` rather than duplicated: the two ask
 //! different questions of the same recording, and a Scenario that one of them reads differently
@@ -9,23 +9,34 @@
 //! defines a Fixture. What those bytes *mean* is decided on the Rust side, by whichever test is
 //! asking.
 //!
-//! # Two Fixtures, one shape
+//! # Four Fixtures, one shape
 //!
-//! [`harvested`] is clack's own test suite, recorded while it passed its own snapshots. [`authored`]
-//! is `scripts/authored/cases.mjs`, written because upstream's tests never vary the terminal and so
-//! can say nothing about wrapping. They are recorded by different scripts and carry different
-//! evidence behind them — ADR-0016 — but they are the same shape and are read the same way, and
-//! [`all`] is what the tests run over.
+//! [`harvested`], [`password`] and [`confirm`] are clack's own test suite, one file per Prompt,
+//! recorded while the suite passed its own snapshots. [`authored`] is `scripts/authored/cases.mjs`,
+//! written because upstream's tests never vary the terminal and so can say nothing about wrapping.
+//! They are recorded by different scripts and carry different evidence behind them — ADR-0016 — but
+//! they are the same shape and are read the same way, and [`all`] is what the tests run over.
+//!
+//! # Three kinds of Prompt
+//!
+//! A Scenario names the Prompt it configures, and [`Run`] is the three of them behind one door.
+//! Nothing above this module branches on the kind: a Scenario opens, takes keys, resizes and
+//! settles, and which widget is doing the drawing is the loader's business.
 
 #![allow(dead_code)]
 
+use clackatui_core::confirm::{ConfirmState, ConfirmWidget};
+use clackatui_core::frame::Frame;
 use clackatui_core::line_editor::{Key, KeyName};
-use clackatui_core::prompt::Prompt;
+use clackatui_core::password::{PasswordState, PasswordWidget};
+use clackatui_core::prompt::{Prompt, Status};
 use clackatui_core::session::Session;
 use clackatui_core::text::{TextState, TextWidget};
 
 const HARVESTED: &str = include_str!("../fixtures/scenarios/text.json");
 const AUTHORED: &str = include_str!("../fixtures/scenarios/authored.json");
+const PASSWORD: &str = include_str!("../fixtures/scenarios/password.json");
+const CONFIRM: &str = include_str!("../fixtures/scenarios/confirm.json");
 
 /// The tag `README.md` names. A fixture from anywhere else is not the thing we claim parity with.
 pub const TAG: &str = "@clack/prompts@1.7.0";
@@ -37,6 +48,15 @@ pub struct Scenario {
 	pub placeholder: Option<String>,
 	pub default_value: Option<String>,
 	pub initial_value: Option<String>,
+	/// `initialValue` again, for the Prompt whose values are booleans.
+	pub initial_flag: Option<bool>,
+	/// `password`'s `mask` and `clearOnError`.
+	pub mask: Option<String>,
+	pub clear_on_error: bool,
+	/// `confirm`'s two labels and its layout.
+	pub active: Option<String>,
+	pub inactive: Option<String>,
+	pub vertical: bool,
 	/// `opts.withGuide`, which falls back to `settings.withGuide` when absent.
 	pub with_guide: bool,
 	/// The width clack wrapped its Frames to — `process.stdout.columns`, recorded as
@@ -88,7 +108,7 @@ pub struct Recorded {
 	pub sequence: Option<String>,
 }
 
-/// Clack's own test suite, recorded while it passed its own snapshots.
+/// Clack's own `text` suite, recorded while it passed its own snapshots.
 pub fn harvested() -> (serde_json::Value, Vec<Scenario>) {
 	parse(HARVESTED, "fixtures/scenarios/text.json")
 }
@@ -98,11 +118,23 @@ pub fn authored() -> (serde_json::Value, Vec<Scenario>) {
 	parse(AUTHORED, "fixtures/scenarios/authored.json")
 }
 
+/// Clack's own `password` suite.
+pub fn password() -> (serde_json::Value, Vec<Scenario>) {
+	parse(PASSWORD, "fixtures/scenarios/password.json")
+}
+
+/// Clack's own `confirm` suite.
+pub fn confirm() -> (serde_json::Value, Vec<Scenario>) {
+	parse(CONFIRM, "fixtures/scenarios/confirm.json")
+}
+
 /// Every Scenario there is. Which Fixture one came from is a question about the evidence behind it,
 /// not about what the port owes it, so the tests do not ask.
 pub fn all() -> Vec<Scenario> {
 	let (_, mut scenarios) = harvested();
 	scenarios.extend(authored().1);
+	scenarios.extend(password().1);
+	scenarios.extend(confirm().1);
 	scenarios
 }
 
@@ -135,6 +167,12 @@ fn parse(source: &str, path: &str) -> (serde_json::Value, Vec<Scenario>) {
 				placeholder: opts["placeholder"].as_str().map(str::to_owned),
 				default_value: opts["defaultValue"].as_str().map(str::to_owned),
 				initial_value: opts["initialValue"].as_str().map(str::to_owned),
+				initial_flag: opts["initialValue"].as_bool(),
+				mask: opts["mask"].as_str().map(str::to_owned),
+				clear_on_error: opts["clearOnError"].as_bool() == Some(true),
+				active: opts["active"].as_str().map(str::to_owned),
+				inactive: opts["inactive"].as_str().map(str::to_owned),
+				vertical: opts["vertical"].as_bool() == Some(true),
 				with_guide: opts["withGuide"]
 					.as_bool()
 					.or_else(|| run["settings"]["withGuide"].as_bool())
@@ -209,42 +247,95 @@ impl Scenario {
 		!self.validates && !self.keys.is_empty()
 	}
 
-	/// The Prompt this Scenario configures, before anything is asked of it.
-	pub fn prompt(&self) -> Prompt<TextState> {
-		let mut state = TextState::new();
-		if let Some(default) = &self.default_value {
-			state = state.with_default_value(default);
-		}
-		let mut prompt = Prompt::new(state);
-		if let Some(initial) = &self.initial_value {
-			prompt = prompt.with_initial_user_input(initial);
-		}
-		prompt
-	}
-
-	/// The widget upstream's `text()` would have built, drawing the Prompt it is handed.
-	pub fn widget<'a>(&'a self, prompt: &'a Prompt<TextState>) -> TextWidget<'a> {
-		let mut widget = TextWidget::new(prompt, &self.message).with_guide(self.with_guide);
-		if let Some(placeholder) = &self.placeholder {
-			widget = widget.with_placeholder(placeholder);
-		}
-		widget
-	}
-
 	/// The whole Scenario as a Session: the Prompt, the widget, and clack's terminal size.
-	pub fn session(&self) -> Session<TextState> {
+	///
+	/// Everything a Scenario configures is resolved here, once. A widget option that a Fixture does
+	/// not carry — a `text`'s placeholder in a `confirm` recording — is simply absent, so the three
+	/// arms read like the three builders in `@clack/prompts` do.
+	pub fn run(&self) -> Run {
+		let size = (self.columns as u16, self.rows as u16);
 		let message = self.message.clone();
-		let placeholder = self.placeholder.clone();
 		let with_guide = self.with_guide;
 
-		Session::new(self.prompt(), move |prompt| {
-			let mut widget = TextWidget::new(prompt, &message).with_guide(with_guide);
-			if let Some(placeholder) = &placeholder {
-				widget = widget.with_placeholder(placeholder);
+		match self.kind.as_str() {
+			"password" => {
+				let state = PasswordState::new().with_clear_on_error(self.clear_on_error);
+				let mask = self.mask.clone();
+				Run::Password(
+					Session::new(Prompt::new(state), move |prompt, _columns| {
+						let mut widget =
+							PasswordWidget::new(prompt, &message).with_guide(with_guide);
+						if let Some(mask) = &mask {
+							widget = widget.with_mask(mask);
+						}
+						widget.frame()
+					})
+					.with_size(size.0, size.1),
+				)
 			}
-			widget.frame()
-		})
-		.with_size(self.columns as u16, self.rows as u16)
+
+			"confirm" => {
+				let mut state = ConfirmState::new();
+				if let Some(initial) = self.initial_flag {
+					state = state.with_initial_value(initial);
+				}
+				let (active, inactive) = (self.active.clone(), self.inactive.clone());
+				let vertical = self.vertical;
+				Run::Confirm(
+					Session::new(Prompt::new(state), move |prompt, columns| {
+						let mut widget = ConfirmWidget::new(prompt, &message)
+							.with_guide(with_guide)
+							.with_vertical(vertical)
+							.with_columns(columns);
+						if let Some(active) = &active {
+							widget = widget.with_active(active);
+						}
+						if let Some(inactive) = &inactive {
+							widget = widget.with_inactive(inactive);
+						}
+						widget.frame()
+					})
+					.with_size(size.0, size.1),
+				)
+			}
+
+			_ => {
+				let mut state = TextState::new();
+				if let Some(default) = &self.default_value {
+					state = state.with_default_value(default);
+				}
+				let mut prompt = Prompt::new(state);
+				if let Some(initial) = &self.initial_value {
+					prompt = prompt.with_initial_user_input(initial);
+				}
+				let placeholder = self.placeholder.clone();
+				Run::Text(
+					Session::new(prompt, move |prompt, _columns| {
+						let mut widget = TextWidget::new(prompt, &message).with_guide(with_guide);
+						if let Some(placeholder) = &placeholder {
+							widget = widget.with_placeholder(placeholder);
+						}
+						widget.frame()
+					})
+					.with_size(size.0, size.1),
+				)
+			}
+		}
+	}
+
+	/// The Frame the port draws before any key arrives — the one clack writes whole rather than as
+	/// a diff, and so the only one that can be held against a recording without an emulator.
+	pub fn opening_frame(&self) -> Frame {
+		self.run().frame()
+	}
+
+	/// The state the port settles in, having been fed every key this Scenario recorded.
+	pub fn settles(&self) -> Status {
+		let mut run = self.run();
+		for recorded in &self.keys {
+			run.key(recorded.s.as_deref(), &recorded.key());
+		}
+		run.status()
 	}
 
 	/// Every byte the port writes for this Scenario, from the opening Frame to the closing cursor.
@@ -263,7 +354,7 @@ impl Scenario {
 
 	/// What the port writes, cut where the terminal changed size under it.
 	pub fn replayed(&self) -> Vec<Segment> {
-		let mut session = self.session();
+		let mut session = self.run();
 		let mut segments = Vec::new();
 		let (mut columns, mut rows) = (self.columns, self.rows);
 		let mut bytes = session.open();
@@ -339,6 +430,52 @@ impl Scenario {
 		self.events
 			.iter()
 			.any(|event| matches!(event, Event::Resize { .. }))
+	}
+}
+
+/// A Scenario's Session, whichever Prompt it is for.
+///
+/// [`Session`] is generic over its state and the three states are different types, so something has
+/// to name all three somewhere. Doing it here keeps the tests above written in terms of a Scenario
+/// rather than in terms of a Prompt, which is what lets the same Grid comparison cover every kind.
+pub enum Run {
+	Text(Session<TextState>),
+	Password(Session<PasswordState>),
+	Confirm(Session<ConfirmState>),
+}
+
+/// The same call on whichever Session is inside. A macro because the three arms differ only in the
+/// variant name, and three copies of each method would be three places to forget one.
+macro_rules! dispatch {
+	($self:ident, $session:ident => $call:expr) => {
+		match $self {
+			Run::Text($session) => $call,
+			Run::Password($session) => $call,
+			Run::Confirm($session) => $call,
+		}
+	};
+}
+
+impl Run {
+	pub fn open(&mut self) -> String {
+		dispatch!(self, session => session.open())
+	}
+
+	pub fn key(&mut self, s: Option<&str>, key: &Key) -> String {
+		dispatch!(self, session => session.key(s, key))
+	}
+
+	pub fn resize(&mut self, columns: u16, rows: u16) -> String {
+		dispatch!(self, session => session.resize(columns, rows))
+	}
+
+	pub fn status(&self) -> Status {
+		dispatch!(self, session => session.status())
+	}
+
+	/// The Frame as it stands, drawn for the terminal the Session was given.
+	pub fn frame(&self) -> Frame {
+		dispatch!(self, session => session.frame())
 	}
 }
 

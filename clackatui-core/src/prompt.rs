@@ -101,6 +101,15 @@ pub trait PromptState {
 	/// type — and which, being untracked, are the only Prompts the vim aliases apply to.
 	const TRACKS_INPUT: bool = true;
 
+	/// Whether [`confirm`](Self::confirm) ends the Prompt where it stands.
+	///
+	/// `ConfirmPrompt` is the only Prompt in clack that settles from inside one of its own
+	/// listeners: its `confirm` handler sets `state = 'submit'` and calls `close()` there and then,
+	/// several statements before `onKeypress` reaches its own submit check — and, because `close()`
+	/// writes, several *writes* before it too. [`Prompt::closed_early`] is how a Session finds out.
+	/// See ADR-0018.
+	const CONFIRMS_ON_KEY: bool = false;
+
 	/// `_isActionKey`: whether this key means something to the Prompt rather than to the text.
 	///
 	/// When it does and the Prompt tracks input, the Line editor is sent a `ctrl+h` to undo the
@@ -140,6 +149,18 @@ pub trait PromptState {
 	/// `on('finalize')`: the Prompt has settled on submit or cancel. The last chance to set a value.
 	fn finalize(&mut self) {}
 
+	/// Whether the `render` callback clears the user input on its way past.
+	///
+	/// Not an event: upstream's `password()` calls `this.clear()` from *inside* the callback that
+	/// composes the error Frame, after it has captured the text that Frame shows. A widget here is
+	/// handed a `&Prompt` and cannot do that, so the decision is asked for instead and
+	/// [`Prompt::after_render`] carries it out — at the same point in the sequence, which is what
+	/// leaves the old value on the error Frame and an empty one behind it.
+	fn clears_after_render(&self, status: Status) -> bool {
+		let _ = status;
+		false
+	}
+
 	/// The value as it stands. Read by validation, and again for the outcome.
 	fn value(&self) -> Option<&Self::Value>;
 }
@@ -178,6 +199,8 @@ pub struct Prompt<S: PromptState> {
 	editor: LineEditor,
 	settings: Settings,
 	validator: Option<Box<dyn Validator<S::Value>>>,
+	/// Whether the last keypress settled the Prompt from inside a listener rather than at the end.
+	closed_early: bool,
 }
 
 impl<S: PromptState> Prompt<S> {
@@ -192,6 +215,7 @@ impl<S: PromptState> Prompt<S> {
 			editor: LineEditor::new(),
 			settings: Settings::default(),
 			validator: None,
+			closed_early: false,
 		}
 	}
 
@@ -309,6 +333,7 @@ impl<S: PromptState> Prompt<S> {
 	/// date by the time clack looks at it. The Line editor is therefore driven first, here too, and
 	/// for every Prompt: upstream's interface is live whether or not the Prompt tracks its text.
 	pub fn key(&mut self, s: Option<&str>, key: &Key) {
+		self.closed_early = false;
 		self.editor.write(s, key);
 
 		if S::TRACKS_INPUT && key.name != Some(KeyName::Return) {
@@ -341,6 +366,13 @@ impl<S: PromptState> Prompt<S> {
 			let lower = c.to_lowercase();
 			if lower == "y" || lower == "n" {
 				self.state.confirm(lower == "y");
+				if S::CONFIRMS_ON_KEY {
+					// Upstream's listener does the last two of these itself, in this order, and
+					// then keeps going through `onKeypress` — so the checks below still run and can
+					// still turn a submit into a cancel.
+					self.closed_early = true;
+					self.status = Status::Submit;
+				}
 			}
 		}
 
@@ -371,6 +403,26 @@ impl<S: PromptState> Prompt<S> {
 
 		if self.status.is_finished() {
 			self.state.finalize();
+		}
+	}
+
+	/// Whether the last keypress settled the Prompt part-way through rather than at the end.
+	///
+	/// Only ever true for a state with [`PromptState::CONFIRMS_ON_KEY`] set, which is `confirm` and
+	/// nothing else. A driver that ignores this still gets the right answer; what it loses is the
+	/// two sequences upstream writes before the settled Frame. See [`crate::session::Session::key`].
+	pub fn closed_early(&self) -> bool {
+		self.closed_early
+	}
+
+	/// What the `render` callback does to the Prompt on its way past.
+	///
+	/// Called once per Frame, *after* the Frame has been composed — see
+	/// [`PromptState::clears_after_render`] for why the order is the whole point. A driver that
+	/// composes its own Frames has to call this itself; [`crate::session::Session`] does.
+	pub fn after_render(&mut self) {
+		if self.state.clears_after_render(self.status) {
+			self.clear_user_input();
 		}
 	}
 

@@ -174,6 +174,14 @@ pub struct Styles {
 	pub placeholder_empty: Style,
 	/// The character the cursor rests on.
 	pub cursor: Style,
+	/// The radio of the choice a `confirm` is currently on.
+	pub radio_selected: Style,
+	/// The radio of the choice it is not on.
+	pub radio_unselected: Style,
+	/// The label beside an unselected radio. A selected one's label is unstyled.
+	pub option_unselected: Style,
+	/// The `/` between a `confirm`'s two choices.
+	pub separator: Style,
 	/// The value of a submitted Prompt.
 	pub submitted: Style,
 	/// The value of a cancelled Prompt.
@@ -199,6 +207,10 @@ impl Styles {
 		placeholder: Style::new().add_modifier(Modifier::DIM),
 		placeholder_empty: Style::new().add_modifier(Modifier::REVERSED.union(Modifier::HIDDEN)),
 		cursor: Style::new().add_modifier(Modifier::REVERSED),
+		radio_selected: Style::new().fg(Color::Green),
+		radio_unselected: Style::new().add_modifier(Modifier::DIM),
+		option_unselected: Style::new().add_modifier(Modifier::DIM),
+		separator: Style::new().add_modifier(Modifier::DIM),
 		submitted: Style::new().add_modifier(Modifier::DIM),
 		cancelled: Style::new().add_modifier(Modifier::CROSSED_OUT.union(Modifier::DIM)),
 		error: Style::new().fg(Color::Yellow),

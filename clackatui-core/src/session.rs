@@ -49,8 +49,13 @@ const DEFAULT_COLUMNS: u16 = 80;
 /// Upstream's `getRows` fallback, likewise.
 const DEFAULT_ROWS: u16 = 20;
 
-/// Upstream's `render` option: a Prompt's state, drawn.
-pub type Draw<S> = dyn Fn(&Prompt<S>) -> Frame;
+/// Upstream's `render` option: a Prompt's state, drawn for a terminal of a given width.
+///
+/// The width is passed because one widget needs it: `confirm` wraps its own message before the
+/// Frame is wrapped again around it. Upstream reads that width from the Prompt's output stream and
+/// the Frame's from the global `process.stdout`, which are the same terminal outside a test
+/// harness; a Session carries the one number and hands it to both.
+pub type Draw<S> = dyn Fn(&Prompt<S>, u16) -> Frame;
 
 /// A Prompt, an Emitter, and the order upstream asks them in.
 ///
@@ -65,6 +70,9 @@ pub struct Session<S: PromptState> {
 	columns: u16,
 	rows: u16,
 	closed: bool,
+	/// Upstream's `unsubscribe()`: whether the `submit`/`cancel` listener has already run. It shows
+	/// the cursor, and it is registered `once`, so a Prompt that closes twice shows it once.
+	resolved: bool,
 }
 
 impl<S: PromptState> Session<S> {
@@ -72,7 +80,7 @@ impl<S: PromptState> Session<S> {
 	/// Frame. It is a closure rather than a trait method because that is what it is upstream — the
 	/// widget belongs to `@clack/prompts` and the state machine to `@clack/core`, and a `text()`
 	/// builder closes over the message and placeholder that never reach the state at all.
-	pub fn new(prompt: Prompt<S>, draw: impl Fn(&Prompt<S>) -> Frame + 'static) -> Self {
+	pub fn new(prompt: Prompt<S>, draw: impl Fn(&Prompt<S>, u16) -> Frame + 'static) -> Self {
 		Self {
 			prompt,
 			emitter: Emitter::new(),
@@ -80,6 +88,7 @@ impl<S: PromptState> Session<S> {
 			columns: DEFAULT_COLUMNS,
 			rows: DEFAULT_ROWS,
 			closed: false,
+			resolved: false,
 		}
 	}
 
@@ -113,7 +122,20 @@ impl<S: PromptState> Session<S> {
 		}
 
 		self.prompt.key(s, key);
-		let mut out = self.render();
+
+		let mut out = String::new();
+		if self.prompt.closed_early() {
+			// `confirm` settles inside its own listener, and that listener writes: one row up, then
+			// `close()` — the newline and the cursor — and only then does `onKeypress` carry on to
+			// the render below and close a second time. The result is a stream where the cursor is
+			// shown before the settled Frame and the last thing written is a bare newline, which is
+			// nothing a driver would arrange on purpose. ADR-0018.
+			out.push_str(&self.emitter.cursor_up());
+			out.push_str(&self.close());
+			self.closed = false;
+		}
+
+		out.push_str(&self.render());
 		if self.prompt.status().is_finished() {
 			out.push_str(&self.close());
 		}
@@ -142,13 +164,22 @@ impl<S: PromptState> Session<S> {
 	fn close(&mut self) -> String {
 		self.closed = true;
 		let mut out = self.emitter.finish();
-		out.push_str(&self.emitter.show_cursor());
+		// `close()` ends with `emit(state)` and then `unsubscribe()`, so a second close finds the
+		// listener gone and writes the newline alone. Only `confirm` ever gets there.
+		if !self.resolved {
+			self.resolved = true;
+			out.push_str(&self.emitter.show_cursor());
+		}
 		out
 	}
 
 	fn render(&mut self) -> String {
-		let frame = (self.draw)(&self.prompt);
-		self.emitter.frame(&frame, self.columns, self.rows)
+		let frame = (self.draw)(&self.prompt, self.columns);
+		let out = self.emitter.frame(&frame, self.columns, self.rows);
+		// Upstream's `render` callback is free to change the Prompt while it composes; `password`'s
+		// `clearOnError` is the one that does. The Frame above is the one it was read for.
+		self.prompt.after_render();
+		out
 	}
 
 	/// Whether the Prompt has settled and been closed.
@@ -167,6 +198,15 @@ impl<S: PromptState> Session<S> {
 
 	pub fn prompt(&self) -> &Prompt<S> {
 		&self.prompt
+	}
+
+	/// The Frame as it stands, composed but not written.
+	///
+	/// For a caller that wants to look at the Prompt rather than draw it — a test holding the
+	/// opening Frame against a recording, or a program embedding a Prompt in its own layout. It
+	/// deliberately skips [`Prompt::after_render`]: nothing was drawn, so nothing has happened.
+	pub fn frame(&self) -> Frame {
+		(self.draw)(&self.prompt, self.columns)
 	}
 
 	/// The Prompt back, for a driver that wants the answer by ownership.
@@ -194,7 +234,7 @@ mod tests {
 	const SHOW: &str = "\u{1b}[?25h";
 
 	fn text(message: &'static str) -> Session<TextState> {
-		Session::new(Prompt::new(TextState::new()), move |prompt| {
+		Session::new(Prompt::new(TextState::new()), move |prompt, _columns| {
 			TextWidget::new(prompt, message).frame()
 		})
 	}
@@ -210,8 +250,8 @@ mod tests {
 	}
 
 	/// A Frame with no styling in it, so that a test about sequencing is not also a test about SGR.
-	fn plain(lines: &'static [&'static str]) -> impl Fn(&Prompt<TextState>) -> Frame {
-		move |_| {
+	fn plain(lines: &'static [&'static str]) -> impl Fn(&Prompt<TextState>, u16) -> Frame {
+		move |_, _| {
 			let mut frame = Frame::new();
 			for line in lines {
 				frame.push(Line::from(Span::raw(*line)));

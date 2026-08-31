@@ -4,7 +4,7 @@ A Rust adaptation of [clack](https://github.com/bombshell-dev/clack), built on
 [Ratatui](https://ratatui.rs), whose appearance is verified against the JavaScript original rather
 than merely modelled on it.
 
-Status: **M0 and M1 done.** The `ForcedWidth` probe passed, so the architecture below holds —
+Status: **M0, M1 and M2 done.** The `ForcedWidth` probe passed, so the architecture below holds —
 with one correction recorded in
 [ADR-0007](./docs/adr/0007-forced-width-holds-but-the-emitter-owns-shrink-repaints.md). Two of M1's
 ported primitives have landed, each against a harvested oracle
@@ -49,7 +49,19 @@ the resizes settled the last divergence
 disagreed, upstream turned out to walk the cursor back over rows it never drew, and the port now
 does the same
 ([ADR-0017](./docs/adr/0017-restore-cursor-walks-back-over-rows-that-are-not-there.md)).
-**M1 is done.**
+**M1 is done.** M2 adds `password` and `confirm`, and cost what M1's rationale said it should: two
+widgets, two states, two builders, and nothing structural. Everything else was already
+Prompt-agnostic, so harvesting clack's own `password` and `confirm` suites was two commands and
+twenty-one more Scenarios. Both Prompts turned out to do something no `text` does, and all three
+findings are things a terminal can see: a `confirm` settles from inside its own listener and writes
+four sequences in an order no driver would arrange, and a `password` clears its own field from
+inside the callback that draws it
+([ADR-0018](./docs/adr/0018-a-render-callback-that-writes-and-a-listener-that-closes.md)); and a
+`confirm` wraps its message against the *length of the escape sequence* that styles its Guide, so it
+breaks ten columns early
+([ADR-0019](./docs/adr/0019-confirm-wraps-its-message-against-the-length-of-an-escape-sequence.md)).
+None is reachable from upstream's own tests, so eleven more Scenarios were hand-authored to reach
+them, and **all forty-nine agree on the Grid**.
 See
 [CONTEXT.md](./CONTEXT.md) for the vocabulary and [docs/adr/](./docs/adr/) for the decisions behind
 the shape below.
@@ -126,14 +138,17 @@ Three layers.
    under an open Prompt. `cargo test` replays both the recorded Fixture and the port's own bytes
    through one emulator (`avt`) and compares Grids — characters, styles and cursor position, with
    the emulator resized at the same points in both streams. Two Recorders write the Fixtures, both refusing unless
-   the clack checkout is at the pinned tag: `node scripts/harvest-scenarios.mjs text` runs clack's
-   suite from outside the checkout
+   the clack checkout is at the pinned tag: `node scripts/harvest-scenarios.mjs <prompt>` runs
+   clack's suite from outside the checkout, once per Prompt
    ([ADR-0010](./docs/adr/0010-the-recorder-instruments-clacks-suite-from-outside-it.md)), and `node
    scripts/harvest-authored.mjs` runs `scripts/authored/cases.mjs`, which has no upstream snapshot
    behind it and so is guarded differently
    ([ADR-0016](./docs/adr/0016-hand-authored-scenarios-and-the-width-clack-actually-wraps-to.md)).
    Still missing: emoji and ZWJ sequences at a margin, where the wrap has to decide whether to
-   break one.
+   break one; and `password`'s `clearOnError`, which needs a `validate` callback and so cannot be
+   recorded at all — it is covered by unit tests either side of the render, which is weaker and is
+   the honest ceiling rather than a shortcut
+   ([ADR-0018](./docs/adr/0018-a-render-callback-that-writes-and-a-listener-that-closes.md)).
 
    Two narrower comparisons run beside the Grid and are not redundant with it, because each catches
    mutations the other misses
@@ -142,7 +157,9 @@ Three layers.
    asserted against the widget's, as styles — which is the only place conceal is checked, no
    emulator having a model for it. And every Scenario's whole byte stream, styling stripped from
    both sides, is asserted against the stream a `Session` produces, which says the port asked for
-   the same work rather than merely arriving at the same screen.
+   the same work rather than merely arriving at the same screen. M2 gave that last one its clearest
+   justification: the two extra sequences a `confirm` writes when it settles from a `y` cancel each
+   other out, so deleting them fails the stream comparison and passes the Grid.
 2. **Conformance suites** — one per ported primitive, comparing against its JavaScript counterpart:
    `LineEditor` vs Node `readline`, text measurement vs `fast-string-width`, line breaking vs
    `fast-wrap-ansi`, Frame reconciliation vs `@clack/core`'s `render`, key parsing (Node `readline`
@@ -175,7 +192,7 @@ upstream drift.
 |---|---|
 | **M0** | ~~`ForcedWidth` probe — the one experiment the architecture rests on (below)~~ **done** |
 | **M1** | ~~`text` end to end — Recorder, width port, `LineEditor`, `TextState`, `Frame`, Theme, `text` widget, wrap port, Emitter, `.interact()`, harvested text Scenarios green, hand-authored Scenarios (narrow, CJK, resize)~~ **done** |
-| **M2** | password, confirm |
+| **M2** | ~~`password` and `confirm` — states, widgets, builders, both suites harvested, eleven more hand-authored Scenarios~~ **done** |
 | **M3** | select, multi-select, select-key |
 | **M4** | group-multi-select, autocomplete, date, multi-line |
 | **M5** | static renderers |
@@ -187,9 +204,21 @@ end and twenty-one Scenarios agree with clack on the Grid — ten of them harves
 to reach what a harvest cannot supply, since upstream's tests never vary the terminal. Both of the
 divergences the port had written down are now settled by a recording rather than by argument: one
 was unobservable and stays, and one was observable, so the port changed
-([ADR-0017](./docs/adr/0017-restore-cursor-walks-back-over-rows-that-are-not-there.md)). What M2
-should cost, if the premise holds, is a `password` and a `confirm` widget and nothing else — the
-Recorder, the Fixture shape, the Grid comparison and the Emitter are all Prompt-agnostic already.
+([ADR-0017](./docs/adr/0017-restore-cursor-walks-back-over-rows-that-are-not-there.md)).
+
+M2 was the test of that. The prediction was that a `password` and a `confirm` widget would be the
+whole cost, the Recorder and the Fixture shape and the Grid comparison being Prompt-agnostic
+already. It held on the infrastructure — harvesting both suites was two commands and no code — and
+it was wrong about the widgets, in a way worth writing down: both Prompts reach outside the shape
+`text` established. A `confirm` settles from inside its own listener and a `password` mutates itself
+from inside its render callback, so `PromptState` grew two members and `Session` grew one
+([ADR-0018](./docs/adr/0018-a-render-callback-that-writes-and-a-listener-that-closes.md)), and
+`confirm` is the first Prompt to wrap its own message — badly
+([ADR-0019](./docs/adr/0019-confirm-wraps-its-message-against-the-length-of-an-escape-sequence.md)).
+All three are invisible to upstream's own tests and were found by reading, then settled by a
+recording. What M3 should cost is the same bet again, with one addition: `select` and friends are
+the first Prompts with a list in them, so `limit-options` has to be ported before any of them can be
+drawn at a height.
 
 M0 came first because it was cheap and load-bearing. Reusing `BufferDiff` under our own width model
 depends entirely on `CellDiffOption::ForcedWidth`, which is recent API on a pre-1.0 crate. The probe

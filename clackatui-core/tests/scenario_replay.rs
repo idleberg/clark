@@ -1,11 +1,13 @@
-//! The `text` Scenarios, read back out of their recordings.
+//! The Scenarios, read back out of their recordings.
 //!
 //! ADR-0003 makes upstream's tests the specification: each of them is a Prompt configuration, a
 //! sequence of keypresses, and the output clack wrote back. ADR-0010 describes how they are caught,
-//! by `scripts/harvest-scenarios.mjs`. Eleven more are hand-authored, because upstream's tests
-//! never vary the terminal and so can say nothing about a wrap or a resize; ADR-0016 describes what
-//! that costs and what stands in for the oracle a harvest has. The recordings are what this file
-//! reads; no JavaScript runs here, for the reasons ADR-0008 gives.
+//! by `scripts/harvest-scenarios.mjs`, which is run once per Prompt — `text`, `password`, `confirm`.
+//! Twenty-two more are hand-authored, because upstream's tests never vary the terminal and so can
+//! say nothing about a wrap or a resize, and because three of the behaviours M2 found are reached by
+//! no test upstream has; ADR-0016 describes what that costs and what stands in for the oracle a
+//! harvest has. The recordings are what this file reads; no JavaScript runs here, for the reasons
+//! ADR-0008 gives.
 //!
 //! No emulator runs here either. That is `scenario_parity.rs`, which is where the Grid comparison
 //! ADR-0001 asks for lives. What is left in this file is the set of checks that read the recording
@@ -13,7 +15,7 @@
 //! message when it goes wrong, which is the whole reason for keeping them once the Grid is green:
 //!
 //!   - the fixture is a plausible recording, so that a truncated harvest cannot pass for free;
-//!   - every Scenario replayed through [`Prompt<TextState>`] settles in the state clack settled in;
+//!   - every Scenario replayed through its Prompt settles in the state clack settled in;
 //!   - every Scenario's *opening* Frame is drawn the way clack drew it, styles included — the one
 //!     Frame upstream writes whole rather than as a diff, because it has nothing to diff against;
 //!   - every Scenario's whole byte stream, styling stripped from both sides, is the stream clack
@@ -33,7 +35,7 @@ use clackatui_core::prompt::Status;
 use ratatui_core::style::{Color, Modifier, Style};
 
 mod scenarios;
-use scenarios::{TAG, all, authored, harvested};
+use scenarios::{TAG, all, authored, confirm, harvested, password};
 
 /// The state clack was in when it drew its last frame, read off the step symbol it prints.
 ///
@@ -74,18 +76,13 @@ fn every_scenario_settles_the_way_clack_settled() {
 			continue;
 		};
 
-		let mut prompt = scenario.prompt();
-		for recorded in &scenario.keys {
-			prompt.key(recorded.s.as_deref(), &recorded.key());
-		}
+		let settled = scenario.settles();
 
 		replayed += 1;
-		if prompt.status() != expected {
+		if settled != expected {
 			failures.push(format!(
 				"  {:<52} clack settled {:?}, the port settled {:?}",
-				scenario.name,
-				expected,
-				prompt.status()
+				scenario.name, expected, settled
 			));
 		}
 	}
@@ -99,7 +96,7 @@ fn every_scenario_settles_the_way_clack_settled() {
 	);
 
 	assert!(
-		replayed >= 21,
+		replayed >= 49,
 		"only {replayed} Scenarios were replayable; the filters above have eaten the suite"
 	);
 }
@@ -134,9 +131,7 @@ fn every_scenario_draws_clacks_opening_frame() {
 			continue;
 		};
 
-		let prompt = scenario.prompt();
-		let widget = scenario.widget(&prompt);
-		let frame = widget.frame();
+		let frame = scenario.opening_frame();
 
 		if frame
 			.lines
@@ -166,7 +161,7 @@ fn every_scenario_draws_clacks_opening_frame() {
 	);
 
 	assert!(
-		compared >= 21,
+		compared >= 50,
 		"only {compared} Frames were compared; the fixtures have stopped carrying them"
 	);
 
@@ -228,7 +223,7 @@ fn every_scenario_is_written_the_way_clack_wrote_it() {
 	);
 
 	assert!(
-		compared >= 21,
+		compared >= 49,
 		"only {compared} Scenarios were compared; the filters above have eaten the suite"
 	);
 }
@@ -478,6 +473,103 @@ fn the_harvested_fixture_is_a_plausible_recording() {
 	assert_eq!(keyless, 1, "Scenarios that send no keypresses");
 }
 
+/// The same guard for M2's two Fixtures, which are harvested by the same script from the same
+/// suite and so are worth exactly as much as the `text` one.
+///
+/// The required names are one per branch of each renderer, again — a harvest that lost the error
+/// Frame or the cancelled one would otherwise be merely smaller, and the count below would let it
+/// through.
+#[test]
+fn the_password_and_confirm_fixtures_are_plausible_recordings() {
+	for (kind, (json, scenarios), least, required) in [
+		(
+			"password",
+			password(),
+			9,
+			&[
+				"password › renders message",
+				"password › renders masked value",
+				"password › renders custom mask",
+				"password › renders cancelled value",
+				"password › renders and clears validation errors",
+				"password › clears input on error when clearOnError is true",
+				"password › withGuide: false removes guide",
+			][..],
+		),
+		(
+			"confirm",
+			confirm(),
+			12,
+			&[
+				"confirm › renders message with choices",
+				"confirm › can cancel",
+				"confirm › can set initialValue",
+				"confirm › renders custom active choice",
+				"confirm › renders options in vertical alignment",
+				"confirm › renders multi-line messages correctly",
+				"confirm › right arrow moves to next choice",
+				"confirm › withGuide: false removes guide",
+			][..],
+		),
+	] {
+		assert_eq!(
+			json["tag"].as_str(),
+			Some(TAG),
+			"the {kind} Fixture was harvested from a clack other than the one README.md pins"
+		);
+
+		assert!(
+			scenarios.len() >= least,
+			"the {kind} Fixture has shrunk to {} Scenarios",
+			scenarios.len()
+		);
+
+		let names: BTreeSet<&str> = scenarios.iter().map(|s| s.name.as_str()).collect();
+		assert_eq!(names.len(), scenarios.len(), "duplicate Scenario names");
+
+		for name in required {
+			assert!(
+				names.contains(name),
+				"the {kind} Fixture lost the `{name}` Scenario"
+			);
+		}
+
+		for scenario in &scenarios {
+			assert_eq!(
+				scenario.kind, kind,
+				"{}: not a {kind} prompt",
+				scenario.name
+			);
+			assert!(
+				!scenario.message.is_empty(),
+				"{}: no message",
+				scenario.name
+			);
+			assert!(
+				!scenario.output.is_empty(),
+				"{}: nothing was written",
+				scenario.name
+			);
+		}
+
+		// One Scenario in each suite is driven by an `AbortSignal` rather than by keys.
+		let keyless = scenarios.iter().filter(|s| s.keys.is_empty()).count();
+		assert_eq!(keyless, 1, "{kind} Scenarios that send no keypresses");
+	}
+
+	// `confirm` takes no validator at all, so a `validate` callback in its Fixture would mean
+	// upstream had grown one and the widget has a branch it does not draw.
+	assert!(
+		confirm().1.iter().all(|s| !s.validates),
+		"a confirm Scenario carries a validate callback; upstream's `confirm` has no such option"
+	);
+	assert_eq!(
+		password().1.iter().filter(|s| s.validates).count(),
+		2,
+		"password Scenarios carrying a validate callback"
+	);
+}
+
 /// The hand-authored Fixture, guarded rather harder than the harvested one — for the reason
 /// ADR-0016 gives, it has no upstream snapshot behind it.
 ///
@@ -498,10 +590,20 @@ fn the_authored_fixture_records_the_widths_it_claims() {
 	);
 
 	assert!(
-		scenarios.len() >= 11,
+		scenarios.len() >= 22,
 		"the authored Fixture has shrunk to {} Scenarios",
 		scenarios.len()
 	);
+
+	// Each of the three Prompts, because each has something a harvest of its own suite cannot
+	// reach: a wrap for `text`, a `y` and a mismeasured prefix for `confirm`, an astral character
+	// for `password`.
+	for kind in ["text", "password", "confirm"] {
+		assert!(
+			scenarios.iter().any(|s| s.kind == kind),
+			"the authored Fixture has no {kind} Scenario left in it"
+		);
+	}
 
 	// The point of the whole Fixture: it has to reach widths the harvest cannot.
 	let narrow = scenarios.iter().filter(|s| s.columns < 80).count();

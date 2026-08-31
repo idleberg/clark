@@ -179,6 +179,14 @@ impl Emitter {
 			.sum()
 	}
 
+	/// `cursor.move(0, -1)`: one row up and nothing else.
+	///
+	/// Not part of drawing a Frame. `ConfirmPrompt` writes it straight to the output from inside its
+	/// `confirm` listener, before anything has been re-drawn — ADR-0018.
+	pub fn cursor_up(&self) -> String {
+		cursor_move(0, -1)
+	}
+
 	/// The newline upstream writes when a Prompt closes, leaving the Frame in the scrollback.
 	pub fn finish(&self) -> String {
 		"\n".to_owned()

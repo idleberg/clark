@@ -23,17 +23,28 @@
 //!
 //! # What reaches it
 //!
-//! Twenty-one Scenarios: ten replayable ones harvested from clack's own suite, all at 80 columns
-//! because upstream's tests never vary the terminal, and eleven hand-authored ones written to reach
-//! what a harvest cannot supply — 40 and 20 columns, CJK text, a wrap that grows as a value is
-//! typed and shrinks again as it is deleted, and four that change the terminal's size under an open
-//! Prompt (ADR-0016).
+//! Forty-nine Scenarios across three Prompts. Twenty-seven are replayable ones harvested from
+//! clack's own suite — `text`, `password` and `confirm` — all at 80 columns, because upstream's
+//! tests never vary the terminal. Twenty-two are hand-authored, written to reach what a harvest
+//! cannot supply (ADR-0016): 40 and 20 columns, CJK text, a wrap that grows as a value is typed and
+//! shrinks again as it is deleted, four that change the terminal's size under an open Prompt, and
+//! the three things M2 found that no upstream test touches — a `y` that settles a `confirm` without
+//! a `return` (ADR-0018), a `confirm` message wrapped against the length of an escape sequence
+//! (ADR-0019), and a masked astral character.
 //!
 //! The resizes are why a Grid is built from segments rather than from one string. The emulator has
 //! to change size at the same point in the stream that the real terminal did, on both sides, or the
 //! bytes after a resize are being read at a width nothing wrote them for. Those four are also what
 //! settled the last divergence `session.rs` recorded: two of them disagreed, and the port follows
 //! upstream now (ADR-0017).
+//!
+//! # What it does not see
+//!
+//! Beyond conceal, one ordering: the two extra writes a `confirm` makes when it settles from inside
+//! its own listener leave the terminal exactly where it would have been without them — a cursor-up
+//! and a line feed cancel out. Deleting them from the Emitter fails
+//! `every_scenario_is_written_the_way_clack_wrote_it` and passes here, which is the clearest case
+//! yet for keeping the two comparisons side by side.
 
 mod scenarios;
 use scenarios::{Segment, all};
@@ -134,7 +145,7 @@ fn every_scenario_leaves_the_terminal_the_way_clack_left_it() {
 	);
 
 	assert!(
-		compared >= 21,
+		compared >= 49,
 		"only {compared} Scenarios were compared; the fixtures have stopped carrying them"
 	);
 }

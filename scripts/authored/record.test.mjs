@@ -5,16 +5,21 @@
 // Scenarios come with upstream's own snapshots, so a suite that still passes under instrumentation
 // is evidence the recording is of clack behaving normally (ADR-0003, ADR-0010). Nothing here has
 // that. What it has instead: clack is the same checkout at the same tag, the prompt is called the
-// way upstream's own tests call it, and every case declares what `text()` must return — a case that
+// way upstream's own tests call it, and every case declares what it must return — a case that
 // resolves to anything else fails and nothing is written.
 //
-// # The width
+// # The two widths
 //
-// `text()` does not wrap its own message. The only wrap is in `Prompt.render()`, and it is against
-// `process.stdout.columns` — the real process, not the stream the prompt was handed. The mock
-// output's `columns` decides nothing; its `rows` decides the diff offset. So a case's width has to
-// be set on `process.stdout`, and both numbers are written down, because a Fixture that recorded
-// only the one clack ignores would be a recording of the harvesting terminal's width instead.
+// `text()` and `password()` do not wrap their own messages. Their only wrap is in `Prompt.render()`,
+// and it is against `process.stdout.columns` — the real process, not the stream the prompt was
+// handed. The mock output's `columns` decides nothing there; its `rows` decides the diff offset. So
+// a case's width has to be set on `process.stdout`, and both numbers are written down, because a
+// Fixture that recorded only the one clack ignores would be a recording of the harvesting
+// terminal's width instead.
+//
+// `confirm()` is the exception: `wrapTextWithPrefix` reads `getColumns(opts.output)`, so the
+// stream's number decides where its message breaks and the global decides where the Frame around it
+// breaks. In a real program they are the same terminal, and they are set to the same number here.
 
 import { createHash } from 'node:crypto';
 import { mkdirSync, writeFileSync } from 'node:fs';
@@ -72,7 +77,8 @@ for (const scenario of cases) {
 			return write(chunk, ...rest);
 		};
 
-		const result = prompts.text({ ...scenario.opts, input, output });
+		const kind = scenario.kind ?? 'text';
+		const result = prompts[kind]({ ...scenario.opts, input, output });
 
 		// The events, in order, and where in the byte stream each one landed. A key needs no
 		// position — every chunk after it and before the next event is its doing — but a resize does:
@@ -115,7 +121,7 @@ for (const scenario of cases) {
 			name: scenario.name,
 			prompts: [
 				{
-					kind: 'text',
+					kind,
 					opts: scenario.opts,
 					settings: { withGuide: true },
 					// The terminal the Prompt opened in. A Scenario that resizes says the rest in its

@@ -18,12 +18,16 @@
 //! key events into the ones Node's `readline` would have reported. See [`keys`] for what that
 //! involves and what it is still owed.
 
+mod confirm;
 mod driver;
 mod error;
 pub mod keys;
+mod password;
 mod text;
 
+pub use confirm::{Confirm, confirm};
 pub use error::ClackError;
+pub use password::{Password, password};
 pub use text::{Text, text};
 
 /// The pieces a caller needs to configure a Prompt or to drive one themselves.
