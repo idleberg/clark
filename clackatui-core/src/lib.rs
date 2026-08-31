@@ -5,6 +5,7 @@
 pub mod confirm;
 pub mod emitter;
 pub mod frame;
+pub mod limit_options;
 pub mod line_editor;
 pub mod password;
 pub mod prompt;

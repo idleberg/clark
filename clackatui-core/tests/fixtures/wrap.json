@@ -541,6 +541,127 @@
 			]
 		},
 		{
+			"name": "no columns",
+			"codepoints": [
+				73,
+				116,
+				101,
+				109,
+				32,
+				49
+			],
+			"columns": 0,
+			"rows": [
+				"",
+				"I",
+				"t",
+				"e",
+				"m",
+				" ",
+				"1"
+			]
+		},
+		{
+			"name": "no columns, one character",
+			"codepoints": [
+				97
+			],
+			"columns": 0,
+			"rows": [
+				"",
+				"a"
+			]
+		},
+		{
+			"name": "no columns, empty",
+			"codepoints": [],
+			"columns": 0,
+			"rows": [
+				""
+			]
+		},
+		{
+			"name": "no columns, a wide character",
+			"codepoints": [
+				20320,
+				22909
+			],
+			"columns": 0,
+			"rows": [
+				"",
+				"你",
+				"好"
+			]
+		},
+		{
+			"name": "no columns, a combining mark",
+			"codepoints": [
+				97,
+				769,
+				98
+			],
+			"columns": 0,
+			"rows": [
+				"",
+				"á",
+				"b"
+			]
+		},
+		{
+			"name": "fewer than no columns",
+			"codepoints": [
+				73,
+				116,
+				101,
+				109,
+				32,
+				49
+			],
+			"columns": -2,
+			"rows": [
+				"",
+				"I",
+				"t",
+				"e",
+				"m",
+				" ",
+				"1"
+			]
+		},
+		{
+			"name": "fewer than no columns, a wide character",
+			"codepoints": [
+				20320,
+				22909
+			],
+			"columns": -2,
+			"rows": [
+				"",
+				"你",
+				"好"
+			]
+		},
+		{
+			"name": "one column",
+			"codepoints": [
+				73,
+				116,
+				101,
+				109,
+				32,
+				49
+			],
+			"columns": 1,
+			"rows": [
+				"I",
+				"t",
+				"e",
+				"m",
+				" ",
+				"1"
+			]
+		},
+		{
 			"name": "newline",
 			"codepoints": [
 				97,

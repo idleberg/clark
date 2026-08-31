@@ -58,7 +58,14 @@ fn fixture() -> Fixture {
 				.iter()
 				.map(|cp| cp.as_u64().expect("code point is a number") as u32)
 				.collect(),
-			columns: case["columns"].as_u64().expect("columns is a number") as usize,
+			// Signed on the way in and clamped on the way out. Upstream's width is
+			// `columns - columnPadding` and can go negative; the port's cannot, and does not
+			// need to — a negative width and a zero one wrap identically, which is asserted by
+			// the corpus carrying both rather than by this line saying so.
+			columns: case["columns"]
+				.as_i64()
+				.expect("columns is a number")
+				.max(0) as usize,
 			rows: case["rows"]
 				.as_array()
 				.expect("rows is an array")

@@ -71,15 +71,19 @@ pub fn normalize(input: &str) -> Cow<'_, str> {
 /// to be [`normalize`]d already: upstream composes the whole string before it splits it, so doing it
 /// here would mean handing back offsets into a string the caller does not hold.
 ///
-/// A `columns` of zero yields no breaks. Upstream reaches that case only through IEEE-754
-/// infinities, and lays every character out on a row of its own; a terminal of no columns is not a
-/// state a Prompt can be drawn in, and reproducing the arithmetic would mean carrying a division by
-/// zero to do it.
+/// A `columns` of zero lays every code point on a row of its own, with an empty row in front of the
+/// first. That is not a hypothetical: [`limit_options`](crate::limit_options) wraps each option to
+/// the terminal *minus* a padding, and `select` passes thirteen for the padding (ADR-0019), so any
+/// terminal thirteen columns or narrower arrives here with nothing left. Upstream reaches the same
+/// place by dividing by zero and comparing the infinities that come out, which is why the one
+/// comparison that would divide is short-circuited below rather than computed.
+///
+/// A negative width is the same case. Upstream can express one and this cannot, but the branch that
+/// separates them compares two quantities that stay equal either way, so nothing downstream of it
+/// differs; `fixtures/wrap.json` records a negative width beside a zero one to say so rather than
+/// assume it.
 pub fn breaks(line: &str, columns: usize) -> Vec<usize> {
 	let mut at_rows = Vec::new();
-	if columns == 0 {
-		return at_rows;
-	}
 
 	// `row_start` is the offset the current row begins at, and `row_len` is upstream's `rowLength`:
 	// an accumulator, not a measurement of the row. The two are not the same number — a row is
@@ -115,9 +119,15 @@ pub fn breaks(line: &str, columns: usize) -> Vec<usize> {
 				columns as i64,
 				columns as i64 - row_len as i64,
 			);
-			let starting_here = 1 + (word_width - left - 1).div_euclid(per_row);
-			let starting_next = (word_width - 1).div_euclid(per_row);
-			if starting_next < starting_here {
+			// With no columns to divide by, upstream's two quotients are `Infinity` or `NaN` and the
+			// comparison between them is false whichever pair it lands on — so the word never moves
+			// to the next row, and the division is never done.
+			let moves_down = per_row != 0 && {
+				let starting_here = 1 + (word_width - left - 1).div_euclid(per_row);
+				let starting_next = (word_width - 1).div_euclid(per_row);
+				starting_next < starting_here
+			};
+			if moves_down {
 				row_start = at;
 				at_rows.push(at);
 			}
@@ -328,8 +338,15 @@ mod tests {
 		assert!(matches!(normalize("already"), Cow::Borrowed(_)));
 	}
 
+	/// A width of nothing is reachable — `limit_options` subtracts a padding from the terminal and
+	/// `select` passes thirteen for it — and upstream does not refuse it. It divides by zero,
+	/// compares the infinities that come out, and lays every code point on a row of its own with a
+	/// blank in front. `fixtures/wrap.json` carries the same cases against the real library.
 	#[test]
-	fn a_terminal_of_no_columns_is_left_alone() {
-		assert_eq!(at("abc", 0), ["abc"]);
+	fn a_terminal_of_no_columns_lays_out_one_code_point_per_row() {
+		assert_eq!(at("abc", 0), ["", "a", "b", "c"]);
+		assert_eq!(at("a b", 0), ["", "a", " ", "b"]);
+		assert_eq!(at("", 0), [""]);
+		assert_eq!(at("\u{4f60}\u{597d}", 0), ["", "\u{4f60}", "\u{597d}"]);
 	}
 }

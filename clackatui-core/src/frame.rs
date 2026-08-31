@@ -75,6 +75,78 @@ impl Line {
 	pub fn width(&self) -> usize {
 		self.spans.iter().map(Span::width).sum()
 	}
+
+	/// The rows this line occupies at `columns` wide, each a Line of its own.
+	///
+	/// Never empty: a line with nothing on it comes back as one blank row, because upstream's
+	/// `wrapAnsi('')` is `['']` and a blank row is still a row.
+	///
+	/// This is what upstream does to a *styled* string — `wrapAnsi` skips escapes when it measures
+	/// and reopens the style it closed on the far side of a break, so the breaks fall where they
+	/// would in the plain text and nothing visible is added. A Frame has no escapes to skip or
+	/// reopen (ADR-0011), so the same thing here is a set of break offsets applied to the spans. The
+	/// two are the same appearance by construction; `wrap_parity.rs` is what says the offsets are
+	/// clack's.
+	///
+	/// [`Frame::rows`] does not go through this. It has to place cells rather than hand back text,
+	/// and it segments each row after the break for a reason spelled out there — but the text and
+	/// style bookkeeping either side of the break is deliberately the same, and
+	/// `a_wrapped_line_lays_out_the_way_the_frame_lays_it_out` holds the two together.
+	pub fn wrap(&self, columns: usize) -> Vec<Line> {
+		let (text, styles) = self.composed();
+
+		let mut out = Vec::new();
+		let mut start = 0usize;
+		for end in wrap::breaks(&text, columns)
+			.into_iter()
+			.chain(std::iter::once(text.len()))
+		{
+			out.push(slice(&text, &styles, start, end));
+			start = end;
+		}
+		out
+	}
+
+	/// The line's text, composed as clack composes it, and where each span ends in it.
+	///
+	/// Each span is normalized on its own, which differs from normalizing the join only where a span
+	/// begins with a combining mark whose base is styled differently — a Line no widget builds, and
+	/// the same compromise [`Frame::rows`] makes for the same reason.
+	fn composed(&self) -> (String, Vec<(usize, Style)>) {
+		let mut text = String::new();
+		let mut styles: Vec<(usize, Style)> = Vec::new();
+		for span in &self.spans {
+			text.push_str(&wrap::normalize(&span.text));
+			styles.push((text.len(), span.style));
+		}
+		(text, styles)
+	}
+}
+
+/// `text[start..end]`, cut back into spans along the style boundaries it crosses.
+///
+/// Adjacent runs of one style are not merged: two spans the caller wrote separately stay separate,
+/// so a wrapped Line compares equal to the same Line written out by hand only where it was written
+/// the same way. Nothing downstream cares — a Frame lays out per segment and the Emitter states a
+/// style per cell — and merging would make a Line that came back from here unlike the one that went
+/// in.
+fn slice(text: &str, styles: &[(usize, Style)], start: usize, end: usize) -> Line {
+	let mut line = Line::blank();
+	let mut at = start;
+	for (span_end, style) in styles {
+		if *span_end <= at {
+			continue;
+		}
+		let cut = (*span_end).min(end);
+		if cut > at {
+			line.push(Span::styled(&text[at..cut], *style));
+			at = cut;
+		}
+		if at >= end {
+			break;
+		}
+	}
+	line
 }
 
 impl FromIterator<Span> for Line {
@@ -138,15 +210,8 @@ impl Frame {
 
 		for line in &self.lines {
 			// One string per line, as clack has. A block is matched across span boundaries because
-			// upstream has no span boundaries to stop at. Each span is composed on its own, which
-			// differs from composing the join only where a span begins with a combining mark whose
-			// base is styled differently — a Frame no widget builds.
-			let mut text = String::new();
-			let mut styles: Vec<(usize, Style)> = Vec::new();
-			for span in &line.spans {
-				text.push_str(&wrap::normalize(&span.text));
-				styles.push((text.len(), span.style));
-			}
+			// upstream has no span boundaries to stop at.
+			let (text, styles) = line.composed();
 
 			let mut start = 0usize;
 			for end in wrap::breaks(&text, columns as usize)
@@ -503,5 +568,125 @@ mod tests {
 		let frame = Frame { lines: vec![line] };
 		let buf = drawn(&frame, 2, 2);
 		assert!(buf[(0, 1)].modifier.contains(Modifier::DIM));
+	}
+
+	// --- Line::wrap ---------------------------------------------------------------------------
+
+	/// Plain text as a list of strings, for the tests below.
+	fn wrapped(line: &Line, columns: usize) -> Vec<String> {
+		line.wrap(columns)
+			.iter()
+			.map(|row| row.spans.iter().map(|s| s.text.as_str()).collect())
+			.collect()
+	}
+
+	#[test]
+	fn a_line_that_fits_comes_back_as_one_row() {
+		let line = Line::from(Span::raw("hello"));
+		assert_eq!(wrapped(&line, 10), ["hello"]);
+	}
+
+	#[test]
+	fn an_empty_line_is_still_one_row() {
+		assert_eq!(wrapped(&Line::blank(), 10), [""]);
+	}
+
+	#[test]
+	fn a_break_inside_a_span_splits_it() {
+		let line = Line::from(Span::styled("hello world", Style::new().fg(Color::Green)));
+		let rows = line.wrap(6);
+		assert_eq!(wrapped(&line, 6), ["hello ", "world"]);
+		// Both halves keep the style the whole span had.
+		for row in &rows {
+			assert_eq!(row.spans[0].style, Style::new().fg(Color::Green));
+		}
+	}
+
+	#[test]
+	fn a_break_between_two_spans_leaves_each_where_it_was() {
+		let line: Line = [
+			Span::styled("aaa ", Style::new().fg(Color::Green)),
+			Span::raw("bbb"),
+		]
+		.into_iter()
+		.collect();
+		let rows = line.wrap(4);
+		assert_eq!(wrapped(&line, 4), ["aaa ", "bbb"]);
+		assert_eq!(rows[0].spans[0].style, Style::new().fg(Color::Green));
+		assert_eq!(rows[1].spans[0].style, Style::default());
+	}
+
+	#[test]
+	fn a_break_that_falls_mid_span_keeps_the_spans_either_side_of_it() {
+		let line: Line = [
+			Span::raw("ab"),
+			Span::styled("cdefgh", Style::new().add_modifier(Modifier::DIM)),
+		]
+		.into_iter()
+		.collect();
+		let rows = line.wrap(4);
+		assert_eq!(wrapped(&line, 4), ["abcd", "efgh"]);
+		assert_eq!(rows[0].spans.len(), 2, "the first row keeps both spans");
+		assert_eq!(rows[1].spans.len(), 1, "the second is all one style");
+	}
+
+	/// Wrapping a Line and laying out a Frame are two paths over the same break offsets, and only
+	/// one of them is asserted against `fast-wrap-ansi`. This holds the other to it: a Line wrapped
+	/// at a width and then drawn one row per line reaches the same cells as the same Line drawn
+	/// whole at that width.
+	///
+	/// This is what [`crate::limit_options`] relies on. It wraps each option to the terminal less a
+	/// padding, and the Frame it goes into is wrapped again to the whole terminal — a second pass
+	/// that has to change nothing, or the rows it counted are not the rows that get drawn.
+	#[test]
+	fn a_wrapped_line_lays_out_the_way_the_frame_lays_it_out() {
+		for text in [
+			"hello world",
+			"a rather long option that does not fit",
+			"\u{4f60}\u{597d}\u{4f60}\u{597d}",
+			"abcdefghij",
+			"",
+		] {
+			for columns in [2u16, 4, 7, 40] {
+				let line = Line::from(Span::raw(text));
+
+				let whole = Frame {
+					lines: vec![line.clone()],
+				};
+				let split = Frame {
+					lines: line.wrap(columns as usize),
+				};
+
+				assert_eq!(
+					whole.rows(columns),
+					split.rows(columns),
+					"{text:?} at {columns} columns"
+				);
+			}
+		}
+	}
+
+	/// The exception to the test above, named rather than left as a gap in its loop.
+	///
+	/// Where one unit is wider than the whole row, the wrap cannot make it fit and leaves it on a
+	/// row of its own that is still too wide. Wrapping that result again breaks it out a second
+	/// time, so the two passes do not agree — a wide character at one column turns into a blank row
+	/// and the character, and then into two blank rows and the character. Upstream does the same
+	/// thing for the same reason; `fast-wrap-ansi` is not idempotent either.
+	///
+	/// Nothing reaches it: [`crate::limit_options`] wraps to the terminal *less* a padding and the
+	/// Frame then wraps to the whole terminal, so the second width is never the narrower one.
+	#[test]
+	fn wrapping_twice_differs_only_where_a_unit_is_wider_than_the_row() {
+		let line = Line::from(Span::raw("\u{4f60}\u{597d}"));
+
+		let once = line.wrap(1);
+		let twice: Vec<Line> = once.iter().flat_map(|row| row.wrap(1)).collect();
+		assert_ne!(once, twice, "a wide character at one column");
+
+		// One column wider and the character fits a row, so the second pass has nothing left to do.
+		let once = line.wrap(2);
+		let twice: Vec<Line> = once.iter().flat_map(|row| row.wrap(2)).collect();
+		assert_eq!(once, twice);
 	}
 }

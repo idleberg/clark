@@ -87,6 +87,22 @@ const CORPUS = [
 	['tab alone', [0x0009], 4],
 	['conjoining jamo', [0x1100, 0x1161, 0x11a8], 4],
 
+	// --- no columns at all ------------------------------------------------------------------------
+	// `limitOptions` wraps each option to `columns - columnPadding`, and `select` passes 13 for the
+	// padding (ADR-0019), so a terminal 13 columns or narrower reaches this. Upstream gets there by
+	// dividing by zero and comparing two infinities; what comes out is one code point per row, with
+	// an empty row in front of the first. Negative and zero are the same case — the arithmetic that
+	// separates them is a comparison of two values that are equal either way — and both are recorded
+	// so that the port can say so rather than assume it.
+	['no columns', a('Item 1'), 0],
+	['no columns, one character', a('a'), 0],
+	['no columns, empty', [], 0],
+	['no columns, a wide character', [0x4f60, 0x597d], 0],
+	['no columns, a combining mark', [0x0061, 0x0301, 0x0062], 0],
+	['fewer than no columns', a('Item 1'), -2],
+	['fewer than no columns, a wide character', [0x4f60, 0x597d], -2],
+	['one column', a('Item 1'), 1],
+
 	// --- line endings -------------------------------------------------------------------------
 	['newline', a('ab\ncd'), 4],
 	['newline with wrapping either side', a('abcdef\nghijkl'), 4],

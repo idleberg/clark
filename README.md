@@ -162,7 +162,10 @@ Three layers.
    other out, so deleting them fails the stream comparison and passes the Grid.
 2. **Conformance suites** — one per ported primitive, comparing against its JavaScript counterpart:
    `LineEditor` vs Node `readline`, text measurement vs `fast-string-width`, line breaking vs
-   `fast-wrap-ansi`, Frame reconciliation vs `@clack/core`'s `render`, key parsing (Node `readline`
+   `fast-wrap-ansi`, Frame reconciliation vs `@clack/core`'s `render`, option-list windowing vs
+   `limitOptions`
+   ([ADR-0020](./docs/adr/0020-limit-options-is-ported-against-a-corpus-and-reaches-a-width-of-nothing.md)),
+   key parsing (Node `readline`
    vs crossterm — the one still owed a harvest, and so the least-guarded thing in the `text` path).
    The comparison is harvested rather
    than live: CI is one Rust job with
@@ -193,7 +196,7 @@ upstream drift.
 | **M0** | ~~`ForcedWidth` probe — the one experiment the architecture rests on (below)~~ **done** |
 | **M1** | ~~`text` end to end — Recorder, width port, `LineEditor`, `TextState`, `Frame`, Theme, `text` widget, wrap port, Emitter, `.interact()`, harvested text Scenarios green, hand-authored Scenarios (narrow, CJK, resize)~~ **done** |
 | **M2** | ~~`password` and `confirm` — states, widgets, builders, both suites harvested, eleven more hand-authored Scenarios~~ **done** |
-| **M3** | select, multi-select, select-key |
+| **M3** | ~~`limit-options` ported against a 54-case corpus~~ **done**; select, multi-select, select-key |
 | **M4** | group-multi-select, autocomplete, date, multi-line |
 | **M5** | static renderers |
 | **M6** | theme polish, docs, publish |
@@ -219,6 +222,18 @@ All three are invisible to upstream's own tests and were found by reading, then 
 recording. What M3 should cost is the same bet again, with one addition: `select` and friends are
 the first Prompts with a list in them, so `limit-options` has to be ported before any of them can be
 drawn at a height.
+
+That port is done, and it cost more than a list-cutting function should. `limitOptions` is pure, so
+it takes a corpus rather than a recording — fifty-four cases against upstream's fourteen, because
+upstream's never vary the terminal, never set a column padding and never walk a cursor down a list.
+Six of seven mutations of the port are caught by the corpus. The seventh was a branch modelling a
+`splice` that cannot run off its array, and was deleted rather than covered, which is the other
+thing a surviving mutation can mean. What it turned up on the way is a place the wrap port had said
+it would not go: `limitOptions` subtracts a padding from the terminal before it wraps, `select`
+passes thirteen for the padding, and so a narrow enough terminal reaches the wrap with nothing left
+— which upstream handles by dividing by zero and laying every code point on a row of its own. The
+wrap now does too
+([ADR-0020](./docs/adr/0020-limit-options-is-ported-against-a-corpus-and-reaches-a-width-of-nothing.md)).
 
 M0 came first because it was cheap and load-bearing. Reusing `BufferDiff` under our own width model
 depends entirely on `CellDiffOption::ForcedWidth`, which is recent API on a pre-1.0 crate. The probe

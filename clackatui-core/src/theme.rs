@@ -182,6 +182,8 @@ pub struct Styles {
 	pub option_unselected: Style,
 	/// The `/` between a `confirm`'s two choices.
 	pub separator: Style,
+	/// The `...` a list draws in place of the options it left out.
+	pub overflow: Style,
 	/// The value of a submitted Prompt.
 	pub submitted: Style,
 	/// The value of a cancelled Prompt.
@@ -211,6 +213,7 @@ impl Styles {
 		radio_unselected: Style::new().add_modifier(Modifier::DIM),
 		option_unselected: Style::new().add_modifier(Modifier::DIM),
 		separator: Style::new().add_modifier(Modifier::DIM),
+		overflow: Style::new().add_modifier(Modifier::DIM),
 		submitted: Style::new().add_modifier(Modifier::DIM),
 		cancelled: Style::new().add_modifier(Modifier::CROSSED_OUT.union(Modifier::DIM)),
 		error: Style::new().fg(Color::Yellow),
