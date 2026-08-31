@@ -4,170 +4,33 @@
 //! sequence of keypresses, and the output clack wrote back. ADR-0010 describes how they are caught.
 //! The recording is what this file reads; no JavaScript runs here, for the reasons ADR-0008 gives.
 //!
-//! What is asserted is not yet the Grid: no emulator runs here, so nothing below knows where the
-//! cursor ends up, only which instructions were issued to move it. That is what M1 finishes with.
-//! Four things are checked in the meantime, and each is worth having on its own:
+//! No emulator runs here either. That is `scenario_parity.rs`, which is where the Grid comparison
+//! ADR-0001 asks for lives. What is left in this file is the set of checks that read the recording
+//! *directly* — each cheaper than a Grid comparison, each failing with a smaller and more specific
+//! message when it goes wrong, which is the whole reason for keeping them once the Grid is green:
 //!
 //!   - the fixture is a plausible recording, so that a truncated harvest cannot pass for free;
 //!   - every Scenario replayed through [`Prompt<TextState>`] settles in the state clack settled in;
 //!   - every Scenario's *opening* Frame is drawn the way clack drew it, styles included — the one
 //!     Frame upstream writes whole rather than as a diff, because it has nothing to diff against;
 //!   - every Scenario's whole byte stream, styling stripped from both sides, is the stream clack
-//!     wrote — which covers the diffs, the erasures and the order a [`Session`] asks for them in.
+//!     wrote — which covers the diffs, the erasures and the order a `Session` asks for them in.
 //!
 //! The second was the first outside check the Prompt state machine had; ADR-0009 notes it was
 //! ported by close reading alone, against no oracle. The third is the first check on appearance,
 //! and the first thing in the project to compare bytes clack actually wrote with something the port
-//! actually drew. The fourth is the first that covers a Prompt end to end rather than one Frame of
-//! it.
+//! actually drew. The fourth covers a Prompt end to end, and is the one a Grid comparison most
+//! nearly subsumes — it survives because a Grid says two terminals look alike, while this says the
+//! port asked for the same work, which is what an author reads when the two stop agreeing.
 
 use std::collections::BTreeSet;
 
 use clackatui_core::frame::Frame;
-use clackatui_core::line_editor::{Key, KeyName};
-use clackatui_core::prompt::{Prompt, Status};
-use clackatui_core::session::Session;
-use clackatui_core::text::{TextState, TextWidget};
+use clackatui_core::prompt::Status;
 use ratatui_core::style::{Color, Modifier, Style};
 
-const FIXTURE: &str = include_str!("fixtures/scenarios/text.json");
-
-/// The tag `README.md` names. A fixture from anywhere else is not the thing we claim parity with.
-const TAG: &str = "@clack/prompts@1.7.0";
-
-struct Scenario {
-	name: String,
-	kind: String,
-	message: String,
-	placeholder: Option<String>,
-	default_value: Option<String>,
-	initial_value: Option<String>,
-	/// `opts.withGuide`, which falls back to `settings.withGuide` when absent.
-	with_guide: bool,
-	/// The terminal clack wrapped its Frames to.
-	columns: usize,
-	/// Its height, which is a separate number for the reason `Emitter::frame` gives.
-	rows: usize,
-	/// Upstream passed a `validate` callback, which a recording cannot carry across.
-	validates: bool,
-	keys: Vec<Recorded>,
-	output: Vec<String>,
-}
-
-struct Recorded {
-	s: Option<String>,
-	name: Option<String>,
-	ctrl: bool,
-	meta: bool,
-	shift: bool,
-	sequence: Option<String>,
-}
-
-fn fixture() -> (serde_json::Value, Vec<Scenario>) {
-	let json: serde_json::Value =
-		serde_json::from_str(FIXTURE).expect("fixtures/scenarios/text.json parses");
-
-	let scenarios = json["scenarios"]
-		.as_array()
-		.expect("scenarios is an array")
-		.iter()
-		.filter_map(|scenario| {
-			let name = scenario["name"]
-				.as_str()
-				.expect("name is a string")
-				.to_owned();
-			// One prompt per Scenario for `text`. A flow that opens several — `group()` — is a
-			// different shape and is not harvested yet.
-			let runs = scenario["prompts"].as_array().expect("prompts is an array");
-			if runs.len() != 1 {
-				return None;
-			}
-			let run = &runs[0];
-			let opts = &run["opts"];
-
-			Some(Scenario {
-				name,
-				kind: run["kind"].as_str().unwrap_or("").to_owned(),
-				message: opts["message"].as_str().unwrap_or("").to_owned(),
-				placeholder: opts["placeholder"].as_str().map(str::to_owned),
-				default_value: opts["defaultValue"].as_str().map(str::to_owned),
-				initial_value: opts["initialValue"].as_str().map(str::to_owned),
-				with_guide: opts["withGuide"]
-					.as_bool()
-					.or_else(|| run["settings"]["withGuide"].as_bool())
-					.unwrap_or(true),
-				columns: run["terminal"]["columns"].as_u64().unwrap_or(80) as usize,
-				rows: run["terminal"]["rows"].as_u64().unwrap_or(20) as usize,
-				validates: opts["validate"]["callback"].as_bool() == Some(true),
-				keys: run["keys"]
-					.as_array()
-					.expect("keys is an array")
-					.iter()
-					.map(|key| Recorded {
-						s: key["s"].as_str().map(str::to_owned),
-						name: key["key"]["name"].as_str().map(str::to_owned),
-						ctrl: key["key"]["ctrl"].as_bool() == Some(true),
-						meta: key["key"]["meta"].as_bool() == Some(true),
-						shift: key["key"]["shift"].as_bool() == Some(true),
-						sequence: key["key"]["sequence"].as_str().map(str::to_owned),
-					})
-					.collect(),
-				output: run["output"]
-					.as_array()
-					.expect("output is an array")
-					.iter()
-					.map(|chunk| chunk.as_str().expect("chunk is a string").to_owned())
-					.collect(),
-			})
-		})
-		.collect();
-
-	(json, scenarios)
-}
-
-impl Recorded {
-	/// A recorded keypress as the Line editor wants it.
-	///
-	/// The names come from readline, which is what the Scenarios record, so this is
-	/// [`KeyName::readline_name`] read backwards. An unrecognised name is left as `None` rather than
-	/// guessed at: the Prompt then sees a keypress with a character and no name, which is what
-	/// readline does for a key it cannot name.
-	fn key(&self) -> Key {
-		Key {
-			name: self.name.as_deref().and_then(name),
-			ctrl: self.ctrl,
-			meta: self.meta,
-			shift: self.shift,
-			sequence: self.sequence.clone(),
-		}
-	}
-}
-
-fn name(readline: &str) -> Option<KeyName> {
-	Some(match readline {
-		"space" => KeyName::Char(' '),
-		"backspace" => KeyName::Backspace,
-		"delete" => KeyName::Delete,
-		"left" => KeyName::Left,
-		"right" => KeyName::Right,
-		"home" => KeyName::Home,
-		"end" => KeyName::End,
-		"up" => KeyName::Up,
-		"down" => KeyName::Down,
-		"tab" => KeyName::Tab,
-		"return" => KeyName::Return,
-		"enter" => KeyName::Enter,
-		"escape" => KeyName::Escape,
-		other => {
-			let mut chars = other.chars();
-			let c = chars.next()?;
-			if chars.next().is_some() {
-				return None;
-			}
-			KeyName::Char(c)
-		}
-	})
-}
+mod scenarios;
+use scenarios::{TAG, fixture};
 
 /// The state clack was in when it drew its last frame, read off the step symbol it prints.
 ///
@@ -196,10 +59,7 @@ fn every_scenario_settles_the_way_clack_settled() {
 	let mut replayed = 0;
 
 	for scenario in &scenarios {
-		// A `validate` callback cannot cross into a recording, so a Scenario that has one would be
-		// replayed without the validation that shaped its frames. Those wait for the parity harness,
-		// which will supply the predicate by hand.
-		if scenario.validates || scenario.keys.is_empty() {
+		if !scenario.is_replayable() {
 			continue;
 		}
 
@@ -211,15 +71,7 @@ fn every_scenario_settles_the_way_clack_settled() {
 			continue;
 		};
 
-		let mut state = TextState::new();
-		if let Some(default) = &scenario.default_value {
-			state = state.with_default_value(default);
-		}
-		let mut prompt = Prompt::new(state);
-		if let Some(initial) = &scenario.initial_value {
-			prompt = prompt.with_initial_user_input(initial);
-		}
-
+		let mut prompt = scenario.prompt();
 		for recorded in &scenario.keys {
 			prompt.key(recorded.s.as_deref(), &recorded.key());
 		}
@@ -256,9 +108,10 @@ fn every_scenario_settles_the_way_clack_settled() {
 /// sense of one needs a terminal emulator — but this one is a Frame on its own, and the widget can
 /// be held against it directly, colours and all.
 ///
-/// This is the first parity claim in the project that is about *appearance* rather than about a
-/// primitive. It is not yet the Grid comparison ADR-0001 asks for: no emulator runs, so cursor
-/// position is not checked and neither is any Frame after the first.
+/// It keeps earning its place next to the Grid comparison for two reasons. It runs against every
+/// Scenario, including the ones a recording cannot replay; and it compares styles the emulator has
+/// no model for, conceal in particular, which is exactly the attribute clack's empty placeholder is
+/// drawn with.
 #[test]
 fn every_scenario_draws_clacks_opening_frame() {
 	let (_, scenarios) = fixture();
@@ -271,20 +124,8 @@ fn every_scenario_draws_clacks_opening_frame() {
 			continue;
 		};
 
-		let mut state = TextState::new();
-		if let Some(default) = &scenario.default_value {
-			state = state.with_default_value(default);
-		}
-		let mut prompt = Prompt::new(state);
-		if let Some(initial) = &scenario.initial_value {
-			prompt = prompt.with_initial_user_input(initial);
-		}
-
-		let mut widget =
-			TextWidget::new(&prompt, &scenario.message).with_guide(scenario.with_guide);
-		if let Some(placeholder) = &scenario.placeholder {
-			widget = widget.with_placeholder(placeholder);
-		}
+		let prompt = scenario.prompt();
+		let widget = scenario.widget(&prompt);
 
 		compared += 1;
 		let frame = widget.frame();
@@ -329,21 +170,21 @@ fn every_scenario_draws_clacks_opening_frame() {
 
 // --- The whole stream --------------------------------------------------------------------------
 
-/// Every byte clack wrote for a Scenario, against every byte a [`Session`] writes for it — with the
+/// Every byte clack wrote for a Scenario, against every byte a `Session` writes for it — with the
 /// styling taken off both sides first.
 ///
-/// This is not the Grid comparison M1 finishes with, and it is not a substitute for one: no
-/// emulator runs, so nothing here knows where the cursor *ends up*, only which instructions were
-/// issued to move it. What it does cover is everything between the opening Frame and the closing
-/// newline, which until now nothing did — the diff clack chose for each keypress, the rows it
-/// erased, the text it rewrote, and the order the Session asked for them in.
+/// This is not the Grid comparison, and does not stand in for one: nothing here knows where the
+/// cursor *ends up*, only which instructions were issued to move it. It survives alongside the Grid
+/// because the two fail differently. A Grid says the two terminals do not look alike, and leaves an
+/// author to work out which write caused it; this says the port asked for different work, in a
+/// stream short enough to read.
 ///
 /// SGR is stripped from both sides because the two encode the same appearance differently and
 /// deliberately: clack's Frames arrive as picocolors output, which states one attribute per escape
 /// and turns each off again by name, while the Emitter states a whole [`Style`] per run and resets
-/// (ADR-0011, ADR-0013). Colour is what the *opening Frame* test above compares, where the two can
-/// be held against each other as styles rather than as bytes. What is left after stripping is the
-/// part where byte equality is the right question: cursor movement, erasure, and text.
+/// (ADR-0011, ADR-0013). Colour is what the opening-Frame test above and the Grid comparison
+/// compare, each in the terms it can. What is left after stripping is the part where byte equality
+/// is the right question: cursor movement, erasure, and text.
 #[test]
 fn every_scenario_is_written_the_way_clack_wrote_it() {
 	let (_, scenarios) = fixture();
@@ -351,41 +192,13 @@ fn every_scenario_is_written_the_way_clack_wrote_it() {
 	let mut compared = 0;
 
 	for scenario in &scenarios {
-		// Same two exclusions as the replay above, and for the same reasons: a `validate` callback
-		// does not survive a recording, and the abort-signal Scenario is not driven by keys.
-		if scenario.validates || scenario.keys.is_empty() {
+		if !scenario.is_replayable() {
 			continue;
 		}
 
-		let mut state = TextState::new();
-		if let Some(default) = &scenario.default_value {
-			state = state.with_default_value(default);
-		}
-		let mut prompt = Prompt::new(state);
-		if let Some(initial) = &scenario.initial_value {
-			prompt = prompt.with_initial_user_input(initial);
-		}
-
-		let message = scenario.message.clone();
-		let placeholder = scenario.placeholder.clone();
-		let with_guide = scenario.with_guide;
-		let mut session = Session::new(prompt, move |prompt| {
-			let mut widget = TextWidget::new(prompt, &message).with_guide(with_guide);
-			if let Some(placeholder) = &placeholder {
-				widget = widget.with_placeholder(placeholder);
-			}
-			widget.frame()
-		})
-		.with_size(scenario.columns as u16, scenario.rows as u16);
-
-		let mut ours = session.open();
-		for recorded in &scenario.keys {
-			ours.push_str(&session.key(recorded.s.as_deref(), &recorded.key()));
-		}
-
 		compared += 1;
-		let theirs: String = scenario.output.concat();
-		let (ours, theirs) = (strip_sgr(&ours), strip_sgr(&theirs));
+		let ours = strip_sgr(&scenario.replay());
+		let theirs = strip_sgr(&scenario.recorded());
 		if ours != theirs {
 			failures.push(format!(
 				"  {}\n     clack: {}\n      port: {}",

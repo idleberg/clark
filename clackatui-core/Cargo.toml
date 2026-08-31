@@ -15,4 +15,5 @@ unicode-properties.workspace = true
 unicode-script.workspace = true
 
 [dev-dependencies]
+avt.workspace = true
 serde_json.workspace = true

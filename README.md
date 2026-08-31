@@ -32,9 +32,15 @@ is visible in where the cursor ends up
 before any key, one after each, a newline and only then the cursor — is visible in every recording,
 so it is ported into the core as a `Session` rather than left to a driver
 ([ADR-0014](./docs/adr/0014-the-sequence-is-a-compatibility-surface.md)); with it, all ten
-replayable `text` Scenarios are written the way clack wrote them, styling aside. What remains is to
-put both byte streams through an emulator and compare them as Grids, cursor included, which is what
-M1 finishes with.
+replayable `text` Scenarios are written the way clack wrote them, styling aside. And now both byte
+streams go through one emulator: **all ten agree on the Grid — characters, styles and cursor
+position.** That is the comparison [ADR-0001](./docs/adr/0001-parity-is-measured-on-the-grid.md) is
+built around and the thing M1 existed to reach. One requirement in it cannot be met — no emulator
+models conceal, which is half of how clack draws its text cursor — so the Grid runs beside the
+Frame-level style comparison rather than replacing it
+([ADR-0015](./docs/adr/0015-the-emulator-is-avt-and-it-cannot-see-conceal.md)). What is left of M1
+is Scenarios rather than machinery: every harvested one runs at 80 columns and none resizes, so the
+wrap and re-layout paths reach the Grid untested.
 See
 [CONTEXT.md](./CONTEXT.md) for the vocabulary and [docs/adr/](./docs/adr/) for the decisions behind
 the shape below.
@@ -46,6 +52,7 @@ the shape below.
 | clack | `@clack/prompts@1.7.0`, `@clack/core@1.4.3` (published; pinned by lockfile) |
 | Ratatui | `ratatui-core` 0.1.2 (pinned exactly — pre-1.0, expect churn) |
 | Terminal I/O | crossterm 0.29 |
+| Emulator | `avt` 0.18 — the arbiter of every appearance claim ([ADR-0015](./docs/adr/0015-the-emulator-is-avt-and-it-cannot-see-conceal.md)) |
 
 ## Shape
 
@@ -107,17 +114,20 @@ Three layers.
 
 1. **Prompt Scenarios** — harvested from clack's own test suite, plus hand-authored coverage of what
    upstream never varies: narrow and wide terminals, mid-Prompt resize, CJK and emoji input, long
-   values. `cargo test` replays both the recorded Fixture and live clackatui output through one
-   emulator (`vt100`; `avt` as fallback) and compares Grids. `node scripts/harvest-scenarios.mjs
-   text` is the Recorder; it runs clack's suite from outside the checkout and refuses unless that
-   checkout is at the pinned tag
+   values. `cargo test` replays both the recorded Fixture and the port's own bytes through one
+   emulator (`avt`) and compares Grids — characters, styles and cursor position. `node
+   scripts/harvest-scenarios.mjs text` is the Recorder; it runs clack's suite from outside the
+   checkout and refuses unless that checkout is at the pinned tag
    ([ADR-0010](./docs/adr/0010-the-recorder-instruments-clacks-suite-from-outside-it.md)).
-   Two comparisons need no emulator and so run already. A Prompt's *opening* Frame is the only one
-   clack writes whole rather than as a diff, and every Scenario's is asserted against the widget's,
-   styles included. And every Scenario's whole byte stream, styling stripped from both sides, is
-   asserted against the stream a `Session` produces — which covers the diff clack chose for each
-   keypress, the rows it erased, and the order it asked for them in, but not where the cursor ends
-   up.
+
+   Two narrower comparisons run beside the Grid and are not redundant with it, because each catches
+   mutations the other misses
+   ([ADR-0015](./docs/adr/0015-the-emulator-is-avt-and-it-cannot-see-conceal.md)). A Prompt's
+   *opening* Frame is the only one clack writes whole rather than as a diff, and every Scenario's is
+   asserted against the widget's, as styles — which is the only place conceal is checked, no
+   emulator having a model for it. And every Scenario's whole byte stream, styling stripped from
+   both sides, is asserted against the stream a `Session` produces, which says the port asked for
+   the same work rather than merely arriving at the same screen.
 2. **Conformance suites** — one per ported primitive, comparing against its JavaScript counterpart:
    `LineEditor` vs Node `readline`, text measurement vs `fast-string-width`, line breaking vs
    `fast-wrap-ansi`, Frame reconciliation vs `@clack/core`'s `render`, key parsing (Node `readline`
@@ -149,15 +159,19 @@ upstream drift.
 | | |
 |---|---|
 | **M0** | ~~`ForcedWidth` probe — the one experiment the architecture rests on (below)~~ **done** |
-| **M1** | `text` end to end — ~~Recorder~~, ~~width port~~, ~~`LineEditor`~~, ~~`TextState`~~, ~~`Frame`~~, ~~Theme~~, ~~`text` widget~~, ~~wrap port~~, ~~Emitter~~, ~~`.interact()`~~, harvested text Scenarios green |
+| **M1** | `text` end to end — ~~Recorder~~, ~~width port~~, ~~`LineEditor`~~, ~~`TextState`~~, ~~`Frame`~~, ~~Theme~~, ~~`text` widget~~, ~~wrap port~~, ~~Emitter~~, ~~`.interact()`~~, ~~harvested text Scenarios green~~, hand-authored Scenarios (narrow, resize, CJK) |
 | **M2** | password, confirm |
 | **M3** | select, multi-select, select-key |
 | **M4** | group-multi-select, autocomplete, date, multi-line |
 | **M5** | static renderers |
 | **M6** | theme polish, docs, publish |
 
-M1 is one Prompt rather than one layer on purpose. Every decision here assumes Grid parity through an
-emulator is achievable, and until a Prompt runs end to end that assumption is untested.
+M1 is one Prompt rather than one layer on purpose. Every decision here assumed Grid parity through an
+emulator was achievable, and that assumption is now tested rather than hoped for: `text` runs end to
+end and its ten replayable Scenarios agree with clack on the Grid. What the harvest cannot supply is
+the terminal upstream never varies — every recorded Scenario is 80 columns wide and none resizes —
+so the hand-authored Scenarios are the rest of M1, and the first thing they will exercise is the
+resize divergence [ADR-0014](./docs/adr/0014-the-sequence-is-a-compatibility-surface.md) records.
 
 M0 came first because it was cheap and load-bearing. Reusing `BufferDiff` under our own width model
 depends entirely on `CellDiffOption::ForcedWidth`, which is recent API on a pre-1.0 crate. The probe
