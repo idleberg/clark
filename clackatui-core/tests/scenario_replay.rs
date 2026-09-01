@@ -37,7 +37,7 @@ use ratatui_core::style::{Color, Modifier, Style};
 mod scenarios;
 use scenarios::{
 	Scenario, TAG, all, authored, autocomplete, confirm, date, group_multi_select, harvested,
-	multi_select, password, select, select_key,
+	multi_line, multi_select, password, select, select_key,
 };
 
 /// The state clack was in when it drew its last frame, read off the step symbol it prints.
@@ -487,7 +487,7 @@ fn the_harvested_fixture_is_a_plausible_recording() {
 /// Frame or the cancelled one would otherwise be merely smaller, and the count below would let it
 /// through.
 #[test]
-fn the_eight_harvested_prompt_fixtures_are_plausible_recordings() {
+fn the_nine_harvested_prompt_fixtures_are_plausible_recordings() {
 	for (kind, (json, scenarios), least, required) in [
 		(
 			"password",
@@ -968,6 +968,46 @@ fn the_eight_harvested_prompt_fixtures_are_plausible_recordings() {
 		dates.iter().all(|s| !s.validates),
 		"a date Scenario carries a validate callback; upstream's `date` writes its own"
 	);
+
+	// And for `multiline`, whose editor upstream's suite never touches: every key it sends is a
+	// character or a `return`, so the arrows, backspace and delete are the authored Fixture's alone.
+	let (_, lines) = multi_line();
+	let mut lined = multi_line().1;
+	lined.extend(authored().1.into_iter().filter(|s| s.kind == "multiline"));
+	let any = |what: &str, f: &dyn Fn(&Scenario) -> bool| {
+		assert!(
+			lined.iter().any(f),
+			"no multiline Scenario left that {what}; the port's branch for it is unverified"
+		);
+	};
+	any("draws the submit button", &|s| s.show_submit);
+	any("sets a placeholder", &|s| s.placeholder.is_some());
+	any("sets a defaultValue", &|s| s.default_value.is_some());
+	any("sets an initialValue", &|s| s.initial_value.is_some());
+	any("turns the Guide off", &|s| !s.with_guide);
+	any("presses an arrow", &|s| {
+		s.keys
+			.iter()
+			.any(|k| matches!(k.name.as_deref(), Some("up" | "down" | "left" | "right")))
+	});
+	any("presses backspace", &|s| {
+		s.keys
+			.iter()
+			.any(|k| k.name.as_deref() == Some("backspace"))
+	});
+	any("presses delete", &|s| {
+		s.keys.iter().any(|k| k.name.as_deref() == Some("delete"))
+	});
+	any("presses tab", &|s| {
+		s.keys.iter().any(|k| k.name.as_deref() == Some("tab"))
+	});
+	// Two of the fourteen install one, and the loader cannot carry a callback across — so the count
+	// is pinned rather than the absence, the way `password`'s is.
+	assert_eq!(
+		lines.iter().filter(|s| s.validates).count(),
+		2,
+		"multiline Scenarios carrying a validate callback"
+	);
 }
 
 /// The two terminal widths a Scenario carries, and the one thing that would make them ambiguous.
@@ -1013,7 +1053,7 @@ fn the_authored_fixture_records_the_widths_it_claims() {
 	);
 
 	assert!(
-		scenarios.len() >= 22,
+		scenarios.len() >= 46,
 		"the authored Fixture has shrunk to {} Scenarios",
 		scenarios.len()
 	);

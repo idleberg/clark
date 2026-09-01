@@ -4262,6 +4262,5993 @@
 			]
 		},
 		{
+			"name": "multiline › an initial value opens as two rows with the cursor at the end",
+			"prompts": [
+				{
+					"kind": "multiline",
+					"opts": {
+						"message": "Bio",
+						"initialValue": "one\ntwo"
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"events": [
+						{
+							"kind": "key",
+							"s": "!",
+							"key": {
+								"name": "!",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"keys": [
+						{
+							"s": "!",
+							"key": {
+								"name": "!",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Bio\n\u001b[36m│\u001b[39m  one\n\u001b[36m│\u001b[39m  two█\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  two!█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  two!\n\u001b[36m│\u001b[39m  █\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[6A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Bio\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mtwo!\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "multiline › backspace and delete either side of the cursor",
+			"prompts": [
+				{
+					"kind": "multiline",
+					"opts": {
+						"message": "Bio"
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"events": [
+						{
+							"kind": "key",
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "b",
+							"key": {
+								"name": "b",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "c",
+							"key": {
+								"name": "c",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "d",
+							"key": {
+								"name": "d",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "left",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "left",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "backspace",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "delete",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "right",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"keys": [
+						{
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "b",
+							"key": {
+								"name": "b",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "c",
+							"key": {
+								"name": "c",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "d",
+							"key": {
+								"name": "d",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "left",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "left",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "backspace",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "delete",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "right",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Bio\n\u001b[36m│\u001b[39m  \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  a█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  ab█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  abc█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  abcd█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  abc\u001b[7md\u001b[27m",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  ab\u001b[7mc\u001b[27md",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  a\u001b[7mc\u001b[27md",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  a\u001b[7md\u001b[27m",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  ad█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  ad\n\u001b[36m│\u001b[39m  █\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[5A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Bio\n\u001b[90m│\u001b[39m  \u001b[2mad\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "multiline › backspacing a newline joins two rows",
+			"prompts": [
+				{
+					"kind": "multiline",
+					"opts": {
+						"message": "Bio"
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"events": [
+						{
+							"kind": "key",
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "b",
+							"key": {
+								"name": "b",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "c",
+							"key": {
+								"name": "c",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "d",
+							"key": {
+								"name": "d",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "left",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "left",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "backspace",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "right",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "right",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"keys": [
+						{
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "b",
+							"key": {
+								"name": "b",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "c",
+							"key": {
+								"name": "c",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "d",
+							"key": {
+								"name": "d",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "left",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "left",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "backspace",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "right",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "right",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Bio\n\u001b[36m│\u001b[39m  \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  a█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  ab█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  ab\n\u001b[36m│\u001b[39m  █\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  c█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  cd█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  c\u001b[7md\u001b[27m",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  \u001b[7mc\u001b[27md",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  ab\u001b[7mc\u001b[27md\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  abc\u001b[7md\u001b[27m",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  abcd█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  abcd\n\u001b[36m│\u001b[39m  █\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[5A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Bio\n\u001b[90m│\u001b[39m  \u001b[2mabcd\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "multiline › the arrows walk the text by rows and columns",
+			"prompts": [
+				{
+					"kind": "multiline",
+					"opts": {
+						"message": "Bio"
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"events": [
+						{
+							"kind": "key",
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "b",
+							"key": {
+								"name": "b",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "c",
+							"key": {
+								"name": "c",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "d",
+							"key": {
+								"name": "d",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "up",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "left",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "X",
+							"key": {
+								"name": "X",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"keys": [
+						{
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "b",
+							"key": {
+								"name": "b",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "c",
+							"key": {
+								"name": "c",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "d",
+							"key": {
+								"name": "d",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "up",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "left",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "X",
+							"key": {
+								"name": "X",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Bio\n\u001b[36m│\u001b[39m  \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  a█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  ab█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  abc█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  abc\n\u001b[36m│\u001b[39m  █\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  d█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  de█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  ab\u001b[7mc\u001b[27m\n\u001b[36m│\u001b[39m  de\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  a\u001b[7mb\u001b[27mc",
+						"\u001b[3B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  aX\u001b[7mb\u001b[27mc",
+						"\u001b[3B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  aXbc\n\u001b[36m│\u001b[39m  de█\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  de\n\u001b[36m│\u001b[39m  █\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[6A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Bio\n\u001b[90m│\u001b[39m  \u001b[2maXbc\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mde\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "multiline › the cursor rests on a newline and becomes a block in front of it",
+			"prompts": [
+				{
+					"kind": "multiline",
+					"opts": {
+						"message": "Bio"
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"events": [
+						{
+							"kind": "key",
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "b",
+							"key": {
+								"name": "b",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "c",
+							"key": {
+								"name": "c",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "d",
+							"key": {
+								"name": "d",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "up",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"keys": [
+						{
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "b",
+							"key": {
+								"name": "b",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "c",
+							"key": {
+								"name": "c",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "d",
+							"key": {
+								"name": "d",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "up",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Bio\n\u001b[36m│\u001b[39m  \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  a█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  ab█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  ab\n\u001b[36m│\u001b[39m  █\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  c█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  cd█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  ab█\n\u001b[36m│\u001b[39m  cd\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  ab\n\u001b[36m│\u001b[39m  cd█\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  cd\n\u001b[36m│\u001b[39m  █\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[6A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Bio\n\u001b[90m│\u001b[39m  \u001b[2mab\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mcd\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "multiline › the submit button under a wrapped field",
+			"prompts": [
+				{
+					"kind": "multiline",
+					"opts": {
+						"message": "Bio",
+						"showSubmit": true
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 40,
+						"rows": 20,
+						"stdout": 40
+					},
+					"events": [
+						{
+							"kind": "key",
+							"s": "w",
+							"key": {
+								"name": "w",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "r",
+							"key": {
+								"name": "r",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "t",
+							"key": {
+								"name": "t",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "h",
+							"key": {
+								"name": "h",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "m",
+							"key": {
+								"name": "m",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "u",
+							"key": {
+								"name": "u",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "s",
+							"key": {
+								"name": "s",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "i",
+							"key": {
+								"name": "i",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "c",
+							"key": {
+								"name": "c",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "m",
+							"key": {
+								"name": "m",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "k",
+							"key": {
+								"name": "k",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "r",
+							"key": {
+								"name": "r",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "s",
+							"key": {
+								"name": "s",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "n",
+							"key": {
+								"name": "n",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "d",
+							"key": {
+								"name": "d",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "w",
+							"key": {
+								"name": "w",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "r",
+							"key": {
+								"name": "r",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "t",
+							"key": {
+								"name": "t",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "h",
+							"key": {
+								"name": "h",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "d",
+							"key": {
+								"name": "d",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "r",
+							"key": {
+								"name": "r",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "m",
+							"key": {
+								"name": "m",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "r",
+							"key": {
+								"name": "r",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "s",
+							"key": {
+								"name": "s",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "\t",
+							"key": {
+								"name": "tab",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"keys": [
+						{
+							"s": "w",
+							"key": {
+								"name": "w",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "r",
+							"key": {
+								"name": "r",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "t",
+							"key": {
+								"name": "t",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "h",
+							"key": {
+								"name": "h",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "m",
+							"key": {
+								"name": "m",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "u",
+							"key": {
+								"name": "u",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "s",
+							"key": {
+								"name": "s",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "i",
+							"key": {
+								"name": "i",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "c",
+							"key": {
+								"name": "c",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "m",
+							"key": {
+								"name": "m",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "k",
+							"key": {
+								"name": "k",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "r",
+							"key": {
+								"name": "r",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "s",
+							"key": {
+								"name": "s",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "n",
+							"key": {
+								"name": "n",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "d",
+							"key": {
+								"name": "d",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "w",
+							"key": {
+								"name": "w",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "r",
+							"key": {
+								"name": "r",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "t",
+							"key": {
+								"name": "t",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "h",
+							"key": {
+								"name": "h",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "d",
+							"key": {
+								"name": "d",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "r",
+							"key": {
+								"name": "r",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "m",
+							"key": {
+								"name": "m",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "r",
+							"key": {
+								"name": "r",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "s",
+							"key": {
+								"name": "s",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "\t",
+							"key": {
+								"name": "tab",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Bio\n\u001b[36m│\u001b[39m  \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m└\u001b[39m\n  \u001b[2m[ submit ]\u001b[22m\n",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  w█",
+						"\u001b[3B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we█",
+						"\u001b[3B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we █",
+						"\u001b[3B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we a█",
+						"\u001b[3B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we ar█",
+						"\u001b[3B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are█",
+						"\u001b[3B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are █",
+						"\u001b[3B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are t█",
+						"\u001b[3B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are th█",
+						"\u001b[3B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the█",
+						"\u001b[3B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the █",
+						"\u001b[3B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the m█",
+						"\u001b[3B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the mu█",
+						"\u001b[3B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the mus█",
+						"\u001b[3B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the musi█",
+						"\u001b[3B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the music█",
+						"\u001b[3B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the music █",
+						"\u001b[3B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the music m█",
+						"\u001b[3B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the music ma█",
+						"\u001b[3B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the music mak█",
+						"\u001b[3B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the music make█",
+						"\u001b[3B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the music maker█",
+						"\u001b[3B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the music makers█",
+						"\u001b[3B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the music makers █",
+						"\u001b[3B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the music makers a█",
+						"\u001b[3B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the music makers an█",
+						"\u001b[3B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  we are the music makers \n\u001b[36m│\u001b[39m  and█\n\u001b[36m└\u001b[39m\n  \u001b[2m[ submit ]\u001b[22m\n",
+						"\u001b[999D\u001b[6A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  we are the music makers and\n\u001b[36m│\u001b[39m   █\n\u001b[36m└\u001b[39m\n  \u001b[2m[ submit ]\u001b[22m\n",
+						"\u001b[999D\u001b[6A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m   w█",
+						"\u001b[3B",
+						"\u001b[999D\u001b[6A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m   we█",
+						"\u001b[3B",
+						"\u001b[999D\u001b[6A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m   we █",
+						"\u001b[3B",
+						"\u001b[999D\u001b[6A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m   we a█",
+						"\u001b[3B",
+						"\u001b[999D\u001b[6A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m   we ar█",
+						"\u001b[3B",
+						"\u001b[999D\u001b[6A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m   we are█",
+						"\u001b[3B",
+						"\u001b[999D\u001b[6A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m   we are █",
+						"\u001b[3B",
+						"\u001b[999D\u001b[6A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m   we are t█",
+						"\u001b[3B",
+						"\u001b[999D\u001b[6A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m   we are th█",
+						"\u001b[3B",
+						"\u001b[999D\u001b[6A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m   we are the█",
+						"\u001b[3B",
+						"\u001b[999D\u001b[6A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m   we are the █",
+						"\u001b[3B",
+						"\u001b[999D\u001b[6A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m   we are the d█",
+						"\u001b[3B",
+						"\u001b[999D\u001b[6A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m   we are the dr█",
+						"\u001b[3B",
+						"\u001b[999D\u001b[6A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m   we are the dre█",
+						"\u001b[3B",
+						"\u001b[999D\u001b[6A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m   we are the drea█",
+						"\u001b[3B",
+						"\u001b[999D\u001b[6A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m   we are the dream█",
+						"\u001b[3B",
+						"\u001b[999D\u001b[6A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m   we are the dreame█",
+						"\u001b[3B",
+						"\u001b[999D\u001b[6A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m   we are the dreamer█",
+						"\u001b[3B",
+						"\u001b[999D\u001b[6A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m   we are the dreamers█",
+						"\u001b[3B",
+						"\u001b[999D\u001b[6A",
+						"\u001b[5B",
+						"\u001b[2K\u001b[G",
+						"  \u001b[36m[ submit ]\u001b[39m",
+						"\u001b[1B",
+						"\u001b[999D\u001b[6A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Bio\n\u001b[90m│\u001b[39m  \u001b[2mwe are the music makers and\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2m we are the dreamers\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "multiline › the terminal narrows under text that is already several rows tall",
+			"prompts": [
+				{
+					"kind": "multiline",
+					"opts": {
+						"message": "Bio"
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 40,
+						"rows": 20,
+						"stdout": 40
+					},
+					"events": [
+						{
+							"kind": "key",
+							"s": "w",
+							"key": {
+								"name": "w",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "r",
+							"key": {
+								"name": "r",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "t",
+							"key": {
+								"name": "t",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "h",
+							"key": {
+								"name": "h",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "m",
+							"key": {
+								"name": "m",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "u",
+							"key": {
+								"name": "u",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "s",
+							"key": {
+								"name": "s",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "i",
+							"key": {
+								"name": "i",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "c",
+							"key": {
+								"name": "c",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "m",
+							"key": {
+								"name": "m",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "k",
+							"key": {
+								"name": "k",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "r",
+							"key": {
+								"name": "r",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "s",
+							"key": {
+								"name": "s",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "n",
+							"key": {
+								"name": "n",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "d",
+							"key": {
+								"name": "d",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "w",
+							"key": {
+								"name": "w",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "r",
+							"key": {
+								"name": "r",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "t",
+							"key": {
+								"name": "t",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "h",
+							"key": {
+								"name": "h",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "d",
+							"key": {
+								"name": "d",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "r",
+							"key": {
+								"name": "r",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "m",
+							"key": {
+								"name": "m",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "r",
+							"key": {
+								"name": "r",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "s",
+							"key": {
+								"name": "s",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "o",
+							"key": {
+								"name": "o",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "f",
+							"key": {
+								"name": "f",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "d",
+							"key": {
+								"name": "d",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "r",
+							"key": {
+								"name": "r",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "m",
+							"key": {
+								"name": "m",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "s",
+							"key": {
+								"name": "s",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "resize",
+							"columns": 24,
+							"rows": 20,
+							"at": 285
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"keys": [
+						{
+							"s": "w",
+							"key": {
+								"name": "w",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "r",
+							"key": {
+								"name": "r",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "t",
+							"key": {
+								"name": "t",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "h",
+							"key": {
+								"name": "h",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "m",
+							"key": {
+								"name": "m",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "u",
+							"key": {
+								"name": "u",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "s",
+							"key": {
+								"name": "s",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "i",
+							"key": {
+								"name": "i",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "c",
+							"key": {
+								"name": "c",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "m",
+							"key": {
+								"name": "m",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "k",
+							"key": {
+								"name": "k",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "r",
+							"key": {
+								"name": "r",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "s",
+							"key": {
+								"name": "s",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "n",
+							"key": {
+								"name": "n",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "d",
+							"key": {
+								"name": "d",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "w",
+							"key": {
+								"name": "w",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "r",
+							"key": {
+								"name": "r",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "t",
+							"key": {
+								"name": "t",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "h",
+							"key": {
+								"name": "h",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "d",
+							"key": {
+								"name": "d",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "r",
+							"key": {
+								"name": "r",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "m",
+							"key": {
+								"name": "m",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "r",
+							"key": {
+								"name": "r",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "s",
+							"key": {
+								"name": "s",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "o",
+							"key": {
+								"name": "o",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "f",
+							"key": {
+								"name": "f",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "d",
+							"key": {
+								"name": "d",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "r",
+							"key": {
+								"name": "r",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "m",
+							"key": {
+								"name": "m",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "s",
+							"key": {
+								"name": "s",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Bio\n\u001b[36m│\u001b[39m  \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  w█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we █",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we a█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we ar█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are █",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are t█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are th█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the █",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the m█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the mu█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the mus█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the musi█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the music█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the music █",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the music m█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the music ma█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the music mak█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the music make█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the music maker█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the music makers█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  we are the music makers\n\u001b[36m│\u001b[39m  █\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  a█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  an█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  and█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  and █",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  and w█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  and we█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  and we █",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  and we a█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  and we ar█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  and we are█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  and we are █",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  and we are t█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  and we are th█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  and we are the█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  and we are the █",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  and we are the d█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  and we are the dr█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  and we are the dre█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  and we are the drea█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  and we are the dream█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  and we are the dreame█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  and we are the dreamer█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  and we are the dreamers█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  and we are the dreamers █",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  and we are the dreamers o█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  and we are the dreamers of█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  and we are the dreamers of \n\u001b[36m│\u001b[39m  █\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[6A",
+						"\u001b[4B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  d█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[6A",
+						"\u001b[4B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  dr█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[6A",
+						"\u001b[4B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  dre█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[6A",
+						"\u001b[4B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  drea█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[6A",
+						"\u001b[4B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  dream█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[6A",
+						"\u001b[4B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  dreams█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[8A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  we are the \n\u001b[36m│\u001b[39m  music \n\u001b[36m│\u001b[39m  makers\n\u001b[36m│\u001b[39m  and we are \n\u001b[36m│\u001b[39m  the \n\u001b[36m│\u001b[39m  dreamers of\n\u001b[36m│\u001b[39m   dreams█\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[10A",
+						"\u001b[8B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m   dreams\n\u001b[36m│\u001b[39m  █\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[11A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Bio\n\u001b[90m│\u001b[39m  \u001b[2mwe are the \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mmusic \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mmakers\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mand we are \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mthe \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mdreamers of\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2m dreams\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "multiline › the text is wrapped thirteen columns early",
+			"prompts": [
+				{
+					"kind": "multiline",
+					"opts": {
+						"message": "Bio"
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 40,
+						"rows": 20,
+						"stdout": 40
+					},
+					"events": [
+						{
+							"kind": "key",
+							"s": "w",
+							"key": {
+								"name": "w",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "r",
+							"key": {
+								"name": "r",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "t",
+							"key": {
+								"name": "t",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "h",
+							"key": {
+								"name": "h",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "m",
+							"key": {
+								"name": "m",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "u",
+							"key": {
+								"name": "u",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "s",
+							"key": {
+								"name": "s",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "i",
+							"key": {
+								"name": "i",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "c",
+							"key": {
+								"name": "c",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "m",
+							"key": {
+								"name": "m",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "k",
+							"key": {
+								"name": "k",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "r",
+							"key": {
+								"name": "r",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "s",
+							"key": {
+								"name": "s",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "n",
+							"key": {
+								"name": "n",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "d",
+							"key": {
+								"name": "d",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "w",
+							"key": {
+								"name": "w",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "r",
+							"key": {
+								"name": "r",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "t",
+							"key": {
+								"name": "t",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "h",
+							"key": {
+								"name": "h",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "d",
+							"key": {
+								"name": "d",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "r",
+							"key": {
+								"name": "r",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "m",
+							"key": {
+								"name": "m",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "r",
+							"key": {
+								"name": "r",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "s",
+							"key": {
+								"name": "s",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "o",
+							"key": {
+								"name": "o",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "f",
+							"key": {
+								"name": "f",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "d",
+							"key": {
+								"name": "d",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "r",
+							"key": {
+								"name": "r",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "m",
+							"key": {
+								"name": "m",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "s",
+							"key": {
+								"name": "s",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"keys": [
+						{
+							"s": "w",
+							"key": {
+								"name": "w",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "r",
+							"key": {
+								"name": "r",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "t",
+							"key": {
+								"name": "t",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "h",
+							"key": {
+								"name": "h",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "m",
+							"key": {
+								"name": "m",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "u",
+							"key": {
+								"name": "u",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "s",
+							"key": {
+								"name": "s",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "i",
+							"key": {
+								"name": "i",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "c",
+							"key": {
+								"name": "c",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "m",
+							"key": {
+								"name": "m",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "k",
+							"key": {
+								"name": "k",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "r",
+							"key": {
+								"name": "r",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "s",
+							"key": {
+								"name": "s",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "n",
+							"key": {
+								"name": "n",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "d",
+							"key": {
+								"name": "d",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "w",
+							"key": {
+								"name": "w",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "r",
+							"key": {
+								"name": "r",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "t",
+							"key": {
+								"name": "t",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "h",
+							"key": {
+								"name": "h",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "d",
+							"key": {
+								"name": "d",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "r",
+							"key": {
+								"name": "r",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "m",
+							"key": {
+								"name": "m",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "r",
+							"key": {
+								"name": "r",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "s",
+							"key": {
+								"name": "s",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "o",
+							"key": {
+								"name": "o",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "f",
+							"key": {
+								"name": "f",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": " ",
+							"key": {
+								"name": " ",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "d",
+							"key": {
+								"name": "d",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "r",
+							"key": {
+								"name": "r",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "e",
+							"key": {
+								"name": "e",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "m",
+							"key": {
+								"name": "m",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "s",
+							"key": {
+								"name": "s",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Bio\n\u001b[36m│\u001b[39m  \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  w█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we █",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we a█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we ar█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are █",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are t█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are th█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the █",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the m█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the mu█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the mus█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the musi█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the music█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the music █",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the music m█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the music ma█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the music mak█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the music make█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the music maker█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the music makers█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the music makers █",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the music makers a█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  we are the music makers an█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  we are the music makers \n\u001b[36m│\u001b[39m  and█\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  we are the music makers and\n\u001b[36m│\u001b[39m   █\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m   w█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m   we█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m   we █",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m   we a█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m   we ar█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m   we are█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m   we are █",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m   we are t█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m   we are th█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m   we are the█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m   we are the █",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m   we are the d█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m   we are the dr█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m   we are the dre█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m   we are the drea█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m   we are the dream█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m   we are the dreame█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m   we are the dreamer█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m   we are the dreamers█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m   we are the dreamers █",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m   we are the dreamers o█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m   we are the dreamers of█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m   we are the dreamers of █",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m   we are the dreamers of d█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m   we are the dreamers of dr█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m   we are the dreamers of \n\u001b[36m│\u001b[39m  dre█\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[6A",
+						"\u001b[4B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  drea█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[6A",
+						"\u001b[4B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  dream█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[6A",
+						"\u001b[4B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  dreams█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[6A",
+						"\u001b[4B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  dreams\n\u001b[36m│\u001b[39m  █\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[7A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Bio\n\u001b[90m│\u001b[39m  \u001b[2mwe are the music makers and\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2m we are the dreamers of \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mdreams\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "multiline › typing takes the focus back off the button",
+			"prompts": [
+				{
+					"kind": "multiline",
+					"opts": {
+						"message": "Bio",
+						"showSubmit": true
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"events": [
+						{
+							"kind": "key",
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "b",
+							"key": {
+								"name": "b",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "\t",
+							"key": {
+								"name": "tab",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "c",
+							"key": {
+								"name": "c",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "\t",
+							"key": {
+								"name": "tab",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"keys": [
+						{
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "b",
+							"key": {
+								"name": "b",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "\t",
+							"key": {
+								"name": "tab",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "c",
+							"key": {
+								"name": "c",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "\t",
+							"key": {
+								"name": "tab",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Bio\n\u001b[36m│\u001b[39m  \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m└\u001b[39m\n  \u001b[2m[ submit ]\u001b[22m\n",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  a█",
+						"\u001b[3B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  ab█",
+						"\u001b[3B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[4B",
+						"\u001b[2K\u001b[G",
+						"  \u001b[36m[ submit ]\u001b[39m",
+						"\u001b[1B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  abc█\n\u001b[36m└\u001b[39m\n  \u001b[2m[ submit ]\u001b[22m\n",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  abc\n\u001b[36m│\u001b[39m  █\n\u001b[36m└\u001b[39m\n  \u001b[2m[ submit ]\u001b[22m\n",
+						"\u001b[999D\u001b[6A",
+						"\u001b[5B",
+						"\u001b[2K\u001b[G",
+						"  \u001b[36m[ submit ]\u001b[39m",
+						"\u001b[1B",
+						"\u001b[999D\u001b[6A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Bio\n\u001b[90m│\u001b[39m  \u001b[2mabc\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2m\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
 			"name": "narrow › a cancelled value wraps",
 			"prompts": [
 				{

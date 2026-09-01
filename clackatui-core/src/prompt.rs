@@ -121,7 +121,12 @@ pub trait PromptState {
 	}
 
 	/// `_shouldSubmit`: whether `return` ends the Prompt. `multi-line` is the reason this exists.
-	fn should_submit(&self, s: Option<&str>, key: &Key) -> bool {
+	///
+	/// `&mut` because upstream's is not a predicate: `MultiLinePrompt`'s inserts the newline, moves
+	/// the cursor and remembers that this key was a `return`, all in the course of answering no. It
+	/// runs after the `key` listener and before validation, which is exactly where that has to happen
+	/// — the text it inserts is the text the validator then sees.
+	fn should_submit(&mut self, s: Option<&str>, key: &Key) -> bool {
 		let _ = (s, key);
 		true
 	}

@@ -23,18 +23,20 @@
 //!
 //! # What reaches it
 //!
-//! A hundred and seventy-one Scenarios across ten Prompts. A hundred and thirty-four are replayable
+//! A hundred and ninety-one Scenarios across eleven Prompts. A hundred and forty-five are replayable
 //! ones harvested from clack's own suite — `text`, `password`, `confirm`, `select`, `multiselect`,
-//! `selectKey`, `groupMultiselect`, `autocomplete`, `autocompleteMultiselect` and `date` — and all
+//! `selectKey`, `groupMultiselect`, `autocomplete`, `autocompleteMultiselect`, `date` and
+//! `multiline` — and all
 //! but a handful are at 80 columns, because upstream's tests barely vary the terminal.
-//! Thirty-seven are hand-authored, written to reach what a harvest cannot supply (ADR-0016): 40 and
+//! Forty-six are hand-authored, written to reach what a harvest cannot supply (ADR-0016): 40 and
 //! 20 columns, CJK text, a wrap that grows as a value is typed and shrinks again as it is deleted,
-//! four that change the terminal's size under an open Prompt, and the things a harvest cannot
+//! five that change the terminal's size under an open Prompt, and the things a harvest cannot
 //! reach at all — a `y` that settles a `confirm` without a `return` (ADR-0018), a `confirm` message
 //! wrapped against the length of an escape sequence (ADR-0019), a masked astral character, a
 //! group option wrapped against a prefix measured with its escapes (ADR-0024), the two widths the
-//! two `autocomplete` Prompts wrap an option to, a left arrow in a search box (ADR-0025), and the
-//! whole segment editor of `date`, whose own suite types no digit and presses no arrow (ADR-0026).
+//! two `autocomplete` Prompts wrap an option to, a left arrow in a search box (ADR-0025), the
+//! whole segment editor of `date`, whose own suite types no digit and presses no arrow (ADR-0026),
+//! and `multiline`'s, whose own suite never moves a cursor or deletes a character (ADR-0027).
 //!
 //! The resizes are why a Grid is built from segments rather than from one string. The emulator has
 //! to change size at the same point in the stream that the real terminal did, on both sides, or the
@@ -172,7 +174,7 @@ fn every_scenario_leaves_the_terminal_the_way_clack_left_it() {
 	);
 
 	assert!(
-		compared >= 171,
+		compared >= 191,
 		"only {compared} Scenarios were compared; the fixtures have stopped carrying them"
 	);
 }

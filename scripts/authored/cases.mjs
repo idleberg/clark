@@ -24,11 +24,16 @@ const typing = (text) => [...text].map((s) => ({ kind: 'key', s, key: { name: s 
 const enter = { kind: 'key', s: '', key: { name: 'return' } };
 const tab = { kind: 'key', s: '', key: { name: 'tab' } };
 const shiftTab = { kind: 'key', s: '', key: { name: 'tab', shift: true } };
+/** A tab that also carries its character. `multiline` matches the focus toggle on `char === '\t'`
+ *  rather than on the key's name, so it is the only Prompt for which the two are different keys. */
+const typedTab = { kind: 'key', s: '\t', key: { name: 'tab' } };
 const up = { kind: 'key', s: '', key: { name: 'up' } };
 const down = { kind: 'key', s: '', key: { name: 'down' } };
 const left = { kind: 'key', s: '', key: { name: 'left' } };
 const right = { kind: 'key', s: '', key: { name: 'right' } };
 const escape = { kind: 'key', s: '', key: { name: 'escape' } };
+/** Forward delete, which only `multiline` reads. */
+const del = { kind: 'key', s: '', key: { name: 'delete' } };
 
 /** A UTC midnight, which is the only kind of `Date` a `date` prompt ever holds. */
 const utc = (iso) => {
@@ -551,5 +556,114 @@ export const cases = [
 		opts: { message: 'Pick a date', format: 'MDY' },
 		events: [...typing('12'), ...typing('25'), ...typing('20255'), escape],
 		cancelled: true,
+	},
+	// --- multiline ----------------------------------------------------------------------------
+	//
+	// Upstream's `multiline` suite sends thirty-eight keypresses, of which thirty are a bare `return`
+	// and eight are single characters. It never moves the cursor, never deletes anything, never
+	// starts the field with text in it, and never varies the terminal — so the editor that is most of
+	// `MultiLinePrompt`, and the wrap that is most of its renderer, reach no recording at all. These
+	// nine are those. See ADR-0027.
+
+	{
+		// The reason this Fixture exists, on the last Prompt in the port. `wrapTextWithPrefix` takes
+		// `prefix.length` off the terminal, and the prefix is a bar wrapped in two escape sequences —
+		// so the text breaks thirteen columns early for three columns of bar. ADR-0019 again.
+		name: 'multiline › the text is wrapped thirteen columns early',
+		kind: 'multiline',
+		columns: NARROW,
+		opts: { message: 'Bio' },
+		events: [...typing('we are the music makers and we are the dreamers of dreams'), enter, enter],
+		value: 'we are the music makers and we are the dreamers of dreams',
+	},
+	{
+		// The arrows, which upstream's suite never presses. `findTextCursor` walks by rows and
+		// columns and remembers no goal column, so `up` from the third column of the second row lands
+		// on the third column of the first and stays there.
+		name: 'multiline › the arrows walk the text by rows and columns',
+		kind: 'multiline',
+		columns: 80,
+		opts: { message: 'Bio' },
+		events: [...typing('abc'), enter, ...typing('de'), up, left, ...typing('X'), down, enter, enter],
+		value: 'aXbc\nde',
+	},
+	{
+		// A cursor resting on a newline cannot be inverted, so upstream draws a block in front of it
+		// and keeps the break. `up` from the end of the second row lands exactly there.
+		name: 'multiline › the cursor rests on a newline and becomes a block in front of it',
+		kind: 'multiline',
+		columns: 80,
+		opts: { message: 'Bio' },
+		events: [...typing('ab'), enter, ...typing('cd'), up, down, enter, enter],
+		value: 'ab\ncd',
+	},
+	{
+		// Backspace takes the character before the cursor and delete takes the one under it — the
+		// only two keys in this Prompt that shorten the text, and neither is sent by upstream's suite.
+		name: 'multiline › backspace and delete either side of the cursor',
+		kind: 'multiline',
+		columns: 80,
+		opts: { message: 'Bio' },
+		events: [...typing('abcd'), left, left, ...backspace(1), del, right, enter, enter],
+		value: 'ad',
+	},
+	{
+		// A newline is a character like any other as far as backspace is concerned, so the row it
+		// created disappears and the Frame loses a row between two keypresses.
+		name: 'multiline › backspacing a newline joins two rows',
+		kind: 'multiline',
+		columns: 80,
+		opts: { message: 'Bio' },
+		events: [...typing('ab'), enter, ...typing('cd'), left, left, ...backspace(1), right, right, enter, enter],
+		value: 'abcd',
+	},
+	{
+		// `initialValue` reaches the base class as `initialUserInput`, so it is typed into the field
+		// — two rows of it, before a key has been pressed — with the cursor at its end.
+		name: 'multiline › an initial value opens as two rows with the cursor at the end',
+		kind: 'multiline',
+		columns: 80,
+		opts: { message: 'Bio', initialValue: 'one\ntwo' },
+		events: [...typing('!'), enter, enter],
+		value: 'one\ntwo!',
+	},
+	{
+		// The button, at a width its field wraps at. Tab moves the focus to it and `return` on it
+		// settles the Prompt without inserting anything — which is the whole of `showSubmit`. The tab
+		// has to carry its character: `multiline` reads `char === '\t'` and not the key's name.
+		name: 'multiline › the submit button under a wrapped field',
+		kind: 'multiline',
+		columns: NARROW,
+		opts: { message: 'Bio', showSubmit: true },
+		events: [...typing('we are the music makers and we are the dreamers'), typedTab, enter],
+		value: 'we are the music makers and we are the dreamers',
+	},
+	{
+		// Typing takes the focus back off the button, so the `return` after it is a newline again and
+		// the Prompt does not settle where it otherwise would.
+		name: 'multiline › typing takes the focus back off the button',
+		kind: 'multiline',
+		columns: 80,
+		opts: { message: 'Bio', showSubmit: true },
+		events: [...typing('ab'), typedTab, ...typing('c'), enter, typedTab, enter],
+		value: 'abc\n',
+	},
+	{
+		// And the event upstream never sends, on text that is already several rows tall: narrowing
+		// re-wraps every one of them at once, which is more rows appearing between two Frames than
+		// anything else in this Fixture produces.
+		name: 'multiline › the terminal narrows under text that is already several rows tall',
+		kind: 'multiline',
+		columns: NARROW,
+		opts: { message: 'Bio' },
+		events: [
+			...typing('we are the music makers'),
+			enter,
+			...typing('and we are the dreamers of dreams'),
+			resize(24),
+			enter,
+			enter,
+		],
+		value: 'we are the music makers\nand we are the dreamers of dreams',
 	},
 ];

@@ -11,6 +11,7 @@ pub mod frame;
 pub mod group_multi_select;
 pub mod limit_options;
 pub mod line_editor;
+pub mod multi_line;
 pub mod multi_select;
 pub mod password;
 pub mod prompt;

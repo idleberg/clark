@@ -117,7 +117,10 @@ mod tests {
 	fn every_row_break_carries_a_return() {
 		let mut out = Vec::new();
 		write(&mut out, "│  one\n│  two\n").expect("a Vec does not fail");
-		assert_eq!(String::from_utf8(out).expect("utf-8"), "│  one\r\n│  two\r\n");
+		assert_eq!(
+			String::from_utf8(out).expect("utf-8"),
+			"│  one\r\n│  two\r\n"
+		);
 	}
 
 	#[test]

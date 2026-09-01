@@ -36,6 +36,7 @@ use clackatui_core::date::{Date, DateFormat, DateState, DateWidget, validator as
 use clackatui_core::frame::Frame;
 use clackatui_core::group_multi_select::{GroupMultiSelectState, GroupMultiSelectWidget};
 use clackatui_core::line_editor::{Key, KeyName};
+use clackatui_core::multi_line::{MultiLineState, MultiLineWidget};
 use clackatui_core::multi_select::{MultiSelectState, MultiSelectWidget, required};
 use clackatui_core::password::{PasswordState, PasswordWidget};
 use clackatui_core::prompt::{Prompt, Status};
@@ -54,6 +55,7 @@ const SELECT_KEY: &str = include_str!("../fixtures/scenarios/select-key.json");
 const GROUP_MULTI_SELECT: &str = include_str!("../fixtures/scenarios/group-multi-select.json");
 const AUTOCOMPLETE: &str = include_str!("../fixtures/scenarios/autocomplete.json");
 const DATE: &str = include_str!("../fixtures/scenarios/date.json");
+const MULTI_LINE: &str = include_str!("../fixtures/scenarios/multi-line.json");
 
 /// The tag `README.md` names. A fixture from anywhere else is not the thing we claim parity with.
 pub const TAG: &str = "@clack/prompts@1.7.0";
@@ -110,6 +112,8 @@ pub struct Scenario {
 	pub initial_values: Vec<String>,
 	pub cursor_at: Option<String>,
 	pub required: bool,
+	/// `multiline`'s `showSubmit`: a `[ submit ]` button, and a `return` that is only ever a newline.
+	pub show_submit: bool,
 	/// `opts.withGuide`, which falls back to `settings.withGuide` when absent.
 	pub with_guide: bool,
 	/// The width clack wrapped its Frames to — `process.stdout.columns`, recorded as
@@ -230,6 +234,11 @@ pub fn date() -> (serde_json::Value, Vec<Scenario>) {
 	parse(DATE, "fixtures/scenarios/date.json")
 }
 
+/// Clack's own `multiline` suite.
+pub fn multi_line() -> (serde_json::Value, Vec<Scenario>) {
+	parse(MULTI_LINE, "fixtures/scenarios/multi-line.json")
+}
+
 /// Every Scenario there is. Which Fixture one came from is a question about the evidence behind it,
 /// not about what the port owes it, so the tests do not ask.
 pub fn all() -> Vec<Scenario> {
@@ -243,6 +252,7 @@ pub fn all() -> Vec<Scenario> {
 	scenarios.extend(group_multi_select().1);
 	scenarios.extend(autocomplete().1);
 	scenarios.extend(date().1);
+	scenarios.extend(multi_line().1);
 	scenarios
 }
 
@@ -324,6 +334,7 @@ fn parse(source: &str, path: &str) -> (serde_json::Value, Vec<Scenario>) {
 					})
 					.unwrap_or_default(),
 				cursor_at: opts["cursorAt"].as_str().map(str::to_owned),
+				show_submit: opts["showSubmit"].as_bool() == Some(true),
 				format: opts["format"].as_str().map(str::to_owned),
 				locale: opts["locale"].as_str().map(str::to_owned),
 				separator: opts["separator"].as_str().map(str::to_owned),
@@ -538,10 +549,23 @@ impl Scenario {
 			})
 	}
 
+	/// The width a widget measures against, given the terminal a Frame is being drawn for.
+	///
+	/// `getColumns(opts.output)` is read on every render, so it follows a resize — where the Prompt's
+	/// own stream *is* the terminal that resized, which outside a harness it always is. A Scenario
+	/// that sets the two widths apart never resizes, and
+	/// `the_two_widths_only_come_apart_where_nothing_resizes` is what says so — so one number or the
+	/// other is the live one and this is where that is decided, once, for every widget that measures.
+	fn stream_width(&self) -> impl Fn(u16) -> usize + use<> {
+		let (stream, split) = (self.stream_columns, self.stream_columns != self.columns);
+		move |columns| if split { stream } else { columns as usize }
+	}
+
 	pub fn run(&self) -> Run {
 		let size = (self.columns as u16, self.rows as u16);
 		let message = self.message.clone();
 		let with_guide = self.with_guide;
+		let width = self.stream_width();
 
 		match self.kind.as_str() {
 			"password" => {
@@ -572,7 +596,7 @@ impl Scenario {
 						let mut widget = ConfirmWidget::new(prompt, &message)
 							.with_guide(with_guide)
 							.with_vertical(vertical)
-							.with_columns(columns);
+							.with_columns(width(columns) as u16);
 						if let Some(active) = &active {
 							widget = widget.with_active(active);
 						}
@@ -592,7 +616,6 @@ impl Scenario {
 				}
 				let max_items = self.max_items;
 				let show_instructions = self.show_instructions;
-				let stream = self.stream_columns;
 				Run::Select(
 					// The width handed to the widget is the Prompt's own stream, not the Session's —
 					// the two are different numbers in this suite. A resize would have to move both,
@@ -600,10 +623,10 @@ impl Scenario {
 					// no Scenario asks for both at once.
 					// The height, on the other hand, is the Session's: it is the stream's number on
 					// both sides, and it is the one a resize moves.
-					Session::new(Prompt::new(state), move |prompt, _columns, rows| {
+					Session::new(Prompt::new(state), move |prompt, columns, rows| {
 						let mut widget = SelectWidget::new(prompt, &message)
 							.with_guide(with_guide)
-							.with_columns(stream)
+							.with_columns(width(columns))
 							.with_rows(rows as usize)
 							.with_instructions(show_instructions);
 						if let Some(max_items) = max_items {
@@ -630,12 +653,11 @@ impl Scenario {
 				}
 				let max_items = self.max_items;
 				let show_instructions = self.show_instructions;
-				let stream = self.stream_columns;
 				Run::MultiSelect(
-					Session::new(prompt, move |prompt, _columns, rows| {
+					Session::new(prompt, move |prompt, columns, rows| {
 						let mut widget = MultiSelectWidget::new(prompt, &message)
 							.with_guide(with_guide)
-							.with_columns(stream)
+							.with_columns(width(columns))
 							.with_rows(rows as usize)
 							.with_instructions(show_instructions);
 						if let Some(max_items) = max_items {
@@ -653,14 +675,13 @@ impl Scenario {
 				if let Some(initial) = &self.initial_value {
 					state = state.with_initial_value(initial);
 				}
-				let stream = self.stream_columns;
 				Run::SelectKey(
 					// No height: a `selectKey` has no `limitOptions`, so it draws its whole list
 					// however tall the terminal is.
-					Session::new(Prompt::new(state), move |prompt, _columns, _rows| {
+					Session::new(Prompt::new(state), move |prompt, columns, _rows| {
 						SelectKeyWidget::new(prompt, &message)
 							.with_guide(with_guide)
-							.with_columns(stream)
+							.with_columns(width(columns))
 							.frame()
 					})
 					.with_size(size.0, size.1),
@@ -681,12 +702,11 @@ impl Scenario {
 				let max_items = self.max_items;
 				let show_instructions = self.show_instructions;
 				let group_spacing = self.group_spacing;
-				let stream = self.stream_columns;
 				Run::GroupMultiSelect(
-					Session::new(prompt, move |prompt, _columns, rows| {
+					Session::new(prompt, move |prompt, columns, rows| {
 						let mut widget = GroupMultiSelectWidget::new(prompt, &message)
 							.with_guide(with_guide)
-							.with_columns(stream)
+							.with_columns(width(columns))
 							.with_rows(rows as usize)
 							.with_instructions(show_instructions)
 							.with_group_spacing(group_spacing);
@@ -737,6 +757,34 @@ impl Scenario {
 				)
 			}
 
+			"multiline" => {
+				let mut state = MultiLineState::new().with_show_submit(self.show_submit);
+				if let Some(default) = &self.default_value {
+					state = state.with_default_value(default);
+				}
+				let mut prompt = Prompt::new(state);
+				// `initialValue` reaches the base class as `initialUserInput`, so it is typed into
+				// the field rather than held as a fallback — the same route `text` takes.
+				if let Some(initial) = &self.initial_value {
+					prompt = prompt.with_initial_user_input(initial);
+				}
+				let placeholder = self.placeholder.clone();
+				Run::MultiLine(
+					// No height: `multiline` draws every row its text needs, however tall the
+					// terminal is.
+					Session::new(prompt, move |prompt, columns, _rows| {
+						let mut widget = MultiLineWidget::new(prompt, &message)
+							.with_guide(with_guide)
+							.with_columns(width(columns));
+						if let Some(placeholder) = &placeholder {
+							widget = widget.with_placeholder(placeholder);
+						}
+						widget.frame()
+					})
+					.with_size(size.0, size.1),
+				)
+			}
+
 			"autocomplete" | "autocompleteMultiselect" => {
 				let multiple = self.kind == "autocompleteMultiselect";
 				let mut state = match self.filter() {
@@ -765,12 +813,11 @@ impl Scenario {
 
 				let max_items = self.max_items;
 				let placeholder = self.placeholder.clone();
-				let stream = self.stream_columns;
-				let session = Session::new(prompt, move |prompt, _columns, rows| {
+				let session = Session::new(prompt, move |prompt, columns, rows| {
 					if multiple {
 						let mut widget = AutocompleteMultiSelectWidget::new(prompt, &message)
 							.with_guide(with_guide)
-							.with_columns(stream)
+							.with_columns(width(columns))
 							.with_rows(rows as usize);
 						if let Some(placeholder) = &placeholder {
 							widget = widget.with_placeholder(placeholder);
@@ -782,7 +829,7 @@ impl Scenario {
 					} else {
 						let mut widget = AutocompleteWidget::new(prompt, &message)
 							.with_guide(with_guide)
-							.with_columns(stream)
+							.with_columns(width(columns))
 							.with_rows(rows as usize);
 						if let Some(placeholder) = &placeholder {
 							widget = widget.with_placeholder(placeholder);
@@ -951,6 +998,7 @@ pub enum Run {
 	Autocomplete(Session<AutocompleteState<String>>),
 	AutocompleteMultiSelect(Session<AutocompleteState<String>>),
 	Date(Session<DateState>),
+	MultiLine(Session<MultiLineState>),
 }
 
 /// The same call on whichever Session is inside. A macro because the arms differ only in the
@@ -968,6 +1016,7 @@ macro_rules! dispatch {
 			Run::Autocomplete($session) => $call,
 			Run::AutocompleteMultiSelect($session) => $call,
 			Run::Date($session) => $call,
+			Run::MultiLine($session) => $call,
 		}
 	};
 }

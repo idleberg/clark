@@ -1,0 +1,942 @@
+{
+	"source": "@clack/prompts test suite",
+	"tag": "@clack/prompts@1.7.0",
+	"commit": "dc5bce8aae84a57b5863124adfaa839c1db1fa23",
+	"describe": "@clack/core@1.4.3",
+	"node": "24.20.0",
+	"generatedBy": "scripts/harvest-scenarios.mjs",
+	"suites": [
+		"multi-line"
+	],
+	"scenarios": [
+		{
+			"name": "multiline › can be aborted by a signal",
+			"prompts": [
+				{
+					"kind": "multiline",
+					"opts": {
+						"message": "foo"
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m└\u001b[39m\n",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "multiline › can cancel",
+			"prompts": [
+				{
+					"kind": "multiline",
+					"opts": {
+						"message": "foo"
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "escape",
+							"key": {
+								"name": "escape",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[31m■\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[9m\u001b[2mescape\u001b[22m\u001b[29m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "multiline › defaultValue sets the value but does not render",
+			"prompts": [
+				{
+					"kind": "multiline",
+					"opts": {
+						"message": "foo",
+						"defaultValue": "bar"
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \n\u001b[36m│\u001b[39m  █\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[5A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mbar\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "multiline › empty string when no value and no default",
+			"prompts": [
+				{
+					"kind": "multiline",
+					"opts": {
+						"message": "foo",
+						"placeholder": "  (submit to use default)"
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[7m \u001b[27m\u001b[2m (submit to use default)\u001b[22m\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \n\u001b[36m│\u001b[39m  █\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[5A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2m\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "multiline › global withGuide: false removes guide",
+			"prompts": [
+				{
+					"kind": "multiline",
+					"opts": {
+						"message": "foo"
+					},
+					"settings": {
+						"withGuide": false
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[36m◆\u001b[39m  foo\n\u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\n",
+						"\u001b[999D\u001b[3A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\n█\n\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "multiline › placeholder is not used as value when pressing enter",
+			"prompts": [
+				{
+					"kind": "multiline",
+					"opts": {
+						"message": "foo",
+						"placeholder": "  (submit to use default)",
+						"defaultValue": "default-value"
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[7m \u001b[27m\u001b[2m (submit to use default)\u001b[22m\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \n\u001b[36m│\u001b[39m  █\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[5A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mdefault-value\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "multiline › renders cancelled value if one set",
+			"prompts": [
+				{
+					"kind": "multiline",
+					"opts": {
+						"message": "foo"
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "x",
+							"key": {
+								"name": "x",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "y",
+							"key": {
+								"name": "y",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "escape",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  x█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  xy█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[31m■\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[9m\u001b[2mxy\u001b[22m\u001b[29m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "multiline › renders message",
+			"prompts": [
+				{
+					"kind": "multiline",
+					"opts": {
+						"message": "foo"
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \n\u001b[36m│\u001b[39m  █\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[5A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2m\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "multiline › renders placeholder if set",
+			"prompts": [
+				{
+					"kind": "multiline",
+					"opts": {
+						"message": "foo",
+						"placeholder": "bar"
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[7mb\u001b[27m\u001b[2mar\u001b[22m\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \n\u001b[36m│\u001b[39m  █\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[5A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2m\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "multiline › renders submit button",
+			"prompts": [
+				{
+					"kind": "multiline",
+					"opts": {
+						"message": "foo",
+						"showSubmit": true
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "x",
+							"key": {
+								"name": "x",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "y",
+							"key": {
+								"name": "y",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "\t",
+							"key": {
+								"name": "tab",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m└\u001b[39m\n  \u001b[2m[ submit ]\u001b[22m\n",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  x█",
+						"\u001b[3B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  xy█",
+						"\u001b[3B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[4B",
+						"\u001b[2K\u001b[G",
+						"  \u001b[36m[ submit ]\u001b[39m",
+						"\u001b[1B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mxy\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "multiline › renders submitted value",
+			"prompts": [
+				{
+					"kind": "multiline",
+					"opts": {
+						"message": "foo"
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "x",
+							"key": {
+								"name": "x",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "y",
+							"key": {
+								"name": "y",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  x█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  xy█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  xy\n\u001b[36m│\u001b[39m  █\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[5A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mxy\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "multiline › validation errors render and clear",
+			"prompts": [
+				{
+					"kind": "multiline",
+					"opts": {
+						"message": "foo",
+						"validate": {
+							"callback": true
+						}
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "x",
+							"key": {
+								"name": "x",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "y",
+							"key": {
+								"name": "y",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  x█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  x\n\u001b[36m│\u001b[39m  █\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[5A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[33m▲\u001b[39m  foo\n\u001b[33m│\u001b[39m  x█\n\u001b[33m└\u001b[39m  \u001b[33mshould be xy\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  xy█\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  xy\n\u001b[36m│\u001b[39m  █\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[5A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mxy\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "multiline › validation errors render and clear (using Error)",
+			"prompts": [
+				{
+					"kind": "multiline",
+					"opts": {
+						"message": "foo",
+						"validate": {
+							"callback": true
+						}
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "x",
+							"key": {
+								"name": "x",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "y",
+							"key": {
+								"name": "y",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  x█",
+						"\u001b[2B",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  x\n\u001b[36m│\u001b[39m  █\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[5A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[33m▲\u001b[39m  foo\n\u001b[33m│\u001b[39m  x█\n\u001b[33m└\u001b[39m  \u001b[33mshould be xy\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  xy█\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  xy\n\u001b[36m│\u001b[39m  █\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[5A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mxy\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "multiline › withGuide: false removes guide",
+			"prompts": [
+				{
+					"kind": "multiline",
+					"opts": {
+						"message": "foo",
+						"withGuide": false
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[36m◆\u001b[39m  foo\n\u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\n",
+						"\u001b[999D\u001b[3A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\n█\n\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		}
+	]
+}

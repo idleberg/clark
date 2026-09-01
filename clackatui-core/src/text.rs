@@ -16,7 +16,7 @@ use ratatui_core::widgets::Widget;
 
 use crate::frame::{Frame, Line, Span};
 use crate::prompt::{InputWithCursor, Prompt, PromptState, Status};
-use crate::theme::Theme;
+use crate::theme::{Styles, Theme};
 
 /// The state of a `text` Prompt: a string, and what to fall back to when it is empty.
 #[derive(Clone, Debug, Default)]
@@ -71,6 +71,30 @@ impl PromptState for TextState {
 
 /// The cursor block upstream appends when the cursor is past the last character.
 pub const CURSOR_BLOCK: &str = "█";
+
+/// The placeholder standing in for an empty field, as `text` and `multiline` both draw it.
+///
+/// The two write the same three lines of TypeScript, so they share one here. `None`, or a
+/// placeholder with nothing in it, is upstream's `styleText(['inverse', 'hidden'], '_')` — a
+/// character that reserves a cell and shows nothing in it.
+pub fn placeholder_spans(placeholder: Option<&str>, styles: &Styles) -> Vec<Span> {
+	match placeholder {
+		Some(placeholder) if !placeholder.is_empty() => {
+			// The first character is inverted to stand in for the cursor. Upstream slices it off
+			// with `placeholder[0]`, a UTF-16 index, which halves an astral character; taken whole
+			// here, as `input_with_cursor` takes its own.
+			let mut chars = placeholder.chars();
+			let first = chars.next().map(String::from).unwrap_or_default();
+			let rest = chars.as_str();
+			let mut spans = vec![Span::styled(first, styles.placeholder_cursor)];
+			if !rest.is_empty() {
+				spans.push(Span::styled(rest, styles.placeholder));
+			}
+			spans
+		}
+		_ => vec![Span::styled("_", styles.placeholder_empty)],
+	}
+}
 
 /// A `text` Prompt drawn as a Frame — the `render` callback of `@clack/prompts`' `text()`.
 ///
@@ -238,22 +262,7 @@ impl<'a> TextWidget<'a> {
 		let styles = &self.theme.styles;
 
 		if self.prompt.user_input().is_empty() {
-			return match self.placeholder {
-				Some(placeholder) if !placeholder.is_empty() => {
-					// The first character is inverted to stand in for the cursor. Upstream slices it
-					// off with `placeholder[0]`, a UTF-16 index, which halves an astral character;
-					// taken whole here, as `input_with_cursor` takes its own.
-					let mut chars = placeholder.chars();
-					let first = chars.next().map(String::from).unwrap_or_default();
-					let rest = chars.as_str();
-					let mut spans = vec![Span::styled(first, styles.placeholder_cursor)];
-					if !rest.is_empty() {
-						spans.push(Span::styled(rest, styles.placeholder));
-					}
-					spans
-				}
-				_ => vec![Span::styled("_", styles.placeholder_empty)],
-			};
+			return placeholder_spans(self.placeholder, styles);
 		}
 
 		match self.prompt.input_with_cursor() {

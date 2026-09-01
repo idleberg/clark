@@ -25,6 +25,7 @@ mod driver;
 mod error;
 mod group_multi_select;
 pub mod keys;
+mod multi_line;
 mod multi_select;
 mod password;
 mod select;
@@ -38,6 +39,7 @@ pub use confirm::{Confirm, confirm};
 pub use date::{Date, date};
 pub use error::ClackError;
 pub use group_multi_select::{GroupMultiSelect, group_multiselect};
+pub use multi_line::{MultiLine, multiline};
 pub use multi_select::{MultiSelect, multiselect};
 pub use password::{Password, password};
 pub use select::{Select, select};
@@ -45,6 +47,7 @@ pub use select_key::{SelectKey, select_key};
 pub use text::{Text, text};
 
 pub use clackatui_core::date::{Date as CivilDate, DateFormat};
+pub use clackatui_core::multi_line::Focus;
 /// The pieces a caller needs to configure a Prompt or to drive one themselves.
 pub use clackatui_core::prompt::{Outcome, Validator};
 pub use clackatui_core::select::SelectOption;

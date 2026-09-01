@@ -79,8 +79,11 @@ and then wraps the result again
 caret at the *option list's* index
 ([ADR-0025](./docs/adr/0025-autocomplete-slices-the-search-box-at-the-option-cursor.md)), and then
 `date`, three strings edited beside a calendar that refuses a third of what they can spell
-([ADR-0026](./docs/adr/0026-date-is-three-strings-and-a-calendar-that-refuses-them.md)) —
-**all a hundred and seventy-one agree on the Grid**.
+([ADR-0026](./docs/adr/0026-date-is-three-strings-and-a-calendar-that-refuses-them.md)), and closes
+with `multiline`, which keeps an editor of its own and whose `return` is a newline rather than an
+answer
+([ADR-0027](./docs/adr/0027-multiline-keeps-an-editor-its-own-suite-never-uses.md)) —
+**all a hundred and ninety-one agree on the Grid**.
 See
 [CONTEXT.md](./CONTEXT.md) for the vocabulary and [docs/adr/](./docs/adr/) for the decisions behind
 the shape below.
@@ -216,7 +219,7 @@ upstream drift.
 | **M1** | ~~`text` end to end — Recorder, width port, `LineEditor`, `TextState`, `Frame`, Theme, `text` widget, wrap port, Emitter, `.interact()`, harvested text Scenarios green, hand-authored Scenarios (narrow, CJK, resize)~~ **done** |
 | **M2** | ~~`password` and `confirm` — states, widgets, builders, both suites harvested, eleven more hand-authored Scenarios~~ **done** |
 | **M3** | ~~`limit-options` against a 54-case corpus, `select`, `multiselect` and `select-key` end to end with their suites harvested~~ **done** |
-| **M4** | ~~group-multi-select~~, ~~autocomplete~~, ~~date~~ **done**, multi-line |
+| **M4** | ~~group-multi-select~~, ~~autocomplete~~, ~~date~~, ~~multi-line~~ **done** |
 | **M5** | static renderers |
 | **M6** | theme polish, docs, publish |
 
@@ -321,6 +324,20 @@ makes it five characters wide. The Recorder had to learn to write down a `Date` 
 Prompt's options hold one, and both harvesters had been flattening every such object to
 `{ opaque: true }`
 ([ADR-0026](./docs/adr/0026-date-is-three-strings-and-a-calendar-that-refuses-them.md)).
+
+`multiline` closes M4 and is the only Prompt here that keeps a text editor of its own — untracked, so
+readline never sees it, and every insertion, deletion and cursor move is its own. Its `return` is a
+newline; two in a row at the end of the text submit, and the first one's newline is taken back out on
+the way. Upstream's suite sends thirty-eight keypresses, thirty of them a bare `return`: it never
+moves the cursor, deletes anything, opens with text in the field, or varies the terminal, so nine
+more Scenarios were hand-authored for the editor and the wrap. Three things they pin: the error foot
+is drawn whether or not there is a Guide, alone among the Prompts; a settled Frame with no value
+still draws a bar and two trailing spaces; and the text is wrapped thirteen columns early for three
+columns of bar, which is ADR-0019's defect in its third place. The ninth of those Scenarios narrows
+the terminal under text already several rows tall, and disagreed with clack by two rows — because
+every widget in the Scenario loader had been measuring against a width captured when the Prompt was
+built, which no resize could move
+([ADR-0027](./docs/adr/0027-multiline-keeps-an-editor-its-own-suite-never-uses.md)).
 
 M0 came first because it was cheap and load-bearing. Reusing `BufferDiff` under our own width model
 depends entirely on `CellDiffOption::ForcedWidth`, which is recent API on a pre-1.0 crate. The probe

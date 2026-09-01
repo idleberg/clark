@@ -227,6 +227,11 @@ pub struct Styles {
 	pub option_disabled_label: Style,
 	/// The key named in an instruction footer, as opposed to what pressing it does.
 	pub instruction_key: Style,
+	/// `multiline`'s `[ submit ]` button while the tab focus is on it.
+	pub submit_focused: Style,
+	/// The same button while the focus is in the editor. Two styles rather than one and a flag,
+	/// because that is the shape every other pair here has.
+	pub submit_unfocused: Style,
 	/// The value of a submitted Prompt.
 	pub submitted: Style,
 	/// The value of a cancelled Prompt.
@@ -280,6 +285,8 @@ impl Styles {
 			.fg(Color::DarkGray)
 			.add_modifier(Modifier::CROSSED_OUT),
 		instruction_key: Style::new().add_modifier(Modifier::DIM),
+		submit_focused: Style::new().fg(Color::Cyan),
+		submit_unfocused: Style::new().add_modifier(Modifier::DIM),
 		submitted: Style::new().add_modifier(Modifier::DIM),
 		cancelled: Style::new().add_modifier(Modifier::CROSSED_OUT.union(Modifier::DIM)),
 		error: Style::new().fg(Color::Yellow),
