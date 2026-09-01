@@ -36,7 +36,8 @@ use ratatui_core::style::{Color, Modifier, Style};
 
 mod scenarios;
 use scenarios::{
-	Scenario, TAG, all, authored, confirm, harvested, multi_select, password, select, select_key,
+	Scenario, TAG, all, authored, confirm, group_multi_select, harvested, multi_select, password,
+	select, select_key,
 };
 
 /// The state clack was in when it drew its last frame, read off the step symbol it prints.
@@ -486,7 +487,7 @@ fn the_harvested_fixture_is_a_plausible_recording() {
 /// Frame or the cancelled one would otherwise be merely smaller, and the count below would let it
 /// through.
 #[test]
-fn the_five_harvested_prompt_fixtures_are_plausible_recordings() {
+fn the_six_harvested_prompt_fixtures_are_plausible_recordings() {
 	for (kind, (json, scenarios), least, required) in [
 		(
 			"password",
@@ -575,6 +576,29 @@ fn the_five_harvested_prompt_fixtures_are_plausible_recordings() {
 				"text › long submitted labels are wrapped correctly",
 				"text › long cancelled labels are wrapped correctly",
 				"text › withGuide: false removes guide",
+			][..],
+		),
+		(
+			"groupMultiselect",
+			group_multi_select(),
+			20,
+			&[
+				"groupMultiselect › renders message with options",
+				"groupMultiselect › can select a group",
+				"groupMultiselect › can select a group by selecting all members",
+				"groupMultiselect › can select multiple options",
+				"groupMultiselect › can deselect an option",
+				"groupMultiselect › can submit empty selection when require = false",
+				"groupMultiselect › cursorAt sets initial selection",
+				"groupMultiselect › initial values can be set",
+				"groupMultiselect › maxItems renders a sliding window",
+				"groupMultiselect › renders error when nothing selected",
+				"groupMultiselect › selectableGroups = false › cannot select groups",
+				"groupMultiselect › groupSpacing › renders spaced groups",
+				"groupMultiselect › groupSpacing › negative spacing is ignored",
+				"groupMultiselect › showInstructions: false hides instruction footer",
+				"groupMultiselect › values can be non-primitive",
+				"groupMultiselect › withGuide: false removes guide",
 			][..],
 		),
 	] {
@@ -693,6 +717,44 @@ fn the_five_harvested_prompt_fixtures_are_plausible_recordings() {
 		key.iter().any(|s| !s.with_guide),
 		"no selectKey Scenario left that turns the Guide off"
 	);
+
+	// And for `groupMultiselect`, whose branches nothing else has: a header that can be ticked and
+	// one that cannot, the blank rows between groups, and the map its list is built from.
+	let (_, grouped) = group_multi_select();
+	for scenario in &grouped {
+		assert!(
+			!scenario.groups.is_empty(),
+			"{}: a grouped list prompt with no groups",
+			scenario.name
+		);
+	}
+	let any = |what: &str, f: &dyn Fn(&Scenario) -> bool| {
+		assert!(
+			grouped.iter().any(f),
+			"no groupMultiselect Scenario left that {what}; the port's branch for it is unverified"
+		);
+	};
+	any("turns `selectableGroups` off", &|s| !s.selectable_groups);
+	any("sets a groupSpacing", &|s| s.group_spacing > 0);
+	any("sets a negative groupSpacing", &|s| s.group_spacing < 0);
+	any("lists more than one group", &|s| s.groups.len() > 1);
+	any("sets maxItems", &|s| s.max_items.is_some());
+	any("turns `required` off", &|s| !s.required);
+	any("sets cursorAt", &|s| s.cursor_at.is_some());
+	any("starts with values selected", &|s| {
+		!s.initial_values.is_empty()
+	});
+	any("turns the instruction footer off", &|s| {
+		!s.show_instructions
+	});
+	any("turns the Guide off", &|s| !s.with_guide);
+	// The Symbol-valued case, the only recording of an option a JSON Fixture cannot carry a value
+	// for — see `Scenario::group_choices`.
+	any("holds an option with no recorded value", &|s| {
+		s.groups
+			.iter()
+			.any(|(_, options)| options.iter().any(|o| o.value.is_empty()))
+	});
 
 	// And the same for `multiselect`, whose extra branches are the ones `select` has no notion of:
 	// a selection that starts non-empty, a cursor that starts somewhere else, and the validation

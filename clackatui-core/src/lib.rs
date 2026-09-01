@@ -6,6 +6,7 @@ pub mod confirm;
 pub mod cursor;
 pub mod emitter;
 pub mod frame;
+pub mod group_multi_select;
 pub mod limit_options;
 pub mod line_editor;
 pub mod multi_select;

@@ -42,7 +42,7 @@ use ratatui_core::widgets::Widget;
 use crate::frame::{Frame, Line, Span};
 use crate::line_editor::Key;
 use crate::prompt::{Prompt, PromptState, Status};
-use crate::select::{GUIDE_PREFIX_LENGTH, SelectOption};
+use crate::select::{GUIDE_PREFIX_LENGTH, SelectOption, plain_title};
 use crate::theme::Theme;
 use crate::wrap::{leaked, wrap};
 
@@ -289,23 +289,7 @@ impl<'a, T: Display> SelectKeyWidget<'a, T> {
 	/// Unwrapped, unlike `select`'s — so a message with a line break in it is two rows and the
 	/// second carries no prefix at all.
 	fn title(&self, status: Status, guide: bool) -> Vec<Line> {
-		let styles = &self.theme.styles;
-		let symbols = &self.theme.symbols;
-
-		let mut lines = Vec::new();
-		if guide {
-			lines.push(Line::from(Span::styled(symbols.bar, styles.guide)));
-		}
-		for (index, text) in self.message.split('\n').enumerate() {
-			let mut line = Line::blank();
-			if index == 0 {
-				line.push(self.theme.step(status));
-				line.push(Span::raw("  "));
-			}
-			line.push(Span::styled(text, styles.message));
-			lines.push(line);
-		}
-		lines
+		plain_title(self.theme, self.message, status, guide)
 	}
 
 	/// `opt(option, state)` for the two states a drawn list has: the highlighted one and the rest.

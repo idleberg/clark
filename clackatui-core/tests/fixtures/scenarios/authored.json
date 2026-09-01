@@ -2111,6 +2111,188 @@
 			]
 		},
 		{
+			"name": "narrow › a group option wraps differently under a dimmed branch",
+			"prompts": [
+				{
+					"kind": "groupMultiselect",
+					"opts": {
+						"message": "Pick",
+						"options": {
+							"Testing": [
+								{
+									"value": "jest",
+									"label": "Jest, a JavaScript testing framework"
+								}
+							],
+							"Language": [
+								{
+									"value": "ts",
+									"label": "TypeScript, which is a static type checker"
+								}
+							]
+						}
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 40,
+						"rows": 20,
+						"stdout": 40
+					},
+					"events": [
+						{
+							"kind": "key",
+							"s": " ",
+							"key": {
+								"name": "space",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"keys": [
+						{
+							"s": " ",
+							"key": {
+								"name": "space",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Pick\n\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[36m◻\u001b[39m Testing\n\u001b[36m│\u001b[39m  └ \u001b[36m◻\u001b[39m \u001b[2mJest, a JavaScript \u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2mtesting framework\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[2m◻\u001b[22m \u001b[2mLanguage\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m└ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mTypeScript, which is a \u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m  \u001b[22m \u001b[2mstatic type checker\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \n\u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[11A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[32m◼\u001b[39m Testing\n\u001b[36m│\u001b[39m  └ \u001b[32m◼\u001b[39m \u001b[2mJest, a JavaScript \u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2mtesting framework\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[2m◻\u001b[22m \u001b[2mLanguage\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m└ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mTypeScript, which is a \u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m  \u001b[22m \u001b[2mstatic type checker\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \n\u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[11A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Pick\n\u001b[90m│\u001b[39m  \u001b[2mJest, a JavaScript testing framework\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "narrow › an unselectable group wraps its option back to the margin",
+			"prompts": [
+				{
+					"kind": "groupMultiselect",
+					"opts": {
+						"message": "Pick",
+						"selectableGroups": false,
+						"options": {
+							"Language": [
+								{
+									"value": "ts",
+									"label": "TypeScript, which is a static type checker"
+								}
+							]
+						}
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 40,
+						"rows": 20,
+						"stdout": 40
+					},
+					"events": [
+						{
+							"kind": "key",
+							"s": " ",
+							"key": {
+								"name": "space",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"keys": [
+						{
+							"s": " ",
+							"key": {
+								"name": "space",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Pick\n\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m \u001b[2mLanguage\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m  \u001b[22m\u001b[36m◻\u001b[39m TypeScript, which is a \n\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m static type checker\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \n\u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[8A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  \u001b[2m  \u001b[22m\u001b[32m◼\u001b[39m TypeScript, which is a ",
+						"\u001b[5B",
+						"\u001b[999D\u001b[8A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Pick\n\u001b[90m│\u001b[39m  \u001b[2mTypeScript, which is a static type \u001b[22m\n\u001b[2mchecker\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
 			"name": "narrow › deleting back across the wrap",
 			"prompts": [
 				{

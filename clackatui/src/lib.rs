@@ -21,6 +21,7 @@
 mod confirm;
 mod driver;
 mod error;
+mod group_multi_select;
 pub mod keys;
 mod multi_select;
 mod password;
@@ -30,6 +31,7 @@ mod text;
 
 pub use confirm::{Confirm, confirm};
 pub use error::ClackError;
+pub use group_multi_select::{GroupMultiSelect, group_multiselect};
 pub use multi_select::{MultiSelect, multiselect};
 pub use password::{Password, password};
 pub use select::{Select, select};

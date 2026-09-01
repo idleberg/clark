@@ -29,7 +29,7 @@ unicode-normalization = "0.1.25"
 crossterm = "0.29"
 
 # Tests only, for reading harvested Fixtures. Not pinned: it is not part of any parity claim.
-serde_json = "1.0.151"
+serde_json = { version = "1.0.151", features = ["preserve_order"] }
 
 # Tests only: the terminal emulator both byte streams are replayed through, so that the comparison
 # is between two Grids rather than between two encodings of one appearance. See docs/adr/0015 for

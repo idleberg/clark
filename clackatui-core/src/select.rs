@@ -51,6 +51,32 @@ pub const INSTRUCTIONS: [(&str, &str); 2] = [("↑/↓", " to navigate"), ("Ente
 /// The separator upstream joins the instructions with.
 pub const INSTRUCTION_SEPARATOR: &str = " • ";
 
+/// `${bar}\n${symbol}  ${message}\n`: the title of a list Prompt whose message is *not* wrapped.
+///
+/// `selectKey` and `groupMultiselect` interpolate the message straight into the title, where
+/// `select` and `multiselect` put it through `wrapTextWithPrefix` first. So a message with a break
+/// in it has a second row carrying no prefix at all — not the continuation bar a `select` would give
+/// it, and not a Guide bar either.
+pub fn plain_title(theme: &Theme, message: &str, status: Status, guide: bool) -> Vec<Line> {
+	let mut lines = Vec::new();
+	if guide {
+		lines.push(Line::from(Span::styled(
+			theme.symbols.bar,
+			theme.styles.guide,
+		)));
+	}
+	for (index, text) in message.split('\n').enumerate() {
+		let mut line = Line::blank();
+		if index == 0 {
+			line.push(theme.step(status));
+			line.push(Span::raw("  "));
+		}
+		line.push(Span::styled(text, theme.styles.message));
+		lines.push(line);
+	}
+	lines
+}
+
 /// One choice in a list: a value, the text it is drawn as, and whether it can be chosen.
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct SelectOption<T> {

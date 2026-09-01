@@ -9,16 +9,17 @@
 //! defines a Fixture. What those bytes *mean* is decided on the Rust side, by whichever test is
 //! asking.
 //!
-//! # Seven Fixtures, one shape
+//! # Eight Fixtures, one shape
 //!
-//! [`harvested`], [`password`], [`confirm`], [`select`], [`multi_select`] and [`select_key`] are
+//! [`harvested`], [`password`], [`confirm`], [`select`], [`multi_select`], [`select_key`] and
+//! [`group_multi_select`] are
 //! clack's own test suite, one file per Prompt,
 //! recorded while the suite passed its own snapshots. [`authored`] is `scripts/authored/cases.mjs`,
 //! written because upstream's tests never vary the terminal and so can say nothing about wrapping.
 //! They are recorded by different scripts and carry different evidence behind them — ADR-0016 — but
 //! they are the same shape and are read the same way, and [`all`] is what the tests run over.
 //!
-//! # Six kinds of Prompt
+//! # Seven kinds of Prompt
 //!
 //! A Scenario names the Prompt it configures, and [`Run`] is all of them behind one door.
 //! Nothing above this module branches on the kind: a Scenario opens, takes keys, resizes and
@@ -28,6 +29,7 @@
 
 use clackatui_core::confirm::{ConfirmState, ConfirmWidget};
 use clackatui_core::frame::Frame;
+use clackatui_core::group_multi_select::{GroupMultiSelectState, GroupMultiSelectWidget};
 use clackatui_core::line_editor::{Key, KeyName};
 use clackatui_core::multi_select::{MultiSelectState, MultiSelectWidget, required};
 use clackatui_core::password::{PasswordState, PasswordWidget};
@@ -44,6 +46,7 @@ const CONFIRM: &str = include_str!("../fixtures/scenarios/confirm.json");
 const SELECT: &str = include_str!("../fixtures/scenarios/select.json");
 const MULTI_SELECT: &str = include_str!("../fixtures/scenarios/multi-select.json");
 const SELECT_KEY: &str = include_str!("../fixtures/scenarios/select-key.json");
+const GROUP_MULTI_SELECT: &str = include_str!("../fixtures/scenarios/group-multi-select.json");
 
 /// The tag `README.md` names. A fixture from anywhere else is not the thing we claim parity with.
 pub const TAG: &str = "@clack/prompts@1.7.0";
@@ -66,6 +69,12 @@ pub struct Scenario {
 	pub vertical: bool,
 	/// `select`'s list, and the two options that decide how much of it is drawn.
 	pub options: Vec<Choice>,
+	/// `groupMultiselect`'s list, which is a map rather than an array — the group's name, and what
+	/// was listed under it, in the order they were written.
+	pub groups: Vec<(String, Vec<Choice>)>,
+	/// Its `selectableGroups` and `groupSpacing`.
+	pub selectable_groups: bool,
+	pub group_spacing: isize,
 	pub max_items: Option<usize>,
 	pub show_instructions: bool,
 	/// `selectKey`'s `caseSensitive`.
@@ -176,6 +185,14 @@ pub fn select_key() -> (serde_json::Value, Vec<Scenario>) {
 	parse(SELECT_KEY, "fixtures/scenarios/select-key.json")
 }
 
+/// Clack's own `groupMultiselect` suite.
+pub fn group_multi_select() -> (serde_json::Value, Vec<Scenario>) {
+	parse(
+		GROUP_MULTI_SELECT,
+		"fixtures/scenarios/group-multi-select.json",
+	)
+}
+
 /// Every Scenario there is. Which Fixture one came from is a question about the evidence behind it,
 /// not about what the port owes it, so the tests do not ask.
 pub fn all() -> Vec<Scenario> {
@@ -186,6 +203,7 @@ pub fn all() -> Vec<Scenario> {
 	scenarios.extend(select().1);
 	scenarios.extend(multi_select().1);
 	scenarios.extend(select_key().1);
+	scenarios.extend(group_multi_select().1);
 	scenarios
 }
 
@@ -228,6 +246,27 @@ fn parse(source: &str, path: &str) -> (serde_json::Value, Vec<Scenario>) {
 					.as_array()
 					.map(|options| options.iter().map(choice).collect())
 					.unwrap_or_default(),
+				groups: opts["options"]
+					.as_object()
+					.map(|groups| {
+						groups
+							.iter()
+							.map(|(name, options)| {
+								let options = options
+									.as_array()
+									.expect("a group holds an array of options")
+									.iter()
+									.map(choice)
+									.collect();
+								(name.clone(), options)
+							})
+							.collect()
+					})
+					.unwrap_or_default(),
+				// `opts.selectableGroups !== false`: the same default-on shape as `required`, and carried the
+				// same way.
+				selectable_groups: opts["selectableGroups"].as_bool().unwrap_or(true),
+				group_spacing: opts["groupSpacing"].as_i64().unwrap_or(0) as isize,
 				max_items: opts["maxItems"].as_u64().map(|n| n as usize),
 				case_sensitive: opts["caseSensitive"].as_bool() == Some(true),
 				show_instructions: opts["showInstructions"].as_bool().unwrap_or(true),
@@ -297,10 +336,9 @@ fn choice(option: &serde_json::Value) -> Choice {
 	Choice {
 		// Every recorded `select` option holds a string. One holding anything else would be a
 		// Scenario this loader cannot build, and saying so here beats drawing the wrong list.
-		value: option["value"]
-			.as_str()
-			.expect("an option's value is a string")
-			.to_owned(),
+		// A `groupMultiselect` option whose value was a `Symbol` is recorded without one — see
+		// `Scenario::group_choices`, which is where the empty string is given its meaning.
+		value: option["value"].as_str().unwrap_or("").to_owned(),
 		label: option["label"].as_str().map(str::to_owned),
 		hint: option["hint"].as_str().map(str::to_owned),
 		disabled: option["disabled"].as_bool() == Some(true),
@@ -360,6 +398,40 @@ impl Scenario {
 					option = option.with_hint(hint);
 				}
 				option.with_disabled(choice.disabled)
+			})
+			.collect()
+	}
+
+	/// The `options` map as a `groupMultiselect` wants it.
+	///
+	/// An option a recording carries no value for is given one nothing else can equal. Upstream's
+	/// suite has one such case — two options whose values are `Symbol()`, which JSON cannot hold —
+	/// and two distinct values impossible to type is exactly what a pair of Symbols is.
+	fn group_choices(&self) -> Vec<(String, Vec<SelectOption<String>>)> {
+		let mut at = 0;
+		self.groups
+			.iter()
+			.map(|(name, options)| {
+				let options = options
+					.iter()
+					.map(|choice| {
+						at += 1;
+						let value = if choice.value.is_empty() {
+							format!("\u{0}{at}")
+						} else {
+							choice.value.clone()
+						};
+						let mut option = match &choice.label {
+							Some(label) => SelectOption::labelled(value, label),
+							None => SelectOption::new(value),
+						};
+						if let Some(hint) = &choice.hint {
+							option = option.with_hint(hint);
+						}
+						option.with_disabled(choice.disabled)
+					})
+					.collect();
+				(name.clone(), options)
 			})
 			.collect()
 	}
@@ -488,6 +560,38 @@ impl Scenario {
 							.with_guide(with_guide)
 							.with_columns(stream)
 							.frame()
+					})
+					.with_size(size.0, size.1),
+				)
+			}
+
+			"groupMultiselect" => {
+				let mut state = GroupMultiSelectState::new(self.group_choices())
+					.with_selectable_groups(self.selectable_groups)
+					.with_initial_values(self.initial_values.clone());
+				if let Some(at) = &self.cursor_at {
+					state = state.with_cursor_at(at);
+				}
+				let mut prompt = Prompt::new(state);
+				if self.required {
+					prompt = prompt.with_validator(required);
+				}
+				let max_items = self.max_items;
+				let show_instructions = self.show_instructions;
+				let group_spacing = self.group_spacing;
+				let stream = self.stream_columns;
+				Run::GroupMultiSelect(
+					Session::new(prompt, move |prompt, _columns, rows| {
+						let mut widget = GroupMultiSelectWidget::new(prompt, &message)
+							.with_guide(with_guide)
+							.with_columns(stream)
+							.with_rows(rows as usize)
+							.with_instructions(show_instructions)
+							.with_group_spacing(group_spacing);
+						if let Some(max_items) = max_items {
+							widget = widget.with_max_items(max_items);
+						}
+						widget.frame()
 					})
 					.with_size(size.0, size.1),
 				)
@@ -639,6 +743,7 @@ pub enum Run {
 	Select(Session<SelectState<String>>),
 	MultiSelect(Session<MultiSelectState<String>>),
 	SelectKey(Session<SelectKeyState<String>>),
+	GroupMultiSelect(Session<GroupMultiSelectState<String>>),
 }
 
 /// The same call on whichever Session is inside. A macro because the arms differ only in the
@@ -652,6 +757,7 @@ macro_rules! dispatch {
 			Run::Select($session) => $call,
 			Run::MultiSelect($session) => $call,
 			Run::SelectKey($session) => $call,
+			Run::GroupMultiSelect($session) => $call,
 		}
 	};
 }

@@ -293,4 +293,45 @@ export const cases = [
 		events: [...typing('correct horse battery staple and then some'), escape],
 		cancelled: true,
 	},
+	{
+		// `groupMultiselect` wraps each option itself, before `limitOptions` wraps the row again —
+		// and the width it uses is the terminal less `prefix.length`, where the prefix has already
+		// been through `styleText`. So the same label breaks in two different places depending on
+		// whether its branch was dimmed, which is the one thing in this Prompt no harvested Scenario
+		// can see: upstream's suite is all short labels at eighty columns.
+		//
+		// The cursor opens on the first group's header, so that group's options are drawn
+		// `group-active` — the one look whose prefix is passed unstyled — and the second group's are
+		// dimmed. One recording, both widths.
+		name: 'narrow › a group option wraps differently under a dimmed branch',
+		kind: 'groupMultiselect',
+		columns: NARROW,
+		opts: {
+			message: 'Pick',
+			options: {
+				Testing: [{ value: 'jest', label: 'Jest, a JavaScript testing framework' }],
+				Language: [{ value: 'ts', label: 'TypeScript, which is a static type checker' }],
+			},
+		},
+		events: [{ kind: 'key', s: ' ', key: { name: 'space' } }, enter],
+		value: ['jest'],
+	},
+	{
+		// And with the groups unselectable there is no branch and no closing corner — upstream sets
+		// `prefix` to two spaces and leaves `prefixEnd` at the empty string it was declared with, so
+		// the rows of a wrapped option after the first sit two columns to the *left* of its first.
+		// Nothing upstream records this either.
+		name: 'narrow › an unselectable group wraps its option back to the margin',
+		kind: 'groupMultiselect',
+		columns: NARROW,
+		opts: {
+			message: 'Pick',
+			selectableGroups: false,
+			options: {
+				Language: [{ value: 'ts', label: 'TypeScript, which is a static type checker' }],
+			},
+		},
+		events: [{ kind: 'key', s: ' ', key: { name: 'space' } }, enter],
+		value: ['ts'],
+	},
 ];

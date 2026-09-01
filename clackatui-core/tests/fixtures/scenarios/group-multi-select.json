@@ -1,0 +1,2034 @@
+{
+	"source": "@clack/prompts test suite",
+	"tag": "@clack/prompts@1.7.0",
+	"commit": "dc5bce8aae84a57b5863124adfaa839c1db1fa23",
+	"describe": "@clack/core@1.4.3",
+	"node": "24.20.0",
+	"generatedBy": "scripts/harvest-scenarios.mjs",
+	"suites": [
+		"group-multi-select"
+	],
+	"scenarios": [
+		{
+			"name": "groupMultiselect › can be aborted by a signal",
+			"prompts": [
+				{
+					"kind": "groupMultiselect",
+					"opts": {
+						"message": "Select a fruit",
+						"options": {
+							"group1": [
+								{
+									"value": "group1value0"
+								}
+							],
+							"group2": [
+								{
+									"value": "group2value0"
+								}
+							]
+						}
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Select a fruit\n\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[36m◻\u001b[39m group1\n\u001b[36m│\u001b[39m  └ \u001b[36m◻\u001b[39m \u001b[2mgroup1value0\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup2\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m└ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup2value0\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "groupMultiselect › can deselect an option",
+			"prompts": [
+				{
+					"kind": "groupMultiselect",
+					"opts": {
+						"message": "foo",
+						"options": {
+							"group1": [
+								{
+									"value": "group1value0"
+								},
+								{
+									"value": "group1value1"
+								}
+							]
+						}
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "space",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "space",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "space",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[36m◻\u001b[39m group1\n\u001b[36m│\u001b[39m  │ \u001b[36m◻\u001b[39m \u001b[2mgroup1value0\u001b[22m\n\u001b[36m│\u001b[39m  └ \u001b[36m◻\u001b[39m \u001b[2mgroup1value1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[7A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[36m◻\u001b[39m group1value0\n\u001b[36m│\u001b[39m  \u001b[2m└ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[7A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[32m◼\u001b[39m group1value0",
+						"\u001b[4B",
+						"\u001b[999D\u001b[7A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[32m◼\u001b[39m \u001b[2mgroup1value0\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m└ \u001b[22m\u001b[36m◻\u001b[39m group1value1\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[7A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[32m◼\u001b[39m \u001b[2mgroup1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[32m◼\u001b[39m \u001b[2mgroup1value0\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m└ \u001b[22m\u001b[32m◼\u001b[39m group1value1\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[7A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[32m◼\u001b[39m \u001b[2mgroup1value0\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m└ \u001b[22m\u001b[36m◻\u001b[39m group1value1\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[7A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mgroup1value0\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "groupMultiselect › can select a group",
+			"prompts": [
+				{
+					"kind": "groupMultiselect",
+					"opts": {
+						"message": "foo",
+						"options": {
+							"group1": [
+								{
+									"value": "group1value0"
+								},
+								{
+									"value": "group1value1"
+								}
+							]
+						}
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "space",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[36m◻\u001b[39m group1\n\u001b[36m│\u001b[39m  │ \u001b[36m◻\u001b[39m \u001b[2mgroup1value0\u001b[22m\n\u001b[36m│\u001b[39m  └ \u001b[36m◻\u001b[39m \u001b[2mgroup1value1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[7A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[32m◼\u001b[39m group1\n\u001b[36m│\u001b[39m  │ \u001b[32m◼\u001b[39m \u001b[2mgroup1value0\u001b[22m\n\u001b[36m│\u001b[39m  └ \u001b[32m◼\u001b[39m \u001b[2mgroup1value1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[7A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mgroup1value0\u001b[22m\u001b[2m, \u001b[22m\u001b[2mgroup1value1\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "groupMultiselect › can select a group by selecting all members",
+			"prompts": [
+				{
+					"kind": "groupMultiselect",
+					"opts": {
+						"message": "foo",
+						"options": {
+							"group1": [
+								{
+									"value": "group1value0"
+								},
+								{
+									"value": "group1value1"
+								}
+							]
+						}
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "space",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "space",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[36m◻\u001b[39m group1\n\u001b[36m│\u001b[39m  │ \u001b[36m◻\u001b[39m \u001b[2mgroup1value0\u001b[22m\n\u001b[36m│\u001b[39m  └ \u001b[36m◻\u001b[39m \u001b[2mgroup1value1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[7A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[36m◻\u001b[39m group1value0\n\u001b[36m│\u001b[39m  \u001b[2m└ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[7A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[32m◼\u001b[39m group1value0",
+						"\u001b[4B",
+						"\u001b[999D\u001b[7A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[32m◼\u001b[39m \u001b[2mgroup1value0\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m└ \u001b[22m\u001b[36m◻\u001b[39m group1value1\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[7A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[32m◼\u001b[39m \u001b[2mgroup1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[32m◼\u001b[39m \u001b[2mgroup1value0\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m└ \u001b[22m\u001b[32m◼\u001b[39m group1value1\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[7A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mgroup1value0\u001b[22m\u001b[2m, \u001b[22m\u001b[2mgroup1value1\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "groupMultiselect › can select multiple options",
+			"prompts": [
+				{
+					"kind": "groupMultiselect",
+					"opts": {
+						"message": "foo",
+						"options": {
+							"group1": [
+								{
+									"value": "group1value0"
+								},
+								{
+									"value": "group1value1"
+								},
+								{
+									"value": "group1value2"
+								}
+							]
+						}
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "space",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "space",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[36m◻\u001b[39m group1\n\u001b[36m│\u001b[39m  │ \u001b[36m◻\u001b[39m \u001b[2mgroup1value0\u001b[22m\n\u001b[36m│\u001b[39m  │ \u001b[36m◻\u001b[39m \u001b[2mgroup1value1\u001b[22m\n\u001b[36m│\u001b[39m  └ \u001b[36m◻\u001b[39m \u001b[2mgroup1value2\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[8A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[36m◻\u001b[39m group1value0\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m└ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value2\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[8A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[32m◼\u001b[39m group1value0",
+						"\u001b[5B",
+						"\u001b[999D\u001b[8A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[32m◼\u001b[39m \u001b[2mgroup1value0\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[36m◻\u001b[39m group1value1\n\u001b[36m│\u001b[39m  \u001b[2m└ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value2\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[8A",
+						"\u001b[4B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[32m◼\u001b[39m group1value1",
+						"\u001b[4B",
+						"\u001b[999D\u001b[8A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mgroup1value0\u001b[22m\u001b[2m, \u001b[22m\u001b[2mgroup1value1\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "groupMultiselect › can submit empty selection when require = false",
+			"prompts": [
+				{
+					"kind": "groupMultiselect",
+					"opts": {
+						"message": "foo",
+						"options": {
+							"group1": [
+								{
+									"value": "group1value0"
+								},
+								{
+									"value": "group1value1"
+								}
+							]
+						},
+						"required": false
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[36m◻\u001b[39m group1\n\u001b[36m│\u001b[39m  │ \u001b[36m◻\u001b[39m \u001b[2mgroup1value0\u001b[22m\n\u001b[36m│\u001b[39m  └ \u001b[36m◻\u001b[39m \u001b[2mgroup1value1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[7A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "groupMultiselect › cursorAt sets initial selection",
+			"prompts": [
+				{
+					"kind": "groupMultiselect",
+					"opts": {
+						"message": "foo",
+						"options": {
+							"group1": [
+								{
+									"value": "group1value0"
+								},
+								{
+									"value": "group1value1"
+								}
+							]
+						},
+						"cursorAt": "group1value1"
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "space",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value0\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m└ \u001b[22m\u001b[36m◻\u001b[39m group1value1\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[7A",
+						"\u001b[4B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  \u001b[2m└ \u001b[22m\u001b[32m◼\u001b[39m group1value1",
+						"\u001b[3B",
+						"\u001b[999D\u001b[7A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mgroup1value1\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "groupMultiselect › global withGuide: false removes guide",
+			"prompts": [
+				{
+					"kind": "groupMultiselect",
+					"opts": {
+						"message": "foo",
+						"options": {
+							"group1": [
+								{
+									"value": "group1value0"
+								},
+								{
+									"value": "group1value1"
+								}
+							]
+						}
+					},
+					"settings": {
+						"withGuide": false
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "space",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[36m◆\u001b[39m  foo\n\u001b[2m\u001b[22m\u001b[36m◻\u001b[39m group1\n│ \u001b[36m◻\u001b[39m \u001b[2mgroup1value0\u001b[22m\n└ \u001b[36m◻\u001b[39m \u001b[2mgroup1value1\u001b[22m\n\u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n",
+						"\u001b[999D\u001b[5A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[2m\u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1\u001b[22m\n\u001b[2m│ \u001b[22m\u001b[36m◻\u001b[39m group1value0\n\u001b[2m└ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value1\u001b[22m\n\u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[2m│ \u001b[22m\u001b[32m◼\u001b[39m group1value0",
+						"\u001b[3B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n  \u001b[2mgroup1value0\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "groupMultiselect › groupSpacing › negative spacing is ignored",
+			"prompts": [
+				{
+					"kind": "groupMultiselect",
+					"opts": {
+						"message": "foo",
+						"options": {
+							"group1": [
+								{
+									"value": "group1value0"
+								}
+							],
+							"group2": [
+								{
+									"value": "group2value0"
+								}
+							]
+						},
+						"groupSpacing": -2
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "space",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[36m◻\u001b[39m group1\n\u001b[36m│\u001b[39m  └ \u001b[36m◻\u001b[39m \u001b[2mgroup1value0\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup2\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m└ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup2value0\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[8A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m└ \u001b[22m\u001b[36m◻\u001b[39m group1value0\n\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup2\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m└ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup2value0\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[8A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[32m◼\u001b[39m \u001b[2mgroup1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m└ \u001b[22m\u001b[32m◼\u001b[39m group1value0\n\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup2\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m└ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup2value0\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[8A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mgroup1value0\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "groupMultiselect › groupSpacing › renders spaced groups",
+			"prompts": [
+				{
+					"kind": "groupMultiselect",
+					"opts": {
+						"message": "foo",
+						"options": {
+							"group1": [
+								{
+									"value": "group1value0"
+								}
+							],
+							"group2": [
+								{
+									"value": "group2value0"
+								}
+							]
+						},
+						"groupSpacing": 2
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "space",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \n\u001b[36m│\u001b[39m  \n\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[36m◻\u001b[39m group1\n\u001b[36m│\u001b[39m  └ \u001b[36m◻\u001b[39m \u001b[2mgroup1value0\u001b[22m\n\u001b[36m│\u001b[39m  \n\u001b[36m│\u001b[39m  \n\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup2\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m└ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup2value0\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[12A",
+						"\u001b[4B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m└ \u001b[22m\u001b[36m◻\u001b[39m group1value0\n\u001b[36m│\u001b[39m  \n\u001b[36m│\u001b[39m  \n\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup2\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m└ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup2value0\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[12A",
+						"\u001b[4B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[32m◼\u001b[39m \u001b[2mgroup1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m└ \u001b[22m\u001b[32m◼\u001b[39m group1value0\n\u001b[36m│\u001b[39m  \n\u001b[36m│\u001b[39m  \n\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup2\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m└ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup2value0\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[12A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mgroup1value0\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "groupMultiselect › initial values can be set",
+			"prompts": [
+				{
+					"kind": "groupMultiselect",
+					"opts": {
+						"message": "foo",
+						"options": {
+							"group1": [
+								{
+									"value": "group1value0"
+								},
+								{
+									"value": "group1value1"
+								}
+							]
+						},
+						"initialValues": [
+							"group1value1"
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[36m◻\u001b[39m group1\n\u001b[36m│\u001b[39m  │ \u001b[36m◻\u001b[39m \u001b[2mgroup1value0\u001b[22m\n\u001b[36m│\u001b[39m  └ \u001b[32m◼\u001b[39m \u001b[2mgroup1value1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[7A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mgroup1value1\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "groupMultiselect › maxItems renders a sliding window",
+			"prompts": [
+				{
+					"kind": "groupMultiselect",
+					"opts": {
+						"message": "foo",
+						"options": {
+							"group1": [
+								{
+									"value": "group1value0"
+								},
+								{
+									"value": "group1value1"
+								},
+								{
+									"value": "group1value2"
+								},
+								{
+									"value": "group1value3"
+								},
+								{
+									"value": "group1value4"
+								},
+								{
+									"value": "group1value5"
+								}
+							],
+							"group2": [
+								{
+									"value": "group2value0"
+								},
+								{
+									"value": "group2value1"
+								},
+								{
+									"value": "group2value2"
+								},
+								{
+									"value": "group2value3"
+								},
+								{
+									"value": "group2value4"
+								},
+								{
+									"value": "group2value5"
+								}
+							]
+						},
+						"maxItems": 6
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "space",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[36m◻\u001b[39m group1\n\u001b[36m│\u001b[39m  │ \u001b[36m◻\u001b[39m \u001b[2mgroup1value0\u001b[22m\n\u001b[36m│\u001b[39m  │ \u001b[36m◻\u001b[39m \u001b[2mgroup1value1\u001b[22m\n\u001b[36m│\u001b[39m  │ \u001b[36m◻\u001b[39m \u001b[2mgroup1value2\u001b[22m\n\u001b[36m│\u001b[39m  │ \u001b[36m◻\u001b[39m \u001b[2mgroup1value3\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[10A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[36m◻\u001b[39m group1value0\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value2\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value3\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[10A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value0\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[36m◻\u001b[39m group1value1\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value2\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value3\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[10A",
+						"\u001b[4B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[36m◻\u001b[39m group1value2\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value3\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[10A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value2\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[36m◻\u001b[39m group1value3\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value4\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[10A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value2\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value3\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[36m◻\u001b[39m group1value4\n\u001b[36m│\u001b[39m  \u001b[2m└ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value5\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[10A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value3\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value4\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m└ \u001b[22m\u001b[36m◻\u001b[39m group1value5\n\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup2\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[10A",
+						"\u001b[5B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  \u001b[2m└ \u001b[22m\u001b[32m◼\u001b[39m group1value5",
+						"\u001b[5B",
+						"\u001b[999D\u001b[10A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mgroup1value5\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "groupMultiselect › renders error when nothing selected",
+			"prompts": [
+				{
+					"kind": "groupMultiselect",
+					"opts": {
+						"message": "foo",
+						"options": {
+							"group1": [
+								{
+									"value": "group1value0"
+								},
+								{
+									"value": "group1value1"
+								}
+							]
+						}
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "space",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[36m◻\u001b[39m group1\n\u001b[36m│\u001b[39m  │ \u001b[36m◻\u001b[39m \u001b[2mgroup1value0\u001b[22m\n\u001b[36m│\u001b[39m  └ \u001b[36m◻\u001b[39m \u001b[2mgroup1value1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[7A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[33m▲\u001b[39m  foo\n\u001b[33m│\u001b[39m  \u001b[2m\u001b[22m\u001b[36m◻\u001b[39m group1\n\u001b[33m│\u001b[39m  │ \u001b[36m◻\u001b[39m \u001b[2mgroup1value0\u001b[22m\n\u001b[33m│\u001b[39m  └ \u001b[36m◻\u001b[39m \u001b[2mgroup1value1\u001b[22m\n\u001b[33m└\u001b[39m  \u001b[33mPlease select at least one option.\u001b[39m\n   \u001b[0m\u001b[2mPress \u001b[90m\u001b[47m\u001b[7m space \u001b[27m\u001b[49m\u001b[39m to select, \u001b[90m\u001b[47m\u001b[7m enter \u001b[27m\u001b[49m\u001b[39m to submit\u001b[22m\u001b[0m\n",
+						"\u001b[999D\u001b[7A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[36m◻\u001b[39m group1value0\n\u001b[36m│\u001b[39m  \u001b[2m└ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[7A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[32m◼\u001b[39m group1value0",
+						"\u001b[4B",
+						"\u001b[999D\u001b[7A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mgroup1value0\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "groupMultiselect › renders message with options",
+			"prompts": [
+				{
+					"kind": "groupMultiselect",
+					"opts": {
+						"message": "foo",
+						"options": {
+							"group1": [
+								{
+									"value": "group1value0"
+								},
+								{
+									"value": "group1value1"
+								}
+							],
+							"group2": [
+								{
+									"value": "group2value0"
+								}
+							]
+						}
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "space",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[36m◻\u001b[39m group1\n\u001b[36m│\u001b[39m  │ \u001b[36m◻\u001b[39m \u001b[2mgroup1value0\u001b[22m\n\u001b[36m│\u001b[39m  └ \u001b[36m◻\u001b[39m \u001b[2mgroup1value1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup2\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m└ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup2value0\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[9A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[36m◻\u001b[39m group1value0\n\u001b[36m│\u001b[39m  \u001b[2m└ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup2\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m└ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup2value0\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[9A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[32m◼\u001b[39m group1value0",
+						"\u001b[6B",
+						"\u001b[999D\u001b[9A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mgroup1value0\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "groupMultiselect › selectableGroups = false › cannot select groups",
+			"prompts": [
+				{
+					"kind": "groupMultiselect",
+					"opts": {
+						"message": "foo",
+						"options": {
+							"group1": [
+								{
+									"value": "group1value0"
+								},
+								{
+									"value": "group1value1"
+								}
+							]
+						},
+						"selectableGroups": false
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "space",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m \u001b[2mgroup1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m  \u001b[22m\u001b[36m◻\u001b[39m group1value0\n\u001b[36m│\u001b[39m  \u001b[2m  \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[7A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  \u001b[2m  \u001b[22m\u001b[32m◼\u001b[39m group1value0",
+						"\u001b[4B",
+						"\u001b[999D\u001b[7A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mgroup1value0\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "groupMultiselect › selectableGroups = false › selecting all members of group does not select group",
+			"prompts": [
+				{
+					"kind": "groupMultiselect",
+					"opts": {
+						"message": "foo",
+						"options": {
+							"group1": [
+								{
+									"value": "group1value0"
+								},
+								{
+									"value": "group1value1"
+								}
+							]
+						},
+						"selectableGroups": false
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "space",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "space",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m \u001b[2mgroup1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m  \u001b[22m\u001b[36m◻\u001b[39m group1value0\n\u001b[36m│\u001b[39m  \u001b[2m  \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[7A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  \u001b[2m  \u001b[22m\u001b[32m◼\u001b[39m group1value0",
+						"\u001b[4B",
+						"\u001b[999D\u001b[7A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m  \u001b[22m\u001b[32m◼\u001b[39m \u001b[2mgroup1value0\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m  \u001b[22m\u001b[36m◻\u001b[39m group1value1\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[7A",
+						"\u001b[4B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  \u001b[2m  \u001b[22m\u001b[32m◼\u001b[39m group1value1",
+						"\u001b[3B",
+						"\u001b[999D\u001b[7A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mgroup1value0\u001b[22m\u001b[2m, \u001b[22m\u001b[2mgroup1value1\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "groupMultiselect › showInstructions: false hides instruction footer",
+			"prompts": [
+				{
+					"kind": "groupMultiselect",
+					"opts": {
+						"message": "foo",
+						"showInstructions": false,
+						"required": false,
+						"options": {
+							"group1": [
+								{
+									"value": "group1value0"
+								},
+								{
+									"value": "group1value1"
+								}
+							]
+						}
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[36m◻\u001b[39m group1\n\u001b[36m│\u001b[39m  │ \u001b[36m◻\u001b[39m \u001b[2mgroup1value0\u001b[22m\n\u001b[36m│\u001b[39m  └ \u001b[36m◻\u001b[39m \u001b[2mgroup1value1\u001b[22m\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[6A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "groupMultiselect › sliding window loops downwards",
+			"prompts": [
+				{
+					"kind": "groupMultiselect",
+					"opts": {
+						"message": "foo",
+						"options": {
+							"group1": [
+								{
+									"value": "group1value0"
+								},
+								{
+									"value": "group1value1"
+								},
+								{
+									"value": "group1value2"
+								},
+								{
+									"value": "group1value3"
+								},
+								{
+									"value": "group1value4"
+								},
+								{
+									"value": "group1value5"
+								}
+							],
+							"group2": [
+								{
+									"value": "group2value0"
+								},
+								{
+									"value": "group2value1"
+								},
+								{
+									"value": "group2value2"
+								},
+								{
+									"value": "group2value3"
+								},
+								{
+									"value": "group2value4"
+								},
+								{
+									"value": "group2value5"
+								}
+							]
+						},
+						"maxItems": 6
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "space",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[36m◻\u001b[39m group1\n\u001b[36m│\u001b[39m  │ \u001b[36m◻\u001b[39m \u001b[2mgroup1value0\u001b[22m\n\u001b[36m│\u001b[39m  │ \u001b[36m◻\u001b[39m \u001b[2mgroup1value1\u001b[22m\n\u001b[36m│\u001b[39m  │ \u001b[36m◻\u001b[39m \u001b[2mgroup1value2\u001b[22m\n\u001b[36m│\u001b[39m  │ \u001b[36m◻\u001b[39m \u001b[2mgroup1value3\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[10A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[36m◻\u001b[39m group1value0\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value2\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value3\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[10A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value0\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[36m◻\u001b[39m group1value1\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value2\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value3\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[10A",
+						"\u001b[4B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[36m◻\u001b[39m group1value2\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value3\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[10A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value2\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[36m◻\u001b[39m group1value3\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value4\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[10A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value2\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value3\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[36m◻\u001b[39m group1value4\n\u001b[36m│\u001b[39m  \u001b[2m└ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value5\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[10A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value3\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value4\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m└ \u001b[22m\u001b[36m◻\u001b[39m group1value5\n\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup2\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[10A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value4\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m└ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value5\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[36m◻\u001b[39m group2\n\u001b[36m│\u001b[39m  │ \u001b[36m◻\u001b[39m \u001b[2mgroup2value0\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[10A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m└ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value5\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup2\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[36m◻\u001b[39m group2value0\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup2value1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[10A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup2\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup2value0\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[36m◻\u001b[39m group2value1\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup2value2\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[10A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup2value0\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup2value1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[36m◻\u001b[39m group2value2\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup2value3\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[10A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup2value1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup2value2\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[36m◻\u001b[39m group2value3\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup2value4\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m└ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup2value5\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[10A",
+						"\u001b[5B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup2value3\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[36m◻\u001b[39m group2value4\n\u001b[36m│\u001b[39m  \u001b[2m└ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup2value5\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[10A",
+						"\u001b[6B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup2value4\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m└ \u001b[22m\u001b[36m◻\u001b[39m group2value5\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[10A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[36m◻\u001b[39m group1\n\u001b[36m│\u001b[39m  │ \u001b[36m◻\u001b[39m \u001b[2mgroup1value0\u001b[22m\n\u001b[36m│\u001b[39m  │ \u001b[36m◻\u001b[39m \u001b[2mgroup1value1\u001b[22m\n\u001b[36m│\u001b[39m  │ \u001b[36m◻\u001b[39m \u001b[2mgroup1value2\u001b[22m\n\u001b[36m│\u001b[39m  │ \u001b[36m◻\u001b[39m \u001b[2mgroup1value3\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[10A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[36m◻\u001b[39m group1value0\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value2\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value3\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[10A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[32m◼\u001b[39m group1value0",
+						"\u001b[7B",
+						"\u001b[999D\u001b[10A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mgroup1value0\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "groupMultiselect › sliding window loops upwards",
+			"prompts": [
+				{
+					"kind": "groupMultiselect",
+					"opts": {
+						"message": "foo",
+						"options": {
+							"group1": [
+								{
+									"value": "group1value0"
+								},
+								{
+									"value": "group1value1"
+								},
+								{
+									"value": "group1value2"
+								},
+								{
+									"value": "group1value3"
+								},
+								{
+									"value": "group1value4"
+								},
+								{
+									"value": "group1value5"
+								}
+							],
+							"group2": [
+								{
+									"value": "group2value0"
+								},
+								{
+									"value": "group2value1"
+								},
+								{
+									"value": "group2value2"
+								},
+								{
+									"value": "group2value3"
+								},
+								{
+									"value": "group2value4"
+								},
+								{
+									"value": "group2value5"
+								}
+							]
+						},
+						"maxItems": 6
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "up",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "space",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[36m◻\u001b[39m group1\n\u001b[36m│\u001b[39m  │ \u001b[36m◻\u001b[39m \u001b[2mgroup1value0\u001b[22m\n\u001b[36m│\u001b[39m  │ \u001b[36m◻\u001b[39m \u001b[2mgroup1value1\u001b[22m\n\u001b[36m│\u001b[39m  │ \u001b[36m◻\u001b[39m \u001b[2mgroup1value2\u001b[22m\n\u001b[36m│\u001b[39m  │ \u001b[36m◻\u001b[39m \u001b[2mgroup1value3\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[10A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup2value1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup2value2\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup2value3\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup2value4\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m└ \u001b[22m\u001b[36m◻\u001b[39m group2value5\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[10A",
+						"\u001b[7B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  \u001b[2m└ \u001b[22m\u001b[32m◼\u001b[39m group2value5",
+						"\u001b[3B",
+						"\u001b[999D\u001b[10A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mgroup2value5\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "groupMultiselect › values can be non-primitive",
+			"prompts": [
+				{
+					"kind": "groupMultiselect",
+					"opts": {
+						"message": "foo",
+						"options": {
+							"group1": [
+								{
+									"label": "value0"
+								},
+								{
+									"label": "value1"
+								}
+							]
+						}
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "space",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[36m◻\u001b[39m group1\n\u001b[36m│\u001b[39m  │ \u001b[36m◻\u001b[39m \u001b[2mvalue0\u001b[22m\n\u001b[36m│\u001b[39m  └ \u001b[36m◻\u001b[39m \u001b[2mvalue1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[7A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[36m◻\u001b[39m value0\n\u001b[36m│\u001b[39m  \u001b[2m└ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mvalue1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[7A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[32m◼\u001b[39m value0",
+						"\u001b[4B",
+						"\u001b[999D\u001b[7A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mvalue0\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "groupMultiselect › withGuide: false removes guide",
+			"prompts": [
+				{
+					"kind": "groupMultiselect",
+					"opts": {
+						"message": "foo",
+						"withGuide": false,
+						"options": {
+							"group1": [
+								{
+									"value": "group1value0"
+								},
+								{
+									"value": "group1value1"
+								}
+							]
+						}
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "space",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[36m◆\u001b[39m  foo\n\u001b[2m\u001b[22m\u001b[36m◻\u001b[39m group1\n│ \u001b[36m◻\u001b[39m \u001b[2mgroup1value0\u001b[22m\n└ \u001b[36m◻\u001b[39m \u001b[2mgroup1value1\u001b[22m\n\u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n",
+						"\u001b[999D\u001b[5A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[2m\u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1\u001b[22m\n\u001b[2m│ \u001b[22m\u001b[36m◻\u001b[39m group1value0\n\u001b[2m└ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2mgroup1value1\u001b[22m\n\u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n",
+						"\u001b[999D\u001b[5A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[2m│ \u001b[22m\u001b[32m◼\u001b[39m group1value0",
+						"\u001b[3B",
+						"\u001b[999D\u001b[5A",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n  \u001b[2mgroup1value0\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		}
+	]
+}

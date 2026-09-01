@@ -477,69 +477,12 @@ impl<T: Clone + PartialEq> MultiSelectWidget<'_, T> {
 
 	/// `formatInstructionFooter(MULTISELECT_INSTRUCTIONS, hasGuide)`, and its two other shapes.
 	fn footer(&self, guide: bool) -> Vec<Line> {
-		let styles = &self.theme.styles;
-		let symbols = &self.theme.symbols;
-
-		if !self.show_instructions {
-			return if guide {
-				vec![Line::from(Span::styled(
-					symbols.bar_end,
-					styles.guide_active,
-				))]
-			} else {
-				Vec::new()
-			};
-		}
-
-		let mut line = Line::blank();
-		if guide {
-			line.push(Span::styled(symbols.bar, styles.guide_active));
-			line.push(Span::raw("  "));
-		}
-		for (index, (key, verb)) in INSTRUCTIONS.iter().enumerate() {
-			if index > 0 {
-				line.push(Span::raw(INSTRUCTION_SEPARATOR));
-			}
-			line.push(Span::styled(*key, styles.instruction_key));
-			line.push(Span::raw(*verb));
-		}
-
-		let mut lines = vec![line];
-		if guide {
-			lines.push(Line::from(Span::styled(
-				symbols.bar_end,
-				styles.guide_active,
-			)));
-		}
-		lines
+		footer(self.theme, guide, self.show_instructions)
 	}
 
-	/// The validation message and the advice under it.
-	///
-	/// Two rows whatever else is switched off. The first takes the Guide's closing bar when there is
-	/// a Guide; the second is indented by three literal spaces and takes no bar at all, guided or
-	/// not — upstream writes `'   ' + line` for every line of the message after the first and never
-	/// asks whether the Guide is on.
+	/// The validation message and the advice under it — see [`error_footer`].
 	fn error_footer(&self, guide: bool) -> Vec<Line> {
-		let styles = &self.theme.styles;
-		let symbols = &self.theme.symbols;
-
-		let mut first = Line::blank();
-		if guide {
-			first.push(Span::styled(symbols.bar_end, styles.guide_error));
-			first.push(Span::raw("  "));
-		}
-		first.push(Span::styled(self.prompt.error(), styles.error));
-
-		let mut second = Line::from(Span::raw("   "));
-		for (prose, key) in ERROR_HINT {
-			second.push(Span::styled(prose, styles.error_hint));
-			if !key.is_empty() {
-				second.push(Span::styled(key, styles.error_key));
-			}
-		}
-
-		vec![first, second]
+		error_footer(self.theme, self.prompt.error(), guide)
 	}
 
 	/// `opt(option, state)`: one option, as the rows it occupies before the list wraps them.
@@ -679,6 +622,76 @@ impl<T: Clone + PartialEq> MultiSelectWidget<'_, T> {
 		}
 		out
 	}
+}
+
+/// `formatInstructionFooter(MULTISELECT_INSTRUCTIONS, hasGuide)`, and its two other shapes.
+///
+/// Shared with `groupMultiselect`, which imports the same constant from `multi-select.ts` and draws
+/// the same three rows under its own list.
+pub fn footer(theme: &Theme, guide: bool, show_instructions: bool) -> Vec<Line> {
+	let styles = &theme.styles;
+	let symbols = &theme.symbols;
+
+	if !show_instructions {
+		return if guide {
+			vec![Line::from(Span::styled(
+				symbols.bar_end,
+				styles.guide_active,
+			))]
+		} else {
+			Vec::new()
+		};
+	}
+
+	let mut line = Line::blank();
+	if guide {
+		line.push(Span::styled(symbols.bar, styles.guide_active));
+		line.push(Span::raw("  "));
+	}
+	for (index, (key, verb)) in INSTRUCTIONS.iter().enumerate() {
+		if index > 0 {
+			line.push(Span::raw(INSTRUCTION_SEPARATOR));
+		}
+		line.push(Span::styled(*key, styles.instruction_key));
+		line.push(Span::raw(*verb));
+	}
+
+	let mut lines = vec![line];
+	if guide {
+		lines.push(Line::from(Span::styled(
+			symbols.bar_end,
+			styles.guide_active,
+		)));
+	}
+	lines
+}
+
+/// The validation message and the advice under it.
+///
+/// Two rows whatever else is switched off. The first takes the Guide's closing bar when there is a
+/// Guide; the second is indented by three literal spaces and takes no bar at all, guided or not —
+/// upstream writes `'   ' + line` for every line of the message after the first and never asks
+/// whether the Guide is on. Shared with `groupMultiselect`, whose error branch is the same one.
+pub fn error_footer(theme: &Theme, error: &str, guide: bool) -> Vec<Line> {
+	let styles = &theme.styles;
+	let symbols = &theme.symbols;
+
+	let mut first = Line::blank();
+	if guide {
+		first.push(Span::styled(symbols.bar_end, styles.guide_error));
+		first.push(Span::raw("  "));
+	}
+	first.push(Span::styled(error, styles.error));
+
+	let mut second = Line::from(Span::raw("   "));
+	for (prose, key) in ERROR_HINT {
+		second.push(Span::styled(prose, styles.error_hint));
+		if !key.is_empty() {
+			second.push(Span::styled(key, styles.error_key));
+		}
+	}
+
+	vec![first, second]
 }
 
 /// What is still open where two rows of a wrapped value meet.

@@ -71,8 +71,11 @@ one its Frames are written into
 ([ADR-0022](./docs/adr/0022-multiselect-draws-an-error-a-frame-cannot-carry.md)), then `selectKey`,
 which resolves its promise from inside its own key listener and whose suite caught the emulator
 reading cells no terminal has
-([ADR-0023](./docs/adr/0023-selectkey-resolves-before-it-draws.md)) —
-**all a hundred and three agree on the Grid**.
+([ADR-0023](./docs/adr/0023-selectkey-resolves-before-it-draws.md)). M4 opens with
+`groupMultiselect`, which wraps each option against a prefix measured with its escapes still in it
+and then wraps the result again
+([ADR-0024](./docs/adr/0024-groupmultiselect-measures-a-prefix-nobody-can-see.md)) —
+**all a hundred and twenty-four agree on the Grid**.
 See
 [CONTEXT.md](./CONTEXT.md) for the vocabulary and [docs/adr/](./docs/adr/) for the decisions behind
 the shape below.
@@ -208,7 +211,7 @@ upstream drift.
 | **M1** | ~~`text` end to end — Recorder, width port, `LineEditor`, `TextState`, `Frame`, Theme, `text` widget, wrap port, Emitter, `.interact()`, harvested text Scenarios green, hand-authored Scenarios (narrow, CJK, resize)~~ **done** |
 | **M2** | ~~`password` and `confirm` — states, widgets, builders, both suites harvested, eleven more hand-authored Scenarios~~ **done** |
 | **M3** | ~~`limit-options` against a 54-case corpus, `select`, `multiselect` and `select-key` end to end with their suites harvested~~ **done** |
-| **M4** | group-multi-select, autocomplete, date, multi-line |
+| **M4** | ~~group-multi-select~~ **done**, autocomplete, date, multi-line |
 | **M5** | static renderers |
 | **M6** | theme polish, docs, publish |
 
@@ -276,6 +279,15 @@ drawn down a staircase, and the cells to the left of each row — ones no termin
 being compared for the style that happened to be open when they were skipped. The emulator is fed
 through the line discipline now
 ([ADR-0023](./docs/adr/0023-selectkey-resolves-before-it-draws.md)).
+
+M4 opens with `groupMultiselect`, which is `multiselect` with headers in its list and shares four
+pieces with the three Prompts before it. Its own contribution is arithmetic: each option is wrapped
+against `columns - prefix.length` where the prefix has already been styled, so the same label breaks
+nine columns apart depending on whether its branch was dimmed, and then `limitOptions` wraps the row
+again at a third width. Upstream's suite is short labels at eighty columns and can see none of it, so
+the evidence is two hand-authored Scenarios at forty columns, one putting the same label under both
+branches and one under the third prefix that `selectableGroups: false` produces
+([ADR-0024](./docs/adr/0024-groupmultiselect-measures-a-prefix-nobody-can-see.md)).
 
 M0 came first because it was cheap and load-bearing. Reusing `BufferDiff` under our own width model
 depends entirely on `CellDiffOption::ForcedWidth`, which is recent API on a pre-1.0 crate. The probe

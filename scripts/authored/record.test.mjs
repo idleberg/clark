@@ -113,7 +113,8 @@ for (const scenario of cases) {
 		if (scenario.cancelled) {
 			expect(prompts.isCancel(value)).toBe(true);
 		} else {
-			expect(value).toBe(scenario.value);
+			// `toEqual`, not `toBe`: a `groupMultiselect` answers with an array.
+			expect(value).toEqual(scenario.value);
 		}
 		expect(written.length).toBeGreaterThan(0);
 
