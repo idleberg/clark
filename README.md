@@ -339,6 +339,18 @@ every widget in the Scenario loader had been measuring against a width captured 
 built, which no resize could move
 ([ADR-0027](./docs/adr/0027-multiline-keeps-an-editor-its-own-suite-never-uses.md)).
 
+One debt outlived every Prompt that incurred it. Every authored resize up to that point moved the
+terminal's *width*, because until M3 the width was the only thing a resize could change — but
+`limitOptions` sizes its window off the **height**, so a list is the one thing in clack that
+re-lays-out when nothing about the width has moved. Upstream's list suites never resize and never set
+a height, and `maxItems` is the only lever they pull, which is the lever that bypasses the terminal.
+Seven more Scenarios are hand-authored for it: a window that shrinks, a cut window whose start has
+already slid, the five-option floor `MINIMUM_ITEMS` holds whatever the terminal says, a window that
+grows back, and one each for the three other Prompts that compute their own `rowPadding`. All fifty-three
+agree, and this batch corrected nothing — the height was already live everywhere, which is a reading of
+the code these recordings turn into a test
+([ADR-0028](./docs/adr/0028-a-list-re-lays-out-against-a-height-nothing-had-moved.md)).
+
 M0 came first because it was cheap and load-bearing. Reusing `BufferDiff` under our own width model
 depends entirely on `CellDiffOption::ForcedWidth`, which is recent API on a pre-1.0 crate. The probe
 placed a symbol whose `fast-string-width` and Ratatui measurements disagree, stamped `ForcedWidth`,

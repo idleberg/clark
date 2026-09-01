@@ -46,16 +46,45 @@ const backspace = (n) =>
 /** The same event, n times. */
 const repeat = (n, event) => Array.from({ length: n }, () => event);
 
-/** The terminal changes width under a Prompt that is already open.
+/** The terminal changes size under a Prompt that is already open.
  *
  * This is the event upstream's tests never send, and the only thing that can settle the divergence
  * `session.rs` records: on re-render clack re-wraps the *previous* Frame at the terminal's current
  * width to count the rows it walks back over, while the Emitter keeps the rows it laid out. The two
- * agree whenever the terminal has not narrowed, so a narrowing is the case that decides it. */
-const resize = (columns) => ({ kind: 'resize', columns });
+ * agree whenever the terminal has not narrowed, so a narrowing is the case that decides it.
+ *
+ * `rows` is optional and the height keeps its current value where it is left out, which is what
+ * every width-only case above wants. It matters for the list Prompts and only for them: `columns`
+ * decides how a label wraps, but `limitOptions` sizes its window off the *height*, so a list is the
+ * one thing in clack that re-lays-out when nothing about the width has changed. */
+const resize = (columns, rows) => ({ kind: 'resize', columns, ...(rows && { rows }) });
 
 /** Wide enough that the prompt's own `◇  ` prefix matters, narrow enough to wrap a short sentence. */
 const NARROW = 40;
+
+/** Twelve options, for the list cases that move the terminal's height.
+ *
+ * Twelve because it is more than any window these cases leave and fewer than the eighteen a default
+ * twenty-row terminal allows, so the same list is whole before a resize and cut after one. Short
+ * enough at eighty columns that no label wraps: these cases move the height and nothing else, and a
+ * wrap moving at the same time would make a disagreement ambiguous about which one caused it.
+ *
+ * Every label carries a `c`, so the `autocomplete` case's search narrows nothing and its list is
+ * still long enough to be cut — the filter is not what is under test there, the height is. */
+const PACKAGES = [
+	{ value: 'core', label: '@acme/core' },
+	{ value: 'cli', label: '@acme/cli' },
+	{ value: 'config', label: '@acme/config' },
+	{ value: 'codemod', label: '@acme/codemod' },
+	{ value: 'compiler', label: '@acme/compiler' },
+	{ value: 'client', label: '@acme/client' },
+	{ value: 'cache', label: '@acme/cache' },
+	{ value: 'crypto', label: '@acme/crypto' },
+	{ value: 'canvas', label: '@acme/canvas' },
+	{ value: 'astro', label: '@acme/astro-connector' },
+	{ value: 'icons', label: '@acme/icons' },
+	{ value: 'schematics', label: '@acme/schematics' },
+];
 
 export const cases = [
 	{
@@ -171,6 +200,109 @@ export const cases = [
 			enter,
 		],
 		value: 'packages/prompts/src/text.ts!',
+	},
+
+	// --- resize, with a list under it ------------------------------------------------------------
+	//
+	// The width cases above all move a *wrap*. These move a *window*. `limitOptions` sizes its own
+	// window off the terminal's height less whatever the Prompt keeps back for its title and footer,
+	// so a list is the one thing in clack that re-lays-out when the width has not moved at all — and
+	// upstream's suites, which never resize and never set a height, cannot reach any of it. Four
+	// paths through `limitOptions` have no recording behind them without these: the window shrinking,
+	// a cut window whose start has already slid, the five-option floor, and a window growing back.
+	//
+	// Every case here holds the width still at eighty and moves only the height, so nothing a
+	// disagreement could be blamed on is moving at the same time.
+	//
+	// Each list Prompt computes its own `rowPadding` — `select` and `multiselect` from their title
+	// and footer, `groupMultiselect` the same over its group headers, `autocomplete` from a header
+	// that includes the search box — so "the height follows a resize" is a separate claim per Prompt
+	// and the last three cases are that claim, once each.
+
+	{
+		// Twelve options and eighteen rows of window: nothing is cut. Ten rows and the window is
+		// smaller than the list, so an overflow row appears at the bottom and the Frame ends up
+		// *shorter* than the one being walked back over — which is the direction ADR-0016 records the
+		// divergence in, now reached without a single character being typed.
+		name: 'resize › a list is cut when the terminal loses rows',
+		kind: 'select',
+		columns: 80,
+		opts: { message: 'Pick a package', options: PACKAGES },
+		events: [resize(80, 10), enter],
+		value: 'core',
+	},
+	{
+		// The same shrink, with the cursor already at the bottom of the list so the window has slid
+		// away from zero. `start` is recomputed from the new window on the resize's own render, and
+		// both overflow rows are in play at once — the arithmetic in `limitOptions` that upstream's
+		// tests exercise only through `maxItems`, reached here through the terminal instead.
+		name: 'resize › a cut list keeps its cursor when the window shrinks under it',
+		kind: 'select',
+		columns: 80,
+		opts: { message: 'Pick a package', options: PACKAGES },
+		events: [...repeat(9, down), resize(80, 10), enter],
+		value: 'astro',
+	},
+	{
+		// Below the floor. `MINIMUM_ITEMS` is five whatever the terminal says, so at six rows the
+		// window is still five options tall and simply overruns the terminal it is drawn into. The
+		// port has the clamp written down; nothing recorded has ever seen clack apply it, because
+		// applying it needs a terminal this short and upstream's suite has no way to ask for one.
+		name: 'resize › a list refuses to shrink past five options',
+		kind: 'select',
+		columns: 80,
+		opts: { message: 'Pick a package', options: PACKAGES },
+		events: [resize(80, 6), enter],
+		value: 'core',
+	},
+	{
+		// And back up. The list was cut and is whole again, so the Frame gains rows with no keypress
+		// between the two renders — the growing direction, which ADR-0016 expects the two sides to
+		// agree on and which is recorded for the same reason the width case above it is.
+		name: 'resize › a cut list becomes whole again when the terminal gains rows',
+		kind: 'select',
+		columns: 80,
+		opts: { message: 'Pick a package', options: PACKAGES },
+		events: [resize(80, 10), resize(80, 24), enter],
+		value: 'core',
+	},
+	{
+		// `multiselect`'s footer is two rows where `select`'s is one, so the same terminal leaves it
+		// a shorter window. One recording is enough to say its height follows the resize at all.
+		name: 'resize › a multiselect list is cut when the terminal loses rows',
+		kind: 'multiselect',
+		columns: 80,
+		opts: { message: 'Pick packages', options: PACKAGES },
+		events: [{ kind: 'key', s: ' ', key: { name: 'space' } }, resize(80, 10), enter],
+		value: ['core'],
+	},
+	{
+		// `groupMultiselect` counts group headers as rows of the window, so the shrink cuts headers
+		// and options alike and the overflow row can land on either.
+		name: 'resize › a grouped list is cut across its headers',
+		kind: 'groupMultiselect',
+		columns: 80,
+		opts: {
+			message: 'Pick packages',
+			options: {
+				Core: PACKAGES.slice(0, 4),
+				Tooling: PACKAGES.slice(4, 8),
+				Apps: PACKAGES.slice(8),
+			},
+		},
+		events: [down, { kind: 'key', s: ' ', key: { name: 'space' } }, resize(80, 10), enter],
+		value: ['core'],
+	},
+	{
+		// `autocomplete` counts its search box into the header it pads by, so its window is shorter
+		// than `select`'s in the same terminal — and the filtered list has to be re-cut when the
+		// height moves under a search that has already narrowed it.
+		name: 'resize › a filtered autocomplete list is cut when the terminal loses rows',
+		kind: 'autocomplete',
+		columns: 80,
+		opts: { message: 'Pick a package', options: PACKAGES },
+		events: [...typing('c'), resize(80, 10), enter],
+		value: 'core',
 	},
 
 	// --- confirm ------------------------------------------------------------------------------

@@ -19194,6 +19194,1140 @@
 			]
 		},
 		{
+			"name": "resize › a cut list becomes whole again when the terminal gains rows",
+			"prompts": [
+				{
+					"kind": "select",
+					"opts": {
+						"message": "Pick a package",
+						"options": [
+							{
+								"value": "core",
+								"label": "@acme/core"
+							},
+							{
+								"value": "cli",
+								"label": "@acme/cli"
+							},
+							{
+								"value": "config",
+								"label": "@acme/config"
+							},
+							{
+								"value": "codemod",
+								"label": "@acme/codemod"
+							},
+							{
+								"value": "compiler",
+								"label": "@acme/compiler"
+							},
+							{
+								"value": "client",
+								"label": "@acme/client"
+							},
+							{
+								"value": "cache",
+								"label": "@acme/cache"
+							},
+							{
+								"value": "crypto",
+								"label": "@acme/crypto"
+							},
+							{
+								"value": "canvas",
+								"label": "@acme/canvas"
+							},
+							{
+								"value": "astro",
+								"label": "@acme/astro-connector"
+							},
+							{
+								"value": "icons",
+								"label": "@acme/icons"
+							},
+							{
+								"value": "schematics",
+								"label": "@acme/schematics"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"events": [
+						{
+							"kind": "resize",
+							"columns": 80,
+							"rows": 10,
+							"at": 2
+						},
+						{
+							"kind": "resize",
+							"columns": 80,
+							"rows": 24,
+							"at": 5
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Pick a package\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m @acme/core\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/cli\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/config\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/codemod\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/compiler\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/client\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/cache\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/crypto\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/canvas\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/astro-connector\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/icons\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/schematics\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[16A",
+						"\u001b[J",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Pick a package\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m @acme/core\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/cli\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/config\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[8A",
+						"\u001b[5B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/codemod\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/compiler\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/client\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/cache\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/crypto\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/canvas\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/astro-connector\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/icons\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/schematics\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[16A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Pick a package\n\u001b[90m│\u001b[39m  \u001b[2m@acme/core\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "resize › a cut list keeps its cursor when the window shrinks under it",
+			"prompts": [
+				{
+					"kind": "select",
+					"opts": {
+						"message": "Pick a package",
+						"options": [
+							{
+								"value": "core",
+								"label": "@acme/core"
+							},
+							{
+								"value": "cli",
+								"label": "@acme/cli"
+							},
+							{
+								"value": "config",
+								"label": "@acme/config"
+							},
+							{
+								"value": "codemod",
+								"label": "@acme/codemod"
+							},
+							{
+								"value": "compiler",
+								"label": "@acme/compiler"
+							},
+							{
+								"value": "client",
+								"label": "@acme/client"
+							},
+							{
+								"value": "cache",
+								"label": "@acme/cache"
+							},
+							{
+								"value": "crypto",
+								"label": "@acme/crypto"
+							},
+							{
+								"value": "canvas",
+								"label": "@acme/canvas"
+							},
+							{
+								"value": "astro",
+								"label": "@acme/astro-connector"
+							},
+							{
+								"value": "icons",
+								"label": "@acme/icons"
+							},
+							{
+								"value": "schematics",
+								"label": "@acme/schematics"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"events": [
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "resize",
+							"columns": 80,
+							"rows": 10,
+							"at": 38
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Pick a package\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m @acme/core\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/cli\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/config\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/codemod\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/compiler\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/client\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/cache\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/crypto\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/canvas\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/astro-connector\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/icons\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/schematics\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[16A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/core\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m @acme/cli\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/config\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/codemod\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/compiler\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/client\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/cache\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/crypto\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/canvas\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/astro-connector\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/icons\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/schematics\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[16A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/cli\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m @acme/config\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/codemod\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/compiler\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/client\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/cache\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/crypto\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/canvas\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/astro-connector\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/icons\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/schematics\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[16A",
+						"\u001b[4B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/config\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m @acme/codemod\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/compiler\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/client\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/cache\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/crypto\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/canvas\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/astro-connector\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/icons\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/schematics\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[16A",
+						"\u001b[5B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/codemod\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m @acme/compiler\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/client\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/cache\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/crypto\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/canvas\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/astro-connector\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/icons\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/schematics\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[16A",
+						"\u001b[6B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/compiler\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m @acme/client\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/cache\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/crypto\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/canvas\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/astro-connector\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/icons\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/schematics\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[16A",
+						"\u001b[7B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/client\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m @acme/cache\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/crypto\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/canvas\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/astro-connector\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/icons\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/schematics\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[16A",
+						"\u001b[8B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/cache\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m @acme/crypto\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/canvas\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/astro-connector\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/icons\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/schematics\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[16A",
+						"\u001b[9B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/crypto\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m @acme/canvas\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/astro-connector\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/icons\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/schematics\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[16A",
+						"\u001b[10B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/canvas\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m @acme/astro-connector\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/icons\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/schematics\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[16A",
+						"\u001b[J",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Pick a package\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m @acme/astro-connector\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/icons\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/schematics\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[8A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Pick a package\n\u001b[90m│\u001b[39m  \u001b[2m@acme/astro-connector\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "resize › a filtered autocomplete list is cut when the terminal loses rows",
+			"prompts": [
+				{
+					"kind": "autocomplete",
+					"opts": {
+						"message": "Pick a package",
+						"options": [
+							{
+								"value": "core",
+								"label": "@acme/core"
+							},
+							{
+								"value": "cli",
+								"label": "@acme/cli"
+							},
+							{
+								"value": "config",
+								"label": "@acme/config"
+							},
+							{
+								"value": "codemod",
+								"label": "@acme/codemod"
+							},
+							{
+								"value": "compiler",
+								"label": "@acme/compiler"
+							},
+							{
+								"value": "client",
+								"label": "@acme/client"
+							},
+							{
+								"value": "cache",
+								"label": "@acme/cache"
+							},
+							{
+								"value": "crypto",
+								"label": "@acme/crypto"
+							},
+							{
+								"value": "canvas",
+								"label": "@acme/canvas"
+							},
+							{
+								"value": "astro",
+								"label": "@acme/astro-connector"
+							},
+							{
+								"value": "icons",
+								"label": "@acme/icons"
+							},
+							{
+								"value": "schematics",
+								"label": "@acme/schematics"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"events": [
+						{
+							"kind": "key",
+							"s": "c",
+							"key": {
+								"name": "c",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "resize",
+							"columns": 80,
+							"rows": 10,
+							"at": 7
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"keys": [
+						{
+							"s": "c",
+							"key": {
+								"name": "c",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Pick a package\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m @acme/core\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/cli\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/config\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/codemod\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/compiler\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/client\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/cache\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/crypto\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/canvas\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/astro-connector\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/icons\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/schematics\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[17A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m c█",
+						"\u001b[14B",
+						"\u001b[999D\u001b[17A",
+						"\u001b[J",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Pick a package\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m c█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m @acme/core\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/cli\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/config\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[9A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Pick a package\n\u001b[90m│\u001b[39m  \u001b[2m@acme/core\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "resize › a grouped list is cut across its headers",
+			"prompts": [
+				{
+					"kind": "groupMultiselect",
+					"opts": {
+						"message": "Pick packages",
+						"options": {
+							"Core": [
+								{
+									"value": "core",
+									"label": "@acme/core"
+								},
+								{
+									"value": "cli",
+									"label": "@acme/cli"
+								},
+								{
+									"value": "config",
+									"label": "@acme/config"
+								},
+								{
+									"value": "codemod",
+									"label": "@acme/codemod"
+								}
+							],
+							"Tooling": [
+								{
+									"value": "compiler",
+									"label": "@acme/compiler"
+								},
+								{
+									"value": "client",
+									"label": "@acme/client"
+								},
+								{
+									"value": "cache",
+									"label": "@acme/cache"
+								},
+								{
+									"value": "crypto",
+									"label": "@acme/crypto"
+								}
+							],
+							"Apps": [
+								{
+									"value": "canvas",
+									"label": "@acme/canvas"
+								},
+								{
+									"value": "astro",
+									"label": "@acme/astro-connector"
+								},
+								{
+									"value": "icons",
+									"label": "@acme/icons"
+								},
+								{
+									"value": "schematics",
+									"label": "@acme/schematics"
+								}
+							]
+						}
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"events": [
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": " ",
+							"key": {
+								"name": "space",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "resize",
+							"columns": 80,
+							"rows": 10,
+							"at": 11
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": " ",
+							"key": {
+								"name": "space",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Pick packages\n\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[36m◻\u001b[39m Core\n\u001b[36m│\u001b[39m  │ \u001b[36m◻\u001b[39m \u001b[2m@acme/core\u001b[22m\n\u001b[36m│\u001b[39m  │ \u001b[36m◻\u001b[39m \u001b[2m@acme/cli\u001b[22m\n\u001b[36m│\u001b[39m  │ \u001b[36m◻\u001b[39m \u001b[2m@acme/config\u001b[22m\n\u001b[36m│\u001b[39m  └ \u001b[36m◻\u001b[39m \u001b[2m@acme/codemod\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[2m◻\u001b[22m \u001b[2mTooling\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2m@acme/compiler\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2m@acme/client\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2m@acme/cache\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m└ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2m@acme/crypto\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[2m◻\u001b[22m \u001b[2mApps\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2m@acme/canvas\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2m@acme/astro-connector\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[18A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[2m◻\u001b[22m \u001b[2mCore\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[36m◻\u001b[39m @acme/core\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2m@acme/cli\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2m@acme/config\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m└ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2m@acme/codemod\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[2m◻\u001b[22m \u001b[2mTooling\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2m@acme/compiler\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2m@acme/client\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2m@acme/cache\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m└ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2m@acme/crypto\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[2m◻\u001b[22m \u001b[2mApps\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2m@acme/canvas\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2m@acme/astro-connector\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[18A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[32m◼\u001b[39m @acme/core",
+						"\u001b[15B",
+						"\u001b[999D\u001b[18A",
+						"\u001b[J",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Pick packages\n\u001b[36m│\u001b[39m  \u001b[2m\u001b[22m\u001b[2m◻\u001b[22m \u001b[2mCore\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[32m◼\u001b[39m @acme/core\n\u001b[36m│\u001b[39m  \u001b[2m│ \u001b[22m\u001b[2m◻\u001b[22m \u001b[2m@acme/cli\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[8A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Pick packages\n\u001b[90m│\u001b[39m  \u001b[2m@acme/core\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "resize › a list is cut when the terminal loses rows",
+			"prompts": [
+				{
+					"kind": "select",
+					"opts": {
+						"message": "Pick a package",
+						"options": [
+							{
+								"value": "core",
+								"label": "@acme/core"
+							},
+							{
+								"value": "cli",
+								"label": "@acme/cli"
+							},
+							{
+								"value": "config",
+								"label": "@acme/config"
+							},
+							{
+								"value": "codemod",
+								"label": "@acme/codemod"
+							},
+							{
+								"value": "compiler",
+								"label": "@acme/compiler"
+							},
+							{
+								"value": "client",
+								"label": "@acme/client"
+							},
+							{
+								"value": "cache",
+								"label": "@acme/cache"
+							},
+							{
+								"value": "crypto",
+								"label": "@acme/crypto"
+							},
+							{
+								"value": "canvas",
+								"label": "@acme/canvas"
+							},
+							{
+								"value": "astro",
+								"label": "@acme/astro-connector"
+							},
+							{
+								"value": "icons",
+								"label": "@acme/icons"
+							},
+							{
+								"value": "schematics",
+								"label": "@acme/schematics"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"events": [
+						{
+							"kind": "resize",
+							"columns": 80,
+							"rows": 10,
+							"at": 2
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Pick a package\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m @acme/core\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/cli\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/config\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/codemod\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/compiler\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/client\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/cache\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/crypto\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/canvas\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/astro-connector\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/icons\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/schematics\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[16A",
+						"\u001b[J",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Pick a package\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m @acme/core\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/cli\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/config\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[8A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Pick a package\n\u001b[90m│\u001b[39m  \u001b[2m@acme/core\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "resize › a list refuses to shrink past five options",
+			"prompts": [
+				{
+					"kind": "select",
+					"opts": {
+						"message": "Pick a package",
+						"options": [
+							{
+								"value": "core",
+								"label": "@acme/core"
+							},
+							{
+								"value": "cli",
+								"label": "@acme/cli"
+							},
+							{
+								"value": "config",
+								"label": "@acme/config"
+							},
+							{
+								"value": "codemod",
+								"label": "@acme/codemod"
+							},
+							{
+								"value": "compiler",
+								"label": "@acme/compiler"
+							},
+							{
+								"value": "client",
+								"label": "@acme/client"
+							},
+							{
+								"value": "cache",
+								"label": "@acme/cache"
+							},
+							{
+								"value": "crypto",
+								"label": "@acme/crypto"
+							},
+							{
+								"value": "canvas",
+								"label": "@acme/canvas"
+							},
+							{
+								"value": "astro",
+								"label": "@acme/astro-connector"
+							},
+							{
+								"value": "icons",
+								"label": "@acme/icons"
+							},
+							{
+								"value": "schematics",
+								"label": "@acme/schematics"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"events": [
+						{
+							"kind": "resize",
+							"columns": 80,
+							"rows": 6,
+							"at": 2
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Pick a package\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m @acme/core\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/cli\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/config\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/codemod\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/compiler\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/client\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/cache\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/crypto\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/canvas\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/astro-connector\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/icons\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m@acme/schematics\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[16A",
+						"\u001b[J",
+						"\u001b[36m◆\u001b[39m  Pick a package\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m @acme/core\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[6A",
+						"\u001b[J",
+						"\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  Pick a package\n\u001b[90m│\u001b[39m  \u001b[2m@acme/core\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "resize › a multiselect list is cut when the terminal loses rows",
+			"prompts": [
+				{
+					"kind": "multiselect",
+					"opts": {
+						"message": "Pick packages",
+						"options": [
+							{
+								"value": "core",
+								"label": "@acme/core"
+							},
+							{
+								"value": "cli",
+								"label": "@acme/cli"
+							},
+							{
+								"value": "config",
+								"label": "@acme/config"
+							},
+							{
+								"value": "codemod",
+								"label": "@acme/codemod"
+							},
+							{
+								"value": "compiler",
+								"label": "@acme/compiler"
+							},
+							{
+								"value": "client",
+								"label": "@acme/client"
+							},
+							{
+								"value": "cache",
+								"label": "@acme/cache"
+							},
+							{
+								"value": "crypto",
+								"label": "@acme/crypto"
+							},
+							{
+								"value": "canvas",
+								"label": "@acme/canvas"
+							},
+							{
+								"value": "astro",
+								"label": "@acme/astro-connector"
+							},
+							{
+								"value": "icons",
+								"label": "@acme/icons"
+							},
+							{
+								"value": "schematics",
+								"label": "@acme/schematics"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"events": [
+						{
+							"kind": "key",
+							"s": " ",
+							"key": {
+								"name": "space",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "resize",
+							"columns": 80,
+							"rows": 10,
+							"at": 7
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"keys": [
+						{
+							"s": " ",
+							"key": {
+								"name": "space",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Pick packages\n\u001b[36m│\u001b[39m  \u001b[36m◻\u001b[39m @acme/core\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2m@acme/cli\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2m@acme/config\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2m@acme/codemod\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2m@acme/compiler\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2m@acme/client\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2m@acme/cache\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2m@acme/crypto\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2m@acme/canvas\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2m@acme/astro-connector\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2m@acme/icons\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2m@acme/schematics\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[16A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  \u001b[32m◼\u001b[39m @acme/core",
+						"\u001b[14B",
+						"\u001b[999D\u001b[16A",
+						"\u001b[J",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Pick packages\n\u001b[36m│\u001b[39m  \u001b[32m◼\u001b[39m @acme/core\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2m@acme/cli\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2m@acme/config\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[8A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Pick packages\n\u001b[90m│\u001b[39m  \u001b[2m@acme/core\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
 			"name": "resize › narrowed, widened and narrowed again",
 			"prompts": [
 				{
