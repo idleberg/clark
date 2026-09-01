@@ -1,0 +1,2245 @@
+{
+	"source": "@clack/prompts test suite",
+	"tag": "@clack/prompts@1.7.0",
+	"commit": "dc5bce8aae84a57b5863124adfaa839c1db1fa23",
+	"describe": "@clack/core@1.4.3",
+	"node": "24.20.0",
+	"generatedBy": "scripts/harvest-scenarios.mjs",
+	"suites": [
+		"autocomplete"
+	],
+	"scenarios": [
+		{
+			"name": "autocomplete with custom filter › falls back to default filter when not provided",
+			"prompts": [
+				{
+					"kind": "autocomplete",
+					"opts": {
+						"message": "Select a fruit",
+						"options": [
+							{
+								"value": "apple",
+								"label": "Apple"
+							},
+							{
+								"value": "banana",
+								"label": "Banana"
+							},
+							{
+								"value": "cherry",
+								"label": "Cherry"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Select a fruit\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Apple\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mBanana\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mCherry\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[8A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m a█\u001b[2m (2 matches)\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Apple\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mBanana\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[7A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Select a fruit\n\u001b[90m│\u001b[39m  \u001b[2mApple\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "autocomplete with custom filter › uses custom filter function when provided",
+			"prompts": [
+				{
+					"kind": "autocomplete",
+					"opts": {
+						"message": "Select a fruit",
+						"options": [
+							{
+								"value": "apple",
+								"label": "Apple"
+							},
+							{
+								"value": "banana",
+								"label": "Banana"
+							},
+							{
+								"value": "cherry",
+								"label": "Cherry"
+							}
+						],
+						"filter": {
+							"callback": true
+						}
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Select a fruit\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Apple\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mBanana\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mCherry\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[8A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m a█\u001b[2m (1 match)\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Apple\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[6A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Select a fruit\n\u001b[90m│\u001b[39m  \u001b[2mApple\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "autocomplete › Tab with non-matching placeholder does not fill input",
+			"prompts": [
+				{
+					"kind": "autocomplete",
+					"opts": {
+						"message": "Select a fruit",
+						"placeholder": "Type to search...",
+						"options": [
+							{
+								"value": "apple",
+								"label": "Apple"
+							},
+							{
+								"value": "banana",
+								"label": "Banana"
+							},
+							{
+								"value": "cherry",
+								"label": "Cherry"
+							},
+							{
+								"value": "grape",
+								"label": "Grape"
+							},
+							{
+								"value": "orange",
+								"label": "Orange"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "\t",
+							"key": {
+								"name": "tab",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Select a fruit\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m \u001b[2mType to search...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Apple\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mBanana\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mCherry\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mGrape\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mOrange\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[10A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Select a fruit\n\u001b[90m│\u001b[39m  \u001b[2mApple\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "autocomplete › Tab with placeholder fills input and Enter submits matching option",
+			"prompts": [
+				{
+					"kind": "autocomplete",
+					"opts": {
+						"message": "Select a fruit",
+						"placeholder": "apple",
+						"options": [
+							{
+								"value": "apple",
+								"label": "Apple"
+							},
+							{
+								"value": "banana",
+								"label": "Banana"
+							},
+							{
+								"value": "cherry",
+								"label": "Cherry"
+							},
+							{
+								"value": "grape",
+								"label": "Grape"
+							},
+							{
+								"value": "orange",
+								"label": "Orange"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "\t",
+							"key": {
+								"name": "tab",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Select a fruit\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m \u001b[2mapple\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Apple\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mBanana\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mCherry\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mGrape\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mOrange\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[10A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m apple█\u001b[2m (1 match)\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Apple\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[6A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Select a fruit\n\u001b[90m│\u001b[39m  \u001b[2mApple\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "autocomplete › autocompleteMultiselect respects global withGuide: false",
+			"prompts": [
+				{
+					"kind": "autocompleteMultiselect",
+					"opts": {
+						"message": "Select fruits",
+						"options": [
+							{
+								"value": "apple",
+								"label": "Apple"
+							},
+							{
+								"value": "banana",
+								"label": "Banana"
+							},
+							{
+								"value": "cherry",
+								"label": "Cherry"
+							},
+							{
+								"value": "grape",
+								"label": "Grape"
+							},
+							{
+								"value": "orange",
+								"label": "Orange"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": false
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "space",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[36m◆\u001b[39m  Select fruits\n\n\u001b[2mSearch:\u001b[22m \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[2m◻\u001b[22m Apple\n\u001b[2m◻\u001b[22m \u001b[2mBanana\u001b[22m\n\u001b[2m◻\u001b[22m \u001b[2mCherry\u001b[22m\n\u001b[2m◻\u001b[22m \u001b[2mGrape\u001b[22m\n\u001b[2m◻\u001b[22m \u001b[2mOrange\u001b[22m\n\u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mTab:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n",
+						"\u001b[999D\u001b[9A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[2mSearch:\u001b[22m \u001b[2m\u001b[22m\n\u001b[2m◻\u001b[22m \u001b[2mApple\u001b[22m\n\u001b[2m◻\u001b[22m Banana\n\u001b[2m◻\u001b[22m \u001b[2mCherry\u001b[22m\n\u001b[2m◻\u001b[22m \u001b[2mGrape\u001b[22m\n\u001b[2m◻\u001b[22m \u001b[2mOrange\u001b[22m\n\u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace/Tab:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n",
+						"\u001b[999D\u001b[9A",
+						"\u001b[4B",
+						"\u001b[2K\u001b[G",
+						"\u001b[32m◼\u001b[39m Banana",
+						"\u001b[5B",
+						"\u001b[999D\u001b[9A",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Select fruits\n\u001b[2m1 items selected\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "autocomplete › autocompleteMultiselect respects withGuide: false",
+			"prompts": [
+				{
+					"kind": "autocompleteMultiselect",
+					"opts": {
+						"message": "Select fruits",
+						"options": [
+							{
+								"value": "apple",
+								"label": "Apple"
+							},
+							{
+								"value": "banana",
+								"label": "Banana"
+							},
+							{
+								"value": "cherry",
+								"label": "Cherry"
+							},
+							{
+								"value": "grape",
+								"label": "Grape"
+							},
+							{
+								"value": "orange",
+								"label": "Orange"
+							}
+						],
+						"withGuide": false
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "space",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[36m◆\u001b[39m  Select fruits\n\n\u001b[2mSearch:\u001b[22m \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[2m◻\u001b[22m Apple\n\u001b[2m◻\u001b[22m \u001b[2mBanana\u001b[22m\n\u001b[2m◻\u001b[22m \u001b[2mCherry\u001b[22m\n\u001b[2m◻\u001b[22m \u001b[2mGrape\u001b[22m\n\u001b[2m◻\u001b[22m \u001b[2mOrange\u001b[22m\n\u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mTab:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n",
+						"\u001b[999D\u001b[9A",
+						"\u001b[2B",
+						"\u001b[J",
+						"\u001b[2mSearch:\u001b[22m \u001b[2m\u001b[22m\n\u001b[2m◻\u001b[22m \u001b[2mApple\u001b[22m\n\u001b[2m◻\u001b[22m Banana\n\u001b[2m◻\u001b[22m \u001b[2mCherry\u001b[22m\n\u001b[2m◻\u001b[22m \u001b[2mGrape\u001b[22m\n\u001b[2m◻\u001b[22m \u001b[2mOrange\u001b[22m\n\u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace/Tab:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n",
+						"\u001b[999D\u001b[9A",
+						"\u001b[4B",
+						"\u001b[2K\u001b[G",
+						"\u001b[32m◼\u001b[39m Banana",
+						"\u001b[5B",
+						"\u001b[999D\u001b[9A",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Select fruits\n\u001b[2m1 items selected\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "autocomplete › can be aborted by a signal",
+			"prompts": [
+				{
+					"kind": "autocomplete",
+					"opts": {
+						"message": "foo",
+						"options": [
+							{
+								"value": "apple",
+								"label": "Apple"
+							},
+							{
+								"value": "banana",
+								"label": "Banana"
+							},
+							{
+								"value": "cherry",
+								"label": "Cherry"
+							},
+							{
+								"value": "grape",
+								"label": "Grape"
+							},
+							{
+								"value": "orange",
+								"label": "Orange"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Apple\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mBanana\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mCherry\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mGrape\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mOrange\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "autocomplete › cannot select disabled options when only one left",
+			"prompts": [
+				{
+					"kind": "autocomplete",
+					"opts": {
+						"message": "Select a fruit",
+						"options": [
+							{
+								"value": "apple",
+								"label": "Apple"
+							},
+							{
+								"value": "banana",
+								"label": "Banana"
+							},
+							{
+								"value": "cherry",
+								"label": "Cherry"
+							},
+							{
+								"value": "grape",
+								"label": "Grape"
+							},
+							{
+								"value": "orange",
+								"label": "Orange"
+							},
+							{
+								"value": "kiwi",
+								"label": "Kiwi",
+								"disabled": true
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "k",
+							"key": {
+								"name": "k",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Select a fruit\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Apple\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mBanana\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mCherry\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mGrape\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mOrange\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[90m○\u001b[39m \u001b[9m\u001b[90mKiwi\u001b[39m\u001b[29m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[11A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m k█\u001b[2m (1 match)\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[90m○\u001b[39m \u001b[9m\u001b[90mKiwi\u001b[39m\u001b[29m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[6A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Select a fruit\n\u001b[90m│\u001b[39m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "autocomplete › displays disabled options correctly",
+			"prompts": [
+				{
+					"kind": "autocomplete",
+					"opts": {
+						"message": "Select a fruit",
+						"options": [
+							{
+								"value": "apple",
+								"label": "Apple"
+							},
+							{
+								"value": "banana",
+								"label": "Banana"
+							},
+							{
+								"value": "cherry",
+								"label": "Cherry"
+							},
+							{
+								"value": "grape",
+								"label": "Grape"
+							},
+							{
+								"value": "orange",
+								"label": "Orange"
+							},
+							{
+								"value": "kiwi",
+								"label": "Kiwi",
+								"disabled": true
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Select a fruit\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Apple\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mBanana\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mCherry\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mGrape\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mOrange\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[90m○\u001b[39m \u001b[9m\u001b[90mKiwi\u001b[39m\u001b[29m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[11A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mApple\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Banana\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mCherry\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mGrape\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mOrange\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[90m○\u001b[39m \u001b[9m\u001b[90mKiwi\u001b[39m\u001b[29m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[11A",
+						"\u001b[5B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mBanana\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Cherry\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mGrape\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mOrange\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[90m○\u001b[39m \u001b[9m\u001b[90mKiwi\u001b[39m\u001b[29m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[11A",
+						"\u001b[6B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mCherry\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Grape\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mOrange\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[90m○\u001b[39m \u001b[9m\u001b[90mKiwi\u001b[39m\u001b[29m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[11A",
+						"\u001b[7B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mGrape\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Orange\n\u001b[36m│\u001b[39m  \u001b[90m○\u001b[39m \u001b[9m\u001b[90mKiwi\u001b[39m\u001b[29m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[11A",
+						"\u001b[4B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Apple\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mBanana\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mCherry\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mGrape\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mOrange\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[90m○\u001b[39m \u001b[9m\u001b[90mKiwi\u001b[39m\u001b[29m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[11A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Select a fruit\n\u001b[90m│\u001b[39m  \u001b[2mApple\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "autocomplete › limits displayed options when maxItems is set",
+			"prompts": [
+				{
+					"kind": "autocomplete",
+					"opts": {
+						"message": "Select an option",
+						"options": [
+							{
+								"value": "option 0",
+								"label": "Option 0"
+							},
+							{
+								"value": "option 1",
+								"label": "Option 1"
+							},
+							{
+								"value": "option 2",
+								"label": "Option 2"
+							},
+							{
+								"value": "option 3",
+								"label": "Option 3"
+							},
+							{
+								"value": "option 4",
+								"label": "Option 4"
+							},
+							{
+								"value": "option 5",
+								"label": "Option 5"
+							},
+							{
+								"value": "option 6",
+								"label": "Option 6"
+							},
+							{
+								"value": "option 7",
+								"label": "Option 7"
+							},
+							{
+								"value": "option 8",
+								"label": "Option 8"
+							},
+							{
+								"value": "option 9",
+								"label": "Option 9"
+							}
+						],
+						"maxItems": 6
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Select an option\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Option 0\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mOption 1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mOption 2\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mOption 3\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mOption 4\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[11A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Select an option\n\u001b[90m│\u001b[39m  \u001b[2mOption 0\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "autocomplete › placeholder is shown if set",
+			"prompts": [
+				{
+					"kind": "autocomplete",
+					"opts": {
+						"message": "Select a fruit",
+						"placeholder": "Type to search...",
+						"options": [
+							{
+								"value": "apple",
+								"label": "Apple"
+							},
+							{
+								"value": "banana",
+								"label": "Banana"
+							},
+							{
+								"value": "cherry",
+								"label": "Cherry"
+							},
+							{
+								"value": "grape",
+								"label": "Grape"
+							},
+							{
+								"value": "orange",
+								"label": "Orange"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "g",
+							"key": {
+								"name": "g",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Select a fruit\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m \u001b[2mType to search...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Apple\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mBanana\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mCherry\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mGrape\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mOrange\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[10A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m g█\u001b[2m (2 matches)\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Grape\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mOrange\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[7A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Select a fruit\n\u001b[90m│\u001b[39m  \u001b[2mGrape\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "autocomplete › renders bottom ellipsis when items do not fit",
+			"prompts": [
+				{
+					"kind": "autocomplete",
+					"opts": {
+						"message": "Select an option",
+						"options": [
+							{
+								"value": "Line 0\nLine 1\nLine 2\nLine 3"
+							},
+							{
+								"value": "Option 2"
+							}
+						],
+						"maxItems": 5
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 5,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Select an option\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Line 0\n\u001b[36m│\u001b[39m  Line 1\n\u001b[36m│\u001b[39m  Line 2\n\u001b[36m│\u001b[39m  Line 3\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[10A",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Select an option\n\u001b[90m│\u001b[39m  \u001b[2mLine 0\nLine 1\nLine 2\nLine 3\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "autocomplete › renders initial UI with message and instructions",
+			"prompts": [
+				{
+					"kind": "autocomplete",
+					"opts": {
+						"message": "Select a fruit",
+						"options": [
+							{
+								"value": "apple",
+								"label": "Apple"
+							},
+							{
+								"value": "banana",
+								"label": "Banana"
+							},
+							{
+								"value": "cherry",
+								"label": "Cherry"
+							},
+							{
+								"value": "grape",
+								"label": "Grape"
+							},
+							{
+								"value": "orange",
+								"label": "Orange"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Select a fruit\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Apple\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mBanana\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mCherry\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mGrape\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mOrange\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[10A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Select a fruit\n\u001b[90m│\u001b[39m  \u001b[2mApple\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "autocomplete › renders placeholder if set",
+			"prompts": [
+				{
+					"kind": "autocomplete",
+					"opts": {
+						"message": "Select a fruit",
+						"placeholder": "Type to search...",
+						"options": [
+							{
+								"value": "apple",
+								"label": "Apple"
+							},
+							{
+								"value": "banana",
+								"label": "Banana"
+							},
+							{
+								"value": "cherry",
+								"label": "Cherry"
+							},
+							{
+								"value": "grape",
+								"label": "Grape"
+							},
+							{
+								"value": "orange",
+								"label": "Orange"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Select a fruit\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m \u001b[2mType to search...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Apple\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mBanana\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mCherry\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mGrape\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mOrange\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[10A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Select a fruit\n\u001b[90m│\u001b[39m  \u001b[2mApple\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "autocomplete › renders top ellipsis when scrolled down and its do not fit",
+			"prompts": [
+				{
+					"kind": "autocomplete",
+					"opts": {
+						"message": "Select an option",
+						"options": [
+							{
+								"value": "option1",
+								"label": "Line 0\nLine 1\nLine 2\nLine 3"
+							},
+							{
+								"value": "option2",
+								"label": "Option 2"
+							}
+						],
+						"initialValue": "option2",
+						"maxItems": 5
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 5,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Select an option\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Option 2\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[7A",
+						"\u001b[J",
+						"\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  Select an option\n\u001b[90m│\u001b[39m  \u001b[2mOption 2\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "autocomplete › shows hint when option has hint and is focused",
+			"prompts": [
+				{
+					"kind": "autocomplete",
+					"opts": {
+						"message": "Select a fruit",
+						"options": [
+							{
+								"value": "apple",
+								"label": "Apple"
+							},
+							{
+								"value": "banana",
+								"label": "Banana"
+							},
+							{
+								"value": "cherry",
+								"label": "Cherry"
+							},
+							{
+								"value": "grape",
+								"label": "Grape"
+							},
+							{
+								"value": "orange",
+								"label": "Orange"
+							},
+							{
+								"value": "kiwi",
+								"label": "Kiwi",
+								"hint": "New Zealand"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Select a fruit\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Apple\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mBanana\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mCherry\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mGrape\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mOrange\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mKiwi\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[11A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mApple\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Banana\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mCherry\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mGrape\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mOrange\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mKiwi\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[11A",
+						"\u001b[5B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mBanana\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Cherry\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mGrape\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mOrange\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mKiwi\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[11A",
+						"\u001b[6B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mCherry\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Grape\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mOrange\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mKiwi\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[11A",
+						"\u001b[7B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mGrape\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Orange\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mKiwi\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[11A",
+						"\u001b[8B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mOrange\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Kiwi\u001b[2m (New Zealand)\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[11A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Select a fruit\n\u001b[90m│\u001b[39m  \u001b[2mKiwi\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "autocomplete › shows no matches message when search has no results",
+			"prompts": [
+				{
+					"kind": "autocomplete",
+					"opts": {
+						"message": "Select a fruit",
+						"options": [
+							{
+								"value": "apple",
+								"label": "Apple"
+							},
+							{
+								"value": "banana",
+								"label": "Banana"
+							},
+							{
+								"value": "cherry",
+								"label": "Cherry"
+							},
+							{
+								"value": "grape",
+								"label": "Grape"
+							},
+							{
+								"value": "orange",
+								"label": "Orange"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "z",
+							"key": {
+								"name": "z",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Select a fruit\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Apple\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mBanana\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mCherry\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mGrape\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mOrange\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[10A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m z█\u001b[2m (0 matches)\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[33mNo matches found\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[6A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Select a fruit\n\u001b[90m│\u001b[39m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "autocomplete › shows selected value in submit state",
+			"prompts": [
+				{
+					"kind": "autocomplete",
+					"opts": {
+						"message": "Select a fruit",
+						"options": [
+							{
+								"value": "apple",
+								"label": "Apple"
+							},
+							{
+								"value": "banana",
+								"label": "Banana"
+							},
+							{
+								"value": "cherry",
+								"label": "Cherry"
+							},
+							{
+								"value": "grape",
+								"label": "Grape"
+							},
+							{
+								"value": "orange",
+								"label": "Orange"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Select a fruit\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Apple\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mBanana\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mCherry\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mGrape\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mOrange\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[10A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mApple\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Banana\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mCherry\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mGrape\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mOrange\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[10A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Select a fruit\n\u001b[90m│\u001b[39m  \u001b[2mBanana\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "autocomplete › shows strikethrough in cancel state",
+			"prompts": [
+				{
+					"kind": "autocomplete",
+					"opts": {
+						"message": "Select a fruit",
+						"options": [
+							{
+								"value": "apple",
+								"label": "Apple"
+							},
+							{
+								"value": "banana",
+								"label": "Banana"
+							},
+							{
+								"value": "cherry",
+								"label": "Cherry"
+							},
+							{
+								"value": "grape",
+								"label": "Grape"
+							},
+							{
+								"value": "orange",
+								"label": "Orange"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "\u0003",
+							"key": {
+								"name": "c",
+								"ctrl": true,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Select a fruit\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Apple\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mBanana\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mCherry\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mGrape\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mOrange\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[10A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[31m■\u001b[39m  Select a fruit\n\u001b[90m│\u001b[39m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "autocomplete › supports initialValue",
+			"prompts": [
+				{
+					"kind": "autocomplete",
+					"opts": {
+						"message": "Select a fruit",
+						"options": [
+							{
+								"value": "apple",
+								"label": "Apple"
+							},
+							{
+								"value": "banana",
+								"label": "Banana"
+							},
+							{
+								"value": "cherry",
+								"label": "Cherry"
+							},
+							{
+								"value": "grape",
+								"label": "Grape"
+							},
+							{
+								"value": "orange",
+								"label": "Orange"
+							}
+						],
+						"initialValue": "cherry"
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Select a fruit\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mApple\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mBanana\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Cherry\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mGrape\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mOrange\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[10A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Select a fruit\n\u001b[90m│\u001b[39m  \u001b[2mCherry\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "autocompleteMultiselect › Tab with placeholder fills input; Enter submits current selection",
+			"prompts": [
+				{
+					"kind": "autocompleteMultiselect",
+					"opts": {
+						"message": "Select fruits",
+						"placeholder": "apple",
+						"options": [
+							{
+								"value": "apple",
+								"label": "Apple"
+							},
+							{
+								"value": "banana",
+								"label": "Banana"
+							},
+							{
+								"value": "cherry",
+								"label": "Cherry"
+							},
+							{
+								"value": "grape",
+								"label": "Grape"
+							},
+							{
+								"value": "orange",
+								"label": "Orange"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "\t",
+							"key": {
+								"name": "tab",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Select fruits\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m \u001b[2mapple\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m Apple\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mBanana\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mCherry\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mGrape\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mOrange\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mTab:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[10A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m apple█\u001b[2m (1 match)\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m Apple\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mTab:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[6A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Select fruits\n\u001b[90m│\u001b[39m  \u001b[2m0 items selected\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "autocompleteMultiselect › can be aborted by a signal",
+			"prompts": [
+				{
+					"kind": "autocompleteMultiselect",
+					"opts": {
+						"message": "foo",
+						"options": [
+							{
+								"value": "apple",
+								"label": "Apple"
+							},
+							{
+								"value": "banana",
+								"label": "Banana"
+							},
+							{
+								"value": "cherry",
+								"label": "Cherry"
+							},
+							{
+								"value": "grape",
+								"label": "Grape"
+							},
+							{
+								"value": "orange",
+								"label": "Orange"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m Apple\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mBanana\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mCherry\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mGrape\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mOrange\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mTab:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "autocompleteMultiselect › can use navigation keys to select options",
+			"prompts": [
+				{
+					"kind": "autocompleteMultiselect",
+					"opts": {
+						"message": "Select fruits",
+						"options": [
+							{
+								"value": "apple",
+								"label": "Apple"
+							},
+							{
+								"value": "banana",
+								"label": "Banana"
+							},
+							{
+								"value": "cherry",
+								"label": "Cherry"
+							},
+							{
+								"value": "grape",
+								"label": "Grape"
+							},
+							{
+								"value": "orange",
+								"label": "Orange"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "space",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "space",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Select fruits\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m Apple\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mBanana\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mCherry\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mGrape\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mOrange\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mTab:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[10A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m \u001b[2m\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mApple\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m Banana\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mCherry\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mGrape\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mOrange\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace/Tab:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[10A",
+						"\u001b[5B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  \u001b[32m◼\u001b[39m Banana",
+						"\u001b[5B",
+						"\u001b[999D\u001b[10A",
+						"\u001b[5B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[32m◼\u001b[39m \u001b[2mBanana\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m Cherry\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mGrape\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mOrange\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace/Tab:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[10A",
+						"\u001b[6B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  \u001b[32m◼\u001b[39m Cherry",
+						"\u001b[4B",
+						"\u001b[999D\u001b[10A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Select fruits\n\u001b[90m│\u001b[39m  \u001b[2m2 items selected\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "autocompleteMultiselect › cannot select disabled options when only one left",
+			"prompts": [
+				{
+					"kind": "autocompleteMultiselect",
+					"opts": {
+						"message": "Select a fruit",
+						"options": [
+							{
+								"value": "apple",
+								"label": "Apple"
+							},
+							{
+								"value": "banana",
+								"label": "Banana"
+							},
+							{
+								"value": "cherry",
+								"label": "Cherry"
+							},
+							{
+								"value": "grape",
+								"label": "Grape"
+							},
+							{
+								"value": "orange",
+								"label": "Orange"
+							},
+							{
+								"value": "kiwi",
+								"label": "Kiwi",
+								"disabled": true
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "k",
+							"key": {
+								"name": "k",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "tab",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Select a fruit\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m Apple\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mBanana\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mCherry\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mGrape\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mOrange\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[90m◻\u001b[39m \u001b[9m\u001b[90mKiwi\u001b[39m\u001b[29m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mTab:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[11A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m k█\u001b[2m (1 match)\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[90m◻\u001b[39m \u001b[9m\u001b[90mKiwi\u001b[39m\u001b[29m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mTab:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[6A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Select a fruit\n\u001b[90m│\u001b[39m  \u001b[2m0 items selected\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "autocompleteMultiselect › displays disabled options correctly",
+			"prompts": [
+				{
+					"kind": "autocompleteMultiselect",
+					"opts": {
+						"message": "Select a fruit",
+						"options": [
+							{
+								"value": "apple",
+								"label": "Apple"
+							},
+							{
+								"value": "banana",
+								"label": "Banana"
+							},
+							{
+								"value": "cherry",
+								"label": "Cherry"
+							},
+							{
+								"value": "grape",
+								"label": "Grape"
+							},
+							{
+								"value": "orange",
+								"label": "Orange"
+							},
+							{
+								"value": "kiwi",
+								"label": "Kiwi",
+								"disabled": true
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "tab",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Select a fruit\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m Apple\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mBanana\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mCherry\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mGrape\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mOrange\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[90m◻\u001b[39m \u001b[9m\u001b[90mKiwi\u001b[39m\u001b[29m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mTab:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[11A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m \u001b[2m\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mApple\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m Banana\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mCherry\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mGrape\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mOrange\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[90m◻\u001b[39m \u001b[9m\u001b[90mKiwi\u001b[39m\u001b[29m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace/Tab:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[11A",
+						"\u001b[5B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mBanana\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m Cherry\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mGrape\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mOrange\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[90m◻\u001b[39m \u001b[9m\u001b[90mKiwi\u001b[39m\u001b[29m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace/Tab:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[11A",
+						"\u001b[6B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mCherry\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m Grape\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mOrange\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[90m◻\u001b[39m \u001b[9m\u001b[90mKiwi\u001b[39m\u001b[29m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace/Tab:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[11A",
+						"\u001b[7B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mGrape\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m Orange\n\u001b[36m│\u001b[39m  \u001b[90m◻\u001b[39m \u001b[9m\u001b[90mKiwi\u001b[39m\u001b[29m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace/Tab:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[11A",
+						"\u001b[4B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m Apple\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mBanana\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mCherry\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mGrape\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mOrange\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[90m◻\u001b[39m \u001b[9m\u001b[90mKiwi\u001b[39m\u001b[29m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace/Tab:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[11A",
+						"\u001b[4B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  \u001b[32m◼\u001b[39m Apple",
+						"\u001b[7B",
+						"\u001b[999D\u001b[11A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Select a fruit\n\u001b[90m│\u001b[39m  \u001b[2m1 items selected\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "autocompleteMultiselect › renders error when empty selection & required is true",
+			"prompts": [
+				{
+					"kind": "autocompleteMultiselect",
+					"opts": {
+						"message": "Select a fruit",
+						"options": [
+							{
+								"value": "apple",
+								"label": "Apple"
+							},
+							{
+								"value": "banana",
+								"label": "Banana"
+							},
+							{
+								"value": "cherry",
+								"label": "Cherry"
+							},
+							{
+								"value": "grape",
+								"label": "Grape"
+							},
+							{
+								"value": "orange",
+								"label": "Orange"
+							}
+						],
+						"required": true
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "tab",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Select a fruit\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m Apple\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mBanana\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mCherry\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mGrape\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mOrange\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mTab:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[10A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[33m▲\u001b[39m  Select a fruit\n\u001b[33m│\u001b[39m\n\u001b[33m│\u001b[39m  \u001b[2mSearch:\u001b[22m \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[33m│\u001b[39m  \u001b[33mPlease select at least one item\u001b[39m\n\u001b[33m│\u001b[39m  \u001b[2m◻\u001b[22m Apple\n\u001b[33m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mBanana\u001b[22m\n\u001b[33m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mCherry\u001b[22m\n\u001b[33m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mGrape\u001b[22m\n\u001b[33m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mOrange\u001b[22m\n\u001b[33m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mTab:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[33m└\u001b[39m",
+						"\u001b[999D\u001b[11A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[36m◆\u001b[39m  Select a fruit\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m│\u001b[39m  \u001b[32m◼\u001b[39m Apple\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mBanana\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mCherry\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mGrape\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mOrange\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mTab:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[10A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Select a fruit\n\u001b[90m│\u001b[39m  \u001b[2m1 items selected\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "autocompleteMultiselect › supports custom filter function",
+			"prompts": [
+				{
+					"kind": "autocompleteMultiselect",
+					"opts": {
+						"message": "Select fruits",
+						"options": [
+							{
+								"value": "apple",
+								"label": "Apple"
+							},
+							{
+								"value": "banana",
+								"label": "Banana"
+							},
+							{
+								"value": "cherry",
+								"label": "Cherry"
+							},
+							{
+								"value": "grape",
+								"label": "Grape"
+							},
+							{
+								"value": "orange",
+								"label": "Orange"
+							}
+						],
+						"filter": {
+							"callback": true
+						}
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "tab",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Select fruits\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m Apple\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mBanana\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mCherry\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mGrape\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mOrange\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mTab:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[10A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m a█\u001b[2m (1 match)\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m Apple\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mTab:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[6A",
+						"\u001b[4B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  \u001b[32m◼\u001b[39m Apple",
+						"\u001b[2B",
+						"\u001b[999D\u001b[6A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Select fruits\n\u001b[90m│\u001b[39m  \u001b[2m1 items selected\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		}
+	]
+}

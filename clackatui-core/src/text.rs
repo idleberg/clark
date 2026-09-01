@@ -70,7 +70,7 @@ impl PromptState for TextState {
 }
 
 /// The cursor block upstream appends when the cursor is past the last character.
-const CURSOR_BLOCK: &str = "█";
+pub const CURSOR_BLOCK: &str = "█";
 
 /// A `text` Prompt drawn as a Frame — the `render` callback of `@clack/prompts`' `text()`.
 ///

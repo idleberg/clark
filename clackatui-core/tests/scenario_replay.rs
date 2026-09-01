@@ -36,8 +36,8 @@ use ratatui_core::style::{Color, Modifier, Style};
 
 mod scenarios;
 use scenarios::{
-	Scenario, TAG, all, authored, confirm, group_multi_select, harvested, multi_select, password,
-	select, select_key,
+	Scenario, TAG, all, authored, autocomplete, confirm, group_multi_select, harvested,
+	multi_select, password, select, select_key,
 };
 
 /// The state clack was in when it drew its last frame, read off the step symbol it prints.
@@ -487,7 +487,7 @@ fn the_harvested_fixture_is_a_plausible_recording() {
 /// Frame or the cancelled one would otherwise be merely smaller, and the count below would let it
 /// through.
 #[test]
-fn the_six_harvested_prompt_fixtures_are_plausible_recordings() {
+fn the_seven_harvested_prompt_fixtures_are_plausible_recordings() {
 	for (kind, (json, scenarios), least, required) in [
 		(
 			"password",
@@ -601,6 +601,40 @@ fn the_six_harvested_prompt_fixtures_are_plausible_recordings() {
 				"groupMultiselect › withGuide: false removes guide",
 			][..],
 		),
+		(
+			// One suite, two Prompts — `autocomplete.test.ts` is the only file upstream that covers
+			// a pair of them, and the only one that reaches past `src/index.js` to import them.
+			"autocomplete",
+			autocomplete(),
+			25,
+			&[
+				"autocomplete › renders initial UI with message and instructions",
+				"autocomplete › limits displayed options when maxItems is set",
+				"autocomplete › shows no matches message when search has no results",
+				"autocomplete › shows hint when option has hint and is focused",
+				"autocomplete › shows selected value in submit state",
+				"autocomplete › shows strikethrough in cancel state",
+				"autocomplete › renders placeholder if set",
+				"autocomplete › placeholder is shown if set",
+				"autocomplete › Tab with placeholder fills input and Enter submits matching option",
+				"autocomplete › Tab with non-matching placeholder does not fill input",
+				"autocomplete › supports initialValue",
+				"autocomplete › displays disabled options correctly",
+				"autocomplete › cannot select disabled options when only one left",
+				"autocomplete › renders bottom ellipsis when items do not fit",
+				"autocomplete › renders top ellipsis when scrolled down and its do not fit",
+				"autocomplete › autocompleteMultiselect respects withGuide: false",
+				"autocomplete › autocompleteMultiselect respects global withGuide: false",
+				"autocomplete with custom filter › uses custom filter function when provided",
+				"autocomplete with custom filter › falls back to default filter when not provided",
+				"autocompleteMultiselect › can use navigation keys to select options",
+				"autocompleteMultiselect › renders error when empty selection & required is true",
+				"autocompleteMultiselect › supports custom filter function",
+				"autocompleteMultiselect › displays disabled options correctly",
+				"autocompleteMultiselect › cannot select disabled options when only one left",
+				"autocompleteMultiselect › Tab with placeholder fills input; Enter submits current selection",
+			][..],
+		),
 	] {
 		assert_eq!(
 			json["tag"].as_str(),
@@ -624,9 +658,16 @@ fn the_six_harvested_prompt_fixtures_are_plausible_recordings() {
 			);
 		}
 
+		// A Fixture is a suite, and one suite covers two Prompts.
+		let one = [kind];
+		let kinds: &[&str] = match kind {
+			"autocomplete" => &["autocomplete", "autocompleteMultiselect"],
+			_ => &one,
+		};
+
 		for scenario in &scenarios {
-			assert_eq!(
-				scenario.kind, kind,
+			assert!(
+				kinds.contains(&scenario.kind.as_str()),
 				"{}: not a {kind} prompt",
 				scenario.name
 			);
@@ -643,9 +684,14 @@ fn the_six_harvested_prompt_fixtures_are_plausible_recordings() {
 		}
 
 		// One Scenario in most suites is driven by an `AbortSignal` rather than by keys.
-		// `select-key.test.ts` is the one with no such case, so its count is nought rather than one.
+		// `select-key.test.ts` is the one with no such case, and `autocomplete.test.ts` has one for
+		// each of the two Prompts it covers.
 		let keyless = scenarios.iter().filter(|s| s.keys.is_empty()).count();
-		let expected = usize::from(kind != "selectKey");
+		let expected = match kind {
+			"selectKey" => 0,
+			"autocomplete" => 2,
+			_ => 1,
+		};
 		assert_eq!(
 			keyless, expected,
 			"{kind} Scenarios that send no keypresses"
@@ -786,6 +832,61 @@ fn the_six_harvested_prompt_fixtures_are_plausible_recordings() {
 	assert!(
 		multi.iter().all(|s| !s.validates),
 		"a multiselect Scenario carries a validate callback; upstream's `multiselect` writes its own"
+	);
+
+	// And for the two `autocomplete` Prompts, whose branches nothing before them has: a search that
+	// filters the list, a placeholder that tab can type for you, and a second Prompt drawn from the
+	// same state.
+	let (_, complete) = autocomplete();
+	for scenario in &complete {
+		assert!(
+			!scenario.options.is_empty(),
+			"{}: a list prompt with no options",
+			scenario.name
+		);
+	}
+	let any = |what: &str, f: &dyn Fn(&Scenario) -> bool| {
+		assert!(
+			complete.iter().any(f),
+			"no autocomplete Scenario left that {what}; the port's branch for it is unverified"
+		);
+	};
+	any("is an autocompleteMultiselect", &|s| {
+		s.kind == "autocompleteMultiselect"
+	});
+	any("installs a filter of its own", &|s| s.filters);
+	any("sets a placeholder", &|s| s.placeholder.is_some());
+	any("sets maxItems", &|s| s.max_items.is_some());
+	any("sets an initialValue", &|s| s.initial_value.is_some());
+	any("asks for `required`", &|s| s.required_explicit);
+	any("turns the Guide off", &|s| !s.with_guide);
+	any("disables an option", &|s| {
+		s.options.iter().any(|o| o.disabled)
+	});
+	any("gives an option a hint", &|s| {
+		s.options.iter().any(|o| o.hint.is_some())
+	});
+	any("breaks a label over two rows", &|s| {
+		s.options
+			.iter()
+			.any(|o| o.label.as_deref().is_some_and(|l| l.contains('\n')) || o.value.contains('\n'))
+	});
+	// The two keys that make this Prompt what it is: something typed, which filters the list, and a
+	// tab, which either ticks an option or types the placeholder for you.
+	any("types a character", &|s| {
+		s.keys.iter().any(|k| {
+			k.s.as_deref()
+				.is_some_and(|c| c.chars().any(|c| !c.is_control()))
+		})
+	});
+	any("presses tab", &|s| {
+		s.keys.iter().any(|k| k.name.as_deref() == Some("tab"))
+	});
+	// Nothing installs a `validate` here either: `autocompleteMultiselect` writes its own out of
+	// `required`, and `autocomplete` takes one nobody in the suite passes.
+	assert!(
+		complete.iter().all(|s| !s.validates),
+		"an autocomplete Scenario carries a validate callback the loader cannot reproduce"
 	);
 }
 

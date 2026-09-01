@@ -23,6 +23,10 @@ export default {
 			{ find: 'clack:prompts-src', replacement: join(pkg, 'src', 'index.ts') },
 			// Anchored, so it only catches the specifier the test files import by.
 			{ find: /^\.\.\/src\/index\.js$/, replacement: join(here, 'prompts-shim.mjs') },
+			// `autocomplete.test.ts` is the one suite that imports its Prompt from the module rather
+			// than the entry point, so that module needs standing in for too.
+			{ find: 'clack:autocomplete-src', replacement: join(pkg, 'src', 'autocomplete.ts') },
+			{ find: /^\.\.\/src\/autocomplete\.js$/, replacement: join(here, 'autocomplete-shim.mjs') },
 		],
 	},
 	test: {

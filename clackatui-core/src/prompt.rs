@@ -157,6 +157,20 @@ pub trait PromptState {
 		false
 	}
 
+	/// Text the [`key`](Self::key) just delivered wants written into the input, as though typed.
+	///
+	/// `_setUserInput(value, true)`, asked for rather than called: a state is handed the text but does
+	/// not own the editor, so the one Prompt that writes its own input — `autocomplete`, filling the
+	/// field from its placeholder when tab is pressed — says so here and [`Prompt::key`] carries it
+	/// out. Taken, not read: it is a request, and it is spent once.
+	///
+	/// Upstream clears the field first, and only when it holds the tab itself, because `rl.write`
+	/// types into the line rather than replacing it. [`Prompt::key`] replaces it, so there is nothing
+	/// to clear.
+	fn sets_user_input(&mut self) -> Option<String> {
+		None
+	}
+
 	/// `on('finalize')`: the Prompt has settled on submit or cancel. The last chance to set a value.
 	fn finalize(&mut self) {}
 
@@ -391,6 +405,15 @@ impl<S: PromptState> Prompt<S> {
 		}
 
 		self.state.key(s, key);
+		// `_clearUserInput()` and then `_setUserInput(value, true)`, from inside upstream's own key
+		// listener — so it lands before the submit and cancel checks below, as it does there. Two
+		// steps upstream because `rl.write` types into the field and would append to whatever was
+		// already in it; one step here, because `set_line` replaces the line outright.
+		if let Some(text) = self.state.sets_user_input() {
+			self.editor.set_line(text.clone());
+			self.sync_cursor();
+			self.set_user_input(text);
+		}
 		if self.state.submits_from_key() && self.status != Status::Submit {
 			self.status = Status::Submit;
 			self.resolved_early = true;

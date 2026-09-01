@@ -7,6 +7,197 @@
 	"generatedBy": "scripts/harvest-authored.mjs",
 	"scenarios": [
 		{
+			"name": "autocomplete › the search cursor is drawn where the option cursor is",
+			"prompts": [
+				{
+					"kind": "autocomplete",
+					"opts": {
+						"message": "Pick",
+						"options": [
+							{
+								"value": "apple",
+								"label": "Apple"
+							},
+							{
+								"value": "banana",
+								"label": "Banana"
+							},
+							{
+								"value": "grape",
+								"label": "Grape"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"events": [
+						{
+							"kind": "key",
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "p",
+							"key": {
+								"name": "p",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "left",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "left",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"keys": [
+						{
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "p",
+							"key": {
+								"name": "p",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "down",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "left",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "left",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Pick\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Apple\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mBanana\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mGrape\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[8A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m a█",
+						"\u001b[5B",
+						"\u001b[999D\u001b[8A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m ap█\u001b[2m (2 matches)\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Apple\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mGrape\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[7A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m \u001b[2map\u001b[22m\u001b[2m (2 matches)\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mApple\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Grape\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[7A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m a\u001b[7mp\u001b[27m\u001b[2m (2 matches)\u001b[22m",
+						"\u001b[4B",
+						"\u001b[999D\u001b[7A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Pick\n\u001b[90m│\u001b[39m  \u001b[2mGrape\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
 			"name": "cjk › a wide message and a wide value",
 			"prompts": [
 				{
@@ -2197,6 +2388,160 @@
 						"\u001b[1B",
 						"\u001b[J",
 						"\u001b[32m◇\u001b[39m  Pick\n\u001b[90m│\u001b[39m  \u001b[2mJest, a JavaScript testing framework\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "narrow › an autocomplete option wraps three columns short of the terminal",
+			"prompts": [
+				{
+					"kind": "autocomplete",
+					"opts": {
+						"message": "Pick",
+						"options": [
+							{
+								"value": "ts",
+								"label": "TypeScript, a static type checker for JS"
+							},
+							{
+								"value": "js",
+								"label": "JavaScript, which is not one at all"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 40,
+						"rows": 20,
+						"stdout": 40
+					},
+					"events": [
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Pick\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m TypeScript, a static type checker \n\u001b[36m│\u001b[39m  for JS\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mJavaScript, which is not one at all\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \n\u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[9A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Pick\n\u001b[90m│\u001b[39m  \u001b[2mTypeScript, a static type checker for\u001b[22m\n\u001b[2m JS\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "narrow › an autocompleteMultiselect option overruns its own guide",
+			"prompts": [
+				{
+					"kind": "autocompleteMultiselect",
+					"opts": {
+						"message": "Pick",
+						"options": [
+							{
+								"value": "ts",
+								"label": "TypeScript, a static type checker for JS"
+							},
+							{
+								"value": "js",
+								"label": "JavaScript, which is not one at all"
+							}
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 40,
+						"rows": 20,
+						"stdout": 40
+					},
+					"events": [
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "tab",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"kind": "key",
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "tab",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Pick\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m \u001b[7m\u001b[8m_\u001b[28m\u001b[27m\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m TypeScript, a static type checker \nfor \n\u001b[36m│\u001b[39m  JS\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mJavaScript, which is not one at all\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mTab:\u001b[22m select • \n\u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[10A",
+						"\u001b[4B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  \u001b[32m◼\u001b[39m TypeScript, a static type checker ",
+						"\u001b[6B",
+						"\u001b[999D\u001b[10A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Pick\n\u001b[90m│\u001b[39m  \u001b[2m1 items selected\u001b[22m",
 						"\n",
 						"\u001b[?25h"
 					]

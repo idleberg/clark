@@ -9,17 +9,17 @@
 //! defines a Fixture. What those bytes *mean* is decided on the Rust side, by whichever test is
 //! asking.
 //!
-//! # Eight Fixtures, one shape
+//! # Nine Fixtures, one shape
 //!
-//! [`harvested`], [`password`], [`confirm`], [`select`], [`multi_select`], [`select_key`] and
-//! [`group_multi_select`] are
-//! clack's own test suite, one file per Prompt,
+//! [`harvested`], [`password`], [`confirm`], [`select`], [`multi_select`], [`select_key`],
+//! [`group_multi_select`] and [`autocomplete`] are
+//! clack's own test suite, one file per suite — and one suite covers two Prompts,
 //! recorded while the suite passed its own snapshots. [`authored`] is `scripts/authored/cases.mjs`,
 //! written because upstream's tests never vary the terminal and so can say nothing about wrapping.
 //! They are recorded by different scripts and carry different evidence behind them — ADR-0016 — but
 //! they are the same shape and are read the same way, and [`all`] is what the tests run over.
 //!
-//! # Seven kinds of Prompt
+//! # Nine kinds of Prompt
 //!
 //! A Scenario names the Prompt it configures, and [`Run`] is all of them behind one door.
 //! Nothing above this module branches on the kind: a Scenario opens, takes keys, resizes and
@@ -27,6 +27,10 @@
 
 #![allow(dead_code)]
 
+use clackatui_core::autocomplete::required as autocomplete_required;
+use clackatui_core::autocomplete::{
+	AutocompleteMultiSelectWidget, AutocompleteState, AutocompleteWidget,
+};
 use clackatui_core::confirm::{ConfirmState, ConfirmWidget};
 use clackatui_core::frame::Frame;
 use clackatui_core::group_multi_select::{GroupMultiSelectState, GroupMultiSelectWidget};
@@ -47,6 +51,7 @@ const SELECT: &str = include_str!("../fixtures/scenarios/select.json");
 const MULTI_SELECT: &str = include_str!("../fixtures/scenarios/multi-select.json");
 const SELECT_KEY: &str = include_str!("../fixtures/scenarios/select-key.json");
 const GROUP_MULTI_SELECT: &str = include_str!("../fixtures/scenarios/group-multi-select.json");
+const AUTOCOMPLETE: &str = include_str!("../fixtures/scenarios/autocomplete.json");
 
 /// The tag `README.md` names. A fixture from anywhere else is not the thing we claim parity with.
 pub const TAG: &str = "@clack/prompts@1.7.0";
@@ -79,6 +84,13 @@ pub struct Scenario {
 	pub show_instructions: bool,
 	/// `selectKey`'s `caseSensitive`.
 	pub case_sensitive: bool,
+	/// `opts.required` as the two `autocomplete` Prompts read it: off unless asked for, where
+	/// `multiselect`'s is on unless refused. The same word, the opposite default, so it cannot be the
+	/// same field — [`required`](Self::required) cannot tell an absent option from a `true` one.
+	pub required_explicit: bool,
+	/// Upstream passed a `filter` callback. One shape of them, in three Scenarios — see
+	/// [`Scenario::filter`].
+	pub filters: bool,
 	/// `multiselect`'s `initialValues`, `cursorAt` and `required`.
 	pub initial_values: Vec<String>,
 	pub cursor_at: Option<String>,
@@ -193,6 +205,11 @@ pub fn group_multi_select() -> (serde_json::Value, Vec<Scenario>) {
 	)
 }
 
+/// Clack's own `autocomplete` suite, which covers both `autocomplete` and `autocompleteMultiselect`.
+pub fn autocomplete() -> (serde_json::Value, Vec<Scenario>) {
+	parse(AUTOCOMPLETE, "fixtures/scenarios/autocomplete.json")
+}
+
 /// Every Scenario there is. Which Fixture one came from is a question about the evidence behind it,
 /// not about what the port owes it, so the tests do not ask.
 pub fn all() -> Vec<Scenario> {
@@ -204,6 +221,7 @@ pub fn all() -> Vec<Scenario> {
 	scenarios.extend(multi_select().1);
 	scenarios.extend(select_key().1);
 	scenarios.extend(group_multi_select().1);
+	scenarios.extend(autocomplete().1);
 	scenarios
 }
 
@@ -285,6 +303,8 @@ fn parse(source: &str, path: &str) -> (serde_json::Value, Vec<Scenario>) {
 					})
 					.unwrap_or_default(),
 				cursor_at: opts["cursorAt"].as_str().map(str::to_owned),
+				required_explicit: opts["required"].as_bool() == Some(true),
+				filters: opts["filter"]["callback"].as_bool() == Some(true),
 				// `opts.required ?? true`. The one option in any Fixture whose default is on, and so the
 				// one a Scenario carries as an absence rather than as a value.
 				required: opts["required"].as_bool().unwrap_or(true),
@@ -434,6 +454,22 @@ impl Scenario {
 				(name.clone(), options)
 			})
 			.collect()
+	}
+
+	/// The one `filter` upstream's suite installs, for the three Scenarios that install it.
+	///
+	/// A callback cannot be recorded, so this is the `required` bargain again: a Scenario carries the
+	/// fact that there was one and the loader supplies the shape all three of them have — a label
+	/// that *starts with* the search rather than containing it. A newer tag that writes a different
+	/// one does not fail here; it fails in parity, loudly, which is the right place for it.
+	fn filter(&self) -> Option<impl Fn(&str, &SelectOption<String>) -> bool + use<>> {
+		self.filters
+			.then_some(|search: &str, option: &SelectOption<String>| {
+				option
+					.label()
+					.to_lowercase()
+					.starts_with(&search.to_lowercase())
+			})
 	}
 
 	pub fn run(&self) -> Run {
@@ -597,6 +633,70 @@ impl Scenario {
 				)
 			}
 
+			"autocomplete" | "autocompleteMultiselect" => {
+				let multiple = self.kind == "autocompleteMultiselect";
+				let mut state = match self.filter() {
+					Some(filter) => AutocompleteState::with_filter(self.choices(), filter),
+					None => AutocompleteState::new(self.choices()),
+				}
+				.with_multiple(multiple);
+				if let Some(placeholder) = &self.placeholder {
+					state = state.with_placeholder(placeholder);
+				}
+				// `initialValue` on one, `initialValues` on the other, and the same array underneath.
+				if multiple {
+					if !self.initial_values.is_empty() {
+						state = state.with_initial_values(self.initial_values.clone());
+					}
+				} else if let Some(initial) = &self.initial_value {
+					state = state.with_initial_values([initial.clone()]);
+				}
+
+				let mut prompt = Prompt::new(state);
+				// `autocompleteMultiselect` writes this validator itself, out of an option that is off
+				// until it is asked for — the other way round from `multiselect`'s.
+				if multiple && self.required_explicit {
+					prompt = prompt.with_validator(autocomplete_required);
+				}
+
+				let max_items = self.max_items;
+				let placeholder = self.placeholder.clone();
+				let stream = self.stream_columns;
+				let session = Session::new(prompt, move |prompt, _columns, rows| {
+					if multiple {
+						let mut widget = AutocompleteMultiSelectWidget::new(prompt, &message)
+							.with_guide(with_guide)
+							.with_columns(stream)
+							.with_rows(rows as usize);
+						if let Some(placeholder) = &placeholder {
+							widget = widget.with_placeholder(placeholder);
+						}
+						if let Some(max_items) = max_items {
+							widget = widget.with_max_items(max_items);
+						}
+						widget.frame()
+					} else {
+						let mut widget = AutocompleteWidget::new(prompt, &message)
+							.with_guide(with_guide)
+							.with_columns(stream)
+							.with_rows(rows as usize);
+						if let Some(placeholder) = &placeholder {
+							widget = widget.with_placeholder(placeholder);
+						}
+						if let Some(max_items) = max_items {
+							widget = widget.with_max_items(max_items);
+						}
+						widget.frame()
+					}
+				})
+				.with_size(size.0, size.1);
+				if multiple {
+					Run::AutocompleteMultiSelect(session)
+				} else {
+					Run::Autocomplete(session)
+				}
+			}
+
 			_ => {
 				let mut state = TextState::new();
 				if let Some(default) = &self.default_value {
@@ -744,6 +844,8 @@ pub enum Run {
 	MultiSelect(Session<MultiSelectState<String>>),
 	SelectKey(Session<SelectKeyState<String>>),
 	GroupMultiSelect(Session<GroupMultiSelectState<String>>),
+	Autocomplete(Session<AutocompleteState<String>>),
+	AutocompleteMultiSelect(Session<AutocompleteState<String>>),
 }
 
 /// The same call on whichever Session is inside. A macro because the arms differ only in the
@@ -758,6 +860,8 @@ macro_rules! dispatch {
 			Run::MultiSelect($session) => $call,
 			Run::SelectKey($session) => $call,
 			Run::GroupMultiSelect($session) => $call,
+			Run::Autocomplete($session) => $call,
+			Run::AutocompleteMultiSelect($session) => $call,
 		}
 	};
 }

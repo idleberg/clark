@@ -18,6 +18,7 @@
 //! key events into the ones Node's `readline` would have reported. See [`keys`] for what that
 //! involves and what it is still owed.
 
+mod autocomplete;
 mod confirm;
 mod driver;
 mod error;
@@ -29,6 +30,9 @@ mod select;
 mod select_key;
 mod text;
 
+pub use autocomplete::{
+	Autocomplete, AutocompleteMultiSelect, autocomplete, autocomplete_multiselect,
+};
 pub use confirm::{Confirm, confirm};
 pub use error::ClackError;
 pub use group_multi_select::{GroupMultiSelect, group_multiselect};

@@ -5,6 +5,10 @@
 // in the port and the two places `session.rs` records a known divergence. These cases exist to put
 // a recording under them.
 //
+// A few cases are here for the other reason: a keypress upstream's suite never sends. They earn
+// their place the same way — there is a branch in clack nothing recorded reaches — and they say so
+// in their own comment.
+//
 // A case is upstream's input and nothing else — a prompt to call, options, a terminal width, an
 // ordered sequence of events, and what that prompt should return. No expected output appears here:
 // that is the whole point of a Scenario, and the bytes are whatever clack writes when the case is
@@ -18,6 +22,9 @@
 const typing = (text) => [...text].map((s) => ({ kind: 'key', s, key: { name: s } }));
 
 const enter = { kind: 'key', s: '', key: { name: 'return' } };
+const tab = { kind: 'key', s: '', key: { name: 'tab' } };
+const down = { kind: 'key', s: '', key: { name: 'down' } };
+const left = { kind: 'key', s: '', key: { name: 'left' } };
 const escape = { kind: 'key', s: '', key: { name: 'escape' } };
 const backspace = (n) =>
 	Array.from({ length: n }, () => ({ kind: 'key', s: '', key: { name: 'backspace' } }));
@@ -333,5 +340,61 @@ export const cases = [
 		},
 		events: [{ kind: 'key', s: ' ', key: { name: 'space' } }, enter],
 		value: ['ts'],
+	},
+	{
+		// `autocomplete` hands `limitOptions` a `columnPadding` of 3 — the bar and its two spaces,
+		// counted as the columns they draw rather than as the characters they take with their escapes
+		// around them. It is the only list Prompt in clack that does, and no harvested Scenario is
+		// narrow enough to show it: upstream's are all short labels at eighty columns.
+		name: 'narrow › an autocomplete option wraps three columns short of the terminal',
+		kind: 'autocomplete',
+		columns: NARROW,
+		opts: {
+			message: 'Pick',
+			options: [
+				{ value: 'ts', label: 'TypeScript, a static type checker for JS' },
+				{ value: 'js', label: 'JavaScript, which is not one at all' },
+			],
+		},
+		events: [enter],
+		value: 'ts',
+	},
+	{
+		// The same list under the other Prompt, which passes no `columnPadding` at all — so the same
+		// label is wrapped as though the bar beside it were not there, and every row of it overruns
+		// the terminal by those three columns. One pair of recordings, both widths.
+		name: 'narrow › an autocompleteMultiselect option overruns its own guide',
+		kind: 'autocompleteMultiselect',
+		columns: NARROW,
+		opts: {
+			message: 'Pick',
+			options: [
+				{ value: 'ts', label: 'TypeScript, a static type checker for JS' },
+				{ value: 'js', label: 'JavaScript, which is not one at all' },
+			],
+		},
+		events: [tab, enter],
+		value: ['ts'],
+	},
+	{
+		// Not a width: a key. `userInputWithCursor` asks `_cursor` whether the text cursor is past the
+		// end of the search text and then slices the text at `this.cursor`, which is the getter for
+		// the *option list's* cursor. Nothing upstream records presses left in an autocomplete, so
+		// nothing upstream can tell the two apart. Here the list cursor is on the second match and the
+		// text cursor is at the start, so clack inverts the second character of a two-character search
+		// and leaves the first one plain.
+		name: 'autocomplete › the search cursor is drawn where the option cursor is',
+		kind: 'autocomplete',
+		columns: 80,
+		opts: {
+			message: 'Pick',
+			options: [
+				{ value: 'apple', label: 'Apple' },
+				{ value: 'banana', label: 'Banana' },
+				{ value: 'grape', label: 'Grape' },
+			],
+		},
+		events: [...typing('ap'), down, left, left, enter],
+		value: 'grape',
 	},
 ];

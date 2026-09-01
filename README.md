@@ -74,8 +74,11 @@ reading cells no terminal has
 ([ADR-0023](./docs/adr/0023-selectkey-resolves-before-it-draws.md)). M4 opens with
 `groupMultiselect`, which wraps each option against a prefix measured with its escapes still in it
 and then wraps the result again
-([ADR-0024](./docs/adr/0024-groupmultiselect-measures-a-prefix-nobody-can-see.md)) —
-**all a hundred and twenty-four agree on the Grid**.
+([ADR-0024](./docs/adr/0024-groupmultiselect-measures-a-prefix-nobody-can-see.md)), and then
+`autocomplete` and `autocompleteMultiselect`, two Prompts out of one file whose search box draws its
+caret at the *option list's* index
+([ADR-0025](./docs/adr/0025-autocomplete-slices-the-search-box-at-the-option-cursor.md)) —
+**all a hundred and fifty-three agree on the Grid**.
 See
 [CONTEXT.md](./CONTEXT.md) for the vocabulary and [docs/adr/](./docs/adr/) for the decisions behind
 the shape below.
@@ -211,7 +214,7 @@ upstream drift.
 | **M1** | ~~`text` end to end — Recorder, width port, `LineEditor`, `TextState`, `Frame`, Theme, `text` widget, wrap port, Emitter, `.interact()`, harvested text Scenarios green, hand-authored Scenarios (narrow, CJK, resize)~~ **done** |
 | **M2** | ~~`password` and `confirm` — states, widgets, builders, both suites harvested, eleven more hand-authored Scenarios~~ **done** |
 | **M3** | ~~`limit-options` against a 54-case corpus, `select`, `multiselect` and `select-key` end to end with their suites harvested~~ **done** |
-| **M4** | ~~group-multi-select~~ **done**, autocomplete, date, multi-line |
+| **M4** | ~~group-multi-select~~, ~~autocomplete~~ **done**, date, multi-line |
 | **M5** | static renderers |
 | **M6** | theme polish, docs, publish |
 
@@ -288,6 +291,20 @@ again at a third width. Upstream's suite is short labels at eighty columns and c
 the evidence is two hand-authored Scenarios at forty columns, one putting the same label under both
 branches and one under the third prefix that `selectableGroups: false` produces
 ([ADR-0024](./docs/adr/0024-groupmultiselect-measures-a-prefix-nobody-can-see.md)).
+
+`autocomplete` and `autocompleteMultiselect` come out of one upstream file and one state, and they
+are the first Prompts here that both type and navigate. The harvest recorded nothing on its first
+run and said so only by writing an empty Fixture: theirs is the one suite that imports past
+`src/index.js`, so the Recorder's alias never fired and the shim never saw a prompt. With a second
+shim in place, the two turn out to disagree with each other about the bar beside their own options —
+one subtracts the three columns it draws, the other subtracts nothing and overruns — and to agree on
+drawing the search box's caret wherever the *option* cursor happens to point, which is nowhere near
+the letter you just walked back over. Neither is reachable from upstream's tests, so three more
+Scenarios were hand-authored: two at forty columns, and one that presses left
+([ADR-0025](./docs/adr/0025-autocomplete-slices-the-search-box-at-the-option-cursor.md)).
+Thirty-nine mutations of the port, ten of them uncaught until the tests grew to meet them; the four
+that survive are equivalent, and each is written down beside the code it could not change.
+A fifteenth was answered by deleting the line rather than covering it.
 
 M0 came first because it was cheap and load-bearing. Reusing `BufferDiff` under our own width model
 depends entirely on `CellDiffOption::ForcedWidth`, which is recent API on a pre-1.0 crate. The probe

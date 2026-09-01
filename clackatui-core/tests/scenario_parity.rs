@@ -23,16 +23,17 @@
 //!
 //! # What reaches it
 //!
-//! A hundred and twenty-four Scenarios across seven Prompts. A hundred and one are replayable ones
-//! harvested from clack's own suite — `text`, `password`, `confirm`, `select`, `multiselect`,
-//! `selectKey` and `groupMultiselect` — and all but a handful are at 80 columns, because upstream's
-//! tests barely vary the terminal.
-//! Twenty-four are hand-authored, written to reach what a harvest cannot supply (ADR-0016): 40 and
+//! A hundred and fifty-three Scenarios across nine Prompts. A hundred and twenty-six are replayable
+//! ones harvested from clack's own suite — `text`, `password`, `confirm`, `select`, `multiselect`,
+//! `selectKey`, `groupMultiselect`, `autocomplete` and `autocompleteMultiselect` — and all but a
+//! handful are at 80 columns, because upstream's tests barely vary the terminal.
+//! Twenty-seven are hand-authored, written to reach what a harvest cannot supply (ADR-0016): 40 and
 //! 20 columns, CJK text, a wrap that grows as a value is typed and shrinks again as it is deleted,
-//! four that change the terminal's size under an open Prompt, and the four things a harvest cannot
+//! four that change the terminal's size under an open Prompt, and the things a harvest cannot
 //! reach at all — a `y` that settles a `confirm` without a `return` (ADR-0018), a `confirm` message
-//! wrapped against the length of an escape sequence (ADR-0019), a masked astral character, and a
-//! group option wrapped against a prefix measured with its escapes (ADR-0024).
+//! wrapped against the length of an escape sequence (ADR-0019), a masked astral character, a
+//! group option wrapped against a prefix measured with its escapes (ADR-0024), the two widths the
+//! two `autocomplete` Prompts wrap an option to, and a left arrow in a search box (ADR-0025).
 //!
 //! The resizes are why a Grid is built from segments rather than from one string. The emulator has
 //! to change size at the same point in the stream that the real terminal did, on both sides, or the
@@ -139,10 +140,14 @@ fn every_scenario_leaves_the_terminal_the_way_clack_left_it() {
 		// Two blank terminals are equal, so a Scenario whose stream never reached the emulator
 		// would agree for free. clack's side is asserted to have drawn the message it was given —
 		// in order, but not necessarily unbroken, because a narrow terminal wraps it across rows.
+		//
+		// Unless the message has scrolled off the top, which a short terminal and a tall Frame can
+		// do: `autocomplete › renders bottom ellipsis when items do not fit` settles into six rows of
+		// a terminal five rows tall. There the guard falls back to the thing it is actually for —
+		// that clack left *something* to compare against.
 		assert!(
-			drew(&theirs.text(), &scenario.message),
-			"{}: clack's stream did not leave this Scenario's message on the terminal, so there is \
-			 nothing to compare",
+			drew(&theirs.text(), &scenario.message) || !theirs.text().trim().is_empty(),
+			"{}: clack's stream left nothing on the terminal, so there is nothing to compare",
 			scenario.name
 		);
 
@@ -166,7 +171,7 @@ fn every_scenario_leaves_the_terminal_the_way_clack_left_it() {
 	);
 
 	assert!(
-		compared >= 125,
+		compared >= 153,
 		"only {compared} Scenarios were compared; the fixtures have stopped carrying them"
 	);
 }
