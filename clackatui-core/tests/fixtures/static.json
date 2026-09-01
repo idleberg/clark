@@ -10,6 +10,7 @@
 			"name": "a message under a bar",
 			"kind": "log",
 			"message": "message",
+			"title": "",
 			"options": {},
 			"columns": 80,
 			"rows": 20,
@@ -19,6 +20,7 @@
 			"name": "a message of several lines",
 			"kind": "log",
 			"message": "line 1\nline 2\nline 3",
+			"title": "",
 			"options": {},
 			"columns": 80,
 			"rows": 20,
@@ -28,6 +30,7 @@
 			"name": "a blank line keeps its bar and loses its spaces",
 			"kind": "log",
 			"message": "foo\n\nbar",
+			"title": "",
 			"options": {},
 			"columns": 80,
 			"rows": 20,
@@ -37,6 +40,7 @@
 			"name": "a message with nothing in it is still a row",
 			"kind": "log",
 			"message": "",
+			"title": "",
 			"options": {},
 			"columns": 80,
 			"rows": 20,
@@ -46,6 +50,7 @@
 			"name": "spacing is rows above the message",
 			"kind": "log",
 			"message": "spaced message",
+			"title": "",
 			"options": {
 				"spacing": 3
 			},
@@ -57,6 +62,7 @@
 			"name": "no spacing at all",
 			"kind": "log",
 			"message": "tight message",
+			"title": "",
 			"options": {
 				"spacing": 0
 			},
@@ -68,6 +74,7 @@
 			"name": "a symbol of its own, and a second one for the rows below",
 			"kind": "log",
 			"message": "custom\nsymbols",
+			"title": "",
 			"options": {
 				"symbol": ">>",
 				"secondarySymbol": "--"
@@ -80,6 +87,7 @@
 			"name": "with the guide off",
 			"kind": "log",
 			"message": "standalone message",
+			"title": "",
 			"options": {
 				"withGuide": false
 			},
@@ -91,6 +99,7 @@
 			"name": "with the guide off, a blank line is blank",
 			"kind": "log",
 			"message": "foo\n\nbar",
+			"title": "",
 			"options": {
 				"withGuide": false
 			},
@@ -102,6 +111,7 @@
 			"name": "with the guide off and nothing to say",
 			"kind": "log",
 			"message": "",
+			"title": "",
 			"options": {
 				"withGuide": false
 			},
@@ -113,6 +123,7 @@
 			"name": "a line longer than the terminal",
 			"kind": "log",
 			"message": "lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet ",
+			"title": "",
 			"options": {},
 			"columns": 80,
 			"rows": 20,
@@ -122,6 +133,7 @@
 			"name": "a line of wide characters longer than the terminal",
 			"kind": "log",
 			"message": "ばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんは",
+			"title": "",
 			"options": {},
 			"columns": 80,
 			"rows": 20,
@@ -131,6 +143,7 @@
 			"name": "a long line at forty columns",
 			"kind": "log",
 			"message": "lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet ",
+			"title": "",
 			"options": {},
 			"columns": 40,
 			"rows": 20,
@@ -140,6 +153,7 @@
 			"name": "info",
 			"kind": "log.info",
 			"message": "info message",
+			"title": "",
 			"options": {},
 			"columns": 80,
 			"rows": 20,
@@ -149,6 +163,7 @@
 			"name": "success",
 			"kind": "log.success",
 			"message": "success message",
+			"title": "",
 			"options": {},
 			"columns": 80,
 			"rows": 20,
@@ -158,6 +173,7 @@
 			"name": "step",
 			"kind": "log.step",
 			"message": "step message",
+			"title": "",
 			"options": {},
 			"columns": 80,
 			"rows": 20,
@@ -167,6 +183,7 @@
 			"name": "warn",
 			"kind": "log.warn",
 			"message": "warn message",
+			"title": "",
 			"options": {},
 			"columns": 80,
 			"rows": 20,
@@ -176,6 +193,7 @@
 			"name": "error",
 			"kind": "log.error",
 			"message": "error message",
+			"title": "",
 			"options": {},
 			"columns": 80,
 			"rows": 20,
@@ -185,6 +203,7 @@
 			"name": "a named symbol on a message of several lines",
 			"kind": "log.warn",
 			"message": "first\nsecond",
+			"title": "",
 			"options": {},
 			"columns": 80,
 			"rows": 20,
@@ -194,6 +213,7 @@
 			"name": "a named symbol with the guide off",
 			"kind": "log.error",
 			"message": "error message",
+			"title": "",
 			"options": {
 				"withGuide": false
 			},
@@ -205,6 +225,7 @@
 			"name": "intro",
 			"kind": "intro",
 			"message": "create-app",
+			"title": "",
 			"options": {},
 			"columns": 80,
 			"rows": 20,
@@ -214,6 +235,7 @@
 			"name": "intro with the guide off",
 			"kind": "intro",
 			"message": "create-app",
+			"title": "",
 			"options": {
 				"withGuide": false
 			},
@@ -225,6 +247,7 @@
 			"name": "intro with nothing to say",
 			"kind": "intro",
 			"message": "",
+			"title": "",
 			"options": {},
 			"columns": 80,
 			"rows": 20,
@@ -234,6 +257,7 @@
 			"name": "outro",
 			"kind": "outro",
 			"message": "You're all set!",
+			"title": "",
 			"options": {},
 			"columns": 80,
 			"rows": 20,
@@ -243,6 +267,7 @@
 			"name": "outro with the guide off",
 			"kind": "outro",
 			"message": "You're all set!",
+			"title": "",
 			"options": {
 				"withGuide": false
 			},
@@ -254,6 +279,7 @@
 			"name": "outro with nothing to say",
 			"kind": "outro",
 			"message": "",
+			"title": "",
 			"options": {},
 			"columns": 80,
 			"rows": 20,
@@ -263,6 +289,7 @@
 			"name": "cancel",
 			"kind": "cancel",
 			"message": "Installation canceled",
+			"title": "",
 			"options": {},
 			"columns": 80,
 			"rows": 20,
@@ -272,6 +299,7 @@
 			"name": "cancel with the guide off",
 			"kind": "cancel",
 			"message": "Installation canceled",
+			"title": "",
 			"options": {
 				"withGuide": false
 			},
@@ -283,6 +311,7 @@
 			"name": "cancel with nothing to say",
 			"kind": "cancel",
 			"message": "",
+			"title": "",
 			"options": {},
 			"columns": 80,
 			"rows": 20,
@@ -292,10 +321,163 @@
 			"name": "an outro longer than the terminal",
 			"kind": "outro",
 			"message": "lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet ",
+			"title": "",
 			"options": {},
 			"columns": 40,
 			"rows": 20,
 			"bytes": "\u001b[90m│\u001b[39m\n\u001b[90m└\u001b[39m  lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet \n\n"
+		},
+		{
+			"name": "a message with a title",
+			"kind": "note",
+			"message": "message",
+			"title": "title",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  \u001b[0mtitle\u001b[0m \u001b[90m───╮\u001b[39m\n\u001b[90m│\u001b[39m           \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  message  \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m           \u001b[90m│\u001b[39m\n\u001b[90m├───────────╯\u001b[39m\n"
+		},
+		{
+			"name": "as wide as the longest line",
+			"kind": "note",
+			"message": "short\nsomewhat questionably long line",
+			"title": "title",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  \u001b[0mtitle\u001b[0m \u001b[90m───────────────────────────╮\u001b[39m\n\u001b[90m│\u001b[39m                                   \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  short                            \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  somewhat questionably long line  \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m                                   \u001b[90m│\u001b[39m\n\u001b[90m├───────────────────────────────────╯\u001b[39m\n"
+		},
+		{
+			"name": "a title wider than the message",
+			"kind": "note",
+			"message": "hi",
+			"title": "a considerably longer title",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  \u001b[0ma considerably longer title\u001b[0m \u001b[90m─╮\u001b[39m\n\u001b[90m│\u001b[39m                               \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  hi                           \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m                               \u001b[90m│\u001b[39m\n\u001b[90m├───────────────────────────────╯\u001b[39m\n"
+		},
+		{
+			"name": "nothing to say",
+			"kind": "note",
+			"message": "",
+			"title": "title",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  \u001b[0mtitle\u001b[0m \u001b[90m─╮\u001b[39m\n\u001b[90m│\u001b[39m         \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m         \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m         \u001b[90m│\u001b[39m\n\u001b[90m├─────────╯\u001b[39m\n"
+		},
+		{
+			"name": "no title either",
+			"kind": "note",
+			"message": "message",
+			"title": "",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  \u001b[0m\u001b[0m \u001b[90m────────╮\u001b[39m\n\u001b[90m│\u001b[39m           \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  message  \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m           \u001b[90m│\u001b[39m\n\u001b[90m├───────────╯\u001b[39m\n"
+		},
+		{
+			"name": "without the guide",
+			"kind": "note",
+			"message": "message",
+			"title": "title",
+			"options": {
+				"withGuide": false
+			},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "\u001b[32m◇\u001b[39m  \u001b[0mtitle\u001b[0m \u001b[90m───╮\u001b[39m\n\u001b[90m│\u001b[39m           \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  message  \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m           \u001b[90m│\u001b[39m\n\u001b[90m╰───────────╯\u001b[39m\n"
+		},
+		{
+			"name": "a message of blank lines",
+			"kind": "note",
+			"message": "a\n\nb",
+			"title": "title",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  \u001b[0mtitle\u001b[0m \u001b[90m─╮\u001b[39m\n\u001b[90m│\u001b[39m         \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  a      \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m         \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  b      \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m         \u001b[90m│\u001b[39m\n\u001b[90m├─────────╯\u001b[39m\n"
+		},
+		{
+			"name": "a formatter that adds characters",
+			"kind": "note",
+			"message": "line 0\nline 1\nline 2",
+			"title": "title",
+			"options": {
+				"format": "stars"
+			},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  \u001b[0mtitle\u001b[0m \u001b[90m──────╮\u001b[39m\n\u001b[90m│\u001b[39m              \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  * line 0 *  \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  * line 1 *  \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  * line 2 *  \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m              \u001b[90m│\u001b[39m\n\u001b[90m├──────────────╯\u001b[39m\n"
+		},
+		{
+			"name": "a formatter that adds only colour",
+			"kind": "note",
+			"message": "line 0\nline 1\nline 2",
+			"title": "title",
+			"options": {
+				"format": "red"
+			},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  \u001b[0mtitle\u001b[0m \u001b[90m──╮\u001b[39m\n\u001b[90m│\u001b[39m          \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31mline 0\u001b[39m  \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31mline 1\u001b[39m  \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31mline 2\u001b[39m  \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m          \u001b[90m│\u001b[39m\n\u001b[90m├──────────╯\u001b[39m\n"
+		},
+		{
+			"name": "don't overflow",
+			"kind": "note",
+			"message": "test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string \ntest string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string \ntest string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string \ntest string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string",
+			"title": "title",
+			"options": {},
+			"columns": 75,
+			"rows": 20,
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  \u001b[0mtitle\u001b[0m \u001b[90m───────────────────────────────────────────────────────────────╮\u001b[39m\n\u001b[90m│\u001b[39m                                                                       \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  test string test string test string test string test string test     \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  string test string test string test string test string test string   \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  test string test string test string test string test string test     \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  string test string test string test string test string test string   \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  test string test string test string test string test string test     \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  string test string test string test string test string               \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  test string test string test string test string test string test     \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  string test string test string test string test string test string   \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  test string test string test string test string test string test     \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  string test string test string test string test string test string   \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  test string test string test string test string test string test     \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  string test string test string test string test string               \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  test string test string test string test string test string test     \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  string test string test string test string test string test string   \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  test string test string test string test string test string test     \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  string test string test string test string test string test string   \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  test string test string test string test string test string test     \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  string test string test string test string test string               \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  test string test string test string test string test string test     \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  string test string test string test string test string test string   \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  test string test string test string test string test string test     \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  string test string test string test string test string test string   \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  test string test string test string test string test string test     \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  string test string test string test string test string               \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m                                                                       \u001b[90m│\u001b[39m\n\u001b[90m├───────────────────────────────────────────────────────────────────────╯\u001b[39m\n"
+		},
+		{
+			"name": "don't overflow with a formatter",
+			"kind": "note",
+			"message": "test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string \ntest string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string \ntest string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string \ntest string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string test string",
+			"title": "title",
+			"options": {
+				"format": "red-stars"
+			},
+			"columns": 75,
+			"rows": 20,
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  \u001b[0mtitle\u001b[0m \u001b[90m─────────────────────────────────────────────────────────────────╮\u001b[39m\n\u001b[90m│\u001b[39m                                                                         \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36mtest string test string test string test string test string test \u001b[31m *\u001b[39m  \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36mstring test string test string test string test string test \u001b[31m *\u001b[39m       \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36mstring test string test string test string test string test \u001b[31m *\u001b[39m       \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36mstring test string test string test string test string test \u001b[31m *\u001b[39m       \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36mstring test string test string test string test string test \u001b[31m *\u001b[39m       \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36mstring test string test string test string test string test \u001b[31m *\u001b[39m       \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36mstring test string \u001b[31m *\u001b[39m                                                \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36mtest string test string test string test string test string test \u001b[31m *\u001b[39m  \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36mstring test string test string test string test string test \u001b[31m *\u001b[39m       \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36mstring test string test string test string test string test \u001b[31m *\u001b[39m       \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36mstring test string test string test string test string test \u001b[31m *\u001b[39m       \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36mstring test string test string test string test string test \u001b[31m *\u001b[39m       \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36mstring test string test string test string test string test \u001b[31m *\u001b[39m       \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36mstring test string \u001b[31m *\u001b[39m                                                \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36mtest string test string test string test string test string test \u001b[31m *\u001b[39m  \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36mstring test string test string test string test string test \u001b[31m *\u001b[39m       \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36mstring test string test string test string test string test \u001b[31m *\u001b[39m       \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36mstring test string test string test string test string test \u001b[31m *\u001b[39m       \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36mstring test string test string test string test string test \u001b[31m *\u001b[39m       \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36mstring test string test string test string test string test \u001b[31m *\u001b[39m       \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36mstring test string \u001b[31m *\u001b[39m                                                \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36mtest string test string test string test string test string test \u001b[31m *\u001b[39m  \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36mstring test string test string test string test string test \u001b[31m *\u001b[39m       \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36mstring test string test string test string test string test \u001b[31m *\u001b[39m       \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36mstring test string test string test string test string test \u001b[31m *\u001b[39m       \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36mstring test string test string test string test string test \u001b[31m *\u001b[39m       \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36mstring test string test string test string test string test \u001b[31m *\u001b[39m       \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36mstring test string\u001b[31m *\u001b[39m                                                 \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m                                                                         \u001b[90m│\u001b[39m\n\u001b[90m├─────────────────────────────────────────────────────────────────────────╯\u001b[39m\n"
+		},
+		{
+			"name": "wide characters in a narrow terminal",
+			"kind": "note",
+			"message": "이게 첫 번째 줄이에요\nこれは次の行です",
+			"title": "这是标题",
+			"options": {},
+			"columns": 10,
+			"rows": 20,
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  \u001b[0m这是标题\u001b[0m \u001b[90m─╮\u001b[39m\n\u001b[90m│\u001b[39m            \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  이게      \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m   첫       \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  번째      \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m            \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  줄이      \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  에요      \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  これ      \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  は次      \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  の行      \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  です      \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m            \u001b[90m│\u001b[39m\n\u001b[90m├────────────╯\u001b[39m\n"
+		},
+		{
+			"name": "wide characters in a narrow terminal, with a formatter",
+			"kind": "note",
+			"message": "이게 첫 번째 줄이에요\nこれは次の行です",
+			"title": "这是标题",
+			"options": {
+				"format": "red-stars"
+			},
+			"columns": 10,
+			"rows": 20,
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  \u001b[0m这是标题\u001b[0m \u001b[90m─╮\u001b[39m\n\u001b[90m│\u001b[39m            \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36m\u001b[31m *\u001b[39m      \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36m이\u001b[31m *\u001b[39m    \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36m게\u001b[31m *\u001b[39m    \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36m \u001b[31m *\u001b[39m     \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36m첫\u001b[31m *\u001b[39m    \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36m \u001b[31m *\u001b[39m     \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36m번\u001b[31m *\u001b[39m    \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36m째\u001b[31m *\u001b[39m    \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36m \u001b[31m *\u001b[39m     \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36m줄\u001b[31m *\u001b[39m    \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36m이\u001b[31m *\u001b[39m    \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36m에\u001b[31m *\u001b[39m    \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36m요\u001b[31m *\u001b[39m    \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36m\u001b[31m *\u001b[39m      \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36mこ\u001b[31m *\u001b[39m    \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36mれ\u001b[31m *\u001b[39m    \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36mは\u001b[31m *\u001b[39m    \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36m次\u001b[31m *\u001b[39m    \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36mの\u001b[31m *\u001b[39m    \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36m行\u001b[31m *\u001b[39m    \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36mで\u001b[31m *\u001b[39m    \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[31m* \u001b[36mす\u001b[31m *\u001b[39m    \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m            \u001b[90m│\u001b[39m\n\u001b[90m├────────────╯\u001b[39m\n"
+		},
+		{
+			"name": "a formatter wider than the terminal leaves it",
+			"kind": "note",
+			"message": "abcdef",
+			"title": "t",
+			"options": {
+				"format": "stars"
+			},
+			"columns": 10,
+			"rows": 20,
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  \u001b[0mt\u001b[0m \u001b[90m─────╮\u001b[39m\n\u001b[90m│\u001b[39m         \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  *  *   \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  * a *  \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  * b *  \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  * c *  \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  * d *  \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  * e *  \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  * f *  \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m         \u001b[90m│\u001b[39m\n\u001b[90m├─────────╯\u001b[39m\n"
 		}
 	]
 }

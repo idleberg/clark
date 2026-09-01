@@ -13,6 +13,9 @@
 /** Whatever `log.message` is given, at the defaults. */
 const log = (name, message, options = {}) => ({ name, kind: 'log', message, options });
 
+/** A `note` at eighty columns. */
+const note = (name, message, title, options = {}) => ({ name, kind: 'note', message, title, options });
+
 const wide = 'ばんは'.repeat(30);
 const long = 'lorem ipsum dolor sit amet '.repeat(5);
 
@@ -77,4 +80,67 @@ export const cases = [
 	},
 	{ name: 'cancel with nothing to say', kind: 'cancel', message: '', options: {} },
 	{ name: 'an outro longer than the terminal', kind: 'outro', message: long, options: {}, columns: 40 },
+
+	// --- note ------------------------------------------------------------------------------------
+	//
+	// The first static renderer that reads the terminal's width, because it draws a right-hand border
+	// and a border only lands in the right column if what is inside it was measured first. Upstream's
+	// own note.test.ts is the source of most of these; the width the box settles on is the claim.
+
+	note('a message with a title', 'message', 'title'),
+	note('as wide as the longest line', 'short\nsomewhat questionably long line', 'title'),
+	note('a title wider than the message', 'hi', 'a considerably longer title'),
+	note('nothing to say', '', 'title'),
+	note('no title either', 'message', ''),
+	note('without the guide', 'message', 'title', { withGuide: false }),
+	note('a message of blank lines', 'a\n\nb', 'title'),
+
+	// `format` names one of the recorder's formatters; a Fixture cannot hold a function.
+	note('a formatter that adds characters', 'line 0\nline 1\nline 2', 'title', { format: 'stars' }),
+	note('a formatter that adds only colour', 'line 0\nline 1\nline 2', 'title', { format: 'red' }),
+
+	// Upstream's two overflow cases, at its own seventy-five columns.
+	{
+		name: "don't overflow",
+		kind: 'note',
+		message: `${'test string '.repeat(32)}\n`.repeat(4).trim(),
+		title: 'title',
+		options: {},
+		columns: 75,
+	},
+	{
+		name: "don't overflow with a formatter",
+		kind: 'note',
+		message: `${'test string '.repeat(32)}\n`.repeat(4).trim(),
+		title: 'title',
+		options: { format: 'red-stars' },
+		columns: 75,
+	},
+	// Ten columns, which leaves four for the message — every wide character is a row of its own.
+	{
+		name: 'wide characters in a narrow terminal',
+		kind: 'note',
+		message: '이게 첫 번째 줄이에요\nこれは次の行です',
+		title: '这是标题',
+		options: {},
+		columns: 10,
+	},
+	{
+		name: 'wide characters in a narrow terminal, with a formatter',
+		kind: 'note',
+		message: '이게 첫 번째 줄이에요\nこれは次の行です',
+		title: '这是标题',
+		options: { format: 'red-stars' },
+		columns: 10,
+	},
+	// A formatter that costs more columns than the terminal has: the wrap width reaches zero, which
+	// upstream lays out one code point per row.
+	{
+		name: 'a formatter wider than the terminal leaves it',
+		kind: 'note',
+		message: 'abcdef',
+		title: 't',
+		options: { format: 'stars' },
+		columns: 10,
+	},
 ];

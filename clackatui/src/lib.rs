@@ -40,7 +40,9 @@ pub use confirm::{Confirm, confirm};
 pub use date::{Date, date};
 pub use error::ClackError;
 pub use group_multi_select::{GroupMultiSelect, group_multiselect};
-pub use message::{cancel, cancel_with, intro, intro_with, log, outro, outro_with};
+pub use message::{
+	cancel, cancel_with, intro, intro_with, log, note, note_with, outro, outro_with,
+};
 pub use multi_line::{MultiLine, multiline};
 pub use multi_select::{MultiSelect, multiselect};
 pub use password::{Password, password};

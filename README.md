@@ -85,9 +85,13 @@ answer
 ([ADR-0027](./docs/adr/0027-multiline-keeps-an-editor-its-own-suite-never-uses.md)) —
 **all a hundred and ninety-one agree on the Grid**.
 M5 leaves the Prompts behind for the output that is not one: `log`, `intro`, `outro` and `cancel`
-write once, never wrap, and are recorded by a third harvest of their own — thirty cases, and the
-first thing in the port that hands a line to the terminal and lets *it* do the breaking
-([ADR-0029](./docs/adr/0029-the-static-renderers-write-once-and-never-wrap.md)).
+write once, never wrap, and are recorded by a third harvest of their own — the first thing in the
+port that hands a line to the terminal and lets *it* do the breaking
+([ADR-0029](./docs/adr/0029-the-static-renderers-write-once-and-never-wrap.md)). `note` is the
+exception that proves it: it draws a right-hand border, so it has to measure first, and its
+formatter returns a drawn `Line` where upstream's returns a string with escapes in it
+([ADR-0030](./docs/adr/0030-a-notes-formatter-returns-a-line.md)) — **forty-four static cases, all
+agreeing on the Grid and character for character**.
 See
 [CONTEXT.md](./CONTEXT.md) for the vocabulary and [docs/adr/](./docs/adr/) for the decisions behind
 the shape below.
@@ -224,7 +228,7 @@ upstream drift.
 | **M2** | ~~`password` and `confirm` — states, widgets, builders, both suites harvested, eleven more hand-authored Scenarios~~ **done** |
 | **M3** | ~~`limit-options` against a 54-case corpus, `select`, `multiselect` and `select-key` end to end with their suites harvested~~ **done** |
 | **M4** | ~~group-multi-select~~, ~~autocomplete~~, ~~date~~, ~~multi-line~~ **done** |
-| **M5** | ~~`log`, `intro`, `outro`, `cancel`~~, `note`, `box`, `spinner`, `task-log`, `progress-bar`, `path` |
+| **M5** | ~~`log`, `intro`, `outro`, `cancel`, `note`~~, `box`, `spinner`, `task-log`, `progress-bar`, `path` |
 | **M6** | theme polish, docs, publish |
 
 M1 is one Prompt rather than one layer on purpose. Every decision here assumed Grid parity through an

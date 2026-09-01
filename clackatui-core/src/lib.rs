@@ -14,6 +14,7 @@ pub mod line_editor;
 pub mod message;
 pub mod multi_line;
 pub mod multi_select;
+pub mod note;
 pub mod password;
 pub mod prompt;
 pub mod select;

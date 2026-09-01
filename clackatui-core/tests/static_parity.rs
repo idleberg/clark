@@ -25,9 +25,11 @@ mod grid;
 use grid::{Grid, difference};
 
 use clackatui_core::emitter::write_once;
-use clackatui_core::frame::{Frame, Span};
+use clackatui_core::frame::{Frame, Line, Span};
 use clackatui_core::message;
+use clackatui_core::note;
 use clackatui_core::theme::Theme;
+use ratatui_core::style::{Color, Style};
 use serde_json::Value;
 
 const FIXTURE: &str = include_str!("fixtures/static.json");
@@ -36,6 +38,8 @@ struct Case {
 	name: String,
 	kind: String,
 	message: String,
+	title: String,
+	format: Option<String>,
 	symbol: Option<String>,
 	secondary_symbol: Option<String>,
 	spacing: usize,
@@ -57,6 +61,8 @@ fn cases() -> (Value, Vec<Case>) {
 				name: case["name"].as_str().expect("a name").to_owned(),
 				kind: case["kind"].as_str().expect("a kind").to_owned(),
 				message: case["message"].as_str().expect("a message").to_owned(),
+				title: case["title"].as_str().unwrap_or_default().to_owned(),
+				format: options["format"].as_str().map(str::to_owned),
 				symbol: options["symbol"].as_str().map(str::to_owned),
 				secondary_symbol: options["secondarySymbol"].as_str().map(str::to_owned),
 				// Upstream's defaults, which a case only writes down when it differs from them.
@@ -100,6 +106,23 @@ fn drawn(case: &Case) -> Frame {
 		.unwrap_or_else(|| bar.clone());
 
 	match case.kind.as_str() {
+		"note" => match case.format.as_deref() {
+			None => note::note(
+				&case.message,
+				&case.title,
+				case.columns,
+				&theme,
+				case.with_guide,
+			),
+			Some(named) => note::note_with(
+				&case.message,
+				&case.title,
+				case.columns,
+				&theme,
+				case.with_guide,
+				formatter(named),
+			),
+		},
 		"intro" => message::intro(&case.message, &theme, case.with_guide),
 		"outro" => message::outro(&case.message, &theme, case.with_guide),
 		"cancel" => message::cancel(&case.message, &theme, case.with_guide),
@@ -110,6 +133,26 @@ fn drawn(case: &Case) -> Frame {
 			case.spacing,
 			case.with_guide,
 		),
+	}
+}
+
+/// The formatter a `note` case names, as a Line-returning one rather than upstream's string one.
+///
+/// Same three the Recorder holds, and the reason the Fixture names them instead of carrying them: a
+/// function does not survive JSON. `red` adds no columns and `stars` adds four, which is the whole
+/// point of `wrapWithFormat` — and `red-stars` adds both at once.
+fn formatter(named: &str) -> &'static dyn Fn(&str) -> Line {
+	match named {
+		"stars" => &|line| Line::from(Span::raw(format!("* {line} *"))),
+		"red" => &|line| Line::from(Span::styled(line, Style::new().fg(Color::Red))),
+		"red-stars" => &|line| {
+			Line::from_iter([
+				Span::styled("* ", Style::new().fg(Color::Red)),
+				Span::styled(line, Style::new().fg(Color::Cyan)),
+				Span::styled(" *", Style::new().fg(Color::Red)),
+			])
+		},
+		other => panic!("the fixture names a formatter the test does not have: {other}"),
 	}
 }
 
@@ -145,7 +188,7 @@ fn every_static_renderer_leaves_the_terminal_the_way_clack_left_it() {
 	);
 
 	assert!(
-		cases.len() >= 30,
+		cases.len() >= 44,
 		"only {} cases were compared; the fixture has stopped carrying them",
 		cases.len()
 	);
@@ -200,6 +243,7 @@ fn the_static_fixture_is_a_plausible_recording() {
 		"intro",
 		"outro",
 		"cancel",
+		"note",
 	] {
 		assert!(
 			cases.iter().any(|case| case.kind == kind),
@@ -222,6 +266,18 @@ fn the_static_fixture_is_a_plausible_recording() {
 	assert!(
 		cases.iter().any(|case| case.symbol.is_some()),
 		"nothing in the fixture sets a symbol of its own"
+	);
+	// `note` is the only renderer here that reads the terminal's width, so a case at a width other
+	// than eighty is the only thing that can catch it reading the wrong one.
+	assert!(
+		cases
+			.iter()
+			.any(|case| case.kind == "note" && case.columns != 80),
+		"every note in the fixture was written to the same terminal"
+	);
+	assert!(
+		cases.iter().any(|case| case.format.is_some()),
+		"nothing in the fixture formats a note's rows"
 	);
 }
 

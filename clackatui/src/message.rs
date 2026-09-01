@@ -20,6 +20,7 @@ use std::io::Write;
 use clackatui_core::emitter::write_once;
 use clackatui_core::frame::Span;
 use clackatui_core::message;
+use clackatui_core::note as core_note;
 use clackatui_core::theme::Theme;
 
 /// Print bytes to stdout, dropping a failure. See the module docs.
@@ -83,6 +84,50 @@ pub fn cancel_with(message: impl AsRef<str>, theme: &Theme, with_guide: bool) {
 		theme,
 		with_guide,
 	)));
+}
+
+/// A message in a box, under a title.
+///
+/// The only renderer here that reads the terminal's width, because it draws a right-hand border.
+/// Eighty columns when there is no terminal to ask, which is upstream's fallback too.
+///
+/// ```no_run
+/// clackatui::note("npm install\nnpm run dev", "Next steps");
+/// ```
+pub fn note(message: impl AsRef<str>, title: impl AsRef<str>) {
+	print(&write_once(&core_note::note(
+		message.as_ref(),
+		title.as_ref(),
+		columns(),
+		&Theme::clack(),
+		true,
+	)));
+}
+
+/// [`note`], with a formatter for each row of the message, another Theme, or no Guide.
+///
+/// The formatter returns a drawn [`Line`](clackatui_core::frame::Line) where upstream's returns a
+/// string, so it can add colour as well as characters — see [`clackatui_core::note`].
+pub fn note_with(
+	message: impl AsRef<str>,
+	title: impl AsRef<str>,
+	theme: &Theme,
+	with_guide: bool,
+	format: core_note::Format<'_>,
+) {
+	print(&write_once(&core_note::note_with(
+		message.as_ref(),
+		title.as_ref(),
+		columns(),
+		theme,
+		with_guide,
+		format,
+	)));
+}
+
+/// The terminal's width, or upstream's eighty when there is no terminal.
+fn columns() -> usize {
+	crossterm::terminal::size().map_or(80, |(columns, _)| columns as usize)
 }
 
 /// Messages between Prompts, each under a symbol of its own.

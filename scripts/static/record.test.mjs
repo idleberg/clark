@@ -13,6 +13,7 @@
 
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { styleText } from 'node:util';
 import { expect, test } from 'vitest';
 import * as prompts from 'clack:prompts';
 import { MockWritable } from 'clack:test-utils';
@@ -22,8 +23,18 @@ const OUT = process.env.RECORDER_OUT;
 if (!OUT) throw new Error('RECORDER_OUT is not set; run scripts/harvest-static.mjs');
 mkdirSync(OUT, { recursive: true });
 
+// `note`'s `format` is a function, and a Fixture holds JSON. A case names one of these instead, and
+// the port maps the same name to a Line-returning formatter of its own — the two upstream's own
+// tests use, plus the pair of them together.
+const formatters = {
+	stars: (line) => `* ${line} *`,
+	red: (line) => styleText('red', line),
+	'red-stars': (line) => styleText('red', `* ${styleText('cyan', line)} *`),
+};
+
 /** The renderer each `kind` names, called the way upstream's own examples call it. */
 const renderers = {
+	note: (message, opts, title) => prompts.note(message, title, opts),
 	log: (message, opts) => prompts.log.message(message, opts),
 	'log.info': (message, opts) => prompts.log.info(message, opts),
 	'log.success': (message, opts) => prompts.log.success(message, opts),
@@ -37,7 +48,7 @@ const renderers = {
 
 for (const [index, testCase] of cases.entries()) {
 	test(testCase.name, () => {
-		const { name, kind = 'log', message, options = {}, columns = 80, rows = 20 } = testCase;
+		const { name, kind = 'log', message, title = '', options = {}, columns = 80, rows = 20 } = testCase;
 
 		const render = renderers[kind];
 		if (!render) throw new Error(`no renderer for kind "${kind}"`);
@@ -46,7 +57,10 @@ for (const [index, testCase] of cases.entries()) {
 		output.columns = columns;
 		output.rows = rows;
 
-		render(message, { ...options, output });
+		const { format, ...rest } = options;
+		if (format && !formatters[format]) throw new Error(`no formatter named "${format}"`);
+
+		render(message, { ...rest, ...(format ? { format: formatters[format] } : {}), output }, title);
 
 		const bytes = output.buffer.join('');
 		// A renderer that wrote nothing at all is not a recording of anything.
@@ -54,7 +68,7 @@ for (const [index, testCase] of cases.entries()) {
 
 		writeFileSync(
 			join(OUT, `${String(index).padStart(3, '0')}.json`),
-			JSON.stringify({ name, kind, message, options, columns, rows, bytes }, null, '\t')
+			JSON.stringify({ name, kind, message, title, options, columns, rows, bytes }, null, '\t')
 		);
 	});
 }
