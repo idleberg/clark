@@ -1,0 +1,301 @@
+{
+	"source": "scripts/static/cases.mjs",
+	"tag": "@clack/prompts@1.7.0",
+	"commit": "dc5bce8aae84a57b5863124adfaa839c1db1fa23",
+	"describe": "@clack/core@1.4.3",
+	"node": "24.20.0",
+	"generatedBy": "scripts/harvest-static.mjs",
+	"cases": [
+		{
+			"name": "a message under a bar",
+			"kind": "log",
+			"message": "message",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  message\n"
+		},
+		{
+			"name": "a message of several lines",
+			"kind": "log",
+			"message": "line 1\nline 2\nline 3",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  line 1\n\u001b[90m│\u001b[39m  line 2\n\u001b[90m│\u001b[39m  line 3\n"
+		},
+		{
+			"name": "a blank line keeps its bar and loses its spaces",
+			"kind": "log",
+			"message": "foo\n\nbar",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  foo\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  bar\n"
+		},
+		{
+			"name": "a message with nothing in it is still a row",
+			"kind": "log",
+			"message": "",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m\n"
+		},
+		{
+			"name": "spacing is rows above the message",
+			"kind": "log",
+			"message": "spaced message",
+			"options": {
+				"spacing": 3
+			},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  spaced message\n"
+		},
+		{
+			"name": "no spacing at all",
+			"kind": "log",
+			"message": "tight message",
+			"options": {
+				"spacing": 0
+			},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "\u001b[90m│\u001b[39m  tight message\n"
+		},
+		{
+			"name": "a symbol of its own, and a second one for the rows below",
+			"kind": "log",
+			"message": "custom\nsymbols",
+			"options": {
+				"symbol": ">>",
+				"secondarySymbol": "--"
+			},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "--\n>>  custom\n--  symbols\n"
+		},
+		{
+			"name": "with the guide off",
+			"kind": "log",
+			"message": "standalone message",
+			"options": {
+				"withGuide": false
+			},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "\nstandalone message\n"
+		},
+		{
+			"name": "with the guide off, a blank line is blank",
+			"kind": "log",
+			"message": "foo\n\nbar",
+			"options": {
+				"withGuide": false
+			},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "\nfoo\n\nbar\n"
+		},
+		{
+			"name": "with the guide off and nothing to say",
+			"kind": "log",
+			"message": "",
+			"options": {
+				"withGuide": false
+			},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "\n\n"
+		},
+		{
+			"name": "a line longer than the terminal",
+			"kind": "log",
+			"message": "lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet ",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet \n"
+		},
+		{
+			"name": "a line of wide characters longer than the terminal",
+			"kind": "log",
+			"message": "ばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんは",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  ばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんは\n"
+		},
+		{
+			"name": "a long line at forty columns",
+			"kind": "log",
+			"message": "lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet ",
+			"options": {},
+			"columns": 40,
+			"rows": 20,
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet \n"
+		},
+		{
+			"name": "info",
+			"kind": "log.info",
+			"message": "info message",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[34m●\u001b[39m  info message\n"
+		},
+		{
+			"name": "success",
+			"kind": "log.success",
+			"message": "success message",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◆\u001b[39m  success message\n"
+		},
+		{
+			"name": "step",
+			"kind": "log.step",
+			"message": "step message",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  step message\n"
+		},
+		{
+			"name": "warn",
+			"kind": "log.warn",
+			"message": "warn message",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[33m▲\u001b[39m  warn message\n"
+		},
+		{
+			"name": "error",
+			"kind": "log.error",
+			"message": "error message",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[31m■\u001b[39m  error message\n"
+		},
+		{
+			"name": "a named symbol on a message of several lines",
+			"kind": "log.warn",
+			"message": "first\nsecond",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[33m▲\u001b[39m  first\n\u001b[90m│\u001b[39m  second\n"
+		},
+		{
+			"name": "a named symbol with the guide off",
+			"kind": "log.error",
+			"message": "error message",
+			"options": {
+				"withGuide": false
+			},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "\nerror message\n"
+		},
+		{
+			"name": "intro",
+			"kind": "intro",
+			"message": "create-app",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "\u001b[90m┌\u001b[39m  create-app\n"
+		},
+		{
+			"name": "intro with the guide off",
+			"kind": "intro",
+			"message": "create-app",
+			"options": {
+				"withGuide": false
+			},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "create-app\n"
+		},
+		{
+			"name": "intro with nothing to say",
+			"kind": "intro",
+			"message": "",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "\u001b[90m┌\u001b[39m  \n"
+		},
+		{
+			"name": "outro",
+			"kind": "outro",
+			"message": "You're all set!",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[90m└\u001b[39m  You're all set!\n\n"
+		},
+		{
+			"name": "outro with the guide off",
+			"kind": "outro",
+			"message": "You're all set!",
+			"options": {
+				"withGuide": false
+			},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "You're all set!\n\n"
+		},
+		{
+			"name": "outro with nothing to say",
+			"kind": "outro",
+			"message": "",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[90m└\u001b[39m  \n\n"
+		},
+		{
+			"name": "cancel",
+			"kind": "cancel",
+			"message": "Installation canceled",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "\u001b[90m└\u001b[39m  \u001b[31mInstallation canceled\u001b[39m\n\n"
+		},
+		{
+			"name": "cancel with the guide off",
+			"kind": "cancel",
+			"message": "Installation canceled",
+			"options": {
+				"withGuide": false
+			},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "\u001b[31mInstallation canceled\u001b[39m\n\n"
+		},
+		{
+			"name": "cancel with nothing to say",
+			"kind": "cancel",
+			"message": "",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "\u001b[90m└\u001b[39m  \u001b[31m\u001b[39m\n\n"
+		},
+		{
+			"name": "an outro longer than the terminal",
+			"kind": "outro",
+			"message": "lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet ",
+			"options": {},
+			"columns": 40,
+			"rows": 20,
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[90m└\u001b[39m  lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet \n\n"
+		}
+	]
+}

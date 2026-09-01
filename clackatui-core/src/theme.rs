@@ -242,6 +242,21 @@ pub struct Styles {
 	pub error_hint: Style,
 	/// A key named inside that advice, drawn as a chip: inverse, on white, in gray.
 	pub error_key: Style,
+
+	/// The symbol `log.info` puts in the left margin. Blue, and the only blue in clack.
+	pub log_info: Style,
+	/// `log.success`'s symbol.
+	pub log_success: Style,
+	/// `log.step`'s symbol. The same green as [`log_success`](Self::log_success) on a different
+	/// symbol — upstream draws `S_STEP_SUBMIT` here and `S_SUCCESS` there.
+	pub log_step: Style,
+	/// `log.warn`'s symbol.
+	pub log_warn: Style,
+	/// `log.error`'s symbol.
+	pub log_error: Style,
+	/// The message `cancel` ends an interaction with. Plain red — not the strikethrough
+	/// [`cancelled`](Self::cancelled) a Prompt's own abandoned value is drawn in.
+	pub log_cancel: Style,
 }
 
 impl Styles {
@@ -295,6 +310,13 @@ impl Styles {
 			.fg(Color::DarkGray)
 			.bg(Color::Gray)
 			.add_modifier(Modifier::DIM.union(Modifier::REVERSED)),
+
+		log_info: Style::new().fg(Color::Blue),
+		log_success: Style::new().fg(Color::Green),
+		log_step: Style::new().fg(Color::Green),
+		log_warn: Style::new().fg(Color::Yellow),
+		log_error: Style::new().fg(Color::Red),
+		log_cancel: Style::new().fg(Color::Red),
 	};
 }
 

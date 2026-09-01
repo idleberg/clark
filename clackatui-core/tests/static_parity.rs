@@ -1,0 +1,244 @@
+//! Parity for the renderers that are not Prompts: `log`, `intro`, `outro` and `cancel`.
+//!
+//! The same claim `scenario_parity` makes, against a corpus that needs no Scenario. A static
+//! renderer has no state, reads no key and draws no second Frame — it is a function from a message
+//! to a string of bytes — so a case is one call, and both sides are compared after one write.
+//!
+//! Two comparisons per case, and they check different things:
+//!
+//! - **The Grid.** Characters, styles and cursor position, through one emulator, exactly as
+//!   ADR-0001 defines it. This is the one that matters, and the only one that can see colour.
+//! - **The characters, with SGR stripped.** The Grid of an 80-column terminal cannot tell a row
+//!   that ends in two spaces from one that ends where the padding begins — and one of these
+//!   renderers writes those two spaces whether or not there is a message behind them. Trailing
+//!   space is invisible on a Grid and visible to anyone who selects the row, so it gets a
+//!   comparison of its own.
+//!
+//! # Nothing here wraps
+//!
+//! clack wraps a Prompt's Frame itself, because it has to count the rows it walks the cursor back
+//! over (ADR-0012). Nothing walks back over these, so a long line goes out whole and the terminal
+//! breaks it — which is why three cases in the corpus are longer than the terminal they are written
+//! to. If [`write_once`] ever started wrapping, those three are what would say so.
+
+mod grid;
+use grid::{Grid, difference};
+
+use clackatui_core::emitter::write_once;
+use clackatui_core::frame::{Frame, Span};
+use clackatui_core::message;
+use clackatui_core::theme::Theme;
+use serde_json::Value;
+
+const FIXTURE: &str = include_str!("fixtures/static.json");
+
+struct Case {
+	name: String,
+	kind: String,
+	message: String,
+	symbol: Option<String>,
+	secondary_symbol: Option<String>,
+	spacing: usize,
+	with_guide: bool,
+	columns: usize,
+	rows: usize,
+	bytes: String,
+}
+
+fn cases() -> (Value, Vec<Case>) {
+	let json: Value = serde_json::from_str(FIXTURE).expect("fixtures/static.json parses");
+	let cases = json["cases"]
+		.as_array()
+		.expect("the fixture carries cases")
+		.iter()
+		.map(|case| {
+			let options = &case["options"];
+			Case {
+				name: case["name"].as_str().expect("a name").to_owned(),
+				kind: case["kind"].as_str().expect("a kind").to_owned(),
+				message: case["message"].as_str().expect("a message").to_owned(),
+				symbol: options["symbol"].as_str().map(str::to_owned),
+				secondary_symbol: options["secondarySymbol"].as_str().map(str::to_owned),
+				// Upstream's defaults, which a case only writes down when it differs from them.
+				spacing: options["spacing"].as_u64().unwrap_or(1) as usize,
+				with_guide: options["withGuide"].as_bool().unwrap_or(true),
+				columns: case["columns"].as_u64().expect("a width") as usize,
+				rows: case["rows"].as_u64().expect("a height") as usize,
+				bytes: case["bytes"]
+					.as_str()
+					.expect("the bytes clack wrote")
+					.to_owned(),
+			}
+		})
+		.collect();
+	(json, cases)
+}
+
+/// The Frame the port draws for a case.
+fn drawn(case: &Case) -> Frame {
+	let theme = Theme::clack();
+	let bar = Span::styled(theme.symbols.bar, theme.styles.guide);
+
+	// The five named `log` helpers are `log.message` with one option set, which is what upstream's
+	// are too — each is a one-line call through to it.
+	let symbol = match case.kind.as_str() {
+		"log.info" => Span::styled(theme.symbols.info, theme.styles.log_info),
+		"log.success" => Span::styled(theme.symbols.success, theme.styles.log_success),
+		"log.step" => Span::styled(theme.symbols.step_submit, theme.styles.log_step),
+		"log.warn" => Span::styled(theme.symbols.warn, theme.styles.log_warn),
+		"log.error" => Span::styled(theme.symbols.error, theme.styles.log_error),
+		_ => case
+			.symbol
+			.as_deref()
+			.map(Span::raw)
+			.unwrap_or_else(|| bar.clone()),
+	};
+	let secondary = case
+		.secondary_symbol
+		.as_deref()
+		.map(Span::raw)
+		.unwrap_or_else(|| bar.clone());
+
+	match case.kind.as_str() {
+		"intro" => message::intro(&case.message, &theme, case.with_guide),
+		"outro" => message::outro(&case.message, &theme, case.with_guide),
+		"cancel" => message::cancel(&case.message, &theme, case.with_guide),
+		_ => message::log(
+			&case.message,
+			symbol,
+			secondary,
+			case.spacing,
+			case.with_guide,
+		),
+	}
+}
+
+/// The one that matters.
+#[test]
+fn every_static_renderer_leaves_the_terminal_the_way_clack_left_it() {
+	let (_, cases) = cases();
+	let mut failures = Vec::new();
+
+	for case in &cases {
+		let theirs = Grid::of(&case.bytes, case.columns, case.rows);
+		let ours = Grid::of(&write_once(&drawn(case)), case.columns, case.rows);
+
+		// Two blank terminals are equal, so a case whose bytes never reached the emulator would
+		// agree for free.
+		assert!(
+			!theirs.text().trim().is_empty() || case.message.is_empty(),
+			"{}: clack's stream left nothing on the terminal",
+			case.name
+		);
+
+		if ours != theirs {
+			failures.push(format!("  {}\n{}", case.name, difference(&theirs, &ours)));
+		}
+	}
+
+	assert!(
+		failures.is_empty(),
+		"{} of {} static renders leave the terminal in a different state.\n\n{}",
+		failures.len(),
+		cases.len(),
+		failures.join("\n"),
+	);
+
+	assert!(
+		cases.len() >= 30,
+		"only {} cases were compared; the fixture has stopped carrying them",
+		cases.len()
+	);
+}
+
+/// What a Grid cannot see: where a row actually ends.
+///
+/// `outro('')` writes the corner, two spaces, and nothing else. On a Grid those two spaces are
+/// indistinguishable from the blanks a terminal pads every row with, so only the characters can say
+/// whether the port wrote them. The styles are stripped because the two sides encode them
+/// differently on purpose (ADR-0011) — that difference is the Grid's business, above.
+#[test]
+fn every_static_render_is_written_the_way_clack_wrote_it() {
+	let (_, cases) = cases();
+	let mut failures = Vec::new();
+
+	for case in &cases {
+		let theirs = strip(&case.bytes);
+		let ours = strip(&write_once(&drawn(case)));
+		if theirs != ours {
+			failures.push(format!(
+				"  {}\n       clack: {theirs:?}\n        port: {ours:?}",
+				case.name
+			));
+		}
+	}
+
+	assert!(
+		failures.is_empty(),
+		"{} of {} static renders put different characters on the wire.\n\n{}",
+		failures.len(),
+		cases.len(),
+		failures.join("\n"),
+	);
+}
+
+/// The fixture is a recording of one clack, and says which.
+#[test]
+fn the_static_fixture_is_a_plausible_recording() {
+	let (json, cases) = cases();
+
+	assert_eq!(json["tag"], "@clack/prompts@1.7.0");
+	assert_eq!(json["generatedBy"], "scripts/harvest-static.mjs");
+
+	for kind in [
+		"log",
+		"log.info",
+		"log.success",
+		"log.step",
+		"log.warn",
+		"log.error",
+		"intro",
+		"outro",
+		"cancel",
+	] {
+		assert!(
+			cases.iter().any(|case| case.kind == kind),
+			"nothing in the fixture records {kind}"
+		);
+	}
+
+	// The three claims the corpus exists to make: a message wider than the terminal, a Guide turned
+	// off, and a symbol that is not the bar.
+	assert!(
+		cases
+			.iter()
+			.any(|case| case.message.chars().count() > case.columns),
+		"nothing in the fixture is longer than the terminal it was written to"
+	);
+	assert!(
+		cases.iter().any(|case| !case.with_guide),
+		"nothing in the fixture turns the Guide off"
+	);
+	assert!(
+		cases.iter().any(|case| case.symbol.is_some()),
+		"nothing in the fixture sets a symbol of its own"
+	);
+}
+
+/// Bytes with their SGR sequences taken out. Only SGR — nothing here writes any other escape.
+fn strip(bytes: &str) -> String {
+	let mut out = String::new();
+	let mut chars = bytes.chars();
+	while let Some(c) = chars.next() {
+		if c == '\u{1b}' {
+			for c in chars.by_ref() {
+				if c == 'm' {
+					break;
+				}
+			}
+		} else {
+			out.push(c);
+		}
+	}
+	out
+}

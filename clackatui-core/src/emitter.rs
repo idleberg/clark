@@ -58,6 +58,24 @@ const CSI: &str = "\u{1b}[";
 /// ADR-0013 — this is reproduced on purpose, and it is an upstream defect.
 const MISSING_ROW: &str = "undefined";
 
+/// A Frame written once, for the renderers that never draw a second one.
+///
+/// `log`, `intro`, `outro`, `cancel` and the rest of `@clack/prompts`' static output do not go
+/// through `Prompt.render` at all: they build a string and hand it to `output.write`. There is no
+/// previous Frame to diff against, no cursor to hide, and — the part that matters — no wrap. clack
+/// wraps a Prompt's Frame itself so it can count the rows it walks back over (ADR-0012); nothing
+/// walks back over these, so a long line is left for the terminal to soft-wrap exactly as upstream
+/// leaves it.
+///
+/// Rows joined with `\n`, and one `\n` after the last, which is the newline every one of those
+/// writes ends with. A trailing blank row is therefore how a blank line after the output is written
+/// down — see [`crate::message`].
+pub fn write_once(frame: &Frame) -> String {
+	let mut out = write_rows(&frame.rows(u16::MAX), 0);
+	out.push('\n');
+	out
+}
+
 /// Turns Frames into terminal writes, holding the previous Frame between calls.
 ///
 /// Produces the bytes rather than writing them, so that `clackatui-core` stays free of I/O. The

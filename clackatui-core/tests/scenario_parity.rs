@@ -52,34 +52,13 @@
 //! `every_scenario_is_written_the_way_clack_wrote_it` and passes here, which is the clearest case
 //! yet for keeping the two comparisons side by side.
 
+mod grid;
 mod scenarios;
+
+use grid::{Grid, difference, feed, read};
 use scenarios::{Segment, all};
 
-use avt::{Cell, Vt};
-
-/// The observable terminal state: characters, styles and cursor position.
-///
-/// Deliberately the whole terminal rather than the rows the Prompt happens to occupy. Where a
-/// Prompt *stops* writing is part of what is being checked — a port that erased one row too few
-/// would leave a difference below its own output, and cropping to its own output would hide it.
-#[derive(PartialEq)]
-struct Grid {
-	rows: Vec<Vec<Cell>>,
-	cursor: (usize, usize),
-	cursor_visible: bool,
-}
-
-impl Grid {
-	/// Everything on the terminal, as text. For the emptiness guard and for failure messages, not
-	/// for the comparison — a Grid is more than its characters.
-	fn text(&self) -> String {
-		self.rows
-			.iter()
-			.map(|cells| characters(cells))
-			.collect::<Vec<_>>()
-			.join("\n")
-	}
-}
+use avt::Vt;
 
 /// A byte stream, replayed into the terminal it was written for.
 ///
@@ -95,34 +74,10 @@ fn grid(segments: &[Segment]) -> Grid {
 		if (segment.columns, segment.rows) != vt.size() {
 			vt.resize(segment.columns, segment.rows);
 		}
-		vt.feed_str(&onlcr(&segment.bytes));
+		feed(&mut vt, &segment.bytes);
 	}
 
-	let cursor = vt.cursor();
-	Grid {
-		rows: vt.view().map(|line| line.cells().to_vec()).collect(),
-		cursor: (cursor.col, cursor.row),
-		cursor_visible: cursor.visible,
-	}
-}
-
-/// `ONLCR`: the line feeds a terminal turns into carriage-return line feeds.
-///
-/// clack writes its Frames to `process.stdout`, which is a tty in normal output mode — it puts the
-/// terminal's *input* into raw mode and leaves the output discipline alone — so every `\n` in a
-/// Frame returns the cursor to the first column before moving down. `avt` is the emulator and not
-/// the line discipline, so it has to be told. Without this the second row of every Frame starts
-/// wherever the first row ended, and a Prompt that draws six rows draws them down a staircase no
-/// terminal has ever shown anyone.
-///
-/// It is not cosmetic. A staircase leaves cells to the left of each row that nothing ever wrote, and
-/// `avt` pads them with whatever style was open at the time — so the comparison was reading a
-/// difference in the escape *before* a newline off cells that do not exist on a real terminal. That
-/// is also the answer to why `ESC[999D` is written before every cursor walk: after a Frame whose
-/// last row has no newline after it the cursor is at the end of that row, and clack has to get back
-/// to the first column to count rows.
-fn onlcr(bytes: &str) -> String {
-	bytes.replace('\n', "\r\n")
+	read(&vt)
 }
 
 /// The one that matters.
@@ -190,80 +145,6 @@ fn drew(terminal: &str, message: &str) -> bool {
 	message
 		.chars()
 		.all(|wanted| written.any(|drawn| drawn == wanted))
-}
-
-/// Two Grids, with the parts that agree left out.
-///
-/// A failure here is read by someone who has to work out which write caused it, so it reports the
-/// rows that differ and how, rather than two screens to be diffed by eye.
-fn difference(theirs: &Grid, ours: &Grid) -> String {
-	let mut out = Vec::new();
-
-	if theirs.cursor != ours.cursor {
-		out.push(format!(
-			"     cursor: clack left it at {:?}, the port at {:?}",
-			theirs.cursor, ours.cursor
-		));
-	}
-	if theirs.cursor_visible != ours.cursor_visible {
-		out.push(format!(
-			"     cursor: clack left it {}, the port {}",
-			shown(theirs.cursor_visible),
-			shown(ours.cursor_visible),
-		));
-	}
-
-	for (index, (theirs, ours)) in theirs.rows.iter().zip(&ours.rows).enumerate() {
-		if theirs == ours {
-			continue;
-		}
-		out.push(format!("     row {index}"));
-		out.push(format!("       clack: {}", row(theirs)));
-		out.push(format!("        port: {}", row(ours)));
-
-		// Where the two rows say the same thing but wear it differently, the text above is
-		// identical and useless. Name the first cell that differs instead.
-		if row(theirs) == row(ours) {
-			if let Some((column, theirs, ours)) = theirs
-				.iter()
-				.zip(ours)
-				.enumerate()
-				.find(|(_, (a, b))| a != b)
-				.map(|(column, (a, b))| (column, a, b))
-			{
-				out.push(format!(
-					"       column {column} is styled {:?} by clack and {:?} by the port",
-					theirs.pen(),
-					ours.pen()
-				));
-			}
-		}
-	}
-
-	out.join("\n")
-}
-
-/// The characters of a row, read once each.
-///
-/// A wide character occupies two cells and `avt` stores it in both, so taking `char` from every
-/// cell would read it twice — which is only visible when a Scenario has wide characters in it, and
-/// so was invisible until the hand-authored ones arrived. The tail cell is the one with no width of
-/// its own. The comparison itself is unaffected: it is over whole `Cell`s, occupancy included.
-fn characters(cells: &[Cell]) -> String {
-	cells
-		.iter()
-		.filter(|cell| cell.width() > 0)
-		.map(Cell::char)
-		.collect()
-}
-
-/// A row as text, with the trailing blanks cut off so that a failure fits on a line.
-fn row(cells: &[Cell]) -> String {
-	format!("{:?}", characters(cells).trim_end())
-}
-
-fn shown(visible: bool) -> &'static str {
-	if visible { "visible" } else { "hidden" }
 }
 
 /// The emulator is the arbiter of every appearance claim in this file, so it is worth one test of
