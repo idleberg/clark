@@ -1,0 +1,387 @@
+{
+	"source": "@clack/prompts test suite",
+	"tag": "@clack/prompts@1.7.0",
+	"commit": "dc5bce8aae84a57b5863124adfaa839c1db1fa23",
+	"describe": "@clack/core@1.4.3",
+	"node": "24.20.0",
+	"generatedBy": "scripts/harvest-scenarios.mjs",
+	"suites": [
+		"date"
+	],
+	"scenarios": [
+		{
+			"name": "date › can cancel",
+			"prompts": [
+				{
+					"kind": "date",
+					"opts": {
+						"message": "Pick a date",
+						"locale": "en-US"
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "escape",
+							"key": {
+								"name": "escape",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Pick a date\n\u001b[36m│\u001b[39m  \u001b[7mmm\u001b[27m\u001b[90m/\u001b[39m\u001b[2mdd\u001b[22m\u001b[90m/\u001b[39m\u001b[2myyyy\u001b[22m\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[31m■\u001b[39m  Pick a date\n\u001b[90m│\u001b[39m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "date › defaultValue used when empty submit",
+			"prompts": [
+				{
+					"kind": "date",
+					"opts": {
+						"message": "Pick a date",
+						"locale": "en-US",
+						"defaultValue": {
+							"date": "2025-12-25T00:00:00.000Z"
+						}
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": null,
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Pick a date\n\u001b[36m│\u001b[39m  \u001b[7m12\u001b[27m\u001b[90m/\u001b[39m25\u001b[90m/\u001b[39m2025\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Pick a date\n\u001b[90m│\u001b[39m  \u001b[2m12/25/2025\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "date › minDate shows error when date before min and submit",
+			"prompts": [
+				{
+					"kind": "date",
+					"opts": {
+						"message": "Pick a date",
+						"locale": "en-US",
+						"initialValue": {
+							"date": "2025-01-10T00:00:00.000Z"
+						},
+						"minDate": {
+							"date": "2025-01-15T00:00:00.000Z"
+						}
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": null,
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "escape",
+							"key": {
+								"name": "escape",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Pick a date\n\u001b[36m│\u001b[39m  \u001b[7m01\u001b[27m\u001b[90m/\u001b[39m10\u001b[90m/\u001b[39m2025\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[33m▲\u001b[39m  Pick a date\n\u001b[33m│\u001b[39m  \u001b[7m01\u001b[27m\u001b[90m/\u001b[39m10\u001b[90m/\u001b[39m2025\n\u001b[33m└\u001b[39m  \u001b[33mDate must be on or after 2025-01-15\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[31m■\u001b[39m  Pick a date\n\u001b[90m│\u001b[39m  \u001b[9m\u001b[2m01/10/2025\u001b[22m\u001b[29m\n\u001b[90m│\u001b[39m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "date › renders initial value",
+			"prompts": [
+				{
+					"kind": "date",
+					"opts": {
+						"message": "Pick a date",
+						"locale": "en-US",
+						"initialValue": {
+							"date": "2025-01-15T00:00:00.000Z"
+						}
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": null,
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Pick a date\n\u001b[36m│\u001b[39m  \u001b[7m01\u001b[27m\u001b[90m/\u001b[39m15\u001b[90m/\u001b[39m2025\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Pick a date\n\u001b[90m│\u001b[39m  \u001b[2m01/15/2025\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "date › renders message",
+			"prompts": [
+				{
+					"kind": "date",
+					"opts": {
+						"message": "Pick a date",
+						"locale": "en-US",
+						"initialValue": {
+							"date": "2025-01-15T00:00:00.000Z"
+						}
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": null,
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Pick a date\n\u001b[36m│\u001b[39m  \u001b[7m01\u001b[27m\u001b[90m/\u001b[39m15\u001b[90m/\u001b[39m2025\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Pick a date\n\u001b[90m│\u001b[39m  \u001b[2m01/15/2025\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "date › renders submitted value",
+			"prompts": [
+				{
+					"kind": "date",
+					"opts": {
+						"message": "Pick a date",
+						"locale": "en-US",
+						"initialValue": {
+							"date": "2025-06-15T00:00:00.000Z"
+						}
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": null,
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Pick a date\n\u001b[36m│\u001b[39m  \u001b[7m06\u001b[27m\u001b[90m/\u001b[39m15\u001b[90m/\u001b[39m2025\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Pick a date\n\u001b[90m│\u001b[39m  \u001b[2m06/15/2025\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "date › supports MDY format",
+			"prompts": [
+				{
+					"kind": "date",
+					"opts": {
+						"message": "Pick a date",
+						"format": "MDY",
+						"initialValue": {
+							"date": "2025-01-15T00:00:00.000Z"
+						}
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": null,
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  Pick a date\n\u001b[36m│\u001b[39m  \u001b[7m01\u001b[27m\u001b[90m/\u001b[39m15\u001b[90m/\u001b[39m2025\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[4A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Pick a date\n\u001b[90m│\u001b[39m  \u001b[2m01/15/2025\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
+		{
+			"name": "date › withGuide: false removes guide",
+			"prompts": [
+				{
+					"kind": "date",
+					"opts": {
+						"message": "Pick a date",
+						"locale": "en-US",
+						"withGuide": false,
+						"initialValue": {
+							"date": "2025-01-15T00:00:00.000Z"
+						}
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": null,
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[36m◆\u001b[39m  Pick a date\n\u001b[7m01\u001b[27m\u001b[90m/\u001b[39m15\u001b[90m/\u001b[39m2025\n\n",
+						"\u001b[999D\u001b[3A",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  Pick a date\n  \u001b[2m01/15/2025\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		}
+	]
+}

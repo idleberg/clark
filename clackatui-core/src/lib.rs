@@ -5,6 +5,7 @@
 pub mod autocomplete;
 pub mod confirm;
 pub mod cursor;
+pub mod date;
 pub mod emitter;
 pub mod frame;
 pub mod group_multi_select;

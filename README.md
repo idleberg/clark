@@ -77,8 +77,10 @@ and then wraps the result again
 ([ADR-0024](./docs/adr/0024-groupmultiselect-measures-a-prefix-nobody-can-see.md)), and then
 `autocomplete` and `autocompleteMultiselect`, two Prompts out of one file whose search box draws its
 caret at the *option list's* index
-([ADR-0025](./docs/adr/0025-autocomplete-slices-the-search-box-at-the-option-cursor.md)) —
-**all a hundred and fifty-three agree on the Grid**.
+([ADR-0025](./docs/adr/0025-autocomplete-slices-the-search-box-at-the-option-cursor.md)), and then
+`date`, three strings edited beside a calendar that refuses a third of what they can spell
+([ADR-0026](./docs/adr/0026-date-is-three-strings-and-a-calendar-that-refuses-them.md)) —
+**all a hundred and seventy-one agree on the Grid**.
 See
 [CONTEXT.md](./CONTEXT.md) for the vocabulary and [docs/adr/](./docs/adr/) for the decisions behind
 the shape below.
@@ -214,7 +216,7 @@ upstream drift.
 | **M1** | ~~`text` end to end — Recorder, width port, `LineEditor`, `TextState`, `Frame`, Theme, `text` widget, wrap port, Emitter, `.interact()`, harvested text Scenarios green, hand-authored Scenarios (narrow, CJK, resize)~~ **done** |
 | **M2** | ~~`password` and `confirm` — states, widgets, builders, both suites harvested, eleven more hand-authored Scenarios~~ **done** |
 | **M3** | ~~`limit-options` against a 54-case corpus, `select`, `multiselect` and `select-key` end to end with their suites harvested~~ **done** |
-| **M4** | ~~group-multi-select~~, ~~autocomplete~~ **done**, date, multi-line |
+| **M4** | ~~group-multi-select~~, ~~autocomplete~~, ~~date~~ **done**, multi-line |
 | **M5** | static renderers |
 | **M6** | theme polish, docs, publish |
 
@@ -305,6 +307,20 @@ Scenarios were hand-authored: two at forty columns, and one that presses left
 Thirty-nine mutations of the port, ten of them uncaught until the tests grew to meet them; the four
 that survive are equivalent, and each is written down beside the code it could not change.
 A fifteenth was answered by deleting the line rather than covering it.
+
+`date` is the thinnest harvest in the port and the largest authored share: upstream's suite is eight
+Scenarios and nine keypresses, seven of them a bare `return` on a field that was already filled, so
+it types no digit and presses no arrow and the segment editor — three hundred of `DatePrompt`'s four
+hundred lines — reaches no recording at all. Ten hand-authored cases are that editor, and they are
+the first written for a behaviour rather than for a width. They pin four things clack does that a
+port would not invent: a year below 100 is drawn, accepted by every check, and still resolves to
+nothing, because `Date.UTC` reads it as 1900 + it; a `defaultValue` is documented as a fallback and
+implemented as a seed; a settled Frame prints the *segments* rather than the value, so a Prompt can
+answer `2025-12-25` while writing `__/__/____` on the terminal; and a fifth digit into a full year
+makes it five characters wide. The Recorder had to learn to write down a `Date` first — four of this
+Prompt's options hold one, and both harvesters had been flattening every such object to
+`{ opaque: true }`
+([ADR-0026](./docs/adr/0026-date-is-three-strings-and-a-calendar-that-refuses-them.md)).
 
 M0 came first because it was cheap and load-bearing. Reusing `BufferDiff` under our own width model
 depends entirely on `CellDiffOption::ForcedWidth`, which is recent API on a pre-1.0 crate. The probe

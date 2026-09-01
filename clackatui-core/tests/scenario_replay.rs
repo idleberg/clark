@@ -36,7 +36,7 @@ use ratatui_core::style::{Color, Modifier, Style};
 
 mod scenarios;
 use scenarios::{
-	Scenario, TAG, all, authored, autocomplete, confirm, group_multi_select, harvested,
+	Scenario, TAG, all, authored, autocomplete, confirm, date, group_multi_select, harvested,
 	multi_select, password, select, select_key,
 };
 
@@ -487,7 +487,7 @@ fn the_harvested_fixture_is_a_plausible_recording() {
 /// Frame or the cancelled one would otherwise be merely smaller, and the count below would let it
 /// through.
 #[test]
-fn the_seven_harvested_prompt_fixtures_are_plausible_recordings() {
+fn the_eight_harvested_prompt_fixtures_are_plausible_recordings() {
 	for (kind, (json, scenarios), least, required) in [
 		(
 			"password",
@@ -635,6 +635,24 @@ fn the_seven_harvested_prompt_fixtures_are_plausible_recordings() {
 				"autocompleteMultiselect › Tab with placeholder fills input; Enter submits current selection",
 			][..],
 		),
+		(
+			// The thinnest suite upstream has for any Prompt in the port: eight Scenarios and nine
+			// keypresses, seven of them a bare `return` on a field `initialValue` had already filled.
+			// The segment editor is covered by `scripts/authored/cases.mjs` instead — see ADR-0026.
+			"date",
+			date(),
+			8,
+			&[
+				"date › renders message",
+				"date › renders initial value",
+				"date › renders submitted value",
+				"date › can cancel",
+				"date › defaultValue used when empty submit",
+				"date › supports MDY format",
+				"date › minDate shows error when date before min and submit",
+				"date › withGuide: false removes guide",
+			][..],
+		),
 	] {
 		assert_eq!(
 			json["tag"].as_str(),
@@ -684,11 +702,11 @@ fn the_seven_harvested_prompt_fixtures_are_plausible_recordings() {
 		}
 
 		// One Scenario in most suites is driven by an `AbortSignal` rather than by keys.
-		// `select-key.test.ts` is the one with no such case, and `autocomplete.test.ts` has one for
-		// each of the two Prompts it covers.
+		// `select-key.test.ts` and `date.test.ts` are the ones with no such case, and
+		// `autocomplete.test.ts` has one for each of the two Prompts it covers.
 		let keyless = scenarios.iter().filter(|s| s.keys.is_empty()).count();
 		let expected = match kind {
-			"selectKey" => 0,
+			"selectKey" | "date" => 0,
 			"autocomplete" => 2,
 			_ => 1,
 		};
@@ -887,6 +905,68 @@ fn the_seven_harvested_prompt_fixtures_are_plausible_recordings() {
 	assert!(
 		complete.iter().all(|s| !s.validates),
 		"an autocomplete Scenario carries a validate callback the loader cannot reproduce"
+	);
+
+	// And for `date`, where almost everything is carried by the authored Fixture instead: upstream's
+	// suite types no digit, presses no arrow and sends no tab. What its own eight cases *do* settle
+	// is the four options, which decide which segments are drawn and what the field opens holding —
+	// and the segment order, which the loader has to reconstruct from a locale it cannot ask about.
+	let (_, dates) = date();
+	let mut dated = date().1;
+	dated.extend(authored().1.into_iter().filter(|s| s.kind == "date"));
+	let any = |what: &str, f: &dyn Fn(&Scenario) -> bool| {
+		assert!(
+			dated.iter().any(f),
+			"no date Scenario left that {what}; the port's branch for it is unverified"
+		);
+	};
+	for scenario in &dates {
+		assert!(
+			scenario.format.is_some() || scenario.locale.is_some(),
+			"{}: neither a format nor a locale, so the segment order is this machine's",
+			scenario.name
+		);
+	}
+	any("names its format outright", &|s| s.format.is_some());
+	any("gives only a locale", &|s| {
+		s.format.is_none() && s.locale.is_some()
+	});
+	any("sets its own separator", &|s| s.separator.is_some());
+	any("sets an initialValue", &|s| s.initial_date.is_some());
+	any("sets a defaultValue", &|s| s.default_date.is_some());
+	any("sets a minDate", &|s| s.min_date.is_some());
+	any("sets a maxDate", &|s| s.max_date.is_some());
+	any("turns the Guide off", &|s| !s.with_guide);
+	// The three key kinds the harvested suite has none of, all of which come from the authored one.
+	any("types a digit", &|s| {
+		s.keys.iter().any(|k| {
+			k.s.as_deref()
+				.is_some_and(|c| c.chars().all(|c| c.is_ascii_digit()) && !c.is_empty())
+		})
+	});
+	any("presses an arrow", &|s| {
+		s.keys
+			.iter()
+			.any(|k| matches!(k.name.as_deref(), Some("up" | "down" | "left" | "right")))
+	});
+	any("presses tab", &|s| {
+		s.keys.iter().any(|k| k.name.as_deref() == Some("tab"))
+	});
+	any("presses shift-tab", &|s| {
+		s.keys
+			.iter()
+			.any(|k| k.name.as_deref() == Some("tab") && k.shift)
+	});
+	any("presses backspace", &|s| {
+		s.keys
+			.iter()
+			.any(|k| k.name.as_deref() == Some("backspace"))
+	});
+	// `date()` writes its own validator out of `minDate`, `maxDate` and `defaultValue`, so a Scenario
+	// carrying a `validate` callback would be one the loader is reproducing the wrong rule for.
+	assert!(
+		dates.iter().all(|s| !s.validates),
+		"a date Scenario carries a validate callback; upstream's `date` writes its own"
 	);
 }
 

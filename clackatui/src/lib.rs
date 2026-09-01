@@ -20,6 +20,7 @@
 
 mod autocomplete;
 mod confirm;
+mod date;
 mod driver;
 mod error;
 mod group_multi_select;
@@ -34,6 +35,7 @@ pub use autocomplete::{
 	Autocomplete, AutocompleteMultiSelect, autocomplete, autocomplete_multiselect,
 };
 pub use confirm::{Confirm, confirm};
+pub use date::{Date, date};
 pub use error::ClackError;
 pub use group_multi_select::{GroupMultiSelect, group_multiselect};
 pub use multi_select::{MultiSelect, multiselect};
@@ -42,9 +44,10 @@ pub use select::{Select, select};
 pub use select_key::{SelectKey, select_key};
 pub use text::{Text, text};
 
+pub use clackatui_core::date::{Date as CivilDate, DateFormat};
 /// The pieces a caller needs to configure a Prompt or to drive one themselves.
 pub use clackatui_core::prompt::{Outcome, Validator};
 pub use clackatui_core::select::SelectOption;
 pub use clackatui_core::session::Session;
-pub use clackatui_core::settings::{Action, Settings};
+pub use clackatui_core::settings::{Action, DateMessages, Settings};
 pub use clackatui_core::theme::Theme;

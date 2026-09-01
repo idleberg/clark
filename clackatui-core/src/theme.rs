@@ -212,6 +212,9 @@ pub struct Styles {
 	pub separator: Style,
 	/// The `...` a list draws in place of the options it left out.
 	pub overflow: Style,
+	/// The `/` between a `date`'s segments. Upstream's `gray`, not the `dim` its other separator is
+	/// drawn in — the two are written a few lines apart in two files and simply disagree.
+	pub date_separator: Style,
 	/// The note in brackets beside an option. Upstream's `dim`.
 	pub hint: Style,
 	/// An option that cannot be chosen — its radio or checkbox, and in a `select` its label too.
@@ -270,6 +273,7 @@ impl Styles {
 
 		separator: Style::new().add_modifier(Modifier::DIM),
 		overflow: Style::new().add_modifier(Modifier::DIM),
+		date_separator: Style::new().fg(Color::DarkGray),
 		hint: Style::new().add_modifier(Modifier::DIM),
 		option_disabled: Style::new().fg(Color::DarkGray),
 		option_disabled_label: Style::new()

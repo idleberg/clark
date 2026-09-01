@@ -32,6 +32,7 @@ use clackatui_core::autocomplete::{
 	AutocompleteMultiSelectWidget, AutocompleteState, AutocompleteWidget,
 };
 use clackatui_core::confirm::{ConfirmState, ConfirmWidget};
+use clackatui_core::date::{Date, DateFormat, DateState, DateWidget, validator as date_validator};
 use clackatui_core::frame::Frame;
 use clackatui_core::group_multi_select::{GroupMultiSelectState, GroupMultiSelectWidget};
 use clackatui_core::line_editor::{Key, KeyName};
@@ -52,6 +53,7 @@ const MULTI_SELECT: &str = include_str!("../fixtures/scenarios/multi-select.json
 const SELECT_KEY: &str = include_str!("../fixtures/scenarios/select-key.json");
 const GROUP_MULTI_SELECT: &str = include_str!("../fixtures/scenarios/group-multi-select.json");
 const AUTOCOMPLETE: &str = include_str!("../fixtures/scenarios/autocomplete.json");
+const DATE: &str = include_str!("../fixtures/scenarios/date.json");
 
 /// The tag `README.md` names. A fixture from anywhere else is not the thing we claim parity with.
 pub const TAG: &str = "@clack/prompts@1.7.0";
@@ -91,6 +93,19 @@ pub struct Scenario {
 	/// Upstream passed a `filter` callback. One shape of them, in three Scenarios — see
 	/// [`Scenario::filter`].
 	pub filters: bool,
+	/// `date`'s `format`, `locale` and `separator` — the three that decide which segments are drawn
+	/// and in what order. See [`Scenario::date_format`], which is where a locale is turned into the
+	/// only thing a Rust port can act on.
+	pub format: Option<String>,
+	pub locale: Option<String>,
+	pub separator: Option<String>,
+	/// Its four date-valued options, each recorded as the instant it held. `initialValue` and
+	/// `defaultValue` are separate fields here because the Prompt reads them separately, even though
+	/// the constructor coalesces them.
+	pub initial_date: Option<Date>,
+	pub default_date: Option<Date>,
+	pub min_date: Option<Date>,
+	pub max_date: Option<Date>,
 	/// `multiselect`'s `initialValues`, `cursorAt` and `required`.
 	pub initial_values: Vec<String>,
 	pub cursor_at: Option<String>,
@@ -210,6 +225,11 @@ pub fn autocomplete() -> (serde_json::Value, Vec<Scenario>) {
 	parse(AUTOCOMPLETE, "fixtures/scenarios/autocomplete.json")
 }
 
+/// Clack's own `date` suite.
+pub fn date() -> (serde_json::Value, Vec<Scenario>) {
+	parse(DATE, "fixtures/scenarios/date.json")
+}
+
 /// Every Scenario there is. Which Fixture one came from is a question about the evidence behind it,
 /// not about what the port owes it, so the tests do not ask.
 pub fn all() -> Vec<Scenario> {
@@ -222,6 +242,7 @@ pub fn all() -> Vec<Scenario> {
 	scenarios.extend(select_key().1);
 	scenarios.extend(group_multi_select().1);
 	scenarios.extend(autocomplete().1);
+	scenarios.extend(date().1);
 	scenarios
 }
 
@@ -303,6 +324,13 @@ fn parse(source: &str, path: &str) -> (serde_json::Value, Vec<Scenario>) {
 					})
 					.unwrap_or_default(),
 				cursor_at: opts["cursorAt"].as_str().map(str::to_owned),
+				format: opts["format"].as_str().map(str::to_owned),
+				locale: opts["locale"].as_str().map(str::to_owned),
+				separator: opts["separator"].as_str().map(str::to_owned),
+				initial_date: recorded_date(&opts["initialValue"]),
+				default_date: recorded_date(&opts["defaultValue"]),
+				min_date: recorded_date(&opts["minDate"]),
+				max_date: recorded_date(&opts["maxDate"]),
 				required_explicit: opts["required"].as_bool() == Some(true),
 				filters: opts["filter"]["callback"].as_bool() == Some(true),
 				// `opts.required ?? true`. The one option in any Fixture whose default is on, and so the
@@ -363,6 +391,17 @@ fn choice(option: &serde_json::Value) -> Choice {
 		hint: option["hint"].as_str().map(str::to_owned),
 		disabled: option["disabled"].as_bool() == Some(true),
 	}
+}
+
+/// A date-valued option, which the Recorder writes as `{ "date": "<ISO instant>" }`.
+///
+/// Only the calendar part is read, because only the calendar part is what the Prompt does with one:
+/// every date it touches goes through `getUTCFullYear` and its two neighbours.
+fn recorded_date(value: &serde_json::Value) -> Option<Date> {
+	let iso = value["date"].as_str()?;
+	let mut parts = iso[..10].split('-').map(|n| n.parse().expect("a number"));
+	let (year, month, day) = (parts.next()?, parts.next()?, parts.next()?);
+	Some(Date::new(year, month, day).unwrap_or_else(|| panic!("{iso} is a date clack could hold")))
 }
 
 fn keypress(key: &serde_json::Value) -> Recorded {
@@ -462,6 +501,33 @@ impl Scenario {
 	/// fact that there was one and the loader supplies the shape all three of them have — a label
 	/// that *starts with* the search rather than containing it. A newer tag that writes a different
 	/// one does not fail here; it fails in parity, loudly, which is the right place for it.
+	/// The segment order and the separator a `date` Scenario asks for.
+	///
+	/// `opts.format` says both directly. `opts.locale` says neither: upstream asks
+	/// `Intl.DateTimeFormat` and Rust has no locale data, so the one locale upstream's suite uses is
+	/// written down here and any other is refused rather than guessed at — the same bargain as the
+	/// `filter` above, and it fails in the loader rather than in parity because a wrong segment order
+	/// is not a wrong drawing, it is a different Prompt.
+	fn date_format(&self) -> (DateFormat, String) {
+		let separator = self.separator.clone();
+		if let Some(format) = &self.format {
+			let format = match format.as_str() {
+				"YMD" => DateFormat::Ymd,
+				"MDY" => DateFormat::Mdy,
+				"DMY" => DateFormat::Dmy,
+				other => panic!("{}: unknown date format {other}", self.name),
+			};
+			return (format, separator.unwrap_or_else(|| "/".into()));
+		}
+		match self.locale.as_deref() {
+			Some("en-US") | None => (DateFormat::Mdy, separator.unwrap_or_else(|| "/".into())),
+			Some(other) => panic!(
+				"{}: no segment order is recorded for the locale {other}",
+				self.name
+			),
+		}
+	}
+
 	fn filter(&self) -> Option<impl Fn(&str, &SelectOption<String>) -> bool + use<>> {
 		self.filters
 			.then_some(|search: &str, option: &SelectOption<String>| {
@@ -628,6 +694,44 @@ impl Scenario {
 							widget = widget.with_max_items(max_items);
 						}
 						widget.frame()
+					})
+					.with_size(size.0, size.1),
+				)
+			}
+
+			"date" => {
+				let (format, separator) = self.date_format();
+				let mut state = DateState::new(format, separator);
+				// `opts.initialValue ?? opts.defaultValue` seeds the field, and `defaultValue` is also
+				// the fallback — so the two are set in upstream's order and the state coalesces them.
+				if let Some(default) = self.default_date {
+					state = state.with_default_value(default);
+				}
+				if let Some(initial) = self.initial_date {
+					state = state.with_initial_value(initial);
+				}
+				if let Some(min) = self.min_date {
+					state = state.with_min_date(min);
+				}
+				if let Some(max) = self.max_date {
+					state = state.with_max_date(max);
+				}
+				// `date()` writes this validator itself out of its own options, so a Scenario carries
+				// the options rather than the callback — the `multiselect` bargain again.
+				let prompt = Prompt::new(state).with_validator(date_validator(
+					self.min_date,
+					self.max_date,
+					self.default_date,
+					Default::default(),
+					None,
+				));
+				Run::Date(
+					// No width and no height: `date` measures nothing. Its only wrap is the outer one
+					// in `Prompt.render`, which the Session applies.
+					Session::new(prompt, move |prompt, _columns, _rows| {
+						DateWidget::new(prompt, &message)
+							.with_guide(with_guide)
+							.frame()
 					})
 					.with_size(size.0, size.1),
 				)
@@ -846,6 +950,7 @@ pub enum Run {
 	GroupMultiSelect(Session<GroupMultiSelectState<String>>),
 	Autocomplete(Session<AutocompleteState<String>>),
 	AutocompleteMultiSelect(Session<AutocompleteState<String>>),
+	Date(Session<DateState>),
 }
 
 /// The same call on whichever Session is inside. A macro because the arms differ only in the
@@ -862,6 +967,7 @@ macro_rules! dispatch {
 			Run::GroupMultiSelect($session) => $call,
 			Run::Autocomplete($session) => $call,
 			Run::AutocompleteMultiSelect($session) => $call,
+			Run::Date($session) => $call,
 		}
 	};
 }

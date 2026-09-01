@@ -46,6 +46,14 @@ const recorded = ({ s, key }) => ({
 	},
 });
 
+/** Options as a Scenario carries them, matching ../recorder/setup.mjs: a `Date` becomes the instant
+ *  it holds, because `date`'s four date options are the only ones whose type is neither a string nor
+ *  a number and JSON has no notion of one. */
+const written_opts = (opts) =>
+	Object.fromEntries(
+		Object.entries(opts ?? {}).map(([k, v]) => [k, v instanceof Date ? { date: v.toISOString() } : v])
+	);
+
 const stdoutColumns = Object.getOwnPropertyDescriptor(process.stdout, 'columns');
 
 afterEach(() => {
@@ -123,7 +131,7 @@ for (const scenario of cases) {
 			prompts: [
 				{
 					kind,
-					opts: scenario.opts,
+					opts: written_opts(scenario.opts),
 					settings: { withGuide: true },
 					// The terminal the Prompt opened in. A Scenario that resizes says the rest in its
 					// events; this is where it started.

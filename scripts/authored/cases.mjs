@@ -23,11 +23,23 @@ const typing = (text) => [...text].map((s) => ({ kind: 'key', s, key: { name: s 
 
 const enter = { kind: 'key', s: '', key: { name: 'return' } };
 const tab = { kind: 'key', s: '', key: { name: 'tab' } };
+const shiftTab = { kind: 'key', s: '', key: { name: 'tab', shift: true } };
+const up = { kind: 'key', s: '', key: { name: 'up' } };
 const down = { kind: 'key', s: '', key: { name: 'down' } };
 const left = { kind: 'key', s: '', key: { name: 'left' } };
+const right = { kind: 'key', s: '', key: { name: 'right' } };
 const escape = { kind: 'key', s: '', key: { name: 'escape' } };
+
+/** A UTC midnight, which is the only kind of `Date` a `date` prompt ever holds. */
+const utc = (iso) => {
+	const [y, m, d] = iso.split('-').map(Number);
+	return new Date(Date.UTC(y, m - 1, d));
+};
 const backspace = (n) =>
 	Array.from({ length: n }, () => ({ kind: 'key', s: '', key: { name: 'backspace' } }));
+
+/** The same event, n times. */
+const repeat = (n, event) => Array.from({ length: n }, () => event);
 
 /** The terminal changes width under a Prompt that is already open.
  *
@@ -396,5 +408,148 @@ export const cases = [
 		},
 		events: [...typing('ap'), down, left, left, enter],
 		value: 'grape',
+	},
+
+	// --- date ---------------------------------------------------------------------------------
+	//
+	// Upstream's `date` suite is eight Scenarios and nine keypresses, seven of which are a bare
+	// `return` on a field that was filled by `initialValue`. It never types a digit, never presses an
+	// arrow, never tabs and never backspaces — so the segment editor, which is three hundred lines of
+	// `DatePrompt`, reaches no recording at all. These are that editor.
+	//
+	// Every one of them passes an explicit `format`. Without one the constructor asks
+	// `Intl.DateTimeFormat` which segments to draw and in what order, and the recording would be of
+	// whichever machine ran the harvest rather than of clack.
+
+	{
+		// The ordinary path, keystroke by keystroke: a lone digit into an empty month becomes `07`
+		// and hands the cursor on, one that could still be a tens digit waits for a second, and the
+		// segment advances as each fills. Ten Frames, none of which any harvested Scenario draws.
+		name: 'date › a whole date typed straight through',
+		kind: 'date',
+		columns: 80,
+		opts: { message: 'Pick a date', format: 'MDY' },
+		events: [...typing('12252025'), enter],
+		value: utc('2025-12-25'),
+	},
+	{
+		// A year fills from the *right* — `(digits + char).padStart(4, '_')` — so it shows as `___2`,
+		// `__20`, `_202` and only then `2025`. The other two segments fill from the left. Nothing
+		// upstream draws a partly-typed segment of either kind, and the underscores of one the cursor
+		// has left are drawn as dim spaces rather than as underscores, which is a style boundary in
+		// the middle of a number.
+		name: 'date › a year fills from the right',
+		kind: 'date',
+		columns: 80,
+		opts: { message: 'Pick a date', format: 'YMD', separator: '-' },
+		events: [...typing('20250214'), enter],
+		value: utc('2025-02-14'),
+	},
+	{
+		// The inline error, which is a row of its own between the field and the foot and is the one
+		// thing in this Prompt that is neither a value nor a validation failure. And the trap behind
+		// it: a refused two-digit entry leaves the segment *unselected*, so the next digit is written
+		// into position 0 of what is still there — `01` refused a `9`, then refuses a `7` as `71`.
+		// A backspace is the only way out that is not a move.
+		name: 'date › a month over twelve is refused, and refuses the next digit too',
+		kind: 'date',
+		columns: 80,
+		opts: { message: 'Pick a date', format: 'MDY' },
+		events: [...typing('19'), ...typing('7'), ...backspace(1), ...typing('7152025'), enter],
+		value: utc('2025-07-15'),
+	},
+	{
+		// The same row without a Guide, where the bar in front of it is the empty string.
+		name: 'date › an unguided inline error',
+		kind: 'date',
+		columns: 80,
+		opts: { message: 'Pick a date', format: 'MDY', withGuide: false },
+		events: [...typing('19'), escape],
+		cancelled: true,
+	},
+	{
+		// The arrows on blank segments, which jump to a bound rather than stepping: up lands on the
+		// minimum and down on the maximum. A blank day's maximum is `daysInMonth(0, 0)` — the two `||`
+		// fallbacks make that January — so a day of 31 is offered before any month is known. And a
+		// blank year's minimum is 1, which `Date.UTC` reads as 1901, so `0001` is drawn, accepted by
+		// every segment check, and still resolves to nothing: the Prompt then demands an answer it is
+		// already showing.
+		name: 'date › the arrows fill a blank field with a date that is not one',
+		kind: 'date',
+		columns: 80,
+		opts: { message: 'Pick a date', format: 'DMY', separator: '.' },
+		events: [down, right, up, right, up, enter, escape],
+		cancelled: true,
+	},
+	{
+		// `minDate` and `maxDate` bound the arrows as well as the answer, and only inside their own
+		// year and month — so a day is held between the tenth and the twentieth while the month either
+		// side of it is free.
+		name: 'date › the arrows are held between a minimum and a maximum',
+		kind: 'date',
+		columns: 80,
+		opts: {
+			message: 'Pick a date',
+			format: 'MDY',
+			initialValue: utc('2025-01-15'),
+			minDate: utc('2025-01-10'),
+			maxDate: utc('2025-01-20'),
+		},
+		events: [right, ...repeat(10, down), ...repeat(20, up), enter],
+		value: utc('2025-01-20'),
+	},
+	{
+		// `defaultValue` reaches the fallback it is documented as only once the field it also seeded
+		// has been erased. What is drawn then is the third thing worth recording here: the submitted
+		// Frame asks whether `this.value` is a `Date` and then prints `formattedValue`, which is the
+		// segments — so a Prompt that answered 2025-12-25 writes `__/__/____` on the terminal.
+		name: 'date › a default value is answered with while the field shows underscores',
+		kind: 'date',
+		columns: 80,
+		opts: { message: 'Pick a date', format: 'MDY', defaultValue: utc('2025-12-25') },
+		events: [...backspace(1), right, ...backspace(1), right, ...backspace(1), enter],
+		value: utc('2025-12-25'),
+	},
+	{
+		// Tab and shift-tab, which walk the segments the way the arrows do except that they refuse to
+		// move rather than clamping at the ends. The year is filled first and the month last, so the
+		// walk is doing the work rather than the auto-advance.
+		name: 'date › tab and shift-tab walk the segments',
+		kind: 'date',
+		columns: 80,
+		opts: { message: 'Pick a date', format: 'MDY' },
+		events: [
+			tab,
+			tab,
+			...typing('2025'),
+			shiftTab,
+			shiftTab,
+			...typing('07'),
+			...typing('04'),
+			enter,
+		],
+		value: utc('2025-07-04'),
+	},
+	{
+		// Backspace blanks the segment under the cursor, and a second one on the segment it has just
+		// blanked steps *backwards* instead — which at the first segment means it does nothing, and
+		// which is why erasing a whole field means walking forwards by hand.
+		name: 'date › backspace blanks a segment and then steps back',
+		kind: 'date',
+		columns: 80,
+		opts: { message: 'Pick a date', format: 'MDY', initialValue: utc('2025-06-15') },
+		events: [right, ...backspace(1), left, ...backspace(2), ...typing('0704'), enter],
+		value: utc('2025-07-04'),
+	},
+	{
+		// A year can be typed past its own length: `padStart` pads and does not truncate, so a fifth
+		// digit into a full year makes it five characters wide. Only a year, and only when it is the
+		// last segment — one that is not hands the cursor on the moment it fills.
+		name: 'date › a fifth digit makes the year five characters wide',
+		kind: 'date',
+		columns: 80,
+		opts: { message: 'Pick a date', format: 'MDY' },
+		events: [...typing('12'), ...typing('25'), ...typing('20255'), escape],
+		cancelled: true,
 	},
 ];

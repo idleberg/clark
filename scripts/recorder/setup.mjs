@@ -25,12 +25,15 @@ let undo = [];
 
 /** Options as they can be written down. A callback becomes the fact that there was one, because a
  *  Scenario cannot carry a JavaScript function across into Rust; the streams are dropped, being the
- *  test harness rather than the Prompt. */
+ *  test harness rather than the Prompt. A `Date` is written as the instant it holds, because
+ *  `date`'s four date options are the only ones a Scenario has to carry across whose type is
+ *  neither a string nor a number. */
 function plain(opts) {
 	const out = {};
 	for (const [k, v] of Object.entries(opts ?? {})) {
 		if (v === undefined || k === 'input' || k === 'output' || k === 'signal') continue;
 		if (typeof v === 'function') out[k] = { callback: true };
+		else if (v instanceof Date) out[k] = { date: v.toISOString() };
 		else if (typeof v === 'object' && v !== null && v.constructor === Object) out[k] = plain(v);
 		else if (typeof v === 'object' && v !== null && !Array.isArray(v)) out[k] = { opaque: true };
 		else out[k] = v;

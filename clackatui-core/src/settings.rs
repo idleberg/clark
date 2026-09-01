@@ -9,7 +9,12 @@
 //! `updateSettings` never touches it, so its only role is to ask whether a key name is one of the
 //! seven — which [`Action::from_key_name`] answers by construction.
 //!
-//! The date-prompt messages are not here yet; they arrive with the Prompt that reads them (M4).
+//! [`DateMessages`] is upstream's `settings.date.messages` and is *not* a field of [`Settings`]:
+//! only one Prompt reads them, and it reads them from inside its own state rather than through the
+//! Prompt, so they are configured on [`DateState`](crate::date::DateState) where they are used.
+//! `settings.date.monthNames` is not ported at all. It is in upstream's settings, `updateSettings`
+//! merges it, and nothing in upstream ever reads it — the one place a month name would go says
+//! `'any month'` in a string literal.
 
 use std::collections::HashMap;
 
@@ -65,6 +70,35 @@ impl Default for Messages {
 		Self {
 			cancel: "Canceled".into(),
 			error: "Something went wrong".into(),
+		}
+	}
+}
+
+/// `settings.date.messages`: what a `date` Prompt says when it will not take an answer.
+///
+/// Three of upstream's five are functions rather than strings. `invalidDay(days, month)` is only
+/// ever called as `invalidDay(31, 'any month')`, so it is flattened to the string that produces;
+/// `afterMin(min)` and `beforeMax(max)` do vary, so they keep a `{date}` where the ISO date goes.
+#[derive(Clone, Debug)]
+pub struct DateMessages {
+	/// Nothing was entered, and there was no `defaultValue` to stand in.
+	pub required: String,
+	pub invalid_month: String,
+	pub invalid_day: String,
+	/// `{date}` is replaced with `minDate` in ISO form.
+	pub after_min: String,
+	/// `{date}` is replaced with `maxDate` in ISO form.
+	pub before_max: String,
+}
+
+impl Default for DateMessages {
+	fn default() -> Self {
+		Self {
+			required: "Please enter a valid date".into(),
+			invalid_month: "There are only 12 months in a year".into(),
+			invalid_day: "There are only 31 days in any month".into(),
+			after_min: "Date must be on or after {date}".into(),
+			before_max: "Date must be on or before {date}".into(),
 		}
 	}
 }
