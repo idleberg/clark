@@ -75,11 +75,19 @@ fn pump<S: PromptState>(out: &mut impl Write, session: &mut Session<S>) -> Resul
 	Ok(())
 }
 
+/// Write a Session's bytes, putting back the carriage return raw mode took away.
+///
+/// clack writes a bare `\n` between rows and lets the tty add the return, because Node's
+/// `setRawMode` only clears input flags — `ONLCR` stays on. crossterm's `enable_raw_mode` goes
+/// through `cfmakeraw`, which clears `OPOST` and `ONLCR` with it, so the same bytes come out as a
+/// staircase. This is the same translation `onlcr` does for the emulator in `scenario_parity`, at
+/// the only place in the crate that talks to a terminal: the Emitter keeps writing what clack
+/// writes, so the Grid it is compared against stays the byte stream clack produced.
 fn write(out: &mut impl Write, bytes: &str) -> io::Result<()> {
 	if bytes.is_empty() {
 		return Ok(());
 	}
-	out.write_all(bytes.as_bytes())?;
+	out.write_all(bytes.replace('\n', "\r\n").as_bytes())?;
 	out.flush()
 }
 
@@ -98,5 +106,24 @@ impl Drop for RawMode {
 		// Nothing useful can be done about a failure here, and panicking during a drop that may
 		// itself be unwinding would abort the process.
 		let _ = terminal::disable_raw_mode();
+	}
+}
+
+#[cfg(test)]
+mod tests {
+	use super::*;
+
+	#[test]
+	fn every_row_break_carries_a_return() {
+		let mut out = Vec::new();
+		write(&mut out, "│  one\n│  two\n").expect("a Vec does not fail");
+		assert_eq!(String::from_utf8(out).expect("utf-8"), "│  one\r\n│  two\r\n");
+	}
+
+	#[test]
+	fn nothing_is_written_for_nothing() {
+		let mut out = Vec::new();
+		write(&mut out, "").expect("a Vec does not fail");
+		assert!(out.is_empty());
 	}
 }
