@@ -1,12 +1,11 @@
 [package]
 name = "clark-core"
-version = "0.0.0"
+version = "0.1.0"
 description = "State machines and widgets for clark. No I/O."
 edition.workspace = true
 license.workspace = true
 repository.workspace = true
 rust-version.workspace = true
-publish = false
 include = ["src/**/*.rs", "README.md", "LICENSE", "NOTICE"]
 
 [dependencies]

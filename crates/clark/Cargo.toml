@@ -1,14 +1,14 @@
 [package]
 name = "clark"
-version = "0.0.0"
-description = "clack's prompts for Rust: a blocking driver over clark-core."
+version = "0.1.0"
+description = "Bombshell's clack prompts ported to Rust"
+keywords = ["clack", "terminal", "prompt", "dialogs", "shell", "cli"]
 edition.workspace = true
 license.workspace = true
 repository.workspace = true
 rust-version.workspace = true
-publish = false
 include = ["src/**/*.rs", "examples/**/*.rs", "README.md", "LICENSE", "NOTICE"]
 
 [dependencies]
-clark-core = { path = "../clark-core" }
+clark-core = { path = "../clark-core", version = "0.1.0" }
 crossterm.workspace = true

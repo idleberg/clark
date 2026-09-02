@@ -1,6 +1,6 @@
 # clark-cli
 
-clack's prompts, from the shell — the same argument [gum][gum] makes, with clack's names.
+CLI for clark, the Rust port of Bombshell's clack prompts 🦀
 
 ```sh
 clark intro "Bleep"

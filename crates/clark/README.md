@@ -1,7 +1,6 @@
 # clark
 
-[clack](https://github.com/bombshell-dev/clack)'s prompts for Rust: a blocking driver that owns the
-terminal — raw mode, a read loop, and clack's sugar on top of it.
+Bombshell's [clack](https://github.com/bombshell-dev/clack) prompts ported to Rust 🦀
 
 ## Install
 
