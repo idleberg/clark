@@ -1,6 +1,6 @@
 # The Emitter diffs lines, because clack does
 
-ADR-0002 decided clackatui owns its inline Emitter rather than using `ratatui::Terminal`, and that
+ADR-0002 decided clark owns its inline Emitter rather than using `ratatui::Terminal`, and that
 decision holds — `Viewport::Inline` still cannot change height, and clack's Frames still change
 height constantly. But the ADR went one sentence further than it had evidence for:
 
@@ -25,7 +25,7 @@ There are three exits, and they leave the cursor in three different places:
 A cell diff would repaint the same characters and land the cursor somewhere else. Cursor position is
 part of the Grid (CONTEXT.md), and the Grid is what a parity claim is about (ADR-0001) — so an
 Emitter that reconciled cells correctly would still be wrong, and would be wrong in a way that only
-showed up as an unexplained mismatch in some later Scenario. `crates/clackatui-core/src/emitter.rs` is
+showed up as an unexplained mismatch in some later Scenario. `crates/clark-core/src/emitter.rs` is
 therefore a port of `render`, in the same sense that `wrap.rs` is a port of `fast-wrap-ansi`.
 
 `scripts/harvest-emitter.mjs` is its oracle, and it does not reimplement anything: it constructs a
@@ -48,7 +48,7 @@ exactly as discriminating as upstream's.
 
 This puts `CellDiffOption::ForcedWidth` off the Emitter's path entirely. It is worth being plain
 about what that does and does not cost M0. The probe's finding stands and is still load-bearing: the
-`Widget` impl is what makes a clackatui Prompt drawable inside someone else's Ratatui application,
+`Widget` impl is what makes a clark Prompt drawable inside someone else's Ratatui application,
 which is half of ADR-0002's case, and it is stamped cells that make that drawing land on clack's
 columns. What is no longer reachable is ADR-0007's constraint — "the Emitter must therefore track
 shrunk ranges itself" — because clack erases a row before rewriting it and never leaves a column
@@ -76,8 +76,8 @@ It should be reported to clack.
   anything this strengthens it, since `Terminal` could not have produced these sequences either.
 - ADR-0007's shrink-repaint requirement is unreachable on the Emitter path and no longer needs
   implementing. Its finding about `diff_iter` remains true of the `Widget` path.
-- The Emitter produces bytes and does not write them, so `clackatui-core` stays free of I/O. The
-  driver in `clackatui` is what puts them on a terminal, and is what will decide `columns` and
+- The Emitter produces bytes and does not write them, so `clark-core` stays free of I/O. The
+  driver in `clark` is what puts them on a terminal, and is what will decide `columns` and
   `rows` — two numbers, because upstream reads the wrap width from the global `process.stdout` and
   the height from the Prompt's own output stream.
 - With the Emitter in place, a recorded Fixture can be replayed as bytes through an emulator and

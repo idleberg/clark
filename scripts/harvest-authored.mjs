@@ -1,5 +1,5 @@
 // The second Recorder: the hand-authored Scenarios. Runs scripts/authored/cases.mjs against clack
-// and writes crates/clackatui-core/tests/fixtures/scenarios/authored.json in the shape the first Recorder
+// and writes crates/clark-core/tests/fixtures/scenarios/authored.json in the shape the first Recorder
 // produces, so the Rust side reads one kind of thing.
 //
 //   node scripts/harvest-authored.mjs
@@ -22,11 +22,11 @@ import { TAG, checkout, root } from './upstream.mjs';
 
 const { core, describe, head, prompts } = checkout({ built: true });
 const outDir = join(root, 'crates',
-	'clackatui-core', 'tests', 'fixtures', 'scenarios');
+	'clark-core', 'tests', 'fixtures', 'scenarios');
 
 // --- run ------------------------------------------------------------------------------------
 
-const spool = mkdtempSync(join(tmpdir(), 'clackatui-authored-'));
+const spool = mkdtempSync(join(tmpdir(), 'clark-authored-'));
 
 try {
 	execFileSync(

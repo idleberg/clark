@@ -5,8 +5,8 @@ lines, thirty of which are one callback, and it is the only module in clack that
 outside the terminal — which is why it was the last thing left in v2 and why the README has owed an
 `Fs` since M0.
 
-[`clackatui_core::path`](../../crates/clackatui-core/src/path.rs) is the port;
-[`clackatui::path`](../../crates/clackatui/src/path.rs) is the builder and the one thing in the project
+[`clark_core::path`](../../crates/clark-core/src/path.rs) is the port;
+[`clark::path`](../../crates/clark/src/path.rs) is the builder and the one thing in the project
 that opens a directory.
 
 ## The list is not filtered, it is re-read
@@ -24,7 +24,7 @@ function returned. Every keystroke calls the function again, and the narrowing i
 `readdirSync` and a `startsWith`.
 
 So the seam is not "a callback in front of the filter". It is
-[`AutocompleteState::with_options_fn`](../../crates/clackatui-core/src/autocomplete.rs), and it carries
+[`AutocompleteState::with_options_fn`](../../crates/clark-core/src/autocomplete.rs), and it carries
 `filter: Option<Box<Filter<T>>>` with it — a genuinely absent filter, because upstream's is
 genuinely absent. The provider is called wherever upstream reads its `options` getter: once on the
 way in, against an empty field, because `initialUserInput` is applied after the constructor; and
@@ -48,7 +48,7 @@ The trailing slash is the whole of `directory` mode. A directory named without o
 *siblings*, so enter answers with the directory itself; type the slash and the children appear. Two
 of upstream's cases are exactly that pair.
 
-`clackatui::StdFs` answers the three with `std::fs`, `symlink_metadata` for both of the first two —
+`clark::StdFs` answers the three with `std::fs`, `symlink_metadata` for both of the first two —
 `lstat`, not `stat`, so a symlink to a directory is offered as a leaf. It does not sort, because
 `readdirSync` does not sort.
 
@@ -74,7 +74,7 @@ observation like the keypresses, not an arrangement: it happens after the test h
 and changes nothing. It has to be *the same* `memfs` the suite imports, which is a module-identity
 problem under pnpm and is solved the way the entry point already was — an alias, `clack:memfs`,
 resolved from clack's own package. The Scenarios rebuild the volume as
-[`MemFs`](../../crates/clackatui-core/src/path.rs), which sorts its listings because `memfs` sorts and a
+[`MemFs`](../../crates/clark-core/src/path.rs), which sorts its listings because `memfs` sorts and a
 real filesystem does not. That difference is upstream's and it decides which suggestion is first,
 and so what a bare enter answers with.
 

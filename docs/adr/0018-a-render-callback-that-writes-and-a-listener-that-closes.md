@@ -77,7 +77,7 @@ the Prompt, and nothing that changes the Prompt can live in a function that cann
 Both are defects and neither is load-bearing. ADR-0013 already settled the rule and this is its
 third application: an upstream defect is reproduced where a terminal can see it, because Parity is
 about what the terminal ends up holding and not about what anyone meant. The cost of the rule is two
-small seams on a trait; the cost of breaking it is that "clackatui looks like clack" acquires a
+small seams on a trait; the cost of breaking it is that "clark looks like clack" acquires a
 footnote, and footnotes accumulate.
 
 ## What tests it
@@ -95,7 +95,7 @@ and both `clearOnError` tests carry a `validate` callback, which a recording can
 - **`clearOnError`** has no Scenario and cannot have one: the recording would need the predicate,
   and a Fixture carries none. It is covered by unit tests either side of
   `Prompt::after_render` — the error Frame keeps the value, the state does not — and by a
-  `clackatui` builder test that drives a real `Session` through the whole sequence. That is weaker
+  `clark` builder test that drives a real `Session` through the whole sequence. That is weaker
   than a recording and is the honest ceiling here, not a shortcut.
 
 ## Consequences

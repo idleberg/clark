@@ -1,5 +1,5 @@
 // The fourth Recorder: the renderers that are driven by calls. Runs scripts/scripted/cases.mjs
-// against clack and writes crates/clackatui-core/tests/fixtures/scripted.json.
+// against clack and writes crates/clark-core/tests/fixtures/scripted.json.
 //
 //   node scripts/harvest-scripted.mjs
 //
@@ -18,11 +18,11 @@ import { TAG, checkout, root } from './upstream.mjs';
 
 const { core, describe, head, prompts } = checkout({ built: true });
 const outDir = join(root, 'crates',
-	'clackatui-core', 'tests', 'fixtures');
+	'clark-core', 'tests', 'fixtures');
 
 // --- run ------------------------------------------------------------------------------------
 
-const spool = mkdtempSync(join(tmpdir(), 'clackatui-scripted-'));
+const spool = mkdtempSync(join(tmpdir(), 'clark-scripted-'));
 
 try {
 	execFileSync(

@@ -60,7 +60,7 @@ move gets out of it. Recorded, because it is four Frames deep and no reading wou
 `opts.locale` asks `Intl.DateTimeFormat` which segments to draw, in what order, and with what
 between them. Rust's standard library has no locale data, and an ICU crate to answer one question
 about three characters is not a trade this crate makes. `DateState::new` takes the order and the
-separator outright; `clackatui::date()` defaults to `MDY` with `/`, which is what `en-US` — the only
+separator outright; `clark::date()` defaults to `MDY` with `/`, which is what `en-US` — the only
 locale upstream's suite asks for — resolves to.
 
 The Scenario loader refuses rather than guesses: a Fixture carrying a locale it has no segment order

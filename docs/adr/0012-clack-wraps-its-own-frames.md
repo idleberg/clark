@@ -19,7 +19,7 @@ until a line reaches the margin and then differ on every line that does, and bec
 counted off the same rows, a break in the wrong place moves the whole Frame rather than one line of
 it.
 
-`fast-wrap-ansi@0.2.0` is therefore ported, in `crates/clackatui-core/src/wrap.rs`, and checked against a
+`fast-wrap-ansi@0.2.0` is therefore ported, in `crates/clark-core/src/wrap.rs`, and checked against a
 harvested corpus the same way the width port is (ADR-0008): `scripts/harvest-wrap.mjs` runs the real
 library, `tests/wrap_parity.rs` asserts against the recording. All 47 cases agree.
 

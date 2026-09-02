@@ -31,6 +31,6 @@ other. clack uses both.
 The whole case rests on `CellDiffOption::ForcedWidth`, which is recent API on a pre-1.0 crate — the
 field it replaces is deprecated `since = "0.30.1"`. M1 therefore begins with a probe: place a symbol
 whose `fast-string-width` and Ratatui measurements disagree, force the width, diff, and confirm
-trailing-cell skipping follows our number. If it does not, this decision reverses and clackatui owns
+trailing-cell skipping follows our number. If it does not, this decision reverses and clark owns
 its own cell grid — roughly 350 lines of stable code, which was the alternative considered and
 rejected here.

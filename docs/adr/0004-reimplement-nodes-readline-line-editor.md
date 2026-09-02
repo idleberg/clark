@@ -1,7 +1,7 @@
 # Node's readline line editor is reimplemented, not delegated
 
 `text`, `password` and `autocomplete` do no text editing of their own — they read `rl.line` and
-`rl.cursor`, so Node's `readline` *is* their Line editor. clackatui therefore inherits readline's
+`rl.cursor`, so Node's `readline` *is* their Line editor. clark therefore inherits readline's
 default keymap as a compatibility requirement (`ctrl+a`/`ctrl+e`, `ctrl+b`/`ctrl+f`, `ctrl+u`/
 `ctrl+k`, `ctrl+w`, `alt+b`/`alt+f`/`alt+d`, `ctrl+h`, `ctrl+d`, `ctrl+l`, home/end/delete, and its
 full-width-aware cursor arithmetic) despite none of it appearing anywhere in clack's source.

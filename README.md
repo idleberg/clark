@@ -1,4 +1,4 @@
-# clackatui
+# clark
 
 A Rust adaptation of [clack](https://github.com/bombshell-dev/clack), built on
 [Ratatui](https://ratatui.rs), whose appearance is verified against the JavaScript original rather
@@ -28,7 +28,7 @@ bytes is ported too, and agrees with `@clack/core`'s own `render` byte for byte 
 its corpus — it diffs lines rather than cells, because that is what upstream does and the difference
 is visible in where the cursor ends up
 ([ADR-0013](./docs/adr/0013-the-emitter-diffs-lines-because-clack-does.md)). And `text` now runs:
-`clackatui::text("What is your name?").interact()`. The order a Prompt is asked in — one Frame
+`clark::text("What is your name?").interact()`. The order a Prompt is asked in — one Frame
 before any key, one after each, a newline and only then the cursor — is visible in every recording,
 so it is ported into the core as a `Session` rather than left to a driver
 ([ADR-0014](./docs/adr/0014-the-sequence-is-a-compatibility-surface.md)); with it, all ten
@@ -130,9 +130,9 @@ the shape below.
 
 Two crates:
 
-- **`clackatui-core`** — state machines and `Widget` impls over `ratatui-core`. No I/O. Feed it a
+- **`clark-core`** — state machines and `Widget` impls over `ratatui-core`. No I/O. Feed it a
   key event, render it into a `Buffer`.
-- **`clackatui`** — a blocking driver plus clack's sugar (intro, outro, log, note, box, spinner,
+- **`clark`** — a blocking driver plus clack's sugar (intro, outro, log, note, box, spinner,
   progress, task log, group). No async runtime imposed. Small on purpose: raw mode, a read loop, the
   crossterm-to-`readline` key decoder, the spinner's interval, and the builders. The order a Prompt is asked in is in the core, not here
   ([ADR-0014](./docs/adr/0014-the-sequence-is-a-compatibility-surface.md)).
@@ -169,7 +169,7 @@ intro, outro, cancel, spinner, progress-bar, task-log, group, limit-options).
 
 The rest of that set is deferred because it is non-deterministic, not because it is unimportant:
 `spinner.ts` is the only clack module touching timers, `task` is built on it, and `path.ts` reads the
-real filesystem. The spinner turned out to need no `Clock` abstraction at all — `clackatui-core`
+real filesystem. The spinner turned out to need no `Clock` abstraction at all — `clark-core`
 takes the elapsed time as an argument and the driver owns the interval, and the corpus that records
 it drives a fake clock through a script of calls
 ([ADR-0032](./docs/adr/0032-a-spinner-walks-the-cursor-back-over-a-string-it-never-wrote.md)), which
@@ -263,7 +263,7 @@ the trait is the extension point for adapting crates like `garde`.
 from [ardent](https://github.com/idleberg/ardent). CI is a single ubuntu job running those same
 three task names — `fmt:check`, `lint`, `test` — and no JavaScript, which is the whole point of
 harvesting. `mise run upstream` is the one command between a fresh clone and being able to record;
-`mise run drift` is the one that records. Publishing is manual, `clackatui-core` first.
+`mise run drift` is the one that records. Publishing is manual, `clark-core` first.
 
 Known gaps, accepted: no Windows or macOS signal on terminal code, and no automated guard against
 upstream drift — `mise run drift` is deliberate, because the checkout it needs is not committed.
@@ -420,7 +420,7 @@ yielded, so the Emitter has to mark them dirty itself
 learned in an afternoon than in M4 — though as it turned out, not by the Emitter, which diffs lines
 rather than cells and so never meets the gap
 ([ADR-0013](./docs/adr/0013-the-emitter-diffs-lines-because-clack-does.md)). The stamped cells still
-matter to anyone drawing a clackatui Prompt inside their own Ratatui application, which is the other
+matter to anyone drawing a clark Prompt inside their own Ratatui application, which is the other
 half of what [ADR-0002](./docs/adr/0002-own-inline-emitter.md) buys.
 
 The symbol it was built on did not survive M1. `wrapAnsi` composes every Frame to NFC before writing
@@ -432,6 +432,6 @@ example is now a tab
 
 ## Open
 
-- Confirm `clackatui` and `clackatui-core` are unclaimed on crates.io.
+- Confirm `clark` and `clark-core` are unclaimed on crates.io.
 - A variable-height inline viewport for Ratatui upstream would remove the need for
   [ADR-0002](./docs/adr/0002-own-inline-emitter.md). Worth doing, separately from v1.

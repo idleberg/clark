@@ -27,7 +27,7 @@ if (suites.length === 0) {
 
 const { describe, head, prompts } = checkout({ built: true });
 const outDir = join(root, 'crates',
-	'clackatui-core', 'tests', 'fixtures', 'scenarios');
+	'clark-core', 'tests', 'fixtures', 'scenarios');
 
 // scripts/recorder/vitest.config.mjs stands in for this file and copies its two settings, so a
 // change to it upstream has to be looked at rather than silently ignored.
@@ -52,7 +52,7 @@ for (const suite of suites) {
 
 // --- run ------------------------------------------------------------------------------------
 
-const spool = mkdtempSync(join(tmpdir(), 'clackatui-recorder-'));
+const spool = mkdtempSync(join(tmpdir(), 'clark-recorder-'));
 
 try {
 	execFileSync(

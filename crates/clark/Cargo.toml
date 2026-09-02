@@ -1,0 +1,13 @@
+[package]
+name = "clark"
+version = "0.0.0"
+description = "clack's prompts for Rust: a blocking driver over clark-core."
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+publish = false
+
+[dependencies]
+clark-core = { path = "../clark-core" }
+crossterm.workspace = true

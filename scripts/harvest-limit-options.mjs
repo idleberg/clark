@@ -1,4 +1,4 @@
-// Harvests crates/clackatui-core/tests/fixtures/limit-options.json from clack's own `limitOptions`.
+// Harvests crates/clark-core/tests/fixtures/limit-options.json from clack's own `limitOptions`.
 //
 // Run it from the repository root:
 //
@@ -23,11 +23,11 @@ import { TAG, checkout, root } from './upstream.mjs';
 
 const { core, describe, head, prompts } = checkout({ built: true });
 const out = join(root, 'crates',
-	'clackatui-core', 'tests', 'fixtures', 'limit-options.json');
+	'clark-core', 'tests', 'fixtures', 'limit-options.json');
 
 // --- run ------------------------------------------------------------------------------------
 
-const spool = mkdtempSync(join(tmpdir(), 'clackatui-limit-options-'));
+const spool = mkdtempSync(join(tmpdir(), 'clark-limit-options-'));
 
 try {
 	execFileSync(

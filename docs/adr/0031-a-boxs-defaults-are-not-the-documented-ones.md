@@ -20,7 +20,7 @@ the same bug written twice: an option read through `opts?.x` where the documente
 - **`rounded`.** Documented `@default true`, read as `opts?.rounded ? roundedSymbols : squareSymbols`.
   A `box()` with no options has square corners.
 
-[`Width`](../../crates/clackatui-core/src/box.rs) therefore has three variants where upstream's type has
+[`Width`](../../crates/clark-core/src/box.rs) therefore has three variants where upstream's type has
 two: `Full` is what an omitted `width` does, `Auto` is what the string `'auto'` does, and `Fraction`
 is what the number does. `Options::default()` says `rounded: false`. The names are the only place in
 this port where the difference is written down, which is the point of them.

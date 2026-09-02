@@ -78,7 +78,7 @@ Neither settled Frame wraps at all, so a long answer is left to `Prompt.render`'
   the way it supplies `multiselect`'s `required` validator. A newer tag that writes a different
   filter does not fail quietly: it fails in parity.
 - The single Prompt answers with one value and the state holds a selection, so
-  `clackatui::Autocomplete::validate` adapts — a validator written against `T` is handed the first
+  `clark::Autocomplete::validate` adapts — a validator written against `T` is handed the first
   of the `Vec<T>`, which is what `normalisedValue` does on the way out.
 - The Grid comparison's anti-vacuity guard was relaxed. It asserted that clack's stream left the
   Scenario's message on the terminal; `autocomplete › renders bottom ellipsis when items do not fit`

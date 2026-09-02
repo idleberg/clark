@@ -1,6 +1,6 @@
-// Harvests crates/clackatui-core/tests/fixtures/width.json from the real fast-string-width.
+// Harvests crates/clark-core/tests/fixtures/width.json from the real fast-string-width.
 //
-// The Rust port in crates/clackatui-core/src/width.rs is checked against the fixture, never against a live
+// The Rust port in crates/clark-core/src/width.rs is checked against the fixture, never against a live
 // Node process: upstream/ is not committed, so CI has no JavaScript to compare with. This script is
 // how the fixture is refreshed when the pinned clack version moves -- see docs/adr/0008.
 //
@@ -22,7 +22,7 @@ const HERE = new URL('.', import.meta.url);
 // Anchored inside the checkout so `fast-string-width` resolves to clack's copy at clack's version,
 // and verified so that it is clack's pinned version and not whatever is lying there.
 const ANCHOR = join(checkout().prompts, 'package.json');
-const FIXTURE = new URL('../crates/clackatui-core/tests/fixtures/width.json', HERE);
+const FIXTURE = new URL('../crates/clark-core/tests/fixtures/width.json', HERE);
 
 const require = createRequire(ANCHOR);
 const { default: fastStringWidth } = await import(pathToFileURL(require.resolve('fast-string-width')));

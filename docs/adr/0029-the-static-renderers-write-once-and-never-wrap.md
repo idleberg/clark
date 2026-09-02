@@ -71,7 +71,7 @@ different ways in two files is two claims wearing one name.
 - **`log.message()` with no argument at all has no counterpart either.** The default is `[]`, which
   is a message of *no* lines — the only way to reach that branch. From a `&str` the emptiest message
   is `""`, which is one empty row.
-- **The `clackatui` side returns nothing and drops a failed write.** These are called for their side
+- **The `clark` side returns nothing and drops a failed write.** These are called for their side
   effect in the middle of a program that has nothing useful to do about a broken pipe, and a
   `Result` on every log line is a `Result` nobody reads. A Prompt is the other way round: the driver
   reports every failure, because a Prompt that cannot draw cannot be answered either.

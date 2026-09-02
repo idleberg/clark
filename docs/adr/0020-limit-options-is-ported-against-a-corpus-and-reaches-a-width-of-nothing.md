@@ -83,7 +83,7 @@ change cannot quietly rely on an idempotence that was never there.
 - `Styles` grows `overflow`. The `...` itself is not a Theme symbol: upstream spells it out rather
   than putting it through `unicodeOr`, so it is three periods in an ASCII terminal too.
 - `Line::wrap` is public and `Frame::rows` goes through the same composition. Anything drawing a
-  clackatui Line inside its own Ratatui layout can now break it where clack would.
+  clark Line inside its own Ratatui layout can now break it where clack would.
 - `wrap::breaks` no longer refuses a width of zero, which is a behaviour change to a ported
   primitive. Every call site that could reach zero was already passing a width it had subtracted
   something from.

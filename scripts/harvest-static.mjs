@@ -1,5 +1,5 @@
 // The third Recorder: the static renderers. Runs scripts/static/cases.mjs against clack and writes
-// crates/clackatui-core/tests/fixtures/static.json.
+// crates/clark-core/tests/fixtures/static.json.
 //
 //   node scripts/harvest-static.mjs
 //
@@ -17,11 +17,11 @@ import { TAG, checkout, root } from './upstream.mjs';
 
 const { core, describe, head, prompts } = checkout({ built: true });
 const outDir = join(root, 'crates',
-	'clackatui-core', 'tests', 'fixtures');
+	'clark-core', 'tests', 'fixtures');
 
 // --- run ------------------------------------------------------------------------------------
 
-const spool = mkdtempSync(join(tmpdir(), 'clackatui-static-'));
+const spool = mkdtempSync(join(tmpdir(), 'clark-static-'));
 
 try {
 	execFileSync(

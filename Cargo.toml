@@ -1,11 +1,11 @@
 [workspace]
-members = ["crates/clackatui", "crates/clackatui-core"]
+members = ["crates/clark", "crates/clark-core"]
 resolver = "3"
 
 [workspace.package]
 edition = "2024"
 license = "MIT"
-repository = "https://github.com/idleberg/clackatui"
+repository = "https://github.com/idleberg/clark"
 rust-version = "1.85"
 
 [workspace.dependencies]
@@ -23,7 +23,7 @@ unicode-script = "=0.5.8"
 # table bump cannot change an answer the way it can for the width tables above.
 unicode-normalization = "0.1.25"
 
-# Terminal I/O for the driver in `clackatui`. Not pinned exactly: it is not part of any parity
+# Terminal I/O for the driver in `clark`. Not pinned exactly: it is not part of any parity
 # claim — what it decides is which key events arrive, and that is checked against readline rather
 # than against a crossterm version.
 crossterm = "0.29"

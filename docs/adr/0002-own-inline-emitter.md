@@ -1,16 +1,16 @@
-# clackatui owns its inline Emitter rather than using ratatui::Terminal
+# clark owns its inline Emitter rather than using ratatui::Terminal
 
 `Viewport::Inline(height)` fixes its height at construction — `Terminal::resize` reinterprets the
 *terminal* size and recomputes the viewport's origin, but there is no API to change the height. clack
 Frames change height constantly: a validation error adds a line, `select` expands, `autocomplete`
 filters its results. So widgets render into a `Buffer` sized to the Frame's natural height, and a
-clackatui-owned Emitter diffs consecutive Buffers and writes the cursor and erase sequences itself.
+clark-owned Emitter diffs consecutive Buffers and writes the cursor and erase sequences itself.
 
 ## Consequences
 
 Ratatui is a composition layer here — `Buffer`, `Cell`, `Style`, the `Widget` traits — not the
-renderer, and not `Layout` or `ratatui-widgets` either (ADR-0006). `clackatui-core` depends on
-`ratatui-core` alone and performs no I/O; the `Widget` impls remain genuine, so clackatui Prompts
+renderer, and not `Layout` or `ratatui-widgets` either (ADR-0006). `clark-core` depends on
+`ratatui-core` alone and performs no I/O; the `Widget` impls remain genuine, so clark Prompts
 still render inside someone else's Ratatui application.
 
 ~~The Emitter is not writing a diff from scratch: it consumes `Buffer::diff_iter` and is responsible

@@ -687,7 +687,7 @@ export const cases = [
 	task('a save and a restore are taken out too', [say(`${ESC}[sone${ESC}[u`)]),
 	// An escape `stripDestructiveANSI` does not take out stays in the message, and a Frame carries
 	// no escapes (ADR-0011) — so that one shape is the module's one divergence and has no case here.
-	// See `clackatui_core::task_log`.
+	// See `clark_core::task_log`.
 
 	// --- CI, where nothing is drawn and everything is erased ------------------------------------------
 

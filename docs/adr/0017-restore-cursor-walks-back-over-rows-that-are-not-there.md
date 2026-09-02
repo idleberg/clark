@@ -31,7 +31,7 @@ which puts the output in a different place than clack puts it.
 
 ## Why the port follows
 
-Because a terminal can see it. CONTEXT.md defines Parity as clack and clackatui leaving the terminal
+Because a terminal can see it. CONTEXT.md defines Parity as clack and clark leaving the terminal
 in the same observable state, and ADR-0001 makes the Grid the arbiter of what observable means. A
 one-row offset is about as observable as a difference gets. The rule this project has followed since
 ADR-0013 — reproduce upstream's defects where a terminal can see them, `undefined` and all — applies

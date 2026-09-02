@@ -7,7 +7,7 @@ emitter is not a public extension point that subclasses happen to use; it is the
 
 Ported literally, that is a `Map<String, Vec<Box<dyn FnMut>>>` inside a struct that also holds the
 things those closures need to mutate, which in Rust is a fight with the borrow checker for no gain.
-So `clackatui_core::prompt::Prompt<S>` *owns* an `S: PromptState`, and the seven events a Prompt
+So `clark_core::prompt::Prompt<S>` *owns* an `S: PromptState`, and the seven events a Prompt
 raises on itself are methods on that trait. `TextState` overrides two of them and is 60 lines,
 which is what `TextPrompt` is.
 

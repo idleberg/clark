@@ -4,7 +4,7 @@ clack wraps Frames with `fast-wrap-ansi@0.2.0`, which measures using `fast-strin
 conventional choice, `unicode-width`, disagrees with it on emoji ZWJ sequences, variation selectors,
 regional indicators and combining marks. Since wrap points determine Frame height, and Frame height
 determines cursor movement and scrollback, a measurement disagreement is a Parity failure. Both
-libraries' semantics are therefore ported into `clackatui-core`.
+libraries' semantics are therefore ported into `clark-core`.
 
 ## Consequences
 
@@ -29,5 +29,5 @@ A lint or a debug assertion guarding against the `set_string*` family would be c
 A related upstream inconsistency is deliberately not reproduced: `Prompt.render()` hard-wraps at
 `process.stdout.columns` while every widget lays out at the injected stream's `columns`, so clack
 lays out at one width and wraps at another whenever those disagree. The Recorder pins
-`process.stdout.columns` to each Scenario's width, making the divergence unobservable, and clackatui
+`process.stdout.columns` to each Scenario's width, making the divergence unobservable, and clark
 uses a single width throughout.

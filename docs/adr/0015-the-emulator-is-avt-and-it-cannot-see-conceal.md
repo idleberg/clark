@@ -55,7 +55,7 @@ Two tests that catch different mutations are two tests worth keeping.
 
 ## Consequences
 
-- `avt` is a dev-dependency of `clackatui-core`, and is the arbiter of every appearance claim in the
+- `avt` is a dev-dependency of `clark-core`, and is the arbiter of every appearance claim in the
   project. It is not pinned exactly, but a bump is read rather than taken: an emulator that quietly
   stopped modelling an attribute would turn a parity claim into a tautology.
 - Two tests in `scenario_parity.rs` guard the emulator itself. One asserts it still models the

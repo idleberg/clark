@@ -1,7 +1,7 @@
 # The order a Prompt is asked in is a compatibility surface, so it lives in the core
 
 `.interact()` needs three things that already existed — a `Prompt`, a widget that draws it, and an
-Emitter — plus a terminal. The obvious shape is a loop in the `clackatui` crate that reads a key,
+Emitter — plus a terminal. The obvious shape is a loop in the `clark` crate that reads a key,
 feeds the Prompt, draws, and writes. That shape is wrong in one respect, and the recording says so.
 
 Upstream, the order those three are asked in is not an implementation detail of a driver. It is
@@ -12,7 +12,7 @@ visible in the bytes. A recorded `text` Fixture is exactly `ESC[?25l`, the whole
 diff per keypress, `\n`, `ESC[?25h` — and the last two are in that order because `close` writes the
 newline before it emits, not after.
 
-So the sequence is ported, and it is ported into `clackatui-core` as `Session`, alongside the two
+So the sequence is ported, and it is ported into `clark-core` as `Session`, alongside the two
 components it orders. A driver supplies keys and a place to put bytes; it does not decide when a
 Frame is drawn or what a closing Prompt writes.
 
@@ -54,7 +54,7 @@ disagree when it has. No harvested Scenario resizes mid-Prompt, so there is noth
 against; `Session::resize` is written the straightforward way and the gap is named so the
 hand-authored resize Scenario finds it rather than discovers it.
 
-## The one thing in `clackatui` that is a port
+## The one thing in `clark` that is a port
 
 Turning crossterm's key events into the ones Node's `readline` would have reported. Everything below
 the driver reads a readline `Key` — the Line editor dispatches on `key.name` and `key.ctrl`, and the
@@ -73,8 +73,8 @@ it is the least-guarded thing in the project.
 
 ## Consequences
 
-- `clackatui-core` gains `session`, and stays free of I/O.
-- `clackatui` exists. It is small on purpose: raw mode, a blocking read loop, the key decoder, and
+- `clark-core` gains `session`, and stays free of I/O.
+- `clark` exists. It is small on purpose: raw mode, a blocking read loop, the key decoder, and
   the `text()` builder. Raw mode is released by a guard rather than at the end of the loop, so a
   panic leaves the user with a working shell; the cursor is restored on the failure path, which is
   the one path upstream does not have.

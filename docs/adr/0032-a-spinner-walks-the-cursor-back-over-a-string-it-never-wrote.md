@@ -9,10 +9,10 @@ caller says stop.
 
 ## The clock is an argument, and the corpus is a script
 
-`clackatui-core` performs no I/O and reads no clock, so [`Spinner`](../../crates/clackatui-core/src/spinner.rs)
+`clark-core` performs no I/O and reads no clock, so [`Spinner`](../../crates/clark-core/src/spinner.rs)
 takes the time since `start` as a parameter and returns the bytes a tick would write. Everything that
 makes that a *spinner* — the interval, the thread, the lock the caller and the interval share — is in
-`clackatui`, which is the crate that already owns a terminal.
+`clark`, which is the crate that already owns a terminal.
 
 That splits cleanly, but it leaves a recording problem the other three corpora do not have. A
 Scenario is a sequence of keypresses and a static case is one call; a spinner is neither. So there is

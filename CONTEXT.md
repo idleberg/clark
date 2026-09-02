@@ -1,4 +1,4 @@
-# clackatui
+# clark
 
 A Rust adaptation of [clack](https://github.com/bombshell-dev/clack), built on Ratatui, whose
 appearance is verified against the JavaScript original rather than merely modelled on it.
@@ -40,7 +40,7 @@ _Avoid_: renderer, backend, writer
 
 **Line editor**:
 The single-line text editing model — cursor position, word boundaries, kill and yank — that clack
-inherits from Node's `readline` and clackatui reimplements. A Prompt delegates to it rather than
+inherits from Node's `readline` and clark reimplements. A Prompt delegates to it rather than
 editing text itself.
 _Avoid_: input handler, buffer, textarea
 
@@ -52,7 +52,7 @@ _Avoid_: abort, interrupt, quit
 ### Compatibility
 
 **Parity**:
-The property being tested: clack and clackatui, given the same input, leave the terminal in the same
+The property being tested: clack and clark, given the same input, leave the terminal in the same
 observable state. Always qualified by which Grid the claim covers.
 _Avoid_: compatibility, equivalence, fidelity
 
@@ -85,7 +85,7 @@ _Avoid_: import, scrape, extract
 
 **Drift**:
 A Fixture no longer matching what pinned clack currently produces — meaning the recording is stale,
-not that clackatui is wrong. Diagnosed separately from a Parity failure.
+not that clark is wrong. Diagnosed separately from a Parity failure.
 _Avoid_: staleness, breakage, regression
 
 **Conformance suite**:

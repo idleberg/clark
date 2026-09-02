@@ -8,12 +8,12 @@ no state and no keypress — and it breaks the one thing they all had in common.
 ADR-0029's four hand a long line to the terminal and let *it* break, because nothing walks back over
 static output and so nothing has to know where the breaks are. A `note` cannot. It draws a border
 down the right-hand side, and a border only lands in the right column if the text inside it was
-measured first — so the message is wrapped with [`wrap`](../../crates/clackatui-core/src/wrap.rs), the same
+measured first — so the message is wrapped with [`wrap`](../../crates/clark-core/src/wrap.rs), the same
 word wrap a Prompt's Frame goes through, at `columns - 6`. Six is exactly what the box costs its
 content: the left bar and its two spaces, the two of padding the width gains, and the right bar.
 
 This is also the first thing in the port outside a Prompt that reads the terminal at all, which is
-why `note` takes a `columns` and `intro` does not. On the `clackatui` side that is `terminal::size()`
+why `note` takes a `columns` and `intro` does not. On the `clark` side that is `terminal::size()`
 with upstream's eighty as the fallback.
 
 ## `format` returns a `Line`, not a `String`
