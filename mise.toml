@@ -1,9 +1,9 @@
 [tools]
-# Only what the repository cannot assume. cargo comes from rustup; the toolchain floor is the
-# workspace's `rust-version`, not a pin here, because nothing in the port needs a newer compiler
-# than it declares. Node is here because the harvests are Node scripts and the version they run
-# under decides what `readline` reports — see docs/adr/0008.
-node = "22"
+# Exact, like the crates the parity claims rest on. Every committed Fixture carries the version it
+# was recorded under, and a harvest run on any other one rewrites that field in all nineteen — so a
+# loose pin turns `drift` into noise the first time a minor lands.
+node = "24.20.0"
+
 hk = "latest"
 pkl = "latest"
 
