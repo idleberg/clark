@@ -2,7 +2,7 @@
 name = "clark-cli"
 version = "0.1.0"
 description = "CLI for clark, the Rust port of Bombshell's clack prompts."
-keywords = ["clack", "terminal", "prompt", "dialogs", "shell", "cli"]
+keywords = ["clack", "terminal", "prompt", "dialogs", "shell"]
 edition.workspace = true
 license.workspace = true
 repository.workspace = true

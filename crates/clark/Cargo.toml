@@ -2,7 +2,7 @@
 name = "clark"
 version = "0.1.0"
 description = "Bombshell's clack prompts ported to Rust"
-keywords = ["clack", "terminal", "prompt", "dialogs", "shell", "cli"]
+keywords = ["clack", "terminal", "prompt", "dialogs", "shell"]
 edition.workspace = true
 license.workspace = true
 repository.workspace = true
