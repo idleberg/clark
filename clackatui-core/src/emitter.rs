@@ -71,9 +71,18 @@ const MISSING_ROW: &str = "undefined";
 /// writes ends with. A trailing blank row is therefore how a blank line after the output is written
 /// down — see [`crate::message`].
 pub fn write_once(frame: &Frame) -> String {
-	let mut out = write_rows(&frame.rows(u16::MAX), 0);
+	let mut out = write_wrapped(frame, u16::MAX);
 	out.push('\n');
 	out
+}
+
+/// A Frame's rows, wrapped to `columns` and joined with `\n` — and nothing after the last one.
+///
+/// [`write_once`] at a width and without the trailing newline, which is what
+/// [`crate::spinner`] writes on every tick: it wraps its row the way a Prompt's Frame is wrapped,
+/// and leaves the cursor sitting at the end of it so the next tick can erase it.
+pub fn write_wrapped(frame: &Frame, columns: u16) -> String {
+	write_rows(&frame.rows(columns), 0)
 }
 
 /// Turns Frames into terminal writes, holding the previous Frame between calls.

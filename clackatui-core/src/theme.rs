@@ -75,6 +75,15 @@ pub struct Symbols {
 	pub success: &'static str,
 	pub warn: &'static str,
 	pub error: &'static str,
+
+	/// The symbols a [`spinner`](crate::spinner) cycles through. Not an `S_*` constant upstream —
+	/// it is the default of `SpinnerOptions.frames`, and it takes the same `unicode` branch every
+	/// symbol here takes, so it lives with them.
+	pub spinner_frames: &'static [&'static str],
+
+	/// The three characters a [`progress`](crate::progress) bar can be drawn out of, in the order
+	/// `light`, `heavy`, `block`. `S_PROGRESS_CHAR` upstream, and `unicodeOr` all three.
+	pub progress: [&'static str; 3],
 }
 
 impl Symbols {
@@ -109,6 +118,10 @@ impl Symbols {
 		success: "◆",
 		warn: "▲",
 		error: "■",
+
+		spinner_frames: &["◒", "◐", "◓", "◑"],
+
+		progress: ["─", "━", "█"],
 	};
 
 	/// The second argument of every `unicodeOr` call.
@@ -146,6 +159,10 @@ impl Symbols {
 		success: "*",
 		warn: "!",
 		error: "x",
+
+		spinner_frames: &["•", "o", "O", "0"],
+
+		progress: ["-", "=", "#"],
 	};
 }
 

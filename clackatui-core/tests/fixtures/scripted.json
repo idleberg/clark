@@ -1,0 +1,3828 @@
+{
+	"source": "scripts/scripted/cases.mjs",
+	"tag": "@clack/prompts@1.7.0",
+	"commit": "dc5bce8aae84a57b5863124adfaa839c1db1fa23",
+	"describe": "@clack/core@1.4.3",
+	"node": "24.20.0",
+	"generatedBy": "scripts/harvest-scripted.mjs",
+	"cases": [
+		{
+			"name": "a spinner draws a bar, four frames and a submitted step",
+			"kind": "spinner",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "Loading",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 240,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 320,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading"
+				},
+				{
+					"op": "stop",
+					"message": "Done",
+					"elapsed": 320,
+					"bytes": "\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+		},
+		{
+			"name": "the frames come back round after the fourth",
+			"kind": "spinner",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "Loading",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 240,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 320,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 400,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 480,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 560,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 640,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 720,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading."
+				},
+				{
+					"op": "stop",
+					"message": "Done",
+					"elapsed": 720,
+					"bytes": "\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading.\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+		},
+		{
+			"name": "a spinner stopped with no message keeps only the symbol",
+			"kind": "spinner",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "Loading",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  Loading"
+				},
+				{
+					"op": "stop",
+					"message": "",
+					"elapsed": 80,
+					"bytes": "\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  \n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  Loading\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  \n\u001b[?25h"
+		},
+		{
+			"name": "a spinner that is stopped before it ticks writes no row to erase",
+			"kind": "spinner",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "Loading",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "stop",
+					"message": "Done",
+					"elapsed": 0,
+					"bytes": "\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+		},
+		{
+			"name": "stopping a spinner that was never started writes nothing at all",
+			"kind": "spinner",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "stop",
+					"message": "Done",
+					"elapsed": 1788344546500,
+					"bytes": ""
+				}
+			],
+			"bytes": ""
+		},
+		{
+			"name": "a cancelled spinner ends in red",
+			"kind": "spinner",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "Loading",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  Loading"
+				},
+				{
+					"op": "cancel",
+					"message": "too dizzy — spinning cancelled",
+					"elapsed": 80,
+					"bytes": "\u001b[1G\u001b[J\u001b[31m■\u001b[39m  too dizzy — spinning cancelled\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  Loading\u001b[1G\u001b[J\u001b[31m■\u001b[39m  too dizzy — spinning cancelled\n\u001b[?25h"
+		},
+		{
+			"name": "an errored spinner ends in the other red",
+			"kind": "spinner",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "Loading",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  Loading"
+				},
+				{
+					"op": "error",
+					"message": "error: spun too fast!",
+					"elapsed": 80,
+					"bytes": "\u001b[1G\u001b[J\u001b[31m▲\u001b[39m  error: spun too fast!\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  Loading\u001b[1G\u001b[J\u001b[31m▲\u001b[39m  error: spun too fast!\n\u001b[?25h"
+		},
+		{
+			"name": "a cleared spinner erases its row and leaves the bar",
+			"kind": "spinner",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "Loading",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  Loading"
+				},
+				{
+					"op": "clear",
+					"elapsed": 80,
+					"bytes": "\u001b[1G\u001b[J\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  Loading\u001b[1G\u001b[J\u001b[?25h"
+		},
+		{
+			"name": "a message set mid-flight is drawn by the next tick and not before",
+			"kind": "spinner",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "Loading",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  Loading"
+				},
+				{
+					"op": "message",
+					"message": "Still loading",
+					"elapsed": 80,
+					"bytes": ""
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Still loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 240,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Still loading"
+				},
+				{
+					"op": "stop",
+					"message": "Done",
+					"elapsed": 240,
+					"bytes": "\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Still loading\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Still loading\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+		},
+		{
+			"name": "a message set after the last tick is never drawn",
+			"kind": "spinner",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "Loading",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  Loading"
+				},
+				{
+					"op": "message",
+					"message": "never seen",
+					"elapsed": 80,
+					"bytes": ""
+				},
+				{
+					"op": "stop",
+					"message": "Done",
+					"elapsed": 80,
+					"bytes": "\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  Loading\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+		},
+		{
+			"name": "a spinner started again keeps the message the first one left behind",
+			"kind": "spinner",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "first",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  first"
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  first"
+				},
+				{
+					"op": "tick",
+					"elapsed": 240,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  first"
+				},
+				{
+					"op": "tick",
+					"elapsed": 320,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  first"
+				},
+				{
+					"op": "tick",
+					"elapsed": 400,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  first"
+				},
+				{
+					"op": "tick",
+					"elapsed": 480,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  first"
+				},
+				{
+					"op": "tick",
+					"elapsed": 560,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  first"
+				},
+				{
+					"op": "tick",
+					"elapsed": 640,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  first"
+				},
+				{
+					"op": "tick",
+					"elapsed": 720,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  first."
+				},
+				{
+					"op": "tick",
+					"elapsed": 800,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  first."
+				},
+				{
+					"op": "stop",
+					"message": "done",
+					"elapsed": 800,
+					"bytes": "\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  done\n\u001b[?25h"
+				},
+				{
+					"op": "start",
+					"message": "second",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  second"
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  second"
+				},
+				{
+					"op": "stop",
+					"message": "done again",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  done again\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  first\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  first\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  first\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  first\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  first\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  first\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  first\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  first\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  first.\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  first.\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  done\n\u001b[?25h\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  second\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  second\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  done again\n\u001b[?25h"
+		},
+		{
+			"name": "the dots arrive one every eight ticks and are capped at three",
+			"kind": "spinner",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "Loading",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 240,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 320,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 400,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 480,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 560,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 640,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 720,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading."
+				},
+				{
+					"op": "tick",
+					"elapsed": 800,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading."
+				},
+				{
+					"op": "tick",
+					"elapsed": 880,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading."
+				},
+				{
+					"op": "tick",
+					"elapsed": 960,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1040,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1120,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1200,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1280,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1360,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1440,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1520,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1600,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1680,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1760,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1840,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1920,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 2000,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 2080,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 2160,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 2240,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 2320,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 2400,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 2480,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 2560,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 2640,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 2720,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading"
+				},
+				{
+					"op": "stop",
+					"message": "Done",
+					"elapsed": 2720,
+					"bytes": "\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading.\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading.\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading.\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading.\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading.\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading.\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading.\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading.\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading..\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading..\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading..\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading..\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading..\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading..\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading..\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading..\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading...\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading...\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading...\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading...\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading...\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading...\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading...\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading...\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading...\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+		},
+		{
+			"name": "the dots go round again after the cap",
+			"kind": "spinner",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "Loading",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 240,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 320,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 400,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 480,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 560,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 640,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 720,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading."
+				},
+				{
+					"op": "tick",
+					"elapsed": 800,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading."
+				},
+				{
+					"op": "tick",
+					"elapsed": 880,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading."
+				},
+				{
+					"op": "tick",
+					"elapsed": 960,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1040,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1120,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1200,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1280,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1360,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1440,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1520,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1600,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1680,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1760,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1840,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1920,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 2000,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 2080,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 2160,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 2240,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 2320,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 2400,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 2480,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 2560,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 2640,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 2720,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 2800,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 2880,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 2960,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 3040,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 3120,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 3200,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 3280,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 3360,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading."
+				},
+				{
+					"op": "tick",
+					"elapsed": 3440,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading."
+				},
+				{
+					"op": "tick",
+					"elapsed": 3520,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading."
+				},
+				{
+					"op": "tick",
+					"elapsed": 3600,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading."
+				},
+				{
+					"op": "tick",
+					"elapsed": 3680,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading."
+				},
+				{
+					"op": "tick",
+					"elapsed": 3760,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading."
+				},
+				{
+					"op": "tick",
+					"elapsed": 3840,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading."
+				},
+				{
+					"op": "tick",
+					"elapsed": 3920,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading."
+				},
+				{
+					"op": "tick",
+					"elapsed": 4000,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 4080,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 4160,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 4240,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 4320,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 4400,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 4480,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 4560,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 4640,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 4720,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 4800,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 4880,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 4960,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 5040,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 5120,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 5200,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 5280,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 5360,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 5440,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 5520,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 5600,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading"
+				},
+				{
+					"op": "stop",
+					"message": "Done",
+					"elapsed": 5600,
+					"bytes": "\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading.\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading.\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading.\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading.\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading.\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading.\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading.\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading.\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading..\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading..\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading..\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading..\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading..\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading..\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading..\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading..\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading...\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading...\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading...\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading...\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading...\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading...\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading...\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading...\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading...\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading.\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading.\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading.\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading.\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading.\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading.\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading.\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading.\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading..\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading..\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading..\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading..\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading..\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading..\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading..\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading..\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading...\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading...\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading...\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading...\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading...\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading...\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading...\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading...\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading...\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+		},
+		{
+			"name": "leading dots are left where they are",
+			"kind": "spinner",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "...Loading...",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  ...Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  ...Loading"
+				},
+				{
+					"op": "stop",
+					"message": "...Done...",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  ...Done...\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  ...Loading\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  ...Loading\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  ...Done...\n\u001b[?25h"
+		},
+		{
+			"name": "trailing dots are taken off the message they were asked for",
+			"kind": "spinner",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "Loading...",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading"
+				},
+				{
+					"op": "stop",
+					"message": "Done.",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done.\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Loading\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done.\n\u001b[?25h"
+		},
+		{
+			"name": "a message set mid-flight loses its dots too",
+			"kind": "spinner",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "Loading",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  Loading"
+				},
+				{
+					"op": "message",
+					"message": "Almost there...",
+					"elapsed": 80,
+					"bytes": ""
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Almost there"
+				},
+				{
+					"op": "stop",
+					"message": "Done",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Almost there\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+		},
+		{
+			"name": "a spinner with no message at all is a symbol and two spaces",
+			"kind": "spinner",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  "
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  "
+				},
+				{
+					"op": "tick",
+					"elapsed": 240,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  "
+				},
+				{
+					"op": "stop",
+					"message": "",
+					"elapsed": 240,
+					"bytes": "\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  \n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  \u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[1G\u001b[J\u001b[32m◇\u001b[39m  \n\u001b[?25h"
+		},
+		{
+			"name": "a timer counts the seconds since start",
+			"kind": "spinner",
+			"options": {
+				"indicator": "timer",
+				"delay": 1000
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 1000,
+			"steps": [
+				{
+					"op": "start",
+					"message": "Working",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 1000,
+					"bytes": "\u001b[35m◒\u001b[39m  Working [1s]"
+				},
+				{
+					"op": "tick",
+					"elapsed": 2000,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Working [2s]"
+				},
+				{
+					"op": "tick",
+					"elapsed": 3000,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Working [3s]"
+				},
+				{
+					"op": "tick",
+					"elapsed": 4000,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Working [4s]"
+				},
+				{
+					"op": "stop",
+					"message": "Done",
+					"elapsed": 4000,
+					"bytes": "\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done [4s]\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  Working [1s]\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Working [2s]\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Working [3s]\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Working [4s]\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done [4s]\n\u001b[?25h"
+		},
+		{
+			"name": "a timer counts minutes once there are any",
+			"kind": "spinner",
+			"options": {
+				"indicator": "timer",
+				"delay": 20000
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 20000,
+			"steps": [
+				{
+					"op": "start",
+					"message": "Working",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 20000,
+					"bytes": "\u001b[35m◒\u001b[39m  Working [20s]"
+				},
+				{
+					"op": "tick",
+					"elapsed": 40000,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Working [40s]"
+				},
+				{
+					"op": "tick",
+					"elapsed": 60000,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Working [1m 0s]"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80000,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Working [1m 20s]"
+				},
+				{
+					"op": "stop",
+					"message": "Done",
+					"elapsed": 80000,
+					"bytes": "\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done [1m 20s]\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  Working [20s]\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Working [40s]\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Working [1m 0s]\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Working [1m 20s]\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done [1m 20s]\n\u001b[?25h"
+		},
+		{
+			"name": "a timer with a delay that is not a whole second floors it",
+			"kind": "spinner",
+			"options": {
+				"indicator": "timer",
+				"delay": 400
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 400,
+			"steps": [
+				{
+					"op": "start",
+					"message": "Working",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 400,
+					"bytes": "\u001b[35m◒\u001b[39m  Working [0s]"
+				},
+				{
+					"op": "tick",
+					"elapsed": 800,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Working [0s]"
+				},
+				{
+					"op": "tick",
+					"elapsed": 1200,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Working [1s]"
+				},
+				{
+					"op": "tick",
+					"elapsed": 1600,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Working [1s]"
+				},
+				{
+					"op": "tick",
+					"elapsed": 2000,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Working [2s]"
+				},
+				{
+					"op": "tick",
+					"elapsed": 2400,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Working [2s]"
+				},
+				{
+					"op": "stop",
+					"message": "Done",
+					"elapsed": 2400,
+					"bytes": "\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done [2s]\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  Working [0s]\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Working [0s]\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  Working [1s]\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  Working [1s]\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  Working [2s]\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Working [2s]\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done [2s]\n\u001b[?25h"
+		},
+		{
+			"name": "a timer is drawn on the closing row as well",
+			"kind": "spinner",
+			"options": {
+				"indicator": "timer",
+				"delay": 1000
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 1000,
+			"steps": [
+				{
+					"op": "start",
+					"message": "Working",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 1000,
+					"bytes": "\u001b[35m◒\u001b[39m  Working [1s]"
+				},
+				{
+					"op": "tick",
+					"elapsed": 2000,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Working [2s]"
+				},
+				{
+					"op": "cancel",
+					"message": "gave up",
+					"elapsed": 2000,
+					"bytes": "\u001b[1G\u001b[J\u001b[31m■\u001b[39m  gave up [2s]\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  Working [1s]\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Working [2s]\u001b[1G\u001b[J\u001b[31m■\u001b[39m  gave up [2s]\n\u001b[?25h"
+		},
+		{
+			"name": "without the Guide there is no bar above the spinner",
+			"kind": "spinner",
+			"options": {
+				"withGuide": false
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "foo",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  foo"
+				},
+				{
+					"op": "stop",
+					"message": "",
+					"elapsed": 80,
+					"bytes": "\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  \n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[35m◒\u001b[39m  foo\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  \n\u001b[?25h"
+		},
+		{
+			"name": "custom frames are cycled in the order they were given",
+			"kind": "spinner",
+			"options": {
+				"frames": [
+					"-",
+					"\\",
+					"|",
+					"/"
+				]
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "Loading",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m-\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m\\\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 240,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m|\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 320,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m/\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 400,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m-\u001b[39m  Loading"
+				},
+				{
+					"op": "stop",
+					"message": "Done",
+					"elapsed": 400,
+					"bytes": "\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m-\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m\\\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m|\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m/\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m-\u001b[39m  Loading\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+		},
+		{
+			"name": "frames two columns wide move the message and the wrap with them",
+			"kind": "spinner",
+			"options": {
+				"frames": [
+					"🐴",
+					"🦋",
+					"🐙",
+					"🐶"
+				]
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "Loading",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m🐴\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m🦋\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 240,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m🐙\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 320,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m🐶\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 400,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m🐴\u001b[39m  Loading"
+				},
+				{
+					"op": "stop",
+					"message": "Done",
+					"elapsed": 400,
+					"bytes": "\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m🐴\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m🦋\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m🐙\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m🐶\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m🐴\u001b[39m  Loading\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+		},
+		{
+			"name": "ten frames still show the same three dots",
+			"kind": "spinner",
+			"options": {
+				"frames": [
+					"0",
+					"1",
+					"2",
+					"3",
+					"4",
+					"5",
+					"6",
+					"7",
+					"8",
+					"9"
+				]
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "Loading",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m0\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m1\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 240,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m2\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 320,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m3\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 400,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m4\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 480,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m5\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 560,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m6\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 640,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m7\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 720,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m8\u001b[39m  Loading."
+				},
+				{
+					"op": "tick",
+					"elapsed": 800,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m9\u001b[39m  Loading."
+				},
+				{
+					"op": "tick",
+					"elapsed": 880,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m0\u001b[39m  Loading."
+				},
+				{
+					"op": "tick",
+					"elapsed": 960,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m1\u001b[39m  Loading."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1040,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m2\u001b[39m  Loading."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1120,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m3\u001b[39m  Loading."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1200,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m4\u001b[39m  Loading."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1280,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m5\u001b[39m  Loading."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1360,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m6\u001b[39m  Loading.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1440,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m7\u001b[39m  Loading.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1520,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m8\u001b[39m  Loading.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1600,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m9\u001b[39m  Loading.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1680,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m0\u001b[39m  Loading.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1760,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m1\u001b[39m  Loading.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1840,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m2\u001b[39m  Loading.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1920,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m3\u001b[39m  Loading.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 2000,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m4\u001b[39m  Loading..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 2080,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m5\u001b[39m  Loading..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 2160,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m6\u001b[39m  Loading..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 2240,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m7\u001b[39m  Loading..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 2320,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m8\u001b[39m  Loading..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 2400,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m9\u001b[39m  Loading..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 2480,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m0\u001b[39m  Loading..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 2560,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m1\u001b[39m  Loading..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 2640,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m2\u001b[39m  Loading..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 2720,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m3\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 2800,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m4\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 2880,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m5\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 2960,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m6\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 3040,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m7\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 3120,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m8\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 3200,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m9\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 3280,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m0\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 3360,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m1\u001b[39m  Loading."
+				},
+				{
+					"op": "tick",
+					"elapsed": 3440,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m2\u001b[39m  Loading."
+				},
+				{
+					"op": "tick",
+					"elapsed": 3520,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m3\u001b[39m  Loading."
+				},
+				{
+					"op": "tick",
+					"elapsed": 3600,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m4\u001b[39m  Loading."
+				},
+				{
+					"op": "tick",
+					"elapsed": 3680,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m5\u001b[39m  Loading."
+				},
+				{
+					"op": "tick",
+					"elapsed": 3760,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m6\u001b[39m  Loading."
+				},
+				{
+					"op": "tick",
+					"elapsed": 3840,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m7\u001b[39m  Loading."
+				},
+				{
+					"op": "tick",
+					"elapsed": 3920,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m8\u001b[39m  Loading."
+				},
+				{
+					"op": "tick",
+					"elapsed": 4000,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m9\u001b[39m  Loading.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 4080,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m0\u001b[39m  Loading.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 4160,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m1\u001b[39m  Loading.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 4240,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m2\u001b[39m  Loading.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 4320,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m3\u001b[39m  Loading.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 4400,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m4\u001b[39m  Loading.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 4480,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m5\u001b[39m  Loading.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 4560,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m6\u001b[39m  Loading.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 4640,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m7\u001b[39m  Loading..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 4720,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m8\u001b[39m  Loading..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 4800,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m9\u001b[39m  Loading..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 4880,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m0\u001b[39m  Loading..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 4960,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m1\u001b[39m  Loading..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 5040,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m2\u001b[39m  Loading..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 5120,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m3\u001b[39m  Loading..."
+				},
+				{
+					"op": "stop",
+					"message": "Done",
+					"elapsed": 5120,
+					"bytes": "\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m0\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m1\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m2\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m3\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m4\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m5\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m6\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m7\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m8\u001b[39m  Loading.\u001b[1G\u001b[J\u001b[35m9\u001b[39m  Loading.\u001b[1G\u001b[J\u001b[35m0\u001b[39m  Loading.\u001b[1G\u001b[J\u001b[35m1\u001b[39m  Loading.\u001b[1G\u001b[J\u001b[35m2\u001b[39m  Loading.\u001b[1G\u001b[J\u001b[35m3\u001b[39m  Loading.\u001b[1G\u001b[J\u001b[35m4\u001b[39m  Loading.\u001b[1G\u001b[J\u001b[35m5\u001b[39m  Loading.\u001b[1G\u001b[J\u001b[35m6\u001b[39m  Loading..\u001b[1G\u001b[J\u001b[35m7\u001b[39m  Loading..\u001b[1G\u001b[J\u001b[35m8\u001b[39m  Loading..\u001b[1G\u001b[J\u001b[35m9\u001b[39m  Loading..\u001b[1G\u001b[J\u001b[35m0\u001b[39m  Loading..\u001b[1G\u001b[J\u001b[35m1\u001b[39m  Loading..\u001b[1G\u001b[J\u001b[35m2\u001b[39m  Loading..\u001b[1G\u001b[J\u001b[35m3\u001b[39m  Loading..\u001b[1G\u001b[J\u001b[35m4\u001b[39m  Loading...\u001b[1G\u001b[J\u001b[35m5\u001b[39m  Loading...\u001b[1G\u001b[J\u001b[35m6\u001b[39m  Loading...\u001b[1G\u001b[J\u001b[35m7\u001b[39m  Loading...\u001b[1G\u001b[J\u001b[35m8\u001b[39m  Loading...\u001b[1G\u001b[J\u001b[35m9\u001b[39m  Loading...\u001b[1G\u001b[J\u001b[35m0\u001b[39m  Loading...\u001b[1G\u001b[J\u001b[35m1\u001b[39m  Loading...\u001b[1G\u001b[J\u001b[35m2\u001b[39m  Loading...\u001b[1G\u001b[J\u001b[35m3\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m4\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m5\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m6\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m7\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m8\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m9\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m0\u001b[39m  Loading\u001b[1G\u001b[J\u001b[35m1\u001b[39m  Loading.\u001b[1G\u001b[J\u001b[35m2\u001b[39m  Loading.\u001b[1G\u001b[J\u001b[35m3\u001b[39m  Loading.\u001b[1G\u001b[J\u001b[35m4\u001b[39m  Loading.\u001b[1G\u001b[J\u001b[35m5\u001b[39m  Loading.\u001b[1G\u001b[J\u001b[35m6\u001b[39m  Loading.\u001b[1G\u001b[J\u001b[35m7\u001b[39m  Loading.\u001b[1G\u001b[J\u001b[35m8\u001b[39m  Loading.\u001b[1G\u001b[J\u001b[35m9\u001b[39m  Loading..\u001b[1G\u001b[J\u001b[35m0\u001b[39m  Loading..\u001b[1G\u001b[J\u001b[35m1\u001b[39m  Loading..\u001b[1G\u001b[J\u001b[35m2\u001b[39m  Loading..\u001b[1G\u001b[J\u001b[35m3\u001b[39m  Loading..\u001b[1G\u001b[J\u001b[35m4\u001b[39m  Loading..\u001b[1G\u001b[J\u001b[35m5\u001b[39m  Loading..\u001b[1G\u001b[J\u001b[35m6\u001b[39m  Loading..\u001b[1G\u001b[J\u001b[35m7\u001b[39m  Loading...\u001b[1G\u001b[J\u001b[35m8\u001b[39m  Loading...\u001b[1G\u001b[J\u001b[35m9\u001b[39m  Loading...\u001b[1G\u001b[J\u001b[35m0\u001b[39m  Loading...\u001b[1G\u001b[J\u001b[35m1\u001b[39m  Loading...\u001b[1G\u001b[J\u001b[35m2\u001b[39m  Loading...\u001b[1G\u001b[J\u001b[35m3\u001b[39m  Loading...\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+		},
+		{
+			"name": "a frame can be styled by the caller",
+			"kind": "spinner",
+			"options": {
+				"styleFrame": "red"
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "Loading",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[31m◒\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[31m◐\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 240,
+					"bytes": "\u001b[1G\u001b[J\u001b[31m◓\u001b[39m  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 320,
+					"bytes": "\u001b[1G\u001b[J\u001b[31m◑\u001b[39m  Loading"
+				},
+				{
+					"op": "stop",
+					"message": "Done",
+					"elapsed": 320,
+					"bytes": "\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[31m◒\u001b[39m  Loading\u001b[1G\u001b[J\u001b[31m◐\u001b[39m  Loading\u001b[1G\u001b[J\u001b[31m◓\u001b[39m  Loading\u001b[1G\u001b[J\u001b[31m◑\u001b[39m  Loading\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+		},
+		{
+			"name": "a frame formatter that adds characters is on the wire before the wrap",
+			"kind": "spinner",
+			"options": {
+				"styleFrame": "stars"
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "Loading",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "*◒*  Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J*◐*  Loading"
+				},
+				{
+					"op": "stop",
+					"message": "Done",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n*◒*  Loading\u001b[1G\u001b[J*◐*  Loading\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+		},
+		{
+			"name": "a multi-line message is drawn and walked back over row by row",
+			"kind": "spinner",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "foo\nbar\nbaz",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  foo\nbar\nbaz"
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[2A\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  foo\nbar\nbaz"
+				},
+				{
+					"op": "stop",
+					"message": "Done",
+					"elapsed": 160,
+					"bytes": "\u001b[2A\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  foo\nbar\nbaz\u001b[2A\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  foo\nbar\nbaz\u001b[2A\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+		},
+		{
+			"name": "a message longer than the terminal wraps",
+			"kind": "spinner",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nxxxxxxxxxxxxx"
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[1A\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nxxxxxxxxxxxxx"
+				},
+				{
+					"op": "stop",
+					"message": "stopped",
+					"elapsed": 160,
+					"bytes": "\u001b[1A\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  stopped\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nxxxxxxxxxxxxx\u001b[1A\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nxxxxxxxxxxxxx\u001b[1A\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  stopped\n\u001b[?25h"
+		},
+		{
+			"name": "a message three columns short of the terminal",
+			"kind": "spinner",
+			"options": {},
+			"columns": 20,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "xxxxxxxxxxxxxxxxx",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  xxxxxxxxxxxxxxxxx"
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  xxxxxxxxxxxxxxxxx"
+				},
+				{
+					"op": "tick",
+					"elapsed": 240,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  xxxxxxxxxxxxxxxxx"
+				},
+				{
+					"op": "stop",
+					"message": "Done",
+					"elapsed": 240,
+					"bytes": "\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  xxxxxxxxxxxxxxxxx\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  xxxxxxxxxxxxxxxxx\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  xxxxxxxxxxxxxxxxx\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+		},
+		{
+			"name": "a message one column short of the terminal",
+			"kind": "spinner",
+			"options": {},
+			"columns": 20,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "xxxxxxxxxxxxxxxxxxx",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  \nxxxxxxxxxxxxxxxxxxx"
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \nxxxxxxxxxxxxxxxxxxx"
+				},
+				{
+					"op": "tick",
+					"elapsed": 240,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \nxxxxxxxxxxxxxxxxxxx"
+				},
+				{
+					"op": "stop",
+					"message": "Done",
+					"elapsed": 240,
+					"bytes": "\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  \nxxxxxxxxxxxxxxxxxxx\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \nxxxxxxxxxxxxxxxxxxx\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \nxxxxxxxxxxxxxxxxxxx\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+		},
+		{
+			"name": "a message exactly as wide as the terminal",
+			"kind": "spinner",
+			"options": {},
+			"columns": 20,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "xxxxxxxxxxxxxxxxxxxx",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  \nxxxxxxxxxxxxxxxxxxxx"
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \nxxxxxxxxxxxxxxxxxxxx"
+				},
+				{
+					"op": "tick",
+					"elapsed": 240,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \nxxxxxxxxxxxxxxxxxxxx"
+				},
+				{
+					"op": "stop",
+					"message": "Done",
+					"elapsed": 240,
+					"bytes": "\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  \nxxxxxxxxxxxxxxxxxxxx\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \nxxxxxxxxxxxxxxxxxxxx\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \nxxxxxxxxxxxxxxxxxxxx\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+		},
+		{
+			"name": "a message that wraps to three rows in a narrow terminal",
+			"kind": "spinner",
+			"options": {},
+			"columns": 20,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "aaaa bbbb cccc dddd eeee ffff",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  aaaa bbbb cccc \ndddd eeee ffff"
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[1A\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  aaaa bbbb cccc \ndddd eeee ffff"
+				},
+				{
+					"op": "tick",
+					"elapsed": 240,
+					"bytes": "\u001b[1A\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  aaaa bbbb cccc \ndddd eeee ffff"
+				},
+				{
+					"op": "stop",
+					"message": "Done",
+					"elapsed": 240,
+					"bytes": "\u001b[1A\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  aaaa bbbb cccc \ndddd eeee ffff\u001b[1A\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  aaaa bbbb cccc \ndddd eeee ffff\u001b[1A\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  aaaa bbbb cccc \ndddd eeee ffff\u001b[1A\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+		},
+		{
+			"name": "a message of wide characters in a narrow terminal",
+			"kind": "spinner",
+			"options": {},
+			"columns": 20,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "メッセージがとても長いです",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  メッセージがとて\nも長いです"
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[1A\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  メッセージがとて\nも長いです"
+				},
+				{
+					"op": "tick",
+					"elapsed": 240,
+					"bytes": "\u001b[1A\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  メッセージがとて\nも長いです"
+				},
+				{
+					"op": "stop",
+					"message": "Done",
+					"elapsed": 240,
+					"bytes": "\u001b[1A\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  メッセージがとて\nも長いです\u001b[1A\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  メッセージがとて\nも長いです\u001b[1A\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  メッセージがとて\nも長いです\u001b[1A\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+		},
+		{
+			"name": "a message that shrinks between ticks",
+			"kind": "spinner",
+			"options": {},
+			"columns": 20,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "a much longer message than the one that follows it",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  a much longer \nmessage than the one\n that follows it"
+				},
+				{
+					"op": "message",
+					"message": "short",
+					"elapsed": 80,
+					"bytes": ""
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[2A\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  short"
+				},
+				{
+					"op": "stop",
+					"message": "Done",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  a much longer \nmessage than the one\n that follows it\u001b[2A\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  short\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+		},
+		{
+			"name": "a message that grows between ticks",
+			"kind": "spinner",
+			"options": {},
+			"columns": 20,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "short",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  short"
+				},
+				{
+					"op": "message",
+					"message": "a much longer message than the one that came before it",
+					"elapsed": 80,
+					"bytes": ""
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  a much longer \nmessage than the one\n that came before it"
+				},
+				{
+					"op": "stop",
+					"message": "Done",
+					"elapsed": 160,
+					"bytes": "\u001b[2A\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  short\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  a much longer \nmessage than the one\n that came before it\u001b[2A\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+		},
+		{
+			"name": "a stop message longer than the terminal is not wrapped",
+			"kind": "spinner",
+			"options": {},
+			"columns": 20,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "Loading",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  Loading"
+				},
+				{
+					"op": "stop",
+					"message": "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+					"elapsed": 80,
+					"bytes": "\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  Loading\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\n\u001b[?25h"
+		},
+		{
+			"name": "in CI a tick writes a newline, the message and three dots",
+			"kind": "spinner",
+			"options": {
+				"ci": true
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "Loading",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  Loading..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": ""
+				},
+				{
+					"op": "tick",
+					"elapsed": 240,
+					"bytes": ""
+				},
+				{
+					"op": "tick",
+					"elapsed": 320,
+					"bytes": ""
+				},
+				{
+					"op": "stop",
+					"message": "Done",
+					"elapsed": 320,
+					"bytes": "\n\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  Loading...\n\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+		},
+		{
+			"name": "in CI only a changed message writes anything",
+			"kind": "spinner",
+			"options": {
+				"ci": true
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "Loading",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  Loading..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": ""
+				},
+				{
+					"op": "message",
+					"message": "Still loading",
+					"elapsed": 160,
+					"bytes": ""
+				},
+				{
+					"op": "tick",
+					"elapsed": 240,
+					"bytes": "\n\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Still loading..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 320,
+					"bytes": ""
+				},
+				{
+					"op": "stop",
+					"message": "Done",
+					"elapsed": 320,
+					"bytes": "\n\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  Loading...\n\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  Still loading...\n\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+		},
+		{
+			"name": "in CI a multi-line message is still walked back over",
+			"kind": "spinner",
+			"options": {
+				"ci": true
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "foo\nbar",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  foo\nbar..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": ""
+				},
+				{
+					"op": "message",
+					"message": "baz",
+					"elapsed": 160,
+					"bytes": ""
+				},
+				{
+					"op": "tick",
+					"elapsed": 240,
+					"bytes": "\n\u001b[1A\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  baz..."
+				},
+				{
+					"op": "stop",
+					"message": "Done",
+					"elapsed": 240,
+					"bytes": "\n\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  foo\nbar...\n\u001b[1A\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  baz...\n\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+		},
+		{
+			"name": "in CI the ticks show no timer and the closing row does",
+			"kind": "spinner",
+			"options": {
+				"ci": true,
+				"indicator": "timer",
+				"delay": 1000
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 1000,
+			"steps": [
+				{
+					"op": "start",
+					"message": "Working",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 1000,
+					"bytes": "\u001b[35m◒\u001b[39m  Working..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 2000,
+					"bytes": ""
+				},
+				{
+					"op": "tick",
+					"elapsed": 3000,
+					"bytes": ""
+				},
+				{
+					"op": "stop",
+					"message": "Done",
+					"elapsed": 3000,
+					"bytes": "\n\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done [3s]\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  Working...\n\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done [3s]\n\u001b[?25h"
+		},
+		{
+			"name": "in CI a cleared spinner still writes its newline",
+			"kind": "spinner",
+			"options": {
+				"ci": true
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "Loading",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  Loading..."
+				},
+				{
+					"op": "clear",
+					"elapsed": 80,
+					"bytes": "\n\u001b[1G\u001b[J\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  Loading...\n\u001b[1G\u001b[J\u001b[?25h"
+		},
+		{
+			"name": "a bar starts empty and fills as it is advanced",
+			"kind": "progress",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "Downloading",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[22m Downloading"
+				},
+				{
+					"op": "advance",
+					"step": 25,
+					"elapsed": 80,
+					"bytes": ""
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m━━━━━━━━━━\u001b[39m\u001b[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[22m Downloading"
+				},
+				{
+					"op": "advance",
+					"step": 25,
+					"elapsed": 160,
+					"bytes": ""
+				},
+				{
+					"op": "tick",
+					"elapsed": 240,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m━━━━━━━━━━━━━━━━━━━━\u001b[39m\u001b[2m━━━━━━━━━━━━━━━━━━━━\u001b[22m Downloading"
+				},
+				{
+					"op": "advance",
+					"step": 50,
+					"elapsed": 240,
+					"bytes": ""
+				},
+				{
+					"op": "tick",
+					"elapsed": 320,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  \u001b[35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[39m\u001b[2m\u001b[22m Downloading"
+				},
+				{
+					"op": "stop",
+					"message": "Downloaded",
+					"elapsed": 320,
+					"bytes": "\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Downloaded\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[22m Downloading\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m━━━━━━━━━━\u001b[39m\u001b[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[22m Downloading\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m━━━━━━━━━━━━━━━━━━━━\u001b[39m\u001b[2m━━━━━━━━━━━━━━━━━━━━\u001b[22m Downloading\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  \u001b[35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[39m\u001b[2m\u001b[22m Downloading\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Downloaded\n\u001b[?25h"
+		},
+		{
+			"name": "a bar advances by one when it is not told how far",
+			"kind": "progress",
+			"options": {
+				"max": 4,
+				"size": 4
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "Working",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━\u001b[22m Working"
+				},
+				{
+					"op": "advance",
+					"step": 1,
+					"elapsed": 80,
+					"bytes": ""
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m━\u001b[39m\u001b[2m━━━\u001b[22m Working"
+				},
+				{
+					"op": "advance",
+					"step": 1,
+					"elapsed": 160,
+					"bytes": ""
+				},
+				{
+					"op": "tick",
+					"elapsed": 240,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m━━\u001b[39m\u001b[2m━━\u001b[22m Working"
+				},
+				{
+					"op": "stop",
+					"message": "Done",
+					"elapsed": 240,
+					"bytes": "\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━\u001b[22m Working\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m━\u001b[39m\u001b[2m━━━\u001b[22m Working\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m━━\u001b[39m\u001b[2m━━\u001b[22m Working\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+		},
+		{
+			"name": "a bar advanced past its max stops at full",
+			"kind": "progress",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "Working",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[22m Working"
+				},
+				{
+					"op": "advance",
+					"step": 500,
+					"elapsed": 80,
+					"bytes": ""
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[39m\u001b[2m\u001b[22m Working"
+				},
+				{
+					"op": "advance",
+					"step": 500,
+					"elapsed": 160,
+					"bytes": ""
+				},
+				{
+					"op": "tick",
+					"elapsed": 240,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[39m\u001b[2m\u001b[22m Working"
+				},
+				{
+					"op": "stop",
+					"message": "Done",
+					"elapsed": 240,
+					"bytes": "\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[22m Working\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[39m\u001b[2m\u001b[22m Working\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[39m\u001b[2m\u001b[22m Working\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+		},
+		{
+			"name": "a bar advanced with a message of its own draws that one",
+			"kind": "progress",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "first",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[22m first"
+				},
+				{
+					"op": "advance",
+					"step": 50,
+					"message": "second",
+					"elapsed": 80,
+					"bytes": ""
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m━━━━━━━━━━━━━━━━━━━━\u001b[39m\u001b[2m━━━━━━━━━━━━━━━━━━━━\u001b[22m second"
+				},
+				{
+					"op": "advance",
+					"step": 25,
+					"elapsed": 160,
+					"bytes": ""
+				},
+				{
+					"op": "tick",
+					"elapsed": 240,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m second"
+				},
+				{
+					"op": "stop",
+					"message": "Done",
+					"elapsed": 240,
+					"bytes": "\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[22m first\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m━━━━━━━━━━━━━━━━━━━━\u001b[39m\u001b[2m━━━━━━━━━━━━━━━━━━━━\u001b[22m second\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m second\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+		},
+		{
+			"name": "a message on a bar advances nothing",
+			"kind": "progress",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "first",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[22m first"
+				},
+				{
+					"op": "advance",
+					"step": 30,
+					"elapsed": 80,
+					"bytes": ""
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m━━━━━━━━━━━━\u001b[39m\u001b[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[22m first"
+				},
+				{
+					"op": "message",
+					"message": "second",
+					"elapsed": 160,
+					"bytes": ""
+				},
+				{
+					"op": "tick",
+					"elapsed": 240,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m━━━━━━━━━━━━\u001b[39m\u001b[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[22m second"
+				},
+				{
+					"op": "stop",
+					"message": "Done",
+					"elapsed": 240,
+					"bytes": "\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[22m first\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m━━━━━━━━━━━━\u001b[39m\u001b[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[22m first\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m━━━━━━━━━━━━\u001b[39m\u001b[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[22m second\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+		},
+		{
+			"name": "a bar with trailing dots on its message loses them and keeps its bar",
+			"kind": "progress",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "Loading...",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[22m Loading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[22m Loading"
+				},
+				{
+					"op": "advance",
+					"step": 40,
+					"message": "Almost there...",
+					"elapsed": 160,
+					"bytes": ""
+				},
+				{
+					"op": "tick",
+					"elapsed": 240,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m━━━━━━━━━━━━━━━━\u001b[39m\u001b[2m━━━━━━━━━━━━━━━━━━━━━━━━\u001b[22m Almost there"
+				},
+				{
+					"op": "stop",
+					"message": "Done.",
+					"elapsed": 240,
+					"bytes": "\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done.\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[22m Loading\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[22m Loading\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m━━━━━━━━━━━━━━━━\u001b[39m\u001b[2m━━━━━━━━━━━━━━━━━━━━━━━━\u001b[22m Almost there\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done.\n\u001b[?25h"
+		},
+		{
+			"name": "a light bar",
+			"kind": "progress",
+			"options": {
+				"style": "light",
+				"size": 10
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "go",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m──────────\u001b[22m go"
+				},
+				{
+					"op": "advance",
+					"step": 50,
+					"elapsed": 80,
+					"bytes": ""
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m─────\u001b[39m\u001b[2m─────\u001b[22m go"
+				},
+				{
+					"op": "stop",
+					"message": "done",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  done\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m──────────\u001b[22m go\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m─────\u001b[39m\u001b[2m─────\u001b[22m go\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  done\n\u001b[?25h"
+		},
+		{
+			"name": "a heavy bar is the default",
+			"kind": "progress",
+			"options": {
+				"size": 10
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "go",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m go"
+				},
+				{
+					"op": "advance",
+					"step": 50,
+					"elapsed": 80,
+					"bytes": ""
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m go"
+				},
+				{
+					"op": "stop",
+					"message": "done",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  done\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m go\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m go\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  done\n\u001b[?25h"
+		},
+		{
+			"name": "a block bar",
+			"kind": "progress",
+			"options": {
+				"style": "block",
+				"size": 10
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "go",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m██████████\u001b[22m go"
+				},
+				{
+					"op": "advance",
+					"step": 50,
+					"elapsed": 80,
+					"bytes": ""
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m█████\u001b[39m\u001b[2m█████\u001b[22m go"
+				},
+				{
+					"op": "stop",
+					"message": "done",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  done\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m██████████\u001b[22m go\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m█████\u001b[39m\u001b[2m█████\u001b[22m go\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  done\n\u001b[?25h"
+		},
+		{
+			"name": "a max and a size that do not divide evenly",
+			"kind": "progress",
+			"options": {
+				"max": 10,
+				"size": 3
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "go",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━\u001b[22m go"
+				},
+				{
+					"op": "advance",
+					"step": 7,
+					"elapsed": 80,
+					"bytes": ""
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m━━\u001b[39m\u001b[2m━\u001b[22m go"
+				},
+				{
+					"op": "advance",
+					"step": 1,
+					"elapsed": 160,
+					"bytes": ""
+				},
+				{
+					"op": "tick",
+					"elapsed": 240,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m━━\u001b[39m\u001b[2m━\u001b[22m go"
+				},
+				{
+					"op": "stop",
+					"message": "done",
+					"elapsed": 240,
+					"bytes": "\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  done\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━\u001b[22m go\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m━━\u001b[39m\u001b[2m━\u001b[22m go\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m━━\u001b[39m\u001b[2m━\u001b[22m go\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  done\n\u001b[?25h"
+		},
+		{
+			"name": "a bar of one column and a max of one",
+			"kind": "progress",
+			"options": {
+				"max": 1,
+				"size": 1
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "go",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━\u001b[22m go"
+				},
+				{
+					"op": "advance",
+					"step": 1,
+					"elapsed": 80,
+					"bytes": ""
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m━\u001b[39m\u001b[2m\u001b[22m go"
+				},
+				{
+					"op": "stop",
+					"message": "done",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  done\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━\u001b[22m go\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m━\u001b[39m\u001b[2m\u001b[22m go\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  done\n\u001b[?25h"
+		},
+		{
+			"name": "a bar asked for no columns and no max gets one of each",
+			"kind": "progress",
+			"options": {
+				"max": 0,
+				"size": 0
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "go",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━\u001b[22m go"
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━\u001b[22m go"
+				},
+				{
+					"op": "advance",
+					"step": 1,
+					"elapsed": 160,
+					"bytes": ""
+				},
+				{
+					"op": "tick",
+					"elapsed": 240,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m━\u001b[39m\u001b[2m\u001b[22m go"
+				},
+				{
+					"op": "stop",
+					"message": "done",
+					"elapsed": 240,
+					"bytes": "\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  done\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━\u001b[22m go\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━\u001b[22m go\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m━\u001b[39m\u001b[2m\u001b[22m go\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  done\n\u001b[?25h"
+		},
+		{
+			"name": "a bar with a max of nothing is filled by one step",
+			"kind": "progress",
+			"options": {
+				"max": 0,
+				"size": 17
+			},
+			"columns": 20,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━━━━━━━━\u001b[22m\n "
+				},
+				{
+					"op": "advance",
+					"step": 1,
+					"elapsed": 80,
+					"bytes": ""
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m━━━━━━━━━━━━━━━━━\u001b[39m\u001b[2m\u001b[22m\n "
+				},
+				{
+					"op": "tick",
+					"elapsed": 240,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m━━━━━━━━━━━━━━━━━\u001b[39m\u001b[2m\u001b[22m\n "
+				},
+				{
+					"op": "stop",
+					"message": "done",
+					"elapsed": 240,
+					"bytes": "\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  done\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━━━━━━━━\u001b[22m\n \u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m━━━━━━━━━━━━━━━━━\u001b[39m\u001b[2m\u001b[22m\n \u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m━━━━━━━━━━━━━━━━━\u001b[39m\u001b[2m\u001b[22m\n \u001b[1G\u001b[J\u001b[32m◇\u001b[39m  done\n\u001b[?25h"
+		},
+		{
+			"name": "a bar wider than the terminal wraps and is walked back over",
+			"kind": "progress",
+			"options": {
+				"size": 30
+			},
+			"columns": 20,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "Downloading",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━━━━━━━━\u001b[22m\n\u001b[2m━━━━━━━━━━━━━\u001b[22m \nDownloading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[2A\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━━━━━━━━\u001b[22m\n\u001b[2m━━━━━━━━━━━━━\u001b[22m \nDownloading"
+				},
+				{
+					"op": "advance",
+					"step": 50,
+					"elapsed": 160,
+					"bytes": ""
+				},
+				{
+					"op": "tick",
+					"elapsed": 240,
+					"bytes": "\u001b[2A\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m━━━━━━━━━━━━━━━\u001b[39m\u001b[2m━━\u001b[22m\n\u001b[2m━━━━━━━━━━━━━\u001b[22m \nDownloading"
+				},
+				{
+					"op": "tick",
+					"elapsed": 320,
+					"bytes": "\u001b[2A\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  \u001b[35m━━━━━━━━━━━━━━━\u001b[39m\u001b[2m━━\u001b[22m\n\u001b[2m━━━━━━━━━━━━━\u001b[22m \nDownloading"
+				},
+				{
+					"op": "stop",
+					"message": "Done",
+					"elapsed": 320,
+					"bytes": "\u001b[2A\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━━━━━━━━\u001b[22m\n\u001b[2m━━━━━━━━━━━━━\u001b[22m \nDownloading\u001b[2A\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━━━━━━━━\u001b[22m\n\u001b[2m━━━━━━━━━━━━━\u001b[22m \nDownloading\u001b[2A\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m━━━━━━━━━━━━━━━\u001b[39m\u001b[2m━━\u001b[22m\n\u001b[2m━━━━━━━━━━━━━\u001b[22m \nDownloading\u001b[2A\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  \u001b[35m━━━━━━━━━━━━━━━\u001b[39m\u001b[2m━━\u001b[22m\n\u001b[2m━━━━━━━━━━━━━\u001b[22m \nDownloading\u001b[2A\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+		},
+		{
+			"name": "a bar two columns short of the terminal",
+			"kind": "progress",
+			"options": {
+				"size": 17
+			},
+			"columns": 20,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━━━━━━━━\u001b[22m\n "
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━━━━━━━━\u001b[22m\n "
+				},
+				{
+					"op": "tick",
+					"elapsed": 240,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━━━━━━━━\u001b[22m\n "
+				},
+				{
+					"op": "advance",
+					"step": 50,
+					"elapsed": 240,
+					"bytes": ""
+				},
+				{
+					"op": "tick",
+					"elapsed": 320,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  \u001b[35m━━━━━━━━\u001b[39m\u001b[2m━━━━━━━━━\u001b[22m\n "
+				},
+				{
+					"op": "tick",
+					"elapsed": 400,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  \u001b[35m━━━━━━━━\u001b[39m\u001b[2m━━━━━━━━━\u001b[22m\n "
+				},
+				{
+					"op": "stop",
+					"message": "Done",
+					"elapsed": 400,
+					"bytes": "\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━━━━━━━━\u001b[22m\n \u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━━━━━━━━\u001b[22m\n \u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━━━━━━━━\u001b[22m\n \u001b[1G\u001b[J\u001b[35m◑\u001b[39m  \u001b[35m━━━━━━━━\u001b[39m\u001b[2m━━━━━━━━━\u001b[22m\n \u001b[1G\u001b[J\u001b[35m◒\u001b[39m  \u001b[35m━━━━━━━━\u001b[39m\u001b[2m━━━━━━━━━\u001b[22m\n \u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+		},
+		{
+			"name": "a bar of wide characters",
+			"kind": "progress",
+			"options": {
+				"size": 8
+			},
+			"columns": 20,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "進捗",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━\u001b[22m 進捗"
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━\u001b[22m 進捗"
+				},
+				{
+					"op": "advance",
+					"step": 50,
+					"elapsed": 160,
+					"bytes": ""
+				},
+				{
+					"op": "tick",
+					"elapsed": 240,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m━━━━\u001b[39m\u001b[2m━━━━\u001b[22m 進捗"
+				},
+				{
+					"op": "tick",
+					"elapsed": 320,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  \u001b[35m━━━━\u001b[39m\u001b[2m━━━━\u001b[22m 進捗"
+				},
+				{
+					"op": "stop",
+					"message": "完了",
+					"elapsed": 320,
+					"bytes": "\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  完了\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━\u001b[22m 進捗\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━\u001b[22m 進捗\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m━━━━\u001b[39m\u001b[2m━━━━\u001b[22m 進捗\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  \u001b[35m━━━━\u001b[39m\u001b[2m━━━━\u001b[22m 進捗\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  完了\n\u001b[?25h"
+		},
+		{
+			"name": "the dots still arrive under a bar",
+			"kind": "progress",
+			"options": {
+				"size": 10
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "Working",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working"
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working"
+				},
+				{
+					"op": "tick",
+					"elapsed": 240,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working"
+				},
+				{
+					"op": "tick",
+					"elapsed": 320,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working"
+				},
+				{
+					"op": "tick",
+					"elapsed": 400,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working"
+				},
+				{
+					"op": "tick",
+					"elapsed": 480,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working"
+				},
+				{
+					"op": "tick",
+					"elapsed": 560,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working"
+				},
+				{
+					"op": "tick",
+					"elapsed": 640,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working"
+				},
+				{
+					"op": "tick",
+					"elapsed": 720,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working."
+				},
+				{
+					"op": "tick",
+					"elapsed": 800,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working."
+				},
+				{
+					"op": "tick",
+					"elapsed": 880,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working."
+				},
+				{
+					"op": "tick",
+					"elapsed": 960,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1040,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1120,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1200,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1280,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1360,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1440,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1520,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1600,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working.."
+				},
+				{
+					"op": "advance",
+					"step": 50,
+					"elapsed": 1600,
+					"bytes": ""
+				},
+				{
+					"op": "tick",
+					"elapsed": 1680,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1760,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1840,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 1920,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working.."
+				},
+				{
+					"op": "tick",
+					"elapsed": 2000,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 2080,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 2160,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 2240,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 2320,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 2400,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 2480,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 2560,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 2640,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 2720,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working"
+				},
+				{
+					"op": "tick",
+					"elapsed": 2800,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working"
+				},
+				{
+					"op": "tick",
+					"elapsed": 2880,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working"
+				},
+				{
+					"op": "tick",
+					"elapsed": 2960,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working"
+				},
+				{
+					"op": "tick",
+					"elapsed": 3040,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working"
+				},
+				{
+					"op": "tick",
+					"elapsed": 3120,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working"
+				},
+				{
+					"op": "tick",
+					"elapsed": 3200,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working"
+				},
+				{
+					"op": "stop",
+					"message": "Done",
+					"elapsed": 3200,
+					"bytes": "\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working.\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working.\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working.\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working.\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working.\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working.\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working.\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working.\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working..\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working..\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working..\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working..\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working..\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working..\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working..\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working..\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working...\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working...\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working...\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working...\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working...\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working...\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working...\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working...\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working...\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working\u001b[1G\u001b[J\u001b[35m◒\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+		},
+		{
+			"name": "a bar with a timer instead of dots",
+			"kind": "progress",
+			"options": {
+				"size": 10,
+				"indicator": "timer",
+				"delay": 1000
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 1000,
+			"steps": [
+				{
+					"op": "start",
+					"message": "Working",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 1000,
+					"bytes": "\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working [1s]"
+				},
+				{
+					"op": "tick",
+					"elapsed": 2000,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working [2s]"
+				},
+				{
+					"op": "advance",
+					"step": 50,
+					"elapsed": 2000,
+					"bytes": ""
+				},
+				{
+					"op": "tick",
+					"elapsed": 3000,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working [3s]"
+				},
+				{
+					"op": "tick",
+					"elapsed": 4000,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working [4s]"
+				},
+				{
+					"op": "stop",
+					"message": "Done",
+					"elapsed": 4000,
+					"bytes": "\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done [4s]\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working [1s]\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working [2s]\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working [3s]\u001b[1G\u001b[J\u001b[35m◑\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working [4s]\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done [4s]\n\u001b[?25h"
+		},
+		{
+			"name": "a bar without the Guide",
+			"kind": "progress",
+			"options": {
+				"size": 10,
+				"withGuide": false
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "go",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m go"
+				},
+				{
+					"op": "advance",
+					"step": 50,
+					"elapsed": 80,
+					"bytes": ""
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m go"
+				},
+				{
+					"op": "stop",
+					"message": "done",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  done\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m go\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m go\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  done\n\u001b[?25h"
+		},
+		{
+			"name": "a cancelled bar",
+			"kind": "progress",
+			"options": {
+				"size": 10
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "Working",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working"
+				},
+				{
+					"op": "advance",
+					"step": 30,
+					"elapsed": 80,
+					"bytes": ""
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m━━━\u001b[39m\u001b[2m━━━━━━━\u001b[22m Working"
+				},
+				{
+					"op": "cancel",
+					"message": "gave up",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[31m■\u001b[39m  gave up\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m━━━\u001b[39m\u001b[2m━━━━━━━\u001b[22m Working\u001b[1G\u001b[J\u001b[31m■\u001b[39m  gave up\n\u001b[?25h"
+		},
+		{
+			"name": "an errored bar",
+			"kind": "progress",
+			"options": {
+				"size": 10
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "Working",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working"
+				},
+				{
+					"op": "advance",
+					"step": 30,
+					"elapsed": 80,
+					"bytes": ""
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m━━━\u001b[39m\u001b[2m━━━━━━━\u001b[22m Working"
+				},
+				{
+					"op": "error",
+					"message": "failed",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[31m▲\u001b[39m  failed\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m━━━\u001b[39m\u001b[2m━━━━━━━\u001b[22m Working\u001b[1G\u001b[J\u001b[31m▲\u001b[39m  failed\n\u001b[?25h"
+		},
+		{
+			"name": "a cleared bar leaves only the Guide",
+			"kind": "progress",
+			"options": {
+				"size": 10
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "Working",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working"
+				},
+				{
+					"op": "advance",
+					"step": 30,
+					"elapsed": 80,
+					"bytes": ""
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m━━━\u001b[39m\u001b[2m━━━━━━━\u001b[22m Working"
+				},
+				{
+					"op": "clear",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m━━━\u001b[39m\u001b[2m━━━━━━━\u001b[22m Working\u001b[1G\u001b[J\u001b[?25h"
+		},
+		{
+			"name": "the closing row of a full bar has no bar on it",
+			"kind": "progress",
+			"options": {
+				"size": 10
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "Working",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working"
+				},
+				{
+					"op": "advance",
+					"step": 100,
+					"elapsed": 80,
+					"bytes": ""
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m━━━━━━━━━━\u001b[39m\u001b[2m\u001b[22m Working"
+				},
+				{
+					"op": "stop",
+					"message": "Done",
+					"elapsed": 160,
+					"bytes": "\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m━━━━━━━━━━\u001b[39m\u001b[2m\u001b[22m Working\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+		},
+		{
+			"name": "in CI a bar writes one row per advance",
+			"kind": "progress",
+			"options": {
+				"ci": true,
+				"size": 10
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "Working",
+					"elapsed": 0,
+					"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 80,
+					"bytes": "\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 160,
+					"bytes": ""
+				},
+				{
+					"op": "advance",
+					"step": 50,
+					"elapsed": 160,
+					"bytes": ""
+				},
+				{
+					"op": "tick",
+					"elapsed": 240,
+					"bytes": "\n\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 320,
+					"bytes": ""
+				},
+				{
+					"op": "advance",
+					"step": 50,
+					"elapsed": 320,
+					"bytes": ""
+				},
+				{
+					"op": "tick",
+					"elapsed": 400,
+					"bytes": "\n\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m━━━━━━━━━━\u001b[39m\u001b[2m\u001b[22m Working..."
+				},
+				{
+					"op": "tick",
+					"elapsed": 480,
+					"bytes": ""
+				},
+				{
+					"op": "stop",
+					"message": "Done",
+					"elapsed": 480,
+					"bytes": "\n\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+				}
+			],
+			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working...\n\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working...\n\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m━━━━━━━━━━\u001b[39m\u001b[2m\u001b[22m Working...\n\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+		}
+	]
+}

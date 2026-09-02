@@ -29,9 +29,12 @@ mod message;
 mod multi_line;
 mod multi_select;
 mod password;
+mod progress;
 mod select;
 mod select_key;
+mod spinner;
 mod text;
+mod ticker;
 
 pub use autocomplete::{
 	Autocomplete, AutocompleteMultiSelect, autocomplete, autocomplete_multiselect,
@@ -47,15 +50,19 @@ pub use message::{
 pub use multi_line::{MultiLine, multiline};
 pub use multi_select::{MultiSelect, multiselect};
 pub use password::{Password, password};
+pub use progress::{Progress, progress};
 pub use select::{Select, select};
 pub use select_key::{SelectKey, select_key};
+pub use spinner::{Spinner, spinner};
 pub use text::{Text, text};
 
 pub use clackatui_core::date::{Date as CivilDate, DateFormat};
 pub use clackatui_core::multi_line::Focus;
+pub use clackatui_core::progress::BarStyle;
 /// The pieces a caller needs to configure a Prompt or to drive one themselves.
 pub use clackatui_core::prompt::{Outcome, Validator};
 pub use clackatui_core::select::SelectOption;
 pub use clackatui_core::session::Session;
 pub use clackatui_core::settings::{Action, DateMessages, Settings};
+pub use clackatui_core::spinner::{Indicator, StyleFrame};
 pub use clackatui_core::theme::Theme;

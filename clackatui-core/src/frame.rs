@@ -187,6 +187,18 @@ impl From<Span> for Line {
 	}
 }
 
+impl From<String> for Line {
+	fn from(text: String) -> Self {
+		Span::raw(text).into()
+	}
+}
+
+impl From<&str> for Line {
+	fn from(text: &str) -> Self {
+		Span::raw(text).into()
+	}
+}
+
 /// The complete visual state of a Prompt at one instant.
 #[derive(Clone, Debug, Default, PartialEq)]
 pub struct Frame {
