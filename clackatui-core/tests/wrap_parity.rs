@@ -1,6 +1,6 @@
 //! Conformance: the wrap port against `fast-wrap-ansi` itself.
 //!
-//! Companion to `width_parity.rs`, and the same arrangement for the same reason: `prior-art/` is not
+//! Companion to `width_parity.rs`, and the same arrangement for the same reason: `upstream/` is not
 //! committed, so `scripts/harvest-wrap.mjs` runs the real library over the corpus and records its
 //! answers in `fixtures/wrap.json`, and this asserts against the recording (ADR-0008).
 //!

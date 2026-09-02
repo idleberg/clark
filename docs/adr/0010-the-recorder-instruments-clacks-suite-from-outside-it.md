@@ -5,7 +5,7 @@ clack at tag `@clack/prompts@1.7.0`, patches `MockReadable`/`MockWritable` to lo
 output chunks, and runs their vitest suite". The patching turned out to be unnecessary, and not
 patching is worth the small amount of machinery it costs.
 
-Nothing is written into `prior-art/clack`. `scripts/recorder/vitest.config.mjs` runs upstream's
+Nothing is written into `upstream/clack`. `scripts/recorder/vitest.config.mjs` runs upstream's
 suite with `root` pointed at the checkout and two things attached: a setup file that owns the record,
 and an alias that puts `scripts/recorder/prompts-shim.mjs` in place of `@clack/prompts`' entry point
 for the specifier the tests import it by. Re-harvesting at a newer tag is therefore a `git checkout`

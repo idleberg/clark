@@ -6,7 +6,7 @@
 //   node scripts/harvest-scenarios.mjs text
 //   node scripts/harvest-scenarios.mjs text confirm
 //
-// Needs a clack checkout under prior-art/, at the pinned tag, with `@clack/core` built. Refuses
+// Needs a clack checkout under upstream/, at the pinned tag, with `@clack/core` built. Refuses
 // rather than guesses: a fixture recorded from the wrong commit is worse than no fixture, because
 // it fails somewhere unrelated months later. Deliberate, like `mise run drift` — never CI.
 
@@ -14,16 +14,8 @@ import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { dirname, join } from 'node:path';
-import { fileURLToPath } from 'node:url';
-
-const root = join(dirname(fileURLToPath(import.meta.url)), '..');
-const clack = join(root, 'prior-art', 'clack');
-const prompts = join(clack, 'packages', 'prompts');
-const outDir = join(root, 'clackatui-core', 'tests', 'fixtures', 'scenarios');
-
-/** The tag README.md and the lockfile name. Bumping this is what tracking clack looks like. */
-const TAG = '@clack/prompts@1.7.0';
+import { join } from 'node:path';
+import { TAG, checkout, root } from './upstream.mjs';
 
 const suites = process.argv.slice(2);
 if (suites.length === 0) {
@@ -33,26 +25,8 @@ if (suites.length === 0) {
 
 // --- preconditions --------------------------------------------------------------------------
 
-const git = (...args) => execFileSync('git', args, { cwd: clack, encoding: 'utf8' }).trim();
-
-if (!existsSync(clack)) {
-	console.error(`no clack checkout at ${clack}. See ADR-0008: prior-art/ is not committed.`);
-	process.exit(1);
-}
-
-const head = git('rev-parse', 'HEAD');
-const tagged = git('rev-parse', `${TAG}^{commit}`);
-if (head !== tagged) {
-	console.error(`prior-art/clack is not at ${TAG}.`);
-	console.error(`  HEAD is ${git('describe', '--tags')} (${head.slice(0, 8)})`);
-	console.error(`  run: git -C prior-art/clack checkout '${TAG}'`);
-	process.exit(1);
-}
-
-if (!existsSync(join(clack, 'packages', 'core', 'dist', 'index.mjs'))) {
-	console.error('@clack/core is not built. run: pnpm --dir prior-art/clack --filter @clack/core build');
-	process.exit(1);
-}
+const { describe, head, prompts } = checkout({ built: true });
+const outDir = join(root, 'clackatui-core', 'tests', 'fixtures', 'scenarios');
 
 // scripts/recorder/vitest.config.mjs stands in for this file and copies its two settings, so a
 // change to it upstream has to be looked at rather than silently ignored.
@@ -147,7 +121,7 @@ const fixture = {
 	source: '@clack/prompts test suite',
 	tag: TAG,
 	commit: head,
-	describe: git('describe', '--tags'),
+	describe,
 	node: process.versions.node,
 	generatedBy: 'scripts/harvest-scenarios.mjs',
 	suites,

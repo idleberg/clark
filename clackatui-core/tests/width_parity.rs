@@ -4,7 +4,7 @@
 //! and asserts equal widths. This is that suite for measurement; wrap points follow when
 //! `fast-wrap-ansi` is ported.
 //!
-//! The JavaScript side does not run here. `prior-art/` is not committed, so there is no clack
+//! The JavaScript side does not run here. `upstream/` is not committed, so there is no clack
 //! checkout on CI to compare against — instead `scripts/harvest-width.mjs` runs the real library
 //! over the corpus and records its answers in `fixtures/width.json`, and this test asserts against
 //! that recording. The fixture is refreshed deliberately, when the pinned clack version moves, which

@@ -241,12 +241,15 @@ Three layers.
    vs crossterm — the one still owed a harvest, and so the least-guarded thing in the `text` path).
    The comparison is harvested rather
    than live: CI is one Rust job with
-   no JavaScript to run, and `prior-art/` is not committed
+   no JavaScript to run, and `upstream/` is not committed
    ([ADR-0008](./docs/adr/0008-width-parity-is-asserted-against-a-harvested-fixture.md)).
 3. **Drift** — `mise run drift` re-runs every Recorder against pinned clack and reports Fixtures that
    no longer match. It refuses a dirty fixtures tree, because the committed recordings are the
-   baseline it compares against. Run deliberately, not in CI: it needs the `prior-art/` checkout
-   that CI does not have.
+   baseline it compares against. Run deliberately, not in CI: it needs the `upstream/` checkout
+   that CI does not have, which `mise run upstream` creates — clack at the pinned tag, installed
+   and built. The tag itself lives in one place, `scripts/upstream.mjs`, which is also what every
+   harvest asks before it records: a Fixture taken from the wrong commit is worse than no Fixture,
+   because it fails somewhere unrelated months later.
 
 Validation is `FnMut(Option<&T>) -> Option<String>` plus a `Validator` trait — the `Option` because
 upstream runs it against a value that may never have been set, which is how a bare `return` on an
@@ -259,7 +262,8 @@ the trait is the extension point for adapting crates like `garde`.
 `mise.toml` tasks, `hk.pkl` pre-commit, `rustfmt.toml` (`hard_tabs`), `.editorconfig` — carried over
 from [ardent](https://github.com/idleberg/ardent). CI is a single ubuntu job running those same
 three task names — `fmt:check`, `lint`, `test` — and no JavaScript, which is the whole point of
-harvesting. Publishing is manual, `clackatui-core` first.
+harvesting. `mise run upstream` is the one command between a fresh clone and being able to record;
+`mise run drift` is the one that records. Publishing is manual, `clackatui-core` first.
 
 Known gaps, accepted: no Windows or macOS signal on terminal code, and no automated guard against
 upstream drift — `mise run drift` is deliberate, because the checkout it needs is not committed.

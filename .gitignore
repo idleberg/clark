@@ -2,5 +2,5 @@
 .DS_Store
 node_modules/
 
-# A checkout of someone else's repository, pinned by tag from the harvest scripts.
-prior-art/
+# A checkout of someone else's repository, pinned by tag. `mise run upstream` puts it here.
+upstream/

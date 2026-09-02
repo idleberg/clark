@@ -1,7 +1,7 @@
 // Harvests clackatui-core/tests/fixtures/wrap.json from the real fast-wrap-ansi.
 //
 // The Rust port in clackatui-core/src/wrap.rs is checked against the fixture, never against a live
-// Node process, for the reason docs/adr/0008 gives: prior-art/ is not committed, so CI has no
+// Node process, for the reason docs/adr/0008 gives: upstream/ is not committed, so CI has no
 // JavaScript to compare with. This script is how the fixture is refreshed when the pinned clack
 // version moves.
 //
@@ -22,11 +22,14 @@
 // no escapes at all (docs/adr/0011), so the port covers the escape-free half and says so.
 
 import { createRequire } from 'node:module';
+import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { readFileSync, writeFileSync } from 'node:fs';
+import { checkout } from './upstream.mjs';
 
 const HERE = new URL('.', import.meta.url);
-const ANCHOR = new URL('../prior-art/clack/packages/core/package.json', HERE);
+// Anchored inside the checkout, and verified, for the reason harvest-width.mjs gives.
+const ANCHOR = join(checkout().core, 'package.json');
 const FIXTURE = new URL('../clackatui-core/tests/fixtures/wrap.json', HERE);
 
 const require = createRequire(ANCHOR);

@@ -4,7 +4,7 @@
 //! key, so that a word-boundary disagreement is reported once as a keymap defect rather than as a
 //! dozen unexplained Grid mismatches. This is that suite.
 //!
-//! As with the width port, the JavaScript side does not run here: `prior-art/` is not committed and
+//! As with the width port, the JavaScript side does not run here: `upstream/` is not committed and
 //! CI has no Node to drive, so `scripts/harvest-line-editor.mjs` records readline's answers into
 //! `fixtures/line-editor.json` and this test replays them. See ADR-0008 for why the comparison is
 //! harvested rather than live.

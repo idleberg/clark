@@ -1,7 +1,7 @@
 //! Conformance: the Emitter against `@clack/core`'s own `Prompt.render`.
 //!
 //! Same arrangement as `wrap_parity.rs` and `width_parity.rs`, for the reason ADR-0008 gives:
-//! `prior-art/` is not committed, so `scripts/harvest-emitter.mjs` drives the real `Prompt` class
+//! `upstream/` is not committed, so `scripts/harvest-emitter.mjs` drives the real `Prompt` class
 //! through each case and records every byte it wrote, and this asserts against the recording.
 //!
 //! What is asserted is byte equality, which is stricter than the Grid parity the project actually

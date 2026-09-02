@@ -34,9 +34,12 @@
 
 import { readFileSync, writeFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
+import { checkout } from './upstream.mjs';
 
 const HERE = new URL('.', import.meta.url);
-const CORE = new URL('../prior-art/clack/packages/core/', HERE);
+// Verified rather than merely resolved: this one imports `@clack/core`'s build, so a checkout at
+// the wrong tag would record a different library's cursor arithmetic without saying so.
+const CORE = pathToFileURL(`${checkout({ built: true }).core}/`);
 const FIXTURE = new URL('../clackatui-core/tests/fixtures/emitter.json', HERE);
 
 const { Prompt } = await import(pathToFileURL(new URL('dist/index.mjs', CORE).pathname));

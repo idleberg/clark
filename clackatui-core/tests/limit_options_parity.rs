@@ -1,7 +1,7 @@
 //! Conformance: the `limitOptions` port against clack's own.
 //!
 //! The fourth harvested oracle, and the same arrangement as the width, wrap and Emitter ones for the
-//! same reason: `prior-art/` is not committed, so `scripts/harvest-limit-options.mjs` runs the real
+//! same reason: `upstream/` is not committed, so `scripts/harvest-limit-options.mjs` runs the real
 //! function over the corpus and records its answers in `fixtures/limit-options.json`, and this
 //! asserts against the recording (ADR-0008).
 //!

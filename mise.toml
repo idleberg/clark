@@ -29,9 +29,38 @@ run = "cargo clippy --workspace --all-targets -- -D warnings"
 description = "The whole suite."
 run = "cargo test --workspace"
 
+[tasks.upstream]
+description = "Put clack at the pinned tag in upstream/, installed and built."
+# What every harvest needs and nothing else does. `upstream/` is not committed (ADR-0008), so this
+# is the one command between a fresh clone and a recording. The tag lives in scripts/upstream.mjs,
+# which is also what refuses to record from anything else.
+run = '''
+set -eu
+cd "$MISE_PROJECT_ROOT"
+tag=$(node -e 'import("./scripts/upstream.mjs").then(m => console.log(m.TAG))')
+
+if [ -d upstream/clack/.git ]; then
+	git -C upstream/clack fetch --tags --depth 1 origin "refs/tags/$tag:refs/tags/$tag"
+else
+	mkdir -p upstream
+	# Shallow, and only the one tag: nothing here reads clack's history, only one commit of it.
+	git clone --depth 1 --branch "$tag" https://github.com/bombshell-dev/clack upstream/clack
+fi
+git -C upstream/clack checkout --quiet "$tag"
+
+pnpm --dir upstream/clack install --frozen-lockfile
+# The Emitter's oracle is the built `Prompt` class, not its source.
+pnpm --dir upstream/clack --filter @clack/core build
+
+echo
+# By the tag, not by `git describe` — the monorepo puts several tags on one commit, so `describe`
+# answers `@clack/core@1.4.3` here and reads like the wrong checkout.
+echo "upstream/clack is at $tag ($(git -C upstream/clack rev-parse --short HEAD))."
+'''
+
 [tasks.drift]
 description = "Re-record every Fixture against pinned clack and report what moved."
-# Deliberate, never CI: it needs a clack checkout under prior-art/, which is not committed. The
+# Deliberate, never CI: it needs the checkout `mise run upstream` makes, which is not committed. The
 # harvests refuse rather than guess if that checkout is at the wrong tag, so this is safe to run
 # blind. What it reports is that a recording is stale — not that the port is wrong. See ADR-0003.
 run = '''

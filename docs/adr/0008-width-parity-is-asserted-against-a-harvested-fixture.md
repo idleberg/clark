@@ -2,7 +2,7 @@
 
 ADR-0005 asks for a Conformance suite that feeds one corpus to both `fast-string-width` and the Rust
 port and asserts equal widths. The obvious reading is that `cargo test` shells out to Node. It does
-not, and cannot: `prior-art/` is a local reference checkout that is not committed, so on CI there is
+not, and cannot: `upstream/` is a local reference checkout that is not committed, so on CI there is
 no JavaScript to compare against. A suite that silently skips when Node is missing would be worse
 than none, because it would be green exactly where it matters least.
 
@@ -33,8 +33,10 @@ writing both are Unicode 17.0, which is why 82 of 82 cases agree.
 
 ## Consequences
 
-- Refreshing the fixture requires a clack checkout under `prior-art/` and is a deliberate act, not
-  something CI can do. It belongs with `mise run drift`.
+- Refreshing the fixture requires a clack checkout under `upstream/` and is a deliberate act, not
+  something CI can do. It belongs with `mise run drift`. `mise run upstream` makes that checkout,
+  and `scripts/upstream.mjs` is what every harvest asks whether it is the right one — the pinned
+  tag lives there and nowhere else.
 - The port is only as correct as the corpus is representative. `tests/width_parity.rs` guards the
   recording itself — a minimum case count, unique names, and a list of cases that must survive,
   one per branch of the scanner — so that a truncated harvest cannot pass for free.

@@ -1,7 +1,7 @@
 // Harvests clackatui-core/tests/fixtures/width.json from the real fast-string-width.
 //
 // The Rust port in clackatui-core/src/width.rs is checked against the fixture, never against a live
-// Node process: prior-art/ is not committed, so CI has no JavaScript to compare with. This script is
+// Node process: upstream/ is not committed, so CI has no JavaScript to compare with. This script is
 // how the fixture is refreshed when the pinned clack version moves -- see docs/adr/0008.
 //
 // Run it from the repository root:
@@ -13,11 +13,15 @@
 // which quietly changes what is being measured.
 
 import { createRequire } from 'node:module';
+import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { readFileSync, writeFileSync } from 'node:fs';
+import { checkout } from './upstream.mjs';
 
 const HERE = new URL('.', import.meta.url);
-const ANCHOR = new URL('../prior-art/clack/packages/prompts/package.json', HERE);
+// Anchored inside the checkout so `fast-string-width` resolves to clack's copy at clack's version,
+// and verified so that it is clack's pinned version and not whatever is lying there.
+const ANCHOR = join(checkout().prompts, 'package.json');
 const FIXTURE = new URL('../clackatui-core/tests/fixtures/width.json', HERE);
 
 const require = createRequire(ANCHOR);

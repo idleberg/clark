@@ -7,7 +7,7 @@
 // `limitOptions` decides how a list of options is cut down to what fits, and every list Prompt in
 // M3 and M4 is drawn through it. It is a pure function, so it gets a corpus rather than a recording
 // — the same arrangement the width, wrap and Emitter ports have (ADR-0008), and for the same
-// reason: prior-art/ is not committed, so CI has no JavaScript to compare with.
+// reason: upstream/ is not committed, so CI has no JavaScript to compare with.
 //
 // Unlike those three it cannot be reached from a built package. `@clack/prompts` is TypeScript and
 // the checkout does not build it, so ./limit-options/vitest.config.mjs aliases the source and Vite
@@ -16,37 +16,13 @@
 // the corpus cannot carry fails, and nothing is written.
 
 import { execFileSync } from 'node:child_process';
-import { existsSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { dirname, join } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { join } from 'node:path';
+import { TAG, checkout, root } from './upstream.mjs';
 
-const root = join(dirname(fileURLToPath(import.meta.url)), '..');
-const clack = join(root, 'prior-art', 'clack');
-const prompts = join(clack, 'packages', 'prompts');
-const core = join(clack, 'packages', 'core');
+const { core, describe, head, prompts } = checkout({ built: true });
 const out = join(root, 'clackatui-core', 'tests', 'fixtures', 'limit-options.json');
-
-/** The same tag every other Fixture carries. */
-const TAG = '@clack/prompts@1.7.0';
-
-// --- preconditions --------------------------------------------------------------------------
-
-if (!existsSync(clack)) {
-	console.error(`no clack checkout at ${clack}. See ADR-0008: prior-art/ is not committed.`);
-	process.exit(1);
-}
-
-const git = (...args) => execFileSync('git', args, { cwd: clack, encoding: 'utf8' }).trim();
-
-const head = git('rev-parse', 'HEAD');
-const tagged = git('rev-parse', `${TAG}^{commit}`);
-if (head !== tagged) {
-	console.error(`prior-art/clack is not at ${TAG}.`);
-	console.error(`  HEAD is ${git('describe', '--tags')} (${head.slice(0, 8)})`);
-	console.error(`  run: git -C prior-art/clack checkout '${TAG}'`);
-	process.exit(1);
-}
 
 // --- run ------------------------------------------------------------------------------------
 
@@ -95,7 +71,7 @@ const fixture = {
 	source: 'scripts/limit-options/cases.mjs',
 	tag: TAG,
 	commit: head,
-	describe: git('describe', '--tags'),
+	describe,
 	node: process.versions.node,
 	generatedBy: 'scripts/harvest-limit-options.mjs',
 	cases: harvested,
