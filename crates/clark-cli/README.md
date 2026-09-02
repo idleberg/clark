@@ -1,5 +1,9 @@
 # clark-cli
 
+![Crates.io License](https://img.shields.io/crates/l/clark-cli?style=for-the-badge)
+[![Crates.io Version](https://img.shields.io/crates/v/clark-cli?style=for-the-badge)](https://crates.io/crates/clark-cli)
+[![CI](https://img.shields.io/github/actions/workflow/status/idleberg/clark-cli/ci.yml?style=for-the-badge)](https://github.com/idleberg/clark-cli/actions)
+
 CLI for clark, the Rust port of Bombshell's clack prompts 🦀
 
 ```sh
