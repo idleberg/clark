@@ -7,7 +7,7 @@ block characters with the caller's text after it. The frame still turns, the dot
 walk back is still measured the way the spinner measures it — and everything this unit owns is the
 string in the middle.
 
-So the port is the same shape: [`clackatui_core::progress`](../../clackatui-core/src/progress.rs) is
+So the port is the same shape: [`clackatui_core::progress`](../../crates/clackatui-core/src/progress.rs) is
 a `Spinner`, three numbers, and a `bar()`.
 
 ## The message became a Line
@@ -52,7 +52,7 @@ round the same way most of the time, and "most of the time" is not what the corp
 ## Consequences
 
 - **One interval, two renderers.** The thread, the lock and the ending that stops the loop before it
-  takes the lock moved out of `clackatui/src/spinner.rs` into `clackatui/src/ticker.rs`, generic
+  takes the lock moved out of `crates/clackatui/src/spinner.rs` into `crates/clackatui/src/ticker.rs`, generic
   over a three-method `Tick` trait. Two implementations, and the `Drop` that clears a forgotten
   renderer is now written once.
 - **The bar characters are a Theme entry**, `S_PROGRESS_CHAR` being three `unicodeOr` calls like

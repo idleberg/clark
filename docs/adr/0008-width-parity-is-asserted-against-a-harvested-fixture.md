@@ -7,7 +7,7 @@ no JavaScript to compare against. A suite that silently skips when Node is missi
 than none, because it would be green exactly where it matters least.
 
 So the comparison is made once, deliberately, and recorded. `scripts/harvest-width.mjs` runs the
-real library over the corpus and writes `clackatui-core/tests/fixtures/width.json`;
+real library over the corpus and writes `crates/clackatui-core/tests/fixtures/width.json`;
 `tests/width_parity.rs` asserts the port against that recording, always, with no JavaScript
 involved. This is the Recorder-and-Fixture arrangement ADR-0003 already establishes for Prompt
 Scenarios, applied to a primitive instead of a Prompt, and it inherits the same Drift problem: the

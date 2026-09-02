@@ -1,4 +1,4 @@
-// Harvests clackatui-core/tests/fixtures/emitter.json from `@clack/core`'s own Prompt.render.
+// Harvests crates/clackatui-core/tests/fixtures/emitter.json from `@clack/core`'s own Prompt.render.
 //
 // The Emitter reproduces clack's cursor arithmetic and erasure (docs/adr/0013), and this is its
 // oracle. Rather than reimplementing `render` in JavaScript to compare against, the script drives
@@ -40,7 +40,7 @@ const HERE = new URL('.', import.meta.url);
 // Verified rather than merely resolved: this one imports `@clack/core`'s build, so a checkout at
 // the wrong tag would record a different library's cursor arithmetic without saying so.
 const CORE = pathToFileURL(`${checkout({ built: true }).core}/`);
-const FIXTURE = new URL('../clackatui-core/tests/fixtures/emitter.json', HERE);
+const FIXTURE = new URL('../crates/clackatui-core/tests/fixtures/emitter.json', HERE);
 
 const { Prompt } = await import(pathToFileURL(new URL('dist/index.mjs', CORE).pathname));
 const { version } = JSON.parse(readFileSync(new URL('package.json', CORE), 'utf8'));

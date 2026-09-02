@@ -7,7 +7,7 @@ and the [`progress`](./0033-a-progress-bar-is-a-spinner-whose-message-is-drawn.m
 half of what those two do: it erases what it wrote before it writes again, and it decides how much
 to erase by counting rather than by remembering.
 
-[`clackatui_core::task_log`](../../clackatui-core/src/task_log.rs) is the port.
+[`clackatui_core::task_log`](../../crates/clackatui-core/src/task_log.rs) is the port.
 
 ## The count is a string length
 
@@ -49,7 +49,7 @@ styled — `styleText('dim', line)`. That overload drops a row's prefix when the
 dim-styled empty string is not empty: it is four escape characters. So a blank line inside a task log
 is `│  ` where a blank line inside a plain `log` is `│`.
 
-Saying that without escapes is what [`crate::message::log_lines`](../../clackatui-core/src/message.rs)
+Saying that without escapes is what [`crate::message::log_lines`](../../crates/clackatui-core/src/message.rs)
 is: it takes drawn `Line`s, and a row counts as blank only when it has no spans at all. `log`'s own
 string path maps an empty line to `Line::blank()`; a task log's maps it to one empty styled span. Two
 callers, one predicate, and the difference upstream makes by accident is made on purpose.
@@ -79,7 +79,7 @@ disagreement. There is a unit test, so that it is a decision rather than a surpr
   `erase_row`. One function, two callers, and the step-up written between the erases rather than
   after the last one — which is what makes the cursor end on the topmost row.
 - **The driver has no thread.** `progress` reused the spinner's interval; a task log needs no
-  interval, so `clackatui/src/task_log.rs` is a builder, a struct and eleven methods that print.
+  interval, so `crates/clackatui/src/task_log.rs` is a builder, a struct and eleven methods that print.
 - **Forty-seven mutants, forty-five caught.** Three of the first run's five survivors were gaps and
   are now cases: a blank row on a terminal **two columns wide**, which is the only width where
   `line === '' ? 1` is not the answer the arithmetic already gives; a group whose ending is taller

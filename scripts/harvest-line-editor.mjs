@@ -1,5 +1,5 @@
 // Records what Node's `readline` does to (line, cursor) for a corpus of key sequences, so that
-// `clackatui-core/tests/line_editor_parity.rs` can assert the port against it without needing a
+// `crates/clackatui-core/tests/line_editor_parity.rs` can assert the port against it without needing a
 // JavaScript runtime on CI. Same arrangement as scripts/harvest-width.mjs; see ADR-0008.
 //
 //   node scripts/harvest-line-editor.mjs
@@ -16,6 +16,7 @@ import { fileURLToPath } from 'node:url';
 const OUT = join(
 	dirname(fileURLToPath(import.meta.url)),
 	'..',
+	'crates',
 	'clackatui-core',
 	'tests',
 	'fixtures',

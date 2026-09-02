@@ -26,7 +26,8 @@ if (suites.length === 0) {
 // --- preconditions --------------------------------------------------------------------------
 
 const { describe, head, prompts } = checkout({ built: true });
-const outDir = join(root, 'clackatui-core', 'tests', 'fixtures', 'scenarios');
+const outDir = join(root, 'crates',
+	'clackatui-core', 'tests', 'fixtures', 'scenarios');
 
 // scripts/recorder/vitest.config.mjs stands in for this file and copies its two settings, so a
 // change to it upstream has to be looked at rather than silently ignored.

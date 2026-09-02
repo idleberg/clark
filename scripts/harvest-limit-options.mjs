@@ -1,4 +1,4 @@
-// Harvests clackatui-core/tests/fixtures/limit-options.json from clack's own `limitOptions`.
+// Harvests crates/clackatui-core/tests/fixtures/limit-options.json from clack's own `limitOptions`.
 //
 // Run it from the repository root:
 //
@@ -22,7 +22,8 @@ import { join } from 'node:path';
 import { TAG, checkout, root } from './upstream.mjs';
 
 const { core, describe, head, prompts } = checkout({ built: true });
-const out = join(root, 'clackatui-core', 'tests', 'fixtures', 'limit-options.json');
+const out = join(root, 'crates',
+	'clackatui-core', 'tests', 'fixtures', 'limit-options.json');
 
 // --- run ------------------------------------------------------------------------------------
 

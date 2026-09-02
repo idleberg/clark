@@ -1,6 +1,6 @@
 # ForcedWidth holds, but the Emitter owns shrink repaints
 
-M0, the probe ADR-0006 made its case conditional on, has run. `clackatui-core/tests/forced_width_probe.rs`
+M0, the probe ADR-0006 made its case conditional on, has run. `crates/clackatui-core/tests/forced_width_probe.rs`
 is the experiment; this records what it found.
 
 **`CellDiffOption::ForcedWidth` does control trailing-column skipping.** A cell stamped with our

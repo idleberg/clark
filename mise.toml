@@ -13,6 +13,10 @@ HK_MISE = 1
 [hooks]
 postinstall = "hk install --mise"
 
+[tasks.build]
+description = "Build the project."
+run = "cargo build --workspace --release"
+
 [tasks.fmt]
 description = "Format."
 run = "cargo fmt --all"
@@ -66,7 +70,7 @@ description = "Re-record every Fixture against pinned clack and report what move
 run = '''
 set -eu
 cd "$MISE_PROJECT_ROOT"
-fixtures=clackatui-core/tests/fixtures
+fixtures=crates/clackatui-core/tests/fixtures
 
 # The committed Fixtures are the baseline, so they have to be the baseline. Recording over an
 # already-dirty tree answers a different question than the one being asked.
@@ -76,7 +80,7 @@ if [ -n "$(git status --porcelain -- $fixtures)" ]; then
 	exit 2
 fi
 
-for fixture in clackatui-core/tests/fixtures/scenarios/*.json; do
+for fixture in crates/clackatui-core/tests/fixtures/scenarios/*.json; do
 	suite=$(basename "$fixture" .json)
 	# authored.json is ours, not upstream's, and has a Recorder of its own.
 	[ "$suite" = authored ] || node scripts/harvest-scenarios.mjs "$suite"

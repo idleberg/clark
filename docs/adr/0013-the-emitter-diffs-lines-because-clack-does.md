@@ -25,7 +25,7 @@ There are three exits, and they leave the cursor in three different places:
 A cell diff would repaint the same characters and land the cursor somewhere else. Cursor position is
 part of the Grid (CONTEXT.md), and the Grid is what a parity claim is about (ADR-0001) — so an
 Emitter that reconciled cells correctly would still be wrong, and would be wrong in a way that only
-showed up as an unexplained mismatch in some later Scenario. `clackatui-core/src/emitter.rs` is
+showed up as an unexplained mismatch in some later Scenario. `crates/clackatui-core/src/emitter.rs` is
 therefore a port of `render`, in the same sense that `wrap.rs` is a port of `fast-wrap-ansi`.
 
 `scripts/harvest-emitter.mjs` is its oracle, and it does not reimplement anything: it constructs a
