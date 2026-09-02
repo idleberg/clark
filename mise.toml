@@ -52,9 +52,17 @@ else
 fi
 git -C upstream/clack checkout --quiet "$tag"
 
-pnpm --dir upstream/clack install --frozen-lockfile
-# The Emitter's oracle is the built `Prompt` class, not its source.
-pnpm --dir upstream/clack --filter @clack/core build
+# Through corepack, and from inside the checkout, so the pnpm that reads clack's lockfile is the
+# one clack pins in its own `packageManager` field. An ambient pnpm is a second, unpinned tool in a
+# project that pins everything else exactly: pnpm 11 defaults `autoInstallPeers` to true, the
+# lockfile records false, and `--frozen-lockfile` refuses. Same reasoning as the node pin above,
+# except the version is upstream's to choose and moves with the tag, so it is read, never copied.
+(
+	cd upstream/clack
+	corepack pnpm install --frozen-lockfile
+	# The Emitter's oracle is the built `Prompt` class, not its source.
+	corepack pnpm --filter @clack/core build
+)
 
 echo
 # By the tag, not by `git describe` — the monorepo puts several tags on one commit, so `describe`
