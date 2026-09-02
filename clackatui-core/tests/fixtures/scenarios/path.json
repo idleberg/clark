@@ -1,0 +1,1017 @@
+{
+	"source": "@clack/prompts test suite",
+	"tag": "@clack/prompts@1.7.0",
+	"commit": "dc5bce8aae84a57b5863124adfaa839c1db1fa23",
+	"describe": "@clack/core@1.4.3",
+	"node": "24.20.0",
+	"generatedBy": "scripts/harvest-scenarios.mjs",
+	"suites": [
+		"path"
+	],
+	"scenarios": [
+		{
+			"name": "text › can cancel",
+			"prompts": [
+				{
+					"kind": "path",
+					"opts": {
+						"message": "foo",
+						"root": "/tmp/"
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "escape",
+							"key": {
+								"name": "escape",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/bar\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/foo\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/hello\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/root.zip\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[9A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[31m■\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[9m\u001b[2m/tmp/\u001b[22m\u001b[29m",
+						"\n",
+						"\u001b[?25h"
+					],
+					"fs": {
+						"/tmp/foo/bar.txt": "1",
+						"/tmp/foo/baz.text": "2",
+						"/tmp/hello/world.jpg": "3",
+						"/tmp/hello/john.jpg": "4",
+						"/tmp/hello/jeanne.png": "5",
+						"/tmp/root.zip": "6",
+						"/tmp/bar": "7"
+					}
+				}
+			]
+		},
+		{
+			"name": "text › cannot submit unknown value",
+			"prompts": [
+				{
+					"kind": "path",
+					"opts": {
+						"message": "foo",
+						"root": "/tmp/"
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "_",
+							"key": {
+								"name": "_",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "h",
+								"ctrl": true,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "b",
+							"key": {
+								"name": "b",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/bar\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/foo\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/hello\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/root.zip\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[9A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/_█\n\u001b[36m│\u001b[39m  \u001b[33mNo matches found\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[6A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[33m▲\u001b[39m  foo\n\u001b[33m│\u001b[39m\n\u001b[33m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/_█\n\u001b[33m│\u001b[39m  \u001b[33mNo matches found\u001b[39m\n\u001b[33m│\u001b[39m  \u001b[33mPlease select a path\u001b[39m\n\u001b[33m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[33m└\u001b[39m",
+						"\u001b[999D\u001b[7A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/bar\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/foo\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/hello\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/root.zip\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[9A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/b█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/bar\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[6A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2m/tmp/bar\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					],
+					"fs": {
+						"/tmp/foo/bar.txt": "1",
+						"/tmp/foo/baz.text": "2",
+						"/tmp/hello/world.jpg": "3",
+						"/tmp/hello/john.jpg": "4",
+						"/tmp/hello/jeanne.png": "5",
+						"/tmp/root.zip": "6",
+						"/tmp/bar": "7"
+					}
+				}
+			]
+		},
+		{
+			"name": "text › default mode allows selecting files",
+			"prompts": [
+				{
+					"kind": "path",
+					"opts": {
+						"message": "foo",
+						"root": "/tmp/"
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "r",
+							"key": {
+								"name": "r",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "o",
+							"key": {
+								"name": "o",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "o",
+							"key": {
+								"name": "o",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "t",
+							"key": {
+								"name": "t",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/bar\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/foo\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/hello\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/root.zip\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[9A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/r█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/root.zip\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[6A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/ro█",
+						"\u001b[3B",
+						"\u001b[999D\u001b[6A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/roo█",
+						"\u001b[3B",
+						"\u001b[999D\u001b[6A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/root█",
+						"\u001b[3B",
+						"\u001b[999D\u001b[6A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2m/tmp/root.zip\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					],
+					"fs": {
+						"/tmp/foo/bar.txt": "1",
+						"/tmp/foo/baz.text": "2",
+						"/tmp/hello/world.jpg": "3",
+						"/tmp/hello/john.jpg": "4",
+						"/tmp/hello/jeanne.png": "5",
+						"/tmp/root.zip": "6",
+						"/tmp/bar": "7"
+					}
+				}
+			]
+		},
+		{
+			"name": "text › directory mode can navigate from initial directory to child directory",
+			"prompts": [
+				{
+					"kind": "path",
+					"opts": {
+						"message": "foo",
+						"root": "/tmp/",
+						"initialValue": "/tmp/",
+						"directory": true
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "f",
+							"key": {
+								"name": "f",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/foo\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/hello\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[7A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/f█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/foo\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[6A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2m/tmp/foo\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					],
+					"fs": {
+						"/tmp/foo/bar.txt": "1",
+						"/tmp/foo/baz.text": "2",
+						"/tmp/hello/world.jpg": "3",
+						"/tmp/hello/john.jpg": "4",
+						"/tmp/hello/jeanne.png": "5",
+						"/tmp/root.zip": "6",
+						"/tmp/bar": "7"
+					}
+				}
+			]
+		},
+		{
+			"name": "text › directory mode only allows selecting directories",
+			"prompts": [
+				{
+					"kind": "path",
+					"opts": {
+						"message": "foo",
+						"root": "/tmp/",
+						"directory": true
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "f",
+							"key": {
+								"name": "f",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/foo\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/hello\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[7A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/f█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/foo\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[6A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2m/tmp/foo\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					],
+					"fs": {
+						"/tmp/foo/bar.txt": "1",
+						"/tmp/foo/baz.text": "2",
+						"/tmp/hello/world.jpg": "3",
+						"/tmp/hello/john.jpg": "4",
+						"/tmp/hello/jeanne.png": "5",
+						"/tmp/root.zip": "6",
+						"/tmp/bar": "7"
+					}
+				}
+			]
+		},
+		{
+			"name": "text › directory mode submits initial directory value on enter",
+			"prompts": [
+				{
+					"kind": "path",
+					"opts": {
+						"message": "foo",
+						"root": "/tmp/",
+						"initialValue": "/tmp",
+						"directory": true
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[6A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2m/tmp\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					],
+					"fs": {
+						"/tmp/foo/bar.txt": "1",
+						"/tmp/foo/baz.text": "2",
+						"/tmp/hello/world.jpg": "3",
+						"/tmp/hello/john.jpg": "4",
+						"/tmp/hello/jeanne.png": "5",
+						"/tmp/root.zip": "6",
+						"/tmp/bar": "7"
+					}
+				}
+			]
+		},
+		{
+			"name": "text › directory mode traverses into child when trailing slash entered",
+			"prompts": [
+				{
+					"kind": "path",
+					"opts": {
+						"message": "foo",
+						"root": "/tmp/",
+						"initialValue": "/tmp",
+						"directory": true
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "/",
+							"key": {
+								"name": "/",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[6A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/foo\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/hello\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[7A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2m/tmp/foo\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					],
+					"fs": {
+						"/tmp/foo/bar.txt": "1",
+						"/tmp/foo/baz.text": "2",
+						"/tmp/hello/world.jpg": "3",
+						"/tmp/hello/john.jpg": "4",
+						"/tmp/hello/jeanne.png": "5",
+						"/tmp/root.zip": "6",
+						"/tmp/bar": "7"
+					}
+				}
+			]
+		},
+		{
+			"name": "text › initialValue sets the value",
+			"prompts": [
+				{
+					"kind": "path",
+					"opts": {
+						"message": "foo",
+						"initialValue": "/tmp/bar",
+						"root": "/tmp/"
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/bar█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/bar\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[6A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2m/tmp/bar\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					],
+					"fs": {
+						"/tmp/foo/bar.txt": "1",
+						"/tmp/foo/baz.text": "2",
+						"/tmp/hello/world.jpg": "3",
+						"/tmp/hello/john.jpg": "4",
+						"/tmp/hello/jeanne.png": "5",
+						"/tmp/root.zip": "6",
+						"/tmp/bar": "7"
+					}
+				}
+			]
+		},
+		{
+			"name": "text › renders cancelled value if one set",
+			"prompts": [
+				{
+					"kind": "path",
+					"opts": {
+						"message": "foo",
+						"root": "/tmp/"
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "x",
+							"key": {
+								"name": "x",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "y",
+							"key": {
+								"name": "y",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "escape",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/bar\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/foo\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/hello\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/root.zip\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[9A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/x█\n\u001b[36m│\u001b[39m  \u001b[33mNo matches found\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[6A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/xy█",
+						"\u001b[3B",
+						"\u001b[999D\u001b[6A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[31m■\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[9m\u001b[2m/tmp/xy\u001b[22m\u001b[29m",
+						"\n",
+						"\u001b[?25h"
+					],
+					"fs": {
+						"/tmp/foo/bar.txt": "1",
+						"/tmp/foo/baz.text": "2",
+						"/tmp/hello/world.jpg": "3",
+						"/tmp/hello/john.jpg": "4",
+						"/tmp/hello/jeanne.png": "5",
+						"/tmp/root.zip": "6",
+						"/tmp/bar": "7"
+					}
+				}
+			]
+		},
+		{
+			"name": "text › renders message",
+			"prompts": [
+				{
+					"kind": "path",
+					"opts": {
+						"message": "foo",
+						"root": "/tmp/"
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/bar\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/foo\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/hello\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/root.zip\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[9A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2m/tmp/bar\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					],
+					"fs": {
+						"/tmp/foo/bar.txt": "1",
+						"/tmp/foo/baz.text": "2",
+						"/tmp/hello/world.jpg": "3",
+						"/tmp/hello/john.jpg": "4",
+						"/tmp/hello/jeanne.png": "5",
+						"/tmp/root.zip": "6",
+						"/tmp/bar": "7"
+					}
+				}
+			]
+		},
+		{
+			"name": "text › renders submitted value",
+			"prompts": [
+				{
+					"kind": "path",
+					"opts": {
+						"message": "foo",
+						"root": "/tmp/"
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "b",
+							"key": {
+								"name": "b",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "a",
+							"key": {
+								"name": "a",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/bar\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/foo\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/hello\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/root.zip\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[9A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/b█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/bar\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[6A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/ba█",
+						"\u001b[3B",
+						"\u001b[999D\u001b[6A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2m/tmp/bar\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					],
+					"fs": {
+						"/tmp/foo/bar.txt": "1",
+						"/tmp/foo/baz.text": "2",
+						"/tmp/hello/world.jpg": "3",
+						"/tmp/hello/john.jpg": "4",
+						"/tmp/hello/jeanne.png": "5",
+						"/tmp/root.zip": "6",
+						"/tmp/bar": "7"
+					}
+				}
+			]
+		},
+		{
+			"name": "text › validation errors render and clear",
+			"prompts": [
+				{
+					"kind": "path",
+					"opts": {
+						"message": "foo",
+						"root": "/tmp/",
+						"validate": {
+							"callback": true
+						}
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "r",
+							"key": {
+								"name": "r",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "h",
+								"ctrl": true,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "b",
+							"key": {
+								"name": "b",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/bar\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/foo\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/hello\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/root.zip\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[9A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/r█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/root.zip\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[6A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[33m▲\u001b[39m  foo\n\u001b[33m│\u001b[39m\n\u001b[33m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/r█\n\u001b[33m│\u001b[39m  \u001b[33mshould be /tmp/bar\u001b[39m\n\u001b[33m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/root.zip\n\u001b[33m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[33m└\u001b[39m",
+						"\u001b[999D\u001b[7A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/█\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/bar\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/foo\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/hello\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/root.zip\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[9A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/b█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/bar\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[6A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2m/tmp/bar\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					],
+					"fs": {
+						"/tmp/foo/bar.txt": "1",
+						"/tmp/foo/baz.text": "2",
+						"/tmp/hello/world.jpg": "3",
+						"/tmp/hello/john.jpg": "4",
+						"/tmp/hello/jeanne.png": "5",
+						"/tmp/root.zip": "6",
+						"/tmp/bar": "7"
+					}
+				}
+			]
+		},
+		{
+			"name": "text › validation errors render and clear (using Error)",
+			"prompts": [
+				{
+					"kind": "path",
+					"opts": {
+						"message": "foo",
+						"root": "/tmp/",
+						"validate": {
+							"callback": true
+						}
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "r",
+							"key": {
+								"name": "r",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "h",
+								"ctrl": true,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "b",
+							"key": {
+								"name": "b",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/bar\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/foo\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/hello\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/root.zip\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[9A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/r█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/root.zip\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[6A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[33m▲\u001b[39m  foo\n\u001b[33m│\u001b[39m\n\u001b[33m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/r█\n\u001b[33m│\u001b[39m  \u001b[33mshould be /tmp/bar\u001b[39m\n\u001b[33m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/root.zip\n\u001b[33m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[33m└\u001b[39m",
+						"\u001b[999D\u001b[7A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/█\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/bar\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/foo\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/hello\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/root.zip\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[9A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/b█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/bar\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[6A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2m/tmp/bar\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					],
+					"fs": {
+						"/tmp/foo/bar.txt": "1",
+						"/tmp/foo/baz.text": "2",
+						"/tmp/hello/world.jpg": "3",
+						"/tmp/hello/john.jpg": "4",
+						"/tmp/hello/jeanne.png": "5",
+						"/tmp/root.zip": "6",
+						"/tmp/bar": "7"
+					}
+				}
+			]
+		}
+	]
+}

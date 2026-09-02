@@ -64,7 +64,8 @@ _Avoid_: screen, buffer, snapshot
 
 **Scenario**:
 An input specification: a Prompt's configuration, a sequence of semantic key events, a terminal
-size. Deliberately holds no expected output, so both implementations can be driven from it.
+size — and, for the one Prompt that reads outside the terminal, the filesystem it read. Deliberately
+holds no expected output, so both implementations can be driven from it.
 _Avoid_: test case, spec, script
 
 **Fixture**:

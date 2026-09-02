@@ -29,6 +29,7 @@ mod message;
 mod multi_line;
 mod multi_select;
 mod password;
+mod path;
 mod progress;
 mod select;
 mod select_key;
@@ -51,6 +52,7 @@ pub use message::{
 pub use multi_line::{MultiLine, multiline};
 pub use multi_select::{MultiSelect, multiselect};
 pub use password::{Password, password};
+pub use path::{Path, StdFs, path};
 pub use progress::{Progress, progress};
 pub use select::{Select, select};
 pub use select_key::{SelectKey, select_key};

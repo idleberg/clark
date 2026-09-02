@@ -39,6 +39,7 @@ use clackatui_core::line_editor::{Key, KeyName};
 use clackatui_core::multi_line::{MultiLineState, MultiLineWidget};
 use clackatui_core::multi_select::{MultiSelectState, MultiSelectWidget, required};
 use clackatui_core::password::{PasswordState, PasswordWidget};
+use clackatui_core::path::{MemFs, options as path_options, required as path_required};
 use clackatui_core::prompt::{Prompt, Status};
 use clackatui_core::select::{SelectOption, SelectState, SelectWidget};
 use clackatui_core::select_key::{SelectKeyState, SelectKeyWidget};
@@ -56,6 +57,7 @@ const GROUP_MULTI_SELECT: &str = include_str!("../fixtures/scenarios/group-multi
 const AUTOCOMPLETE: &str = include_str!("../fixtures/scenarios/autocomplete.json");
 const DATE: &str = include_str!("../fixtures/scenarios/date.json");
 const MULTI_LINE: &str = include_str!("../fixtures/scenarios/multi-line.json");
+const PATH: &str = include_str!("../fixtures/scenarios/path.json");
 
 /// The tag `README.md` names. A fixture from anywhere else is not the thing we claim parity with.
 pub const TAG: &str = "@clack/prompts@1.7.0";
@@ -134,6 +136,13 @@ pub struct Scenario {
 	pub rows: usize,
 	/// Upstream passed a `validate` callback, which a recording cannot carry across.
 	pub validates: bool,
+	/// `path`'s `root`, which is where the field starts rather than anywhere the search is confined
+	/// to, and its `directory`.
+	pub root: Option<String>,
+	pub directory: bool,
+	/// The filesystem the run read, as the Recorder took it off `memfs`: a path and whether it is a
+	/// directory, in the order the volume was built. Empty for every Scenario that is not a `path`.
+	pub volume: Vec<(String, bool)>,
 	/// The keypresses on their own, for everything that drives a bare [`Prompt`] and has no notion
 	/// of a terminal. A Scenario that resizes says so in [`Scenario::events`] instead.
 	pub keys: Vec<Recorded>,
@@ -234,6 +243,11 @@ pub fn date() -> (serde_json::Value, Vec<Scenario>) {
 	parse(DATE, "fixtures/scenarios/date.json")
 }
 
+/// Clack's own `path` suite, which is an `autocomplete` over a filesystem the recording carries.
+pub fn path() -> (serde_json::Value, Vec<Scenario>) {
+	parse(PATH, "fixtures/scenarios/path.json")
+}
+
 /// Clack's own `multiline` suite.
 pub fn multi_line() -> (serde_json::Value, Vec<Scenario>) {
 	parse(MULTI_LINE, "fixtures/scenarios/multi-line.json")
@@ -253,6 +267,7 @@ pub fn all() -> Vec<Scenario> {
 	scenarios.extend(autocomplete().1);
 	scenarios.extend(date().1);
 	scenarios.extend(multi_line().1);
+	scenarios.extend(path().1);
 	scenarios
 }
 
@@ -361,6 +376,20 @@ fn parse(source: &str, path: &str) -> (serde_json::Value, Vec<Scenario>) {
 					.unwrap_or(80) as usize,
 				rows: run["terminal"]["rows"].as_u64().unwrap_or(20) as usize,
 				validates: opts["validate"]["callback"].as_bool() == Some(true),
+				root: opts["root"].as_str().map(str::to_owned),
+				directory: opts["directory"].as_bool() == Some(true),
+				// `vol.toJSON()`: a map of path to contents, with `null` for an empty directory. The
+				// contents are dropped — `path.ts` never opens anything — and what is kept is the one
+				// thing it asks, which is whether an entry is a directory.
+				volume: run["fs"]
+					.as_object()
+					.map(|volume| {
+						volume
+							.iter()
+							.map(|(path, contents)| (path.clone(), contents.is_null()))
+							.collect()
+					})
+					.unwrap_or_default(),
 				keys: keys(run),
 				// A Fixture whose Recorder predates resizes says nothing about them, and a Scenario
 				// that never resized is its keys in order — so the one reads as the other rather
@@ -780,6 +809,46 @@ impl Scenario {
 							widget = widget.with_placeholder(placeholder);
 						}
 						widget.frame()
+					})
+					.with_size(size.0, size.1),
+				)
+			}
+
+			// `path` is an `autocomplete` with its list handed over to a filesystem, so it settles
+			// into the same Session as one — the arm is separate because everything it configures is.
+			"path" => {
+				// `maxItems: 5` and the validator are written by `path()` itself rather than passed
+				// to it, so a Scenario carries neither and they are supplied here — the same bargain
+				// `multiselect`'s `required` is under.
+				let volume = MemFs::new(
+					self.volume
+						.iter()
+						.map(|(path, is_dir)| (path.as_str(), *is_dir)),
+				);
+				let directory = self.directory;
+				let state = AutocompleteState::with_options_fn(move |input| {
+					path_options(&volume, input, directory)
+				});
+				let mut prompt = Prompt::new(state).with_validator(path_required);
+				// `initialUserInput: opts.initialValue ?? opts.root ?? process.cwd()`. No Scenario
+				// reaches the third — a recording of a working directory would be a recording of the
+				// machine it was made on — and one that did would be a Scenario nothing here can
+				// replay, so it says so rather than starting somewhere else.
+				let initial = self
+					.initial_value
+					.clone()
+					.or_else(|| self.root.clone())
+					.unwrap_or_else(|| panic!("{}: a path Scenario needs a root", self.name));
+				prompt = prompt.with_initial_user_input(initial);
+
+				Run::Autocomplete(
+					Session::new(prompt, move |prompt, columns, rows| {
+						AutocompleteWidget::new(prompt, &message)
+							.with_guide(with_guide)
+							.with_columns(width(columns))
+							.with_rows(rows as usize)
+							.with_max_items(5)
+							.frame()
 					})
 					.with_size(size.0, size.1),
 				)

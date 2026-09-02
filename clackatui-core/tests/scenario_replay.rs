@@ -37,7 +37,7 @@ use ratatui_core::style::{Color, Modifier, Style};
 mod scenarios;
 use scenarios::{
 	Scenario, TAG, all, authored, autocomplete, confirm, date, group_multi_select, harvested,
-	multi_line, multi_select, password, select, select_key,
+	multi_line, multi_select, password, path, select, select_key,
 };
 
 /// The state clack was in when it drew its last frame, read off the step symbol it prints.
@@ -636,6 +636,26 @@ fn the_nine_harvested_prompt_fixtures_are_plausible_recordings() {
 			][..],
 		),
 		(
+			// `path.test.ts`'s own `describe` is named `text` — a copy-paste, like `selectKey`'s.
+			"path",
+			path(),
+			13,
+			&[
+				"text › renders message",
+				"text › renders submitted value",
+				"text › renders cancelled value if one set",
+				"text › can cancel",
+				"text › cannot submit unknown value",
+				"text › initialValue sets the value",
+				"text › default mode allows selecting files",
+				"text › directory mode only allows selecting directories",
+				"text › directory mode submits initial directory value on enter",
+				"text › directory mode traverses into child when trailing slash entered",
+				"text › directory mode can navigate from initial directory to child directory",
+				"text › validation errors render and clear",
+			][..],
+		),
+		(
 			// The thinnest suite upstream has for any Prompt in the port: eight Scenarios and nine
 			// keypresses, seven of them a bare `return` on a field `initialValue` had already filled.
 			// The segment editor is covered by `scripts/authored/cases.mjs` instead — see ADR-0026.
@@ -706,7 +726,7 @@ fn the_nine_harvested_prompt_fixtures_are_plausible_recordings() {
 		// `autocomplete.test.ts` has one for each of the two Prompts it covers.
 		let keyless = scenarios.iter().filter(|s| s.keys.is_empty()).count();
 		let expected = match kind {
-			"selectKey" | "date" => 0,
+			"selectKey" | "date" | "path" => 0,
 			"autocomplete" => 2,
 			_ => 1,
 		};
@@ -726,6 +746,37 @@ fn the_nine_harvested_prompt_fixtures_are_plausible_recordings() {
 		password().1.iter().filter(|s| s.validates).count(),
 		2,
 		"password Scenarios carrying a validate callback"
+	);
+
+	// A `path` Scenario without its filesystem is a Scenario whose list has nothing behind it: the
+	// Recorder would have written the options down as an empty array and the port would agree with
+	// it, having read the same nothing. The volume is the evidence, so its absence is a failure here
+	// rather than a green run with no suggestions in it.
+	let (_, path) = path();
+	for scenario in &path {
+		assert!(
+			!scenario.volume.is_empty(),
+			"{}: a path Scenario with no filesystem recorded",
+			scenario.name
+		);
+		assert!(
+			scenario.root.is_some() || scenario.initial_value.is_some(),
+			"{}: a path Scenario that starts in the working directory of whoever harvested it",
+			scenario.name
+		);
+	}
+	assert!(
+		path.iter().any(|s| s.directory),
+		"no path Scenario is in directory mode; the branch that hides files is unverified"
+	);
+	assert!(
+		path.iter().any(|s| s.initial_value.is_some()),
+		"no path Scenario sets an initialValue; the field would always open on the root"
+	);
+	assert_eq!(
+		path.iter().filter(|s| s.validates).count(),
+		2,
+		"path Scenarios carrying a validate callback"
 	);
 
 	// A list Prompt with no options is not one, and a Scenario that lost its list would draw an

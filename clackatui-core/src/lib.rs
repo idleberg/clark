@@ -17,6 +17,7 @@ pub mod multi_line;
 pub mod multi_select;
 pub mod note;
 pub mod password;
+pub mod path;
 pub mod progress;
 pub mod prompt;
 pub mod select;

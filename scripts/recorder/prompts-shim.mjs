@@ -38,4 +38,8 @@ export const groupMultiselect = watch('groupMultiselect');
 export const autocomplete = watch('autocomplete');
 export const autocompleteMultiselect = watch('autocompleteMultiselect');
 export const date = watch('date');
+// `path` is an `autocomplete` underneath, but the wrapping happens here rather than there: what
+// `path()` calls is its own import of the real module, not this file's export, so a run is recorded
+// once and under the name the test asked for.
+export const path = watch('path');
 export const multiline = watch('multiline');

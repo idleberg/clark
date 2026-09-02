@@ -106,6 +106,13 @@ units, which is not what the terminal counted, and it writes that erase even in 
 nothing
 ([ADR-0034](./docs/adr/0034-a-task-log-erases-rows-it-measured-with-the-wrong-ruler.md)) — **a
 hundred and fourteen scripts and seven hundred and thirty-five steps, every step byte for byte**.
+`path` closes M5 and is the only module in clack that reads something outside the terminal: an
+`autocomplete` whose options are a *function* and therefore have no filter at all, so what narrows
+the list is `readdirSync` and a prefix test. Its `Fs` is the seam the architecture has owed since
+M0, and because upstream's suite mocks `node:fs` with `memfs`, the Recorder now writes the volume
+down beside the keypresses and the Scenarios replay against the same one
+([ADR-0035](./docs/adr/0035-a-path-is-an-autocomplete-whose-filter-is-a-filesystem.md)) — **thirteen
+more Scenarios, all agreeing on the Grid**. **M5 is done.**
 See
 [CONTEXT.md](./CONTEXT.md) for the vocabulary and [docs/adr/](./docs/adr/) for the decisions behind
 the shape below.
@@ -154,11 +161,11 @@ Prompt, which an unwinding cancel could not express.
 
 ## Scope
 
-**v1** — the 11 interactive Prompts (text, password, confirm, select, multi-select, select-key,
-group-multi-select, autocomplete, date, multi-line) and the static renderers (log, note, box, intro,
-outro, cancel, spinner, progress-bar, task-log, group, limit-options).
+**v1** — the 12 interactive Prompts (text, password, confirm, select, multi-select, select-key,
+group-multi-select, autocomplete, date, multi-line, path) and the static renderers (log, note, box,
+intro, outro, cancel, spinner, progress-bar, task-log, group, limit-options).
 
-**v2** — task, stream, path.
+**v2** — task, stream.
 
 The rest of that set is deferred because it is non-deterministic, not because it is unimportant:
 `spinner.ts` is the only clack module touching timers, `task` is built on it, and `path.ts` reads the
@@ -170,7 +177,11 @@ is why `progress-bar` moved up rather than waiting for one
 ([ADR-0033](./docs/adr/0033-a-progress-bar-is-a-spinner-whose-message-is-drawn.md)), and `task-log`
 after it — it has no clock, only the same counted erase
 ([ADR-0034](./docs/adr/0034-a-task-log-erases-rows-it-measured-with-the-wrong-ruler.md)). `Fs` is
-still owed by `path`. `Theme` is the same kind of seam, and its `Default` is `Theme::clack()`,
+the one seam that was really owed, and `path` pays it: three questions asked of a filesystem, with
+`std::fs` answering them in the driver and the volume a recording carries answering them in the
+tests ([ADR-0035](./docs/adr/0035-a-path-is-an-autocomplete-whose-filter-is-a-filesystem.md)) — so
+what is left deferred is `task` and `stream`, neither of which is a Prompt. `Theme` is the same kind
+of seam, and its `Default` is `Theme::clack()`,
 ported from clack's `common.ts`. `is-unicode-supported` is ported with it, as `Theme::detect()`.
 `FORCE_COLOR` is not: upstream suppresses colour by having `styleText` return the string unchanged,
 and a Frame here carries a `Style` rather than escapes, so the equivalent seam is where Styles become
@@ -191,8 +202,10 @@ Three layers.
    through one emulator (`avt`) and compares Grids — characters, styles and cursor position, with
    the emulator resized at the same points in both streams. Two Recorders write the Fixtures, both refusing unless
    the clack checkout is at the pinned tag: `node scripts/harvest-scenarios.mjs <prompt>` runs
-   clack's suite from outside the checkout, once per Prompt
-   ([ADR-0010](./docs/adr/0010-the-recorder-instruments-clacks-suite-from-outside-it.md)), and `node
+   clack's suite from outside the checkout, once per Prompt — and, for `path`, writes down the
+   `memfs` volume that suite builds, because a suggestion list has nothing behind it otherwise
+   ([ADR-0010](./docs/adr/0010-the-recorder-instruments-clacks-suite-from-outside-it.md),
+   [ADR-0035](./docs/adr/0035-a-path-is-an-autocomplete-whose-filter-is-a-filesystem.md)), and `node
    scripts/harvest-authored.mjs` runs `scripts/authored/cases.mjs`, which has no upstream snapshot
    behind it and so is guarded differently
    ([ADR-0016](./docs/adr/0016-hand-authored-scenarios-and-the-width-clack-actually-wraps-to.md)).
@@ -257,7 +270,7 @@ upstream drift.
 | **M2** | ~~`password` and `confirm` — states, widgets, builders, both suites harvested, eleven more hand-authored Scenarios~~ **done** |
 | **M3** | ~~`limit-options` against a 54-case corpus, `select`, `multiselect` and `select-key` end to end with their suites harvested~~ **done** |
 | **M4** | ~~group-multi-select~~, ~~autocomplete~~, ~~date~~, ~~multi-line~~ **done** |
-| **M5** | ~~`log`, `intro`, `outro`, `cancel`, `note`, `box`, `spinner`, `progress-bar`, `task-log`~~, `path` |
+| **M5** | ~~`log`, `intro`, `outro`, `cancel`, `note`, `box`, `spinner`, `progress-bar`, `task-log`, `path`~~ **done** |
 | **M6** | theme polish, docs, publish |
 
 M1 is one Prompt rather than one layer on purpose. Every decision here assumed Grid parity through an

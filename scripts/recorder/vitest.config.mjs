@@ -4,6 +4,7 @@
 // Nothing is written into the clack checkout. The suite is run from here with `root` pointed at it,
 // so a re-harvest at a newer tag is a `git checkout` and nothing else.
 
+import { createRequire } from 'node:module';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -14,6 +15,15 @@ const here = dirname(fileURLToPath(import.meta.url));
 
 const pkg = process.env.RECORDER_PROMPTS_PKG;
 if (!pkg) throw new Error('RECORDER_PROMPTS_PKG is not set; run scripts/harvest-scenarios.mjs');
+
+// The `memfs` clack's own `__mocks__/fs.cjs` requires, resolved from where it requires it. Absent
+// wherever the checkout has not installed it, which only the `path` suite minds.
+let memfs;
+try {
+	memfs = createRequire(join(pkg, '__mocks__', 'fs.cjs')).resolve('memfs');
+} catch {
+	memfs = join(here, 'no-memfs.mjs');
+}
 
 export default {
 	root: pkg,
@@ -27,6 +37,10 @@ export default {
 			// than the entry point, so that module needs standing in for too.
 			{ find: 'clack:autocomplete-src', replacement: join(pkg, 'src', 'autocomplete.ts') },
 			{ find: /^\.\.\/src\/autocomplete\.js$/, replacement: join(here, 'autocomplete-shim.mjs') },
+			// `memfs`, resolved from clack's package rather than from this directory — ./setup.mjs
+			// lives outside the checkout and cannot reach a bare specifier there. It has to be the
+			// same file `path.test.ts` imports, or the volume read out is a second empty one.
+			{ find: 'clack:memfs', replacement: memfs },
 		],
 	},
 	test: {

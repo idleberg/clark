@@ -12,6 +12,19 @@ import { createHash } from 'node:crypto';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { afterEach, beforeEach, expect } from 'vitest';
+/**
+ * `memfs`' volume, for the one suite that has one.
+ *
+ * `path.test.ts` replaces `node:fs` with `memfs` and builds a filesystem for each of its cases, and
+ * a Scenario that cannot see that filesystem is a recording of a list with nothing behind it. This
+ * is the same kind of observation as the keypresses: the volume is read as the prompt opens, not
+ * asserted or arranged. Every other suite leaves it empty and it is written down as nothing.
+ *
+ * Reached through an alias rather than by name: this file lives outside the checkout, and it has
+ * to be the same `memfs` the suite imports or the volume read out is a second, empty one. Where the
+ * checkout has no `memfs` the alias points at ./no-memfs.mjs and there is nothing to write down.
+ */
+import { vol } from 'clack:memfs';
 
 const OUT = process.env.RECORDER_OUT;
 if (!OUT) throw new Error('RECORDER_OUT is not set; run scripts/harvest-scenarios.mjs');
@@ -74,6 +87,14 @@ export function begin(kind, opts, settings) {
 		keys: [],
 		output: [],
 	};
+
+	// The filesystem this run is about to read, as `{ path: contents }` with an empty directory
+	// written as null — `vol.toJSON()`'s own shape, in the order the volume was built, which is not
+	// the order `readdirSync` returns things in.
+	const volume = vol?.toJSON() ?? {};
+	if (Object.keys(volume).length > 0) {
+		run.fs = volume;
+	}
 	current.prompts.push(run);
 
 	if (input) {

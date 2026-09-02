@@ -119,6 +119,10 @@ pub fn default_filter<T: Display>(search: &str, option: &SelectOption<T>) -> boo
 /// `FilterFunction`: what a search matches, over one option at a time.
 pub type Filter<T> = dyn Fn(&str, &SelectOption<T>) -> bool;
 
+/// `options: (this: AutocompletePrompt<T>) => T[]`: the list, worked out from the search text every
+/// time it is asked for. `FnMut` because upstream's closes over a Prompt it can read and write.
+pub type Provider<T> = dyn FnMut(&str) -> Vec<SelectOption<T>>;
+
 /// The state behind both Prompts: a list, a search over it, and what has been chosen.
 pub struct AutocompleteState<T> {
 	options: Vec<SelectOption<T>>,
@@ -137,7 +141,14 @@ pub struct AutocompleteState<T> {
 	input: String,
 	/// `initialValue`, kept because the answer depends on `multiple`, which is set after this.
 	initial: Option<Vec<T>>,
-	filter: Box<Filter<T>>,
+	/// `#filterFn`, which is genuinely absent for a Prompt whose options are a function: the
+	/// constructor writes `typeof opts.options === 'function' ? opts.filter : (opts.filter ??
+	/// defaultFilter)`, so only the array form gets a fallback. `None` filters nothing — see
+	/// [`Self::with_options_fn`].
+	filter: Option<Box<Filter<T>>>,
+	/// The `options` getter where upstream was handed a function rather than an array. Called again
+	/// wherever upstream reads the getter, because that is what re-reads a filesystem.
+	provider: Option<Box<Provider<T>>>,
 	placeholder: Option<String>,
 	/// The pending `_setUserInput` of the tab branch — see [`PromptState::sets_user_input`].
 	fill: Option<String>,
@@ -156,6 +167,30 @@ impl<T: Clone + PartialEq> AutocompleteState<T> {
 		options: Vec<SelectOption<T>>,
 		filter: impl Fn(&str, &SelectOption<T>) -> bool + 'static,
 	) -> Self {
+		Self::build(options, Some(Box::new(filter)), None)
+	}
+
+	/// The list as a function of the search text — upstream's `options: () => T[]`, which only
+	/// [`crate::path`] passes.
+	///
+	/// It is not the array form with a callback in front of it. A Prompt built this way has **no
+	/// filter at all**: upstream's constructor gives the fallback filter to the array form only, so
+	/// everything the function returns is shown and the narrowing is the function's own job. The
+	/// function is called again wherever upstream reads its `options` getter — once on the way in,
+	/// and once for every change to the text.
+	pub fn with_options_fn(provider: impl FnMut(&str) -> Vec<SelectOption<T>> + 'static) -> Self {
+		let mut provider = Box::new(provider);
+		// `super(opts)` runs before `initialUserInput` is applied, so the first call sees an empty
+		// field however the Prompt is about to be seeded.
+		let options = provider("");
+		Self::build(options, None, Some(provider))
+	}
+
+	fn build(
+		options: Vec<SelectOption<T>>,
+		filter: Option<Box<Filter<T>>>,
+		provider: Option<Box<Provider<T>>>,
+	) -> Self {
 		let filtered = (0..options.len()).collect();
 		let mut state = Self {
 			options,
@@ -168,7 +203,8 @@ impl<T: Clone + PartialEq> AutocompleteState<T> {
 			last_user_input: String::new(),
 			input: String::new(),
 			initial: None,
-			filter: Box::new(filter),
+			filter,
+			provider,
 			placeholder: None,
 			fill: None,
 		};
@@ -338,12 +374,21 @@ impl<T: Clone + PartialEq> PromptState for AutocompleteState<T> {
 		}
 		self.last_user_input = input.to_string();
 
-		let filtered: Vec<usize> = if input.is_empty() {
-			(0..self.options.len()).collect()
-		} else {
-			(0..self.options.len())
-				.filter(|index| (self.filter)(input, &self.options[*index]))
-				.collect()
+		// `const options = this.options` — the getter, so a Prompt whose options are a function asks
+		// it again here, against the text that has just changed. The list is replaced rather than
+		// added to: `filteredOptions` upstream holds the options themselves, and holding positions
+		// into a list means the list they index has to be this one.
+		if let Some(provider) = &mut self.provider {
+			self.options = provider(input);
+		}
+
+		let filtered: Vec<usize> = match &self.filter {
+			// `if (value && this.#filterFn)`. No filter, or nothing typed, and the filtered list is
+			// everything there is.
+			Some(filter) if !input.is_empty() => (0..self.options.len())
+				.filter(|index| filter(input, &self.options[*index]))
+				.collect(),
+			_ => (0..self.options.len()).collect(),
 		};
 		self.filtered = filtered;
 
@@ -389,12 +434,28 @@ impl<T: Clone + PartialEq> PromptState for AutocompleteState<T> {
 		// something, so that the Prompt can answer with what it has just typed for you. `'\t'` is the
 		// other empty: readline has already put the tab in the field by the time this runs.
 		let empty = self.input.is_empty() || self.input == "\t";
-		let fills = self.placeholder.as_deref().is_some_and(|placeholder| {
+		let fills = self.placeholder.clone().is_some_and(|placeholder| {
+			// `const options = this.options` again — and it is read here for this one question, so a
+			// function's answer is looked at and thrown away rather than becoming the list. Asked
+			// only when there is a placeholder to ask about, because asking is a filesystem call.
+			let fresh = self
+				.provider
+				.as_mut()
+				.map(|provider| provider(&self.input))
+				.unwrap_or_default();
+			let options = match &self.provider {
+				Some(_) => fresh.as_slice(),
+				None => self.options.as_slice(),
+			};
 			!placeholder.is_empty()
-				&& self
-					.options
-					.iter()
-					.any(|option| !option.disabled() && (self.filter)(placeholder, option))
+				&& options.iter().any(|option| {
+					!option.disabled()
+						// `this.#filterFn ? this.#filterFn(placeholder, opt) : true`
+						&& self
+							.filter
+							.as_ref()
+							.is_none_or(|filter| filter(&placeholder, option))
+				})
 		});
 		if tab && empty && fills {
 			self.fill = self.placeholder.clone();
@@ -1126,6 +1187,41 @@ mod tests {
 
 	fn open(state: AutocompleteState<String>) -> Prompt<AutocompleteState<String>> {
 		Prompt::new(state)
+	}
+
+	/// The options function is asked against the text as it stands, starting with no text at all —
+	/// `super(opts)` runs before `initialUserInput` does, so the first list a Prompt holds is the one
+	/// for an empty field however it is about to be seeded.
+	#[test]
+	fn a_function_is_asked_for_the_list_and_asked_again_as_the_text_changes() {
+		use std::cell::RefCell;
+		use std::rc::Rc;
+
+		let asked: Rc<RefCell<Vec<String>>> = Rc::new(RefCell::new(Vec::new()));
+		let seen = Rc::clone(&asked);
+		let state = AutocompleteState::with_options_fn(move |input| {
+			seen.borrow_mut().push(input.to_string());
+			options(&[(input, input)])
+		});
+
+		assert_eq!(asked.borrow().as_slice(), [""]);
+		assert_eq!(state.options().len(), 1);
+		assert_eq!(state.options()[0].value(), "");
+
+		let mut prompt = open(state);
+		typed(&mut prompt, "ab");
+		assert_eq!(asked.borrow().as_slice(), ["", "a", "ab"]);
+		assert_eq!(prompt.state().options()[0].value(), "ab");
+	}
+
+	/// A function's options are not filtered. Upstream gives the fallback filter to the array form
+	/// only, so everything the function returns is shown however little of it the text matches.
+	#[test]
+	fn a_function_gets_no_filter_at_all() {
+		let state = AutocompleteState::with_options_fn(|_| fruit());
+		let mut prompt = open(state);
+		typed(&mut prompt, "zzz");
+		assert_eq!(prompt.state().matches(), 5);
 	}
 
 	fn press(prompt: &mut Prompt<AutocompleteState<String>>, name: KeyName) {
