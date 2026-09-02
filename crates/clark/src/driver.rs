@@ -29,7 +29,10 @@ use crate::keys::decode;
 /// what it reports and a caller usually wants to own it. Each Prompt's builder is what turns this
 /// into an answer.
 pub fn run<S: PromptState>(mut session: Session<S>) -> Result<Prompt<S>, ClackError> {
-	let mut out = io::stdout();
+	// stderr, not stdout: a Prompt's drawing is not its answer, and `clark-cli` has to be able to
+	// hand the answer to `$(...)` without the Frames going with it. Both streams reach the same
+	// terminal, so an interactive run looks the same either way.
+	let mut out = io::stderr();
 
 	if let Ok((columns, rows)) = terminal::size() {
 		session = session.with_size(columns, rows);

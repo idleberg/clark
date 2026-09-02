@@ -1,5 +1,5 @@
 [workspace]
-members = ["crates/clark", "crates/clark-core"]
+members = ["crates/clark", "crates/clark-cli", "crates/clark-core"]
 resolver = "3"
 
 [workspace.package]
@@ -27,6 +27,11 @@ unicode-normalization = "0.1.25"
 # claim — what it decides is which key events arrive, and that is checked against readline rather
 # than against a crossterm version.
 crossterm = "0.29"
+
+# Argument parsing for `clark-cli`. Not pinned: it is not part of any parity claim — what it
+# decides is which flags a script may write, and those are named after clack's options rather than
+# after a clap version.
+clap = { version = "4.6", features = ["derive"] }
 
 # Tests only, for reading harvested Fixtures. Not pinned: it is not part of any parity claim.
 serde_json = { version = "1.0.151", features = ["preserve_order"] }

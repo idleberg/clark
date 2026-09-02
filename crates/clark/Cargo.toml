@@ -7,6 +7,7 @@ license.workspace = true
 repository.workspace = true
 rust-version.workspace = true
 publish = false
+include = ["src/**/*.rs", "examples/**/*.rs", "README.md", "LICENSE", "NOTICE"]
 
 [dependencies]
 clark-core = { path = "../clark-core" }
