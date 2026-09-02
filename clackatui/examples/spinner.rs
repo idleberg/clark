@@ -32,5 +32,14 @@ fn main() {
 	}
 	bar.stop("Copied 5 files");
 
+	// A task log is neither, but it is the other renderer a program drives by calling it: rows that
+	// go away when the task works, and stay when it does not.
+	let mut log = clackatui::task_log("Running tests").limit(3).start();
+	for suite in ["frame", "emitter", "wrap", "spinner", "task-log"] {
+		sleep(Duration::from_millis(400));
+		log.message(format!("{suite} … ok"));
+	}
+	log.success("5 suites passed");
+
 	clackatui::outro("You're all set!");
 }

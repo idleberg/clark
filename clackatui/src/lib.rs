@@ -33,6 +33,7 @@ mod progress;
 mod select;
 mod select_key;
 mod spinner;
+mod task_log;
 mod text;
 mod ticker;
 
@@ -54,6 +55,7 @@ pub use progress::{Progress, progress};
 pub use select::{Select, select};
 pub use select_key::{SelectKey, select_key};
 pub use spinner::{Spinner, spinner};
+pub use task_log::{Group, TaskLog, task_log};
 pub use text::{Text, text};
 
 pub use clackatui_core::date::{Date as CivilDate, DateFormat};

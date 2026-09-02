@@ -29,6 +29,40 @@ const bar = (name, steps, options = {}, columns = 80) => ({
 	kind: 'progress',
 });
 
+/**
+ * A `taskLog` script. Every one of them opens, because `taskLog()` writes its title from the
+ * constructor and those bytes belong to a step like any other.
+ *
+ * `tty` follows `ci` unless a case says otherwise: what a task log calls `isTTY` is
+ * `!isCI() && output.isTTY`, and a real CI runner has neither.
+ */
+const task = (name, steps, options = {}, columns = 80) => ({
+	name,
+	kind: 'task-log',
+	options: { title: 'build', ...options },
+	columns,
+	rows: 20,
+	steps: [{ op: 'open' }, ...steps],
+});
+
+const say = (message, raw) => ({ op: 'message', message, ...(raw === undefined ? {} : { raw }) });
+const group = (name) => ({ op: 'group', name });
+/** A message inside the `n`th group the script made. */
+const groupSay = (group, message, raw) => ({ ...say(message, raw), op: 'group-message', group });
+const done = (message = 'finished', showLog) => ({
+	op: 'success',
+	message,
+	...(showLog === undefined ? {} : { showLog }),
+});
+const failed = (message = 'broken', showLog) => ({
+	op: 'error',
+	message,
+	...(showLog === undefined ? {} : { showLog }),
+});
+
+/** An escape, for the messages that carry one. */
+const ESC = '\u001b';
+
 const start = (message = '') => ({ op: 'start', message });
 const tick = (count = 1) => Array.from({ length: count }, () => ({ op: 'tick' }));
 const message = (message) => ({ op: 'message', message });
@@ -459,4 +493,213 @@ export const cases = [
 		...tick(2),
 		stop('Done'),
 	], { ci: true, size: 10 }),
+
+	// --- a task log, which has no clock ----------------------------------------------------------
+	//
+	// `taskLog` is the third renderer driven by calls and the first with nothing turning underneath
+	// it: every byte it writes is a reply to a call. What makes it belong here anyway is the same
+	// thing the spinner has — it erases what it wrote before writing again, and it counts the rows
+	// to erase from the text rather than from anything it drew. So the cases that matter are the
+	// ones where that count can be wrong: a line longer than the terminal, a line of characters
+	// wider than one column, a limit that drops rows, and CI, where nothing is printed and the
+	// erases are written anyway.
+
+	task('a task log opens with a bar, a title and a bar', []),
+	task('a title of nothing still costs a row', [], { title: '' }),
+	task('one message under the title', [say('line 0')]),
+	task('a second message erases the first and prints both', [say('line 0'), say('line 1')]),
+	task('a message of several lines is several rows', [say('line 0\nline 1\nline 2')]),
+	// A blank row inside a task log keeps its two spaces, where a blank row inside a `log` does not.
+	task('a blank line inside a message keeps its bar and its spaces', [say('a\n\nb')]),
+	// The buffer is still empty afterwards, so there is nothing to print and nothing to erase.
+	task('a message with nothing in it prints nothing', [say(''), say('after')]),
+
+	// --- raw --------------------------------------------------------------------------------------
+
+	task('two raw messages are joined into one row', [say('one', true), say('two', true)]),
+	task('a raw message after a plain one still starts a row', [
+		say('one'),
+		say('two', true),
+		say('three', true),
+	]),
+	task('a plain message after a raw one starts a row', [say('one', true), say('two')]),
+
+	// --- spacing, the Guide, and the title ---------------------------------------------------------
+
+	task('no spacing at all', [say('one'), say('two'), done('finished', true)], { spacing: 0 }),
+	task('three rows of spacing, which the ending walks back over', [
+		say('one'),
+		say('two'),
+		done('finished', true),
+	], { spacing: 3 }),
+	// `taskLog` takes a `withGuide` and never passes it on: its `log.message` calls leave the option
+	// out, so what they read is the global. This case is the recording of that — bars everywhere.
+	task('the withGuide option is taken and never read', [
+		say('one'),
+		say('two'),
+		done('finished', true),
+	], { withGuide: false }),
+	// The global, which is what actually turns them off. Not the title, though: those three writes
+	// do not go through `log.message` at all.
+	task('with the guide off globally the title keeps its bar and the messages do not', [
+		say('one'),
+		say('two'),
+		done('finished', true),
+	], { guide: false }),
+	task('with the guide off globally a blank row is still two spaces', [say('a\n\nb')], {
+		guide: false,
+	}),
+	task('with the guide off globally a group keeps its name', [
+		group('install'),
+		groupSay(0, 'one'),
+		failed(),
+	], { guide: false }),
+
+	// --- limit and retainLog -------------------------------------------------------------------------
+
+	task('a limit drops the oldest rows', [say('one'), say('two'), say('three'), say('four')], {
+		limit: 2,
+	}),
+	task('a limit of one keeps the last row only', [say('one\ntwo\nthree')], { limit: 1 }),
+	// `lines.length - 0` is every line, so a limit of zero holds nothing and prints nothing.
+	task('a limit of zero holds nothing', [say('one'), say('two')], { limit: 0 }),
+	task('a retained log keeps what the limit dropped and shows it at the end', [
+		say('one'),
+		say('two'),
+		say('three'),
+		done('finished', true),
+	], { limit: 1, retainLog: true }),
+	task('a retained log that is not shown is dropped with the rest', [
+		say('one'),
+		say('two'),
+		done(),
+	], { limit: 1, retainLog: true }),
+
+	// --- groups -----------------------------------------------------------------------------------
+
+	task('a group is printed under its name in bold', [group('install'), groupSay(0, 'one')]),
+	task('a group and the log it belongs to', [
+		say('starting'),
+		group('install'),
+		groupSay(0, 'one'),
+		say('and back to the top'),
+	]),
+	task('two groups, each with its own rows', [
+		group('install'),
+		groupSay(0, 'one'),
+		group('build'),
+		groupSay(1, 'two'),
+		groupSay(0, 'three'),
+	]),
+	task('a group that succeeds becomes one line', [
+		group('install'),
+		groupSay(0, 'one'),
+		groupSay(0, 'two'),
+		{ op: 'group-success', group: 0, message: 'installed' },
+	]),
+	task('a group that fails becomes one line, and the rest stays', [
+		group('install'),
+		groupSay(0, 'one'),
+		{ op: 'group-error', group: 0, message: 'install failed' },
+		say('after'),
+	]),
+	// A group with a name and no rows is skipped by `printBuffers` and printed by `renderBuffer`.
+	task('an empty group is printed only at the end', [
+		group('install'),
+		say('one'),
+		done('finished', true),
+	]),
+
+	// --- the two endings ------------------------------------------------------------------------
+
+	task('a success hides the log', [say('one'), say('two'), done()]),
+	task('a success shows it when asked', [say('one'), say('two'), done('finished', true)]),
+	task('an error shows the log', [say('one'), say('two'), failed()]),
+	task('an error hides it when asked', [say('one'), say('two'), failed('broken', false)]),
+	task('an ending empties the log, so the next message stands alone', [
+		say('one'),
+		done(),
+		say('two'),
+		say('three'),
+	]),
+	// The groups go with the ending, so what comes after it is the first buffer alone.
+	task('an ending drops its groups and the log carries on', [
+		group('install'),
+		groupSay(0, 'one'),
+		say('two'),
+		done(),
+		say('three'),
+		say('four'),
+	]),
+	task('an ending with a group in it', [
+		group('install'),
+		groupSay(0, 'one'),
+		say('two'),
+		failed(),
+	]),
+
+	// --- the row count, which is a string length ---------------------------------------------------
+	//
+	// `Math.ceil((line.length + barSize) / columns)`. Every case here is one where that is not the
+	// number of rows the terminal used.
+
+	task('a line longer than the terminal is counted and erased as two rows', [
+		say('x'.repeat(30)),
+		say('after'),
+	], {}, 20),
+	// Seventeen characters and three for the bar is exactly one row of twenty; eighteen is two.
+	task('a line that fills the row exactly', [say('x'.repeat(17)), say('after')], {}, 20),
+	task('a line one character over', [say('x'.repeat(18)), say('after')], {}, 20),
+	// Wide characters: ten of them are ten `length` and twenty columns, so the count says one row
+	// and the terminal used two.
+	task('a line of wide characters is counted as half the rows it took', [
+		say('ばんは'.repeat(4)),
+		say('after'),
+	], {}, 20),
+	// An astral character is two UTF-16 units and two columns, so here the two agree by accident.
+	task('a line of emoji is counted right for the wrong reason', [
+		say('🎉'.repeat(8)),
+		say('after'),
+	], {}, 20),
+	// A completed group is counted by the line it became and not by the rows it had, which is only
+	// visible where the two are different heights.
+	task('a group whose ending is taller than the rows it replaced', [
+		group('install'),
+		groupSay(0, 'one'),
+		{ op: 'group-error', group: 0, message: `install failed: ${'x'.repeat(30)}` },
+		say('after'),
+	], {}, 20),
+	// `line === '' ? 1 : …` is the one branch that a terminal three columns wide or more never
+	// reaches: three for the bar already rounds up to a row. This is the terminal that reaches it.
+	task('a blank row on a terminal two columns wide', [say('a\n\nb'), say('c')], {}, 2),
+	task('a long line at the end of a run is erased by the ending too', [
+		say('x'.repeat(30)),
+		done('finished', true),
+	], {}, 20),
+
+	// --- what a message may contain ----------------------------------------------------------------
+
+	task('a cursor escape is taken out of a message', [
+		say(`one${ESC}[2Atwo`),
+		say('after'),
+	]),
+	task('an erase escape is taken out of a message', [say(`one${ESC}[2Jtwo`)]),
+	task('a save and a restore are taken out too', [say(`${ESC}[sone${ESC}[u`)]),
+	// An escape `stripDestructiveANSI` does not take out stays in the message, and a Frame carries
+	// no escapes (ADR-0011) — so that one shape is the module's one divergence and has no case here.
+	// See `clackatui_core::task_log`.
+
+	// --- CI, where nothing is drawn and everything is erased ------------------------------------------
+
+	task('in CI the messages are not printed and the erases are written anyway', [
+		say('one'),
+		say('two'),
+		say('three'),
+		done('finished', true),
+	], { ci: true }),
+	task('in CI an error still prints its log', [say('one'), say('two'), failed()], { ci: true }),
+	// Not CI, but not a terminal either — a run whose output is a pipe.
+	task('a log written to something that is not a terminal', [say('one'), say('two'), done()], {
+		tty: false,
+	}),
 ];

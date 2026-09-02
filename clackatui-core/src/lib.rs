@@ -24,6 +24,7 @@ pub mod select_key;
 pub mod session;
 pub mod settings;
 pub mod spinner;
+pub mod task_log;
 pub mod text;
 pub mod theme;
 pub mod width;

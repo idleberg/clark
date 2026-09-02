@@ -40,16 +40,43 @@ pub fn log(
 	spacing: usize,
 	with_guide: bool,
 ) -> Frame {
+	// `message.split('\n')` — never empty, so there is always a first line, and an empty message is
+	// one empty row rather than none.
+	let lines: Vec<Line> = message
+		.split('\n')
+		.map(|line| {
+			if line.is_empty() {
+				Line::blank()
+			} else {
+				Line::from(Span::raw(line))
+			}
+		})
+		.collect();
+	log_lines(&lines, symbol, secondary_symbol, spacing, with_guide)
+}
+
+/// `log.message`'s `string[]` overload: rows that are already drawn.
+///
+/// Only [`crate::task_log`] reaches it upstream, and the distinction it needs is the one upstream
+/// makes by accident. `log.message` drops a row's prefix when `ln.length > 0` is false — and a
+/// task log's rows are `styleText('dim', line)`, so an *empty* one is still four escape characters
+/// long and keeps its prefix and its two spaces. A [`Line`] says the same thing without escapes: a
+/// row is blank only when it has no spans at all, which is what [`Line::blank`] is, and a row of one
+/// empty styled span is a row that upstream would have prefixed.
+pub fn log_lines(
+	lines: &[Line],
+	symbol: Span,
+	secondary_symbol: Span,
+	spacing: usize,
+	with_guide: bool,
+) -> Frame {
 	let mut frame = Frame::new();
 
 	for _ in 0..spacing {
 		frame.push(row(None, &secondary_symbol, with_guide));
 	}
 
-	// `message.split('\n')` — never empty, so there is always a first line, and an empty message is
-	// one empty row rather than none. Upstream reaches a message of *no* lines only through its
-	// `string[]` overload, which has no counterpart here.
-	for (index, line) in message.split('\n').enumerate() {
+	for (index, line) in lines.iter().enumerate() {
 		let prefix = if index == 0 {
 			&symbol
 		} else {
@@ -62,10 +89,14 @@ pub fn log(
 }
 
 /// One row of a `log`: the symbol, two spaces, and the text — or as little of that as applies.
-fn row(text: Option<&str>, symbol: &Span, with_guide: bool) -> Line {
-	match (text.filter(|text| !text.is_empty()), with_guide) {
-		(Some(text), true) => Line::from_iter([symbol.clone(), Span::raw("  "), Span::raw(text)]),
-		(Some(text), false) => Line::from(Span::raw(text)),
+fn row(text: Option<&Line>, symbol: &Span, with_guide: bool) -> Line {
+	match (text.filter(|line| !line.spans.is_empty()), with_guide) {
+		(Some(line), true) => {
+			let mut row = Line::from_iter([symbol.clone(), Span::raw("  ")]);
+			row.spans.extend(line.spans.iter().cloned());
+			row
+		}
+		(Some(line), false) => line.clone(),
 		(None, true) => Line::from(symbol.clone()),
 		(None, false) => Line::blank(),
 	}

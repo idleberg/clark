@@ -352,7 +352,27 @@ fn cursor_move(x: i64, y: i64) -> String {
 
 /// `sisteransi`'s `erase.lines(1)`: erase the row, then return to its first column.
 fn erase_row() -> String {
-	format!("{CSI}2K{CSI}G")
+	erase_lines(1)
+}
+
+/// `sisteransi`'s `erase.lines(n)`: erase a row and step up, `n` times, then back to column one.
+///
+/// The step up is written between the erases and not after the last one, so `n` rows are erased and
+/// the cursor ends on the topmost of them. A count of zero writes nothing at all — not even the
+/// `cursor.left` — which is why [`crate::task_log`] checks for it before calling.
+pub(crate) fn erase_lines(count: usize) -> String {
+	if count == 0 {
+		return String::new();
+	}
+	let mut out = String::new();
+	for index in 0..count {
+		out.push_str(&format!("{CSI}2K"));
+		if index + 1 < count {
+			out.push_str(&format!("{CSI}1A"));
+		}
+	}
+	out.push_str(&format!("{CSI}G"));
+	out
 }
 
 /// `sisteransi`'s `erase.down()`.

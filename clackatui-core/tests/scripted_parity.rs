@@ -1,4 +1,4 @@
-//! Parity for the renderers that are driven by calls: `spinner` and `progress`.
+//! Parity for the renderers that are driven by calls: `spinner`, `progress` and `task_log`.
 //!
 //! The fourth Recorder's corpus, and the first whose claim is about a *sequence* of writes rather
 //! than one. A spinner erases the row it wrote before writing the next, so a port that draws the right
@@ -10,6 +10,10 @@
 //! - **The characters of each step**, with SGR stripped and the cursor escapes kept. A step is one
 //!   `start`, one turn of the interval, or one `stop`, so a disagreement names the tick it began at
 //!   instead of printing the whole run.
+//!
+//! A task log has no clock and erases by a count of its own, which is the same claim in a different
+//! shape: the rows it thinks it wrote are the rows it walks over, and only the Grid can say whether
+//! that was the number the terminal used.
 //!
 //! # The clock is an argument
 //!
@@ -26,6 +30,7 @@ use clackatui_core::frame::{Line, Span};
 use clackatui_core::progress::{BarStyle, Progress};
 use clackatui_core::prompt::Status;
 use clackatui_core::spinner::{Indicator, Options, Spinner, StyleFrame};
+use clackatui_core::task_log::{self, Outcome, TaskLog};
 use clackatui_core::theme::Theme;
 use ratatui_core::style::{Color, Style};
 use serde_json::Value;
@@ -39,6 +44,15 @@ struct Step {
 	message: Option<String>,
 	/// `advance`'s, and `1` where a case did not say.
 	step: usize,
+	/// A task log's `{ raw: true }`.
+	raw: bool,
+	/// The name a `group` was given.
+	name: String,
+	/// Which group a step is about, counted in the order the script made them.
+	group: usize,
+	/// A task log ending's `showLog`. `None` is the default, which is not the same one for both
+	/// endings — see [`clackatui_core::task_log`].
+	show_log: Option<bool>,
 	elapsed: Duration,
 	bytes: String,
 }
@@ -79,6 +93,10 @@ fn cases() -> (Value, Vec<Case>) {
 					op: step["op"].as_str().expect("an op").to_owned(),
 					message: step["message"].as_str().map(str::to_owned),
 					step: step["step"].as_u64().unwrap_or(1) as usize,
+					raw: step["raw"].as_bool().unwrap_or(false),
+					name: step["name"].as_str().unwrap_or_default().to_owned(),
+					group: step["group"].as_u64().unwrap_or(0) as usize,
+					show_log: step["showLog"].as_bool(),
 					elapsed: Duration::from_millis(
 						step["elapsed"].as_u64().expect("the clock at this step"),
 					),
@@ -146,9 +164,78 @@ fn progress_options(case: &Case) -> clackatui_core::progress::Options<'static> {
 	}
 }
 
+/// A case's task-log options, with upstream's defaults for whatever it did not set.
+fn task_log_options(case: &Case) -> task_log::Options {
+	let json = &case.options;
+	let defaults = task_log::Options::default();
+	// `isTTY` is `!isCI() && isTTY(output)`, and the Recorder gives a case a terminal unless it is
+	// pretending to be CI.
+	let ci = json["ci"].as_bool().unwrap_or(false);
+	let tty = json["tty"].as_bool().unwrap_or(!ci);
+	task_log::Options {
+		title: json["title"].as_str().unwrap_or_default().to_owned(),
+		limit: json["limit"].as_u64().map(|limit| limit as usize),
+		spacing: json["spacing"]
+			.as_u64()
+			.map_or(defaults.spacing, |spacing| spacing as usize),
+		retain_log: json["retainLog"].as_bool().unwrap_or(false),
+		// `guide`, not `withGuide`: the option a task log takes is never passed on, so what its
+		// messages read is the global. A case sets the one it means.
+		with_guide: json["guide"].as_bool().unwrap_or(true),
+		is_tty: !ci && tty,
+	}
+}
+
 /// Replays a case's script, returning what the port wrote at each step.
 fn replay(case: &Case) -> Vec<String> {
 	match case.kind.as_str() {
+		"task-log" => {
+			let mut log = None;
+			let mut groups = Vec::new();
+			let mut written = Vec::new();
+			for step in &case.steps {
+				// Every script opens before it says anything, so the `expect` below is the Recorder's
+				// contract and not a guess.
+				written.push(match step.op.as_str() {
+					"open" => {
+						let (opened, bytes) =
+							TaskLog::new(Theme::clack(), case.columns, task_log_options(case));
+						log = Some(opened);
+						bytes
+					}
+					"group" => {
+						let log = log.as_mut().expect("a script opens first");
+						groups.push(log.group(&step.name));
+						String::new()
+					}
+					op => {
+						let log = log.as_mut().expect("a script opens first");
+						match op {
+							"message" => log.message(step.message(), step.raw),
+							"group-message" => {
+								log.group_message(groups[step.group], step.message(), step.raw)
+							}
+							"group-success" => log.complete_group(
+								groups[step.group],
+								Outcome::Success,
+								step.message(),
+							),
+							"group-error" => log.complete_group(
+								groups[step.group],
+								Outcome::Error,
+								step.message(),
+							),
+							"success" => {
+								log.success(step.message(), step.show_log.unwrap_or(false))
+							}
+							"error" => log.error(step.message(), step.show_log.unwrap_or(true)),
+							other => panic!("{}: no such step: {other}", case.name),
+						}
+					}
+				});
+			}
+			written
+		}
 		"spinner" => {
 			let mut spinner = Spinner::new(Theme::clack(), case.columns, options(case));
 			case.steps
@@ -220,7 +307,7 @@ fn every_scripted_run_leaves_the_terminal_the_way_clack_left_it() {
 	);
 
 	assert!(
-		cases.len() >= 66,
+		cases.len() >= 114,
 		"only {} cases were compared; the fixture has stopped carrying them",
 		cases.len()
 	);
@@ -265,16 +352,29 @@ fn the_scripted_fixture_is_a_plausible_recording() {
 	assert_eq!(json["tag"], "@clack/prompts@1.7.0");
 	assert_eq!(json["generatedBy"], "scripts/harvest-scripted.mjs");
 
-	for kind in ["spinner", "progress"] {
+	for kind in ["spinner", "progress", "task-log"] {
 		assert!(
 			cases.iter().any(|case| case.kind == kind),
 			"nothing in the fixture records a {kind}"
 		);
 	}
 
-	// Every step either renderer has, and every option that changes what one draws.
+	// Every step any of the three renderers has, and every option that changes what one draws.
 	for op in [
-		"start", "tick", "message", "advance", "stop", "cancel", "error", "clear",
+		"start",
+		"tick",
+		"message",
+		"advance",
+		"stop",
+		"cancel",
+		"error",
+		"clear",
+		"open",
+		"group",
+		"group-message",
+		"group-success",
+		"group-error",
+		"success",
 	] {
 		assert!(
 			cases
@@ -292,6 +392,11 @@ fn the_scripted_fixture_is_a_plausible_recording() {
 		"style",
 		"max",
 		"size",
+		"limit",
+		"spacing",
+		"retainLog",
+		"guide",
+		"tty",
 	] {
 		assert!(
 			cases.iter().any(|case| !case.options[option].is_null()),
@@ -306,6 +411,35 @@ fn the_scripted_fixture_is_a_plausible_recording() {
 			"nothing in the fixture draws a {style} bar"
 		);
 	}
+
+	// A task log's two live flags: `{ raw: true }`, and a `showLog` said either way — the two endings
+	// have opposite defaults, so a corpus that never said it out loud would only record one of them.
+	assert!(
+		cases
+			.iter()
+			.any(|case| case.steps.iter().any(|step| step.raw)),
+		"nothing in the fixture records a raw message"
+	);
+	for said in [true, false] {
+		assert!(
+			cases
+				.iter()
+				.any(|case| { case.steps.iter().any(|step| step.show_log == Some(said)) }),
+			"nothing in the fixture asks an ending for showLog: {said}"
+		);
+	}
+	// The defect the task log's module docs are about: in CI nothing is printed and the erase is
+	// written anyway, so a step whose bytes are an erase and nothing else is the recording of it.
+	assert!(
+		cases.iter().any(|case| {
+			case.kind == "task-log"
+				&& case
+					.steps
+					.iter()
+					.any(|step| step.op == "message" && step.bytes.ends_with("\u{1b}[G"))
+		}),
+		"nothing in the fixture erases rows it never printed"
+	);
 
 	// A timer that never reaches a minute would leave half of `formatTimer` unrecorded.
 	assert!(

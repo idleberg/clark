@@ -100,8 +100,12 @@ draws more than once and the first with a clock in it, so it needed a fourth Rec
 string three columns narrower than the one it drew
 ([ADR-0032](./docs/adr/0032-a-spinner-walks-the-cursor-back-over-a-string-it-never-wrote.md)).
 `progress` is that same spinner with a drawn bar for a message, which is the whole of the port
-([ADR-0033](./docs/adr/0033-a-progress-bar-is-a-spinner-whose-message-is-drawn.md)) — **sixty-six
-scripts and five hundred and sixty-three steps, every step byte for byte**.
+([ADR-0033](./docs/adr/0033-a-progress-bar-is-a-spinner-whose-message-is-drawn.md)). `task-log` is
+the third of them and the first with no clock at all: it erases what it wrote by counting UTF-16 code
+units, which is not what the terminal counted, and it writes that erase even in CI where it printed
+nothing
+([ADR-0034](./docs/adr/0034-a-task-log-erases-rows-it-measured-with-the-wrong-ruler.md)) — **a
+hundred and fourteen scripts and seven hundred and thirty-five steps, every step byte for byte**.
 See
 [CONTEXT.md](./CONTEXT.md) for the vocabulary and [docs/adr/](./docs/adr/) for the decisions behind
 the shape below.
@@ -122,7 +126,7 @@ Two crates:
 - **`clackatui-core`** — state machines and `Widget` impls over `ratatui-core`. No I/O. Feed it a
   key event, render it into a `Buffer`.
 - **`clackatui`** — a blocking driver plus clack's sugar (intro, outro, log, note, box, spinner,
-  progress, group). No async runtime imposed. Small on purpose: raw mode, a read loop, the
+  progress, task log, group). No async runtime imposed. Small on purpose: raw mode, a read loop, the
   crossterm-to-`readline` key decoder, the spinner's interval, and the builders. The order a Prompt is asked in is in the core, not here
   ([ADR-0014](./docs/adr/0014-the-sequence-is-a-compatibility-surface.md)).
 
@@ -152,9 +156,9 @@ Prompt, which an unwinding cancel could not express.
 
 **v1** — the 11 interactive Prompts (text, password, confirm, select, multi-select, select-key,
 group-multi-select, autocomplete, date, multi-line) and the static renderers (log, note, box, intro,
-outro, cancel, spinner, progress-bar, group, limit-options).
+outro, cancel, spinner, progress-bar, task-log, group, limit-options).
 
-**v2** — task, task-log, stream, path.
+**v2** — task, stream, path.
 
 The rest of that set is deferred because it is non-deterministic, not because it is unimportant:
 `spinner.ts` is the only clack module touching timers, `task` is built on it, and `path.ts` reads the
@@ -163,8 +167,10 @@ takes the elapsed time as an argument and the driver owns the interval, and the 
 it drives a fake clock through a script of calls
 ([ADR-0032](./docs/adr/0032-a-spinner-walks-the-cursor-back-over-a-string-it-never-wrote.md)), which
 is why `progress-bar` moved up rather than waiting for one
-([ADR-0033](./docs/adr/0033-a-progress-bar-is-a-spinner-whose-message-is-drawn.md)); `Fs` is still
-owed by `path`. `Theme` is the same kind of seam, and its `Default` is `Theme::clack()`,
+([ADR-0033](./docs/adr/0033-a-progress-bar-is-a-spinner-whose-message-is-drawn.md)), and `task-log`
+after it — it has no clock, only the same counted erase
+([ADR-0034](./docs/adr/0034-a-task-log-erases-rows-it-measured-with-the-wrong-ruler.md)). `Fs` is
+still owed by `path`. `Theme` is the same kind of seam, and its `Default` is `Theme::clack()`,
 ported from clack's `common.ts`. `is-unicode-supported` is ported with it, as `Theme::detect()`.
 `FORCE_COLOR` is not: upstream suppresses colour by having `styleText` return the string unchanged,
 and a Frame here carries a `Style` rather than escapes, so the equivalent seam is where Styles become
@@ -194,8 +200,8 @@ Three layers.
    scripts/harvest-static.mjs` for the renderers that write once
    ([ADR-0029](./docs/adr/0029-the-static-renderers-write-once-and-never-wrap.md)), and `node
    scripts/harvest-scripted.mjs` for the ones driven by calls rather than keys, where a case is a
-   script — `start`, ticks of a fake clock, an `advance`, a `stop` — and every step's bytes are
-   written down separately
+   script — `start`, ticks of a fake clock, an `advance`, a `stop`, or a task log's `message` and
+   `group` — and every step's bytes are written down separately
    ([ADR-0032](./docs/adr/0032-a-spinner-walks-the-cursor-back-over-a-string-it-never-wrote.md)).
    Still missing: emoji and ZWJ sequences at a margin, where the wrap has to decide whether to
    break one; and `password`'s `clearOnError`, which needs a `validate` callback and so cannot be
@@ -251,7 +257,7 @@ upstream drift.
 | **M2** | ~~`password` and `confirm` — states, widgets, builders, both suites harvested, eleven more hand-authored Scenarios~~ **done** |
 | **M3** | ~~`limit-options` against a 54-case corpus, `select`, `multiselect` and `select-key` end to end with their suites harvested~~ **done** |
 | **M4** | ~~group-multi-select~~, ~~autocomplete~~, ~~date~~, ~~multi-line~~ **done** |
-| **M5** | ~~`log`, `intro`, `outro`, `cancel`, `note`, `box`, `spinner`, `progress-bar`~~, `task-log`, `path` |
+| **M5** | ~~`log`, `intro`, `outro`, `cancel`, `note`, `box`, `spinner`, `progress-bar`, `task-log`~~, `path` |
 | **M6** | theme polish, docs, publish |
 
 M1 is one Prompt rather than one layer on purpose. Every decision here assumed Grid parity through an

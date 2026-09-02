@@ -179,7 +179,7 @@
 				{
 					"op": "stop",
 					"message": "Done",
-					"elapsed": 1788344546500,
+					"elapsed": 1788351228422,
 					"bytes": ""
 				}
 			],
@@ -3823,6 +3823,1660 @@
 				}
 			],
 			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working...\n\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working...\n\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m━━━━━━━━━━\u001b[39m\u001b[2m\u001b[22m Working...\n\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+		},
+		{
+			"name": "a task log opens with a bar, a title and a bar",
+			"kind": "task-log",
+			"options": {
+				"title": "build"
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+		},
+		{
+			"name": "a title of nothing still costs a row",
+			"kind": "task-log",
+			"options": {
+				"title": ""
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  \n\u001b[90m│\u001b[39m\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  \n\u001b[90m│\u001b[39m\n"
+		},
+		{
+			"name": "one message under the title",
+			"kind": "task-log",
+			"options": {
+				"title": "build"
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "message",
+					"message": "line 0",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m  \u001b[2mline 0\u001b[22m\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mline 0\u001b[22m\n"
+		},
+		{
+			"name": "a second message erases the first and prints both",
+			"kind": "task-log",
+			"options": {
+				"title": "build"
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "message",
+					"message": "line 0",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m  \u001b[2mline 0\u001b[22m\n"
+				},
+				{
+					"op": "message",
+					"message": "line 1",
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mline 0\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mline 1\u001b[22m\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mline 0\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mline 0\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mline 1\u001b[22m\n"
+		},
+		{
+			"name": "a message of several lines is several rows",
+			"kind": "task-log",
+			"options": {
+				"title": "build"
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "message",
+					"message": "line 0\nline 1\nline 2",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m  \u001b[2mline 0\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mline 1\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mline 2\u001b[22m\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mline 0\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mline 1\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mline 2\u001b[22m\n"
+		},
+		{
+			"name": "a blank line inside a message keeps its bar and its spaces",
+			"kind": "task-log",
+			"options": {
+				"title": "build"
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "message",
+					"message": "a\n\nb",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m  \u001b[2ma\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2m\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mb\u001b[22m\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2ma\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2m\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mb\u001b[22m\n"
+		},
+		{
+			"name": "a message with nothing in it prints nothing",
+			"kind": "task-log",
+			"options": {
+				"title": "build"
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "message",
+					"message": "",
+					"elapsed": 0,
+					"bytes": ""
+				},
+				{
+					"op": "message",
+					"message": "after",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m  \u001b[2mafter\u001b[22m\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mafter\u001b[22m\n"
+		},
+		{
+			"name": "two raw messages are joined into one row",
+			"kind": "task-log",
+			"options": {
+				"title": "build"
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "message",
+					"message": "one",
+					"raw": true,
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n"
+				},
+				{
+					"op": "message",
+					"message": "two",
+					"raw": true,
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2monetwo\u001b[22m\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2monetwo\u001b[22m\n"
+		},
+		{
+			"name": "a raw message after a plain one still starts a row",
+			"kind": "task-log",
+			"options": {
+				"title": "build"
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "message",
+					"message": "one",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n"
+				},
+				{
+					"op": "message",
+					"message": "two",
+					"raw": true,
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n"
+				},
+				{
+					"op": "message",
+					"message": "three",
+					"raw": true,
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mtwothree\u001b[22m\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mtwothree\u001b[22m\n"
+		},
+		{
+			"name": "a plain message after a raw one starts a row",
+			"kind": "task-log",
+			"options": {
+				"title": "build"
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "message",
+					"message": "one",
+					"raw": true,
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n"
+				},
+				{
+					"op": "message",
+					"message": "two",
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n"
+		},
+		{
+			"name": "no spacing at all",
+			"kind": "task-log",
+			"options": {
+				"title": "build",
+				"spacing": 0
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n"
+				},
+				{
+					"op": "message",
+					"message": "one",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n"
+				},
+				{
+					"op": "message",
+					"message": "two",
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n"
+				},
+				{
+					"op": "success",
+					"message": "finished",
+					"showLog": true,
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m\n\u001b[32m◆\u001b[39m  finished\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m\n\u001b[32m◆\u001b[39m  finished\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n"
+		},
+		{
+			"name": "three rows of spacing, which the ending walks back over",
+			"kind": "task-log",
+			"options": {
+				"title": "build",
+				"spacing": 3
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "message",
+					"message": "one",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n"
+				},
+				{
+					"op": "message",
+					"message": "two",
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n"
+				},
+				{
+					"op": "success",
+					"message": "finished",
+					"showLog": true,
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m\n\u001b[32m◆\u001b[39m  finished\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m\n\u001b[32m◆\u001b[39m  finished\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n"
+		},
+		{
+			"name": "the withGuide option is taken and never read",
+			"kind": "task-log",
+			"options": {
+				"title": "build",
+				"withGuide": false
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "message",
+					"message": "one",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n"
+				},
+				{
+					"op": "message",
+					"message": "two",
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n"
+				},
+				{
+					"op": "success",
+					"message": "finished",
+					"showLog": true,
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m\n\u001b[32m◆\u001b[39m  finished\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m\n\u001b[32m◆\u001b[39m  finished\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n"
+		},
+		{
+			"name": "with the guide off globally the title keeps its bar and the messages do not",
+			"kind": "task-log",
+			"options": {
+				"title": "build",
+				"guide": false
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "message",
+					"message": "one",
+					"elapsed": 0,
+					"bytes": "\u001b[2mone\u001b[22m\n"
+				},
+				{
+					"op": "message",
+					"message": "two",
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[2mone\u001b[22m\n\u001b[2mtwo\u001b[22m\n"
+				},
+				{
+					"op": "success",
+					"message": "finished",
+					"showLog": true,
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\nfinished\n\n\u001b[2mone\u001b[22m\n\u001b[2mtwo\u001b[22m\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n\u001b[2mone\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[2mone\u001b[22m\n\u001b[2mtwo\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\nfinished\n\n\u001b[2mone\u001b[22m\n\u001b[2mtwo\u001b[22m\n"
+		},
+		{
+			"name": "with the guide off globally a blank row is still two spaces",
+			"kind": "task-log",
+			"options": {
+				"title": "build",
+				"guide": false
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "message",
+					"message": "a\n\nb",
+					"elapsed": 0,
+					"bytes": "\u001b[2ma\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2mb\u001b[22m\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n\u001b[2ma\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2mb\u001b[22m\n"
+		},
+		{
+			"name": "with the guide off globally a group keeps its name",
+			"kind": "task-log",
+			"options": {
+				"title": "build",
+				"guide": false
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "group",
+					"name": "install",
+					"elapsed": 0,
+					"bytes": ""
+				},
+				{
+					"op": "group-message",
+					"message": "one",
+					"group": 0,
+					"elapsed": 0,
+					"bytes": "\u001b[1minstall\u001b[22m\n\u001b[2mone\u001b[22m\n"
+				},
+				{
+					"op": "error",
+					"message": "broken",
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\nbroken\n\u001b[1minstall\u001b[22m\n\n\u001b[2mone\u001b[22m\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n\u001b[1minstall\u001b[22m\n\u001b[2mone\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\nbroken\n\u001b[1minstall\u001b[22m\n\n\u001b[2mone\u001b[22m\n"
+		},
+		{
+			"name": "a limit drops the oldest rows",
+			"kind": "task-log",
+			"options": {
+				"title": "build",
+				"limit": 2
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "message",
+					"message": "one",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n"
+				},
+				{
+					"op": "message",
+					"message": "two",
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n"
+				},
+				{
+					"op": "message",
+					"message": "three",
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mthree\u001b[22m\n"
+				},
+				{
+					"op": "message",
+					"message": "four",
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mthree\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mfour\u001b[22m\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mthree\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mthree\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mfour\u001b[22m\n"
+		},
+		{
+			"name": "a limit of one keeps the last row only",
+			"kind": "task-log",
+			"options": {
+				"title": "build",
+				"limit": 1
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "message",
+					"message": "one\ntwo\nthree",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m  \u001b[2mthree\u001b[22m\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mthree\u001b[22m\n"
+		},
+		{
+			"name": "a limit of zero holds nothing",
+			"kind": "task-log",
+			"options": {
+				"title": "build",
+				"limit": 0
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "message",
+					"message": "one",
+					"elapsed": 0,
+					"bytes": ""
+				},
+				{
+					"op": "message",
+					"message": "two",
+					"elapsed": 0,
+					"bytes": ""
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+		},
+		{
+			"name": "a retained log keeps what the limit dropped and shows it at the end",
+			"kind": "task-log",
+			"options": {
+				"title": "build",
+				"limit": 1,
+				"retainLog": true
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "message",
+					"message": "one",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n"
+				},
+				{
+					"op": "message",
+					"message": "two",
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n"
+				},
+				{
+					"op": "message",
+					"message": "three",
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mthree\u001b[22m\n"
+				},
+				{
+					"op": "success",
+					"message": "finished",
+					"showLog": true,
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m\n\u001b[32m◆\u001b[39m  finished\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mthree\u001b[22m\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mthree\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m\n\u001b[32m◆\u001b[39m  finished\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mthree\u001b[22m\n"
+		},
+		{
+			"name": "a retained log that is not shown is dropped with the rest",
+			"kind": "task-log",
+			"options": {
+				"title": "build",
+				"limit": 1,
+				"retainLog": true
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "message",
+					"message": "one",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n"
+				},
+				{
+					"op": "message",
+					"message": "two",
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n"
+				},
+				{
+					"op": "success",
+					"message": "finished",
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m\n\u001b[32m◆\u001b[39m  finished\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m\n\u001b[32m◆\u001b[39m  finished\n"
+		},
+		{
+			"name": "a group is printed under its name in bold",
+			"kind": "task-log",
+			"options": {
+				"title": "build"
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "group",
+					"name": "install",
+					"elapsed": 0,
+					"bytes": ""
+				},
+				{
+					"op": "group-message",
+					"message": "one",
+					"group": 0,
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m  \u001b[1minstall\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[1minstall\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n"
+		},
+		{
+			"name": "a group and the log it belongs to",
+			"kind": "task-log",
+			"options": {
+				"title": "build"
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "message",
+					"message": "starting",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m  \u001b[2mstarting\u001b[22m\n"
+				},
+				{
+					"op": "group",
+					"name": "install",
+					"elapsed": 0,
+					"bytes": ""
+				},
+				{
+					"op": "group-message",
+					"message": "one",
+					"group": 0,
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mstarting\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[1minstall\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n"
+				},
+				{
+					"op": "message",
+					"message": "and back to the top",
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mstarting\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mand back to the top\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[1minstall\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mstarting\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mstarting\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[1minstall\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mstarting\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mand back to the top\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[1minstall\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n"
+		},
+		{
+			"name": "two groups, each with its own rows",
+			"kind": "task-log",
+			"options": {
+				"title": "build"
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "group",
+					"name": "install",
+					"elapsed": 0,
+					"bytes": ""
+				},
+				{
+					"op": "group-message",
+					"message": "one",
+					"group": 0,
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m  \u001b[1minstall\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n"
+				},
+				{
+					"op": "group",
+					"name": "build",
+					"elapsed": 0,
+					"bytes": ""
+				},
+				{
+					"op": "group-message",
+					"message": "two",
+					"group": 1,
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[1minstall\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[1mbuild\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n"
+				},
+				{
+					"op": "group-message",
+					"message": "three",
+					"group": 0,
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[1minstall\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mthree\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[1mbuild\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[1minstall\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[1minstall\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[1mbuild\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[1minstall\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mthree\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[1mbuild\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n"
+		},
+		{
+			"name": "a group that succeeds becomes one line",
+			"kind": "task-log",
+			"options": {
+				"title": "build"
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "group",
+					"name": "install",
+					"elapsed": 0,
+					"bytes": ""
+				},
+				{
+					"op": "group-message",
+					"message": "one",
+					"group": 0,
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m  \u001b[1minstall\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n"
+				},
+				{
+					"op": "group-message",
+					"message": "two",
+					"group": 0,
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[1minstall\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n"
+				},
+				{
+					"op": "group-success",
+					"group": 0,
+					"message": "installed",
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[32m◆\u001b[39m  installed\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[1minstall\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[1minstall\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[32m◆\u001b[39m  installed\n"
+		},
+		{
+			"name": "a group that fails becomes one line, and the rest stays",
+			"kind": "task-log",
+			"options": {
+				"title": "build"
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "group",
+					"name": "install",
+					"elapsed": 0,
+					"bytes": ""
+				},
+				{
+					"op": "group-message",
+					"message": "one",
+					"group": 0,
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m  \u001b[1minstall\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n"
+				},
+				{
+					"op": "group-error",
+					"group": 0,
+					"message": "install failed",
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[31m■\u001b[39m  install failed\n"
+				},
+				{
+					"op": "message",
+					"message": "after",
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mafter\u001b[22m\n\u001b[31m■\u001b[39m  install failed\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[1minstall\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[31m■\u001b[39m  install failed\n\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mafter\u001b[22m\n\u001b[31m■\u001b[39m  install failed\n"
+		},
+		{
+			"name": "an empty group is printed only at the end",
+			"kind": "task-log",
+			"options": {
+				"title": "build"
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "group",
+					"name": "install",
+					"elapsed": 0,
+					"bytes": ""
+				},
+				{
+					"op": "message",
+					"message": "one",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n"
+				},
+				{
+					"op": "success",
+					"message": "finished",
+					"showLog": true,
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m\n\u001b[32m◆\u001b[39m  finished\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[1minstall\u001b[22m\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2m\u001b[22m\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m\n\u001b[32m◆\u001b[39m  finished\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[1minstall\u001b[22m\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2m\u001b[22m\n"
+		},
+		{
+			"name": "a success hides the log",
+			"kind": "task-log",
+			"options": {
+				"title": "build"
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "message",
+					"message": "one",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n"
+				},
+				{
+					"op": "message",
+					"message": "two",
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n"
+				},
+				{
+					"op": "success",
+					"message": "finished",
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m\n\u001b[32m◆\u001b[39m  finished\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m\n\u001b[32m◆\u001b[39m  finished\n"
+		},
+		{
+			"name": "a success shows it when asked",
+			"kind": "task-log",
+			"options": {
+				"title": "build"
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "message",
+					"message": "one",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n"
+				},
+				{
+					"op": "message",
+					"message": "two",
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n"
+				},
+				{
+					"op": "success",
+					"message": "finished",
+					"showLog": true,
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m\n\u001b[32m◆\u001b[39m  finished\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m\n\u001b[32m◆\u001b[39m  finished\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n"
+		},
+		{
+			"name": "an error shows the log",
+			"kind": "task-log",
+			"options": {
+				"title": "build"
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "message",
+					"message": "one",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n"
+				},
+				{
+					"op": "message",
+					"message": "two",
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n"
+				},
+				{
+					"op": "error",
+					"message": "broken",
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m\n\u001b[31m■\u001b[39m  broken\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m\n\u001b[31m■\u001b[39m  broken\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n"
+		},
+		{
+			"name": "an error hides it when asked",
+			"kind": "task-log",
+			"options": {
+				"title": "build"
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "message",
+					"message": "one",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n"
+				},
+				{
+					"op": "message",
+					"message": "two",
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n"
+				},
+				{
+					"op": "error",
+					"message": "broken",
+					"showLog": false,
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m\n\u001b[31m■\u001b[39m  broken\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m\n\u001b[31m■\u001b[39m  broken\n"
+		},
+		{
+			"name": "an ending empties the log, so the next message stands alone",
+			"kind": "task-log",
+			"options": {
+				"title": "build"
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "message",
+					"message": "one",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n"
+				},
+				{
+					"op": "success",
+					"message": "finished",
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m\n\u001b[32m◆\u001b[39m  finished\n"
+				},
+				{
+					"op": "message",
+					"message": "two",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n"
+				},
+				{
+					"op": "message",
+					"message": "three",
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mthree\u001b[22m\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m\n\u001b[32m◆\u001b[39m  finished\n\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mthree\u001b[22m\n"
+		},
+		{
+			"name": "an ending drops its groups and the log carries on",
+			"kind": "task-log",
+			"options": {
+				"title": "build"
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "group",
+					"name": "install",
+					"elapsed": 0,
+					"bytes": ""
+				},
+				{
+					"op": "group-message",
+					"message": "one",
+					"group": 0,
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m  \u001b[1minstall\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n"
+				},
+				{
+					"op": "message",
+					"message": "two",
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[1minstall\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n"
+				},
+				{
+					"op": "success",
+					"message": "finished",
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m\n\u001b[32m◆\u001b[39m  finished\n"
+				},
+				{
+					"op": "message",
+					"message": "three",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m  \u001b[2mthree\u001b[22m\n"
+				},
+				{
+					"op": "message",
+					"message": "four",
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mthree\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mfour\u001b[22m\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[1minstall\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[1minstall\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m\n\u001b[32m◆\u001b[39m  finished\n\u001b[90m│\u001b[39m  \u001b[2mthree\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mthree\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mfour\u001b[22m\n"
+		},
+		{
+			"name": "an ending with a group in it",
+			"kind": "task-log",
+			"options": {
+				"title": "build"
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "group",
+					"name": "install",
+					"elapsed": 0,
+					"bytes": ""
+				},
+				{
+					"op": "group-message",
+					"message": "one",
+					"group": 0,
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m  \u001b[1minstall\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n"
+				},
+				{
+					"op": "message",
+					"message": "two",
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[1minstall\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n"
+				},
+				{
+					"op": "error",
+					"message": "broken",
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m\n\u001b[31m■\u001b[39m  broken\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[1minstall\u001b[22m\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[1minstall\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[1minstall\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m\n\u001b[31m■\u001b[39m  broken\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[1minstall\u001b[22m\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n"
+		},
+		{
+			"name": "a line longer than the terminal is counted and erased as two rows",
+			"kind": "task-log",
+			"options": {
+				"title": "build"
+			},
+			"columns": 20,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "message",
+					"message": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m  \u001b[2mxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\u001b[22m\n"
+				},
+				{
+					"op": "message",
+					"message": "after",
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mafter\u001b[22m\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mafter\u001b[22m\n"
+		},
+		{
+			"name": "a line that fills the row exactly",
+			"kind": "task-log",
+			"options": {
+				"title": "build"
+			},
+			"columns": 20,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "message",
+					"message": "xxxxxxxxxxxxxxxxx",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m  \u001b[2mxxxxxxxxxxxxxxxxx\u001b[22m\n"
+				},
+				{
+					"op": "message",
+					"message": "after",
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mxxxxxxxxxxxxxxxxx\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mafter\u001b[22m\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mxxxxxxxxxxxxxxxxx\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mxxxxxxxxxxxxxxxxx\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mafter\u001b[22m\n"
+		},
+		{
+			"name": "a line one character over",
+			"kind": "task-log",
+			"options": {
+				"title": "build"
+			},
+			"columns": 20,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "message",
+					"message": "xxxxxxxxxxxxxxxxxx",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m  \u001b[2mxxxxxxxxxxxxxxxxxx\u001b[22m\n"
+				},
+				{
+					"op": "message",
+					"message": "after",
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mxxxxxxxxxxxxxxxxxx\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mafter\u001b[22m\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mxxxxxxxxxxxxxxxxxx\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mxxxxxxxxxxxxxxxxxx\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mafter\u001b[22m\n"
+		},
+		{
+			"name": "a line of wide characters is counted as half the rows it took",
+			"kind": "task-log",
+			"options": {
+				"title": "build"
+			},
+			"columns": 20,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "message",
+					"message": "ばんはばんはばんはばんは",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m  \u001b[2mばんはばんはばんはばんは\u001b[22m\n"
+				},
+				{
+					"op": "message",
+					"message": "after",
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mばんはばんはばんはばんは\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mafter\u001b[22m\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mばんはばんはばんはばんは\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mばんはばんはばんはばんは\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mafter\u001b[22m\n"
+		},
+		{
+			"name": "a line of emoji is counted right for the wrong reason",
+			"kind": "task-log",
+			"options": {
+				"title": "build"
+			},
+			"columns": 20,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "message",
+					"message": "🎉🎉🎉🎉🎉🎉🎉🎉",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m  \u001b[2m🎉🎉🎉🎉🎉🎉🎉🎉\u001b[22m\n"
+				},
+				{
+					"op": "message",
+					"message": "after",
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2m🎉🎉🎉🎉🎉🎉🎉🎉\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mafter\u001b[22m\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2m🎉🎉🎉🎉🎉🎉🎉🎉\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2m🎉🎉🎉🎉🎉🎉🎉🎉\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mafter\u001b[22m\n"
+		},
+		{
+			"name": "a group whose ending is taller than the rows it replaced",
+			"kind": "task-log",
+			"options": {
+				"title": "build"
+			},
+			"columns": 20,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "group",
+					"name": "install",
+					"elapsed": 0,
+					"bytes": ""
+				},
+				{
+					"op": "group-message",
+					"message": "one",
+					"group": 0,
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m  \u001b[1minstall\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n"
+				},
+				{
+					"op": "group-error",
+					"group": 0,
+					"message": "install failed: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[31m■\u001b[39m  install failed: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n"
+				},
+				{
+					"op": "message",
+					"message": "after",
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mafter\u001b[22m\n\u001b[31m■\u001b[39m  install failed: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[1minstall\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[31m■\u001b[39m  install failed: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2mafter\u001b[22m\n\u001b[31m■\u001b[39m  install failed: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n"
+		},
+		{
+			"name": "a blank row on a terminal two columns wide",
+			"kind": "task-log",
+			"options": {
+				"title": "build"
+			},
+			"columns": 2,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "message",
+					"message": "a\n\nb",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m  \u001b[2ma\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2m\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mb\u001b[22m\n"
+				},
+				{
+					"op": "message",
+					"message": "c",
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2ma\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2m\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mb\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mc\u001b[22m\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2ma\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2m\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mb\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2ma\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2m\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mb\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mc\u001b[22m\n"
+		},
+		{
+			"name": "a long line at the end of a run is erased by the ending too",
+			"kind": "task-log",
+			"options": {
+				"title": "build"
+			},
+			"columns": 20,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "message",
+					"message": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m  \u001b[2mxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\u001b[22m\n"
+				},
+				{
+					"op": "success",
+					"message": "finished",
+					"showLog": true,
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m\n\u001b[32m◆\u001b[39m  finished\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\u001b[22m\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m\n\u001b[32m◆\u001b[39m  finished\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\u001b[22m\n"
+		},
+		{
+			"name": "a cursor escape is taken out of a message",
+			"kind": "task-log",
+			"options": {
+				"title": "build"
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "message",
+					"message": "one\u001b[2Atwo",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m  \u001b[2monetwo\u001b[22m\n"
+				},
+				{
+					"op": "message",
+					"message": "after",
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2monetwo\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mafter\u001b[22m\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2monetwo\u001b[22m\n\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m  \u001b[2monetwo\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mafter\u001b[22m\n"
+		},
+		{
+			"name": "an erase escape is taken out of a message",
+			"kind": "task-log",
+			"options": {
+				"title": "build"
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "message",
+					"message": "one\u001b[2Jtwo",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m  \u001b[2monetwo\u001b[22m\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2monetwo\u001b[22m\n"
+		},
+		{
+			"name": "a save and a restore are taken out too",
+			"kind": "task-log",
+			"options": {
+				"title": "build"
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "message",
+					"message": "\u001b[sone\u001b[u",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n"
+		},
+		{
+			"name": "in CI the messages are not printed and the erases are written anyway",
+			"kind": "task-log",
+			"options": {
+				"title": "build",
+				"ci": true
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "message",
+					"message": "one",
+					"elapsed": 0,
+					"bytes": ""
+				},
+				{
+					"op": "message",
+					"message": "two",
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[G"
+				},
+				{
+					"op": "message",
+					"message": "three",
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G"
+				},
+				{
+					"op": "success",
+					"message": "finished",
+					"showLog": true,
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m\n\u001b[32m◆\u001b[39m  finished\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mthree\u001b[22m\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m\n\u001b[32m◆\u001b[39m  finished\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mthree\u001b[22m\n"
+		},
+		{
+			"name": "in CI an error still prints its log",
+			"kind": "task-log",
+			"options": {
+				"title": "build",
+				"ci": true
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "message",
+					"message": "one",
+					"elapsed": 0,
+					"bytes": ""
+				},
+				{
+					"op": "message",
+					"message": "two",
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[G"
+				},
+				{
+					"op": "error",
+					"message": "broken",
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m\n\u001b[31m■\u001b[39m  broken\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m\n\u001b[31m■\u001b[39m  broken\n\u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  \u001b[2mone\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mtwo\u001b[22m\n"
+		},
+		{
+			"name": "a log written to something that is not a terminal",
+			"kind": "task-log",
+			"options": {
+				"title": "build",
+				"tty": false
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "open",
+					"elapsed": 0,
+					"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n"
+				},
+				{
+					"op": "message",
+					"message": "one",
+					"elapsed": 0,
+					"bytes": ""
+				},
+				{
+					"op": "message",
+					"message": "two",
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[G"
+				},
+				{
+					"op": "success",
+					"message": "finished",
+					"elapsed": 0,
+					"bytes": "\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m\n\u001b[32m◆\u001b[39m  finished\n"
+				}
+			],
+			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  build\n\u001b[90m│\u001b[39m\n\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[1A\u001b[2K\u001b[G\u001b[90m│\u001b[39m\n\u001b[32m◆\u001b[39m  finished\n"
 		}
 	]
 }
