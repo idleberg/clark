@@ -48,7 +48,9 @@ const runSpinner = ({ kind, options, output, steps, delay, written }) => {
 		output,
 	});
 
-	let origin = 0;
+	// `null` until a `start` step, so that a spinner which was never started records no elapsed
+	// time rather than the epoch. A wall clock in a Fixture is drift on every re-record.
+	let origin = null;
 	for (const step of steps) {
 		const before = output.buffer.length;
 		switch (step.op) {
@@ -84,7 +86,7 @@ const runSpinner = ({ kind, options, output, steps, delay, written }) => {
 			...step,
 			// The time the spinner would have read off its own clock at this step. Only the timer
 			// indicator uses it, and only the port needs it written down.
-			elapsed: Date.now() - origin,
+			elapsed: origin === null ? 0 : Date.now() - origin,
 			bytes: output.buffer.slice(before).join(''),
 		});
 	}
