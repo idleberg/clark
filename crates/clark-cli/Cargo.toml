@@ -1,0 +1,18 @@
+[package]
+name = "clark-cli"
+version = "0.0.0"
+description = "clark's prompts for shell scripts."
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+publish = false
+include = ["src/**/*.rs", "README.md", "LICENSE", "NOTICE"]
+
+[[bin]]
+name = "clark"
+path = "src/main.rs"
+
+[dependencies]
+clark = { path = "../clark" }
+clap.workspace = true
