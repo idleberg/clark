@@ -17,6 +17,7 @@
 
 use std::io::Write;
 
+use clackatui_core::r#box as core_box;
 use clackatui_core::emitter::write_once;
 use clackatui_core::frame::Span;
 use clackatui_core::message;
@@ -122,6 +123,52 @@ pub fn note_with(
 		theme,
 		with_guide,
 		format,
+	)));
+}
+
+/// A message in a box you can configure — [`note`]'s cousin, at upstream's defaults.
+///
+/// Those defaults are not the documented ones: square corners, and the width of the terminal rather
+/// than the width of the content. See [`clackatui_core::box`] for why, and use [`box_with`] to ask
+/// for what the documentation promises.
+///
+/// ```no_run
+/// clackatui::r#box("It fills the terminal.", "Heads up");
+/// ```
+pub fn r#box(message: impl AsRef<str>, title: impl AsRef<str>) {
+	box_with(
+		message,
+		title,
+		&Theme::clack(),
+		&core_box::Options::default(),
+	);
+}
+
+/// [`box`](r#box), configured.
+///
+/// ```no_run
+/// use clackatui_core::r#box::{Align, Options, Width};
+/// # let theme = clackatui::Theme::clack();
+/// let options = Options {
+///     width: Width::Auto,
+///     content_align: Align::Center,
+///     rounded: true,
+///     ..Options::default()
+/// };
+/// clackatui::box_with("Centred, and only as wide as it needs to be.", "Heads up", &theme, &options);
+/// ```
+pub fn box_with(
+	message: impl AsRef<str>,
+	title: impl AsRef<str>,
+	theme: &Theme,
+	options: &core_box::Options<'_>,
+) {
+	print(&write_once(&core_box::box_with(
+		message.as_ref(),
+		title.as_ref(),
+		columns(),
+		theme,
+		options,
 	)));
 }
 

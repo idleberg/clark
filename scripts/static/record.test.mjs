@@ -35,6 +35,7 @@ const formatters = {
 /** The renderer each `kind` names, called the way upstream's own examples call it. */
 const renderers = {
 	note: (message, opts, title) => prompts.note(message, title, opts),
+	box: (message, opts, title) => prompts.box(message, title, opts),
 	log: (message, opts) => prompts.log.message(message, opts),
 	'log.info': (message, opts) => prompts.log.info(message, opts),
 	'log.success': (message, opts) => prompts.log.success(message, opts),
@@ -57,10 +58,23 @@ for (const [index, testCase] of cases.entries()) {
 		output.columns = columns;
 		output.rows = rows;
 
-		const { format, ...rest } = options;
-		if (format && !formatters[format]) throw new Error(`no formatter named "${format}"`);
+		// Both `format` (a note's, per row) and `formatBorder` (a box's, per border character) are
+		// functions, so a case names one of the formatters above instead of carrying it.
+		const { format, formatBorder, ...rest } = options;
+		for (const named of [format, formatBorder]) {
+			if (named && !formatters[named]) throw new Error(`no formatter named "${named}"`);
+		}
 
-		render(message, { ...rest, ...(format ? { format: formatters[format] } : {}), output }, title);
+		render(
+			message,
+			{
+				...rest,
+				...(format ? { format: formatters[format] } : {}),
+				...(formatBorder ? { formatBorder: formatters[formatBorder] } : {}),
+				output,
+			},
+			title
+		);
 
 		const bytes = output.buffer.join('');
 		// A renderer that wrote nothing at all is not a recording of anything.

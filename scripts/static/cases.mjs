@@ -1,20 +1,32 @@
-// The static Recorder's cases: `log`, `intro`, `outro` and `cancel`, which are not Prompts.
+// The static Recorder's cases: `log`, `intro`, `outro`, `cancel`, `note` and `box` — the renderers
+// that are not Prompts.
 //
 // A third corpus, and the simplest of the three. There is no state machine here and no keypress: a
 // case is a function, its message, its options and the terminal it is written to, and what clack
 // writes is one string. So unlike ../authored/cases.mjs there is no `value` to declare — a case
 // that ran at all recorded everything there was, and a case that threw recorded nothing.
 //
-// Upstream's own suite covers `log` well and `intro`/`outro`/`cancel` not at all (they have no test
-// file). What it does not cover anywhere is a message wider than the terminal: nothing here wraps,
-// which is a claim worth a recording, because a Prompt's Frame is wrapped by clack itself and these
-// are left to the terminal.
+// Upstream's own suite covers `log` well, `note` thinly, and `intro`/`outro`/`cancel`/`box` not at
+// all (they have no test file). What it does not cover anywhere is a message wider than the
+// terminal, which is a claim worth a recording either way it falls: the first four hand the line to
+// the terminal and let it break, and `note` and `box` break it themselves because they draw a
+// right-hand border.
 
 /** Whatever `log.message` is given, at the defaults. */
 const log = (name, message, options = {}) => ({ name, kind: 'log', message, options });
 
 /** A `note` at eighty columns. */
 const note = (name, message, title, options = {}) => ({ name, kind: 'note', message, title, options });
+
+/** A `box` at eighty columns, unless the case says otherwise. */
+const box = (name, message, title, options = {}, columns = 80) => ({
+	name,
+	kind: 'box',
+	message,
+	title,
+	options,
+	columns,
+});
 
 const wide = 'ばんは'.repeat(30);
 const long = 'lorem ipsum dolor sit amet '.repeat(5);
@@ -143,4 +155,112 @@ export const cases = [
 		options: { format: 'stars' },
 		columns: 10,
 	},
+
+	// --- box -------------------------------------------------------------------------------------
+	//
+	// `note`'s configurable cousin, and it decides its width the other way round: a `note` measures
+	// its content and fits a box to it, a `box` settles on a width and fits the content to that. So
+	// the claims here are the arithmetic — the even-width nudge, the alignments, the title it
+	// truncates where a `note` never does — and the fraction upstream's `width` number turns out to
+	// be.
+
+	box('a message with a title', 'message', 'title'),
+	box('several lines', 'line 1\nline 2\nline 3', 'title'),
+	box('no title', 'message', ''),
+	box('nothing to say', '', 'title'),
+	box('without the guide', 'message', 'title', { withGuide: false }),
+	// `rounded` is documented `@default true` and read as `opts?.rounded`, so the cases above are all
+	// square and these are the only round ones.
+	box('rounded corners', 'message', 'title', { rounded: true }),
+	box('rounded corners without the guide', 'message', 'title', { rounded: true, withGuide: false }),
+	box('square corners, said out loud', 'message', 'title', { rounded: false }),
+
+	// --- box: alignment ----------------------------------------------------------------------------
+
+	box('content centred', 'short\na much longer line', 'title', { contentAlign: 'center' }),
+	box('content to the right', 'short\na much longer line', 'title', { contentAlign: 'right' }),
+	box('title centred', 'a reasonably long line of content', 'title', { titleAlign: 'center' }),
+	box('title to the right', 'a reasonably long line of content', 'title', { titleAlign: 'right' }),
+	box('everything centred at a fixed width', 'short\nlonger line', 'title', {
+		width: 1,
+		contentAlign: 'center',
+		titleAlign: 'center',
+	}),
+
+	// --- box: padding ------------------------------------------------------------------------------
+	//
+	// The title's padding is measured in border characters and the content's in spaces, which is the
+	// one thing about these two numbers that is not symmetrical.
+
+	box('no padding at all', 'message', 'title', { titlePadding: 0, contentPadding: 0 }),
+	box('a generous title padding', 'message', 'title', { titlePadding: 5 }),
+	box('a generous content padding', 'message', 'title', { contentPadding: 6 }),
+	box('no title padding, centred', 'message', 'title', { titlePadding: 0, titleAlign: 'center' }),
+
+	// --- box: width --------------------------------------------------------------------------------
+	//
+	// Every case above leaves `width` out, and every one of them is the width of the terminal: the
+	// shrink-to-content branch is guarded by `opts?.width === 'auto'`, which an omitted option does
+	// not satisfy, so the documented default is not the one you get. These are the ones that ask.
+
+	box('auto, which is what the default is documented to be', 'message', 'title', { width: 'auto' }),
+	box('auto with several lines', 'short\na much longer line of content', 'title', { width: 'auto' }),
+	box('auto with a title wider than the content', 'hi', 'a considerably longer title', { width: 'auto' }),
+	box('auto with nothing to say', '', '', { width: 'auto' }),
+	box('auto with generous padding', 'message', 'title', { width: 'auto', titlePadding: 4, contentPadding: 5 }),
+	// `auto` only ever shrinks: content wider than the terminal leaves the box the terminal's width.
+	{
+		name: 'auto with content wider than the terminal',
+		kind: 'box',
+		message: long,
+		title: 'title',
+		options: { width: 'auto' },
+		columns: 40,
+	},
+	box('auto, centred', 'short\na much longer line', 'title', {
+		width: 'auto',
+		contentAlign: 'center',
+		titleAlign: 'center',
+	}),
+	box('auto in a narrow terminal', 'hi', 'title', { width: 'auto' }, 10),
+	box('auto with a title of wide characters at the end', 'hi', `${'a'.repeat(12)}这这`, { width: 'auto' }, 20),
+	// The cut lands *inside* a surrogate pair here, which is the one place a code-unit slice and a
+	// code-point one part company: eleven units is five emoji and half of a sixth.
+	box('auto with a title cut through a surrogate pair', 'hi', '\u{1f600}'.repeat(8), { width: 'auto' }, 20),
+
+	box('half the terminal', 'message', 'title', { width: 0.5 }),
+	box('a third of the terminal', 'message', 'title', { width: 0.34 }),
+	box('all of the terminal', 'message', 'title', { width: 1 }),
+	// `Math.min(1, width)`: the option documented as a column count is a fraction, so this is the
+	// whole terminal and not forty columns of it.
+	box('forty, which is not forty columns', 'message', 'title', { width: 40 }),
+	// An odd width with no room to grow into is nudged *down*, where every other one is nudged up.
+	box('an odd terminal with nothing spare', 'a line long enough to fill it', 'title', { width: 1 }, 41),
+	box('an odd terminal with room to spare', 'message', 'title', {}, 41),
+
+	// --- box: the title it truncates ---------------------------------------------------------------
+
+	box('a title wider than the box', 'hi', 'a considerably longer title', {}, 20),
+	// The slice is by UTF-16 code unit and the truncation test is by column, so a title that is wider
+	// than it is long is cut at a different place than a width-counting port would cut it. The wide
+	// characters sit at the end, where the cut cannot land inside one.
+	box('a title of wide characters at the end', 'hi', `${'a'.repeat(12)}这这`, {}, 20),
+	box('a title truncated with the guide off', 'hi', 'a considerably longer title', { withGuide: false }, 20),
+
+	// --- box: wrapping and narrow terminals --------------------------------------------------------
+
+	{ name: 'a message longer than the box', kind: 'box', message: long, title: 'title', options: {}, columns: 80 },
+	{ name: 'wide characters in a narrow box', kind: 'box', message: wide, title: 't', options: {}, columns: 20 },
+	box('a narrow terminal', 'hi', 'title', {}, 10),
+	box('a narrow terminal with no padding', 'hi there', 'title', { titlePadding: 0, contentPadding: 0 }, 10),
+
+	// --- box: formatBorder -------------------------------------------------------------------------
+	//
+	// Applied to each border character *before* it is repeated, so a formatter that returns an escape
+	// has it reopened per column, and one that returns characters makes the border wider than the box
+	// the widths were computed for. Both are recorded.
+
+	box('a coloured border', 'message', 'title', { formatBorder: 'red' }),
+	box('a border wider than it was measured', 'message', 'title', { formatBorder: 'stars' }),
+	box('a coloured border with rounded corners', 'message', 'title', { formatBorder: 'red', rounded: true }),
 ];

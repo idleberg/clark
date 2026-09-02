@@ -478,6 +478,513 @@
 			"columns": 10,
 			"rows": 20,
 			"bytes": "\u001b[90m│\u001b[39m\n\u001b[32m◇\u001b[39m  \u001b[0mt\u001b[0m \u001b[90m─────╮\u001b[39m\n\u001b[90m│\u001b[39m         \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  *  *   \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  * a *  \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  * b *  \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  * c *  \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  * d *  \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  * e *  \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m  * f *  \u001b[90m│\u001b[39m\n\u001b[90m│\u001b[39m         \u001b[90m│\u001b[39m\n\u001b[90m├─────────╯\u001b[39m\n"
+		},
+		{
+			"name": "a message with a title",
+			"kind": "box",
+			"message": "message",
+			"title": "title",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "│ ┌─title──────────────────────────────────────────────────────────────────────┐\n│ │  message                                                                   │\n│ └────────────────────────────────────────────────────────────────────────────┘\n"
+		},
+		{
+			"name": "several lines",
+			"kind": "box",
+			"message": "line 1\nline 2\nline 3",
+			"title": "title",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "│ ┌─title──────────────────────────────────────────────────────────────────────┐\n│ │  line 1                                                                    │\n│ │  line 2                                                                    │\n│ │  line 3                                                                    │\n│ └────────────────────────────────────────────────────────────────────────────┘\n"
+		},
+		{
+			"name": "no title",
+			"kind": "box",
+			"message": "message",
+			"title": "",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "│ ┌────────────────────────────────────────────────────────────────────────────┐\n│ │  message                                                                   │\n│ └────────────────────────────────────────────────────────────────────────────┘\n"
+		},
+		{
+			"name": "nothing to say",
+			"kind": "box",
+			"message": "",
+			"title": "title",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "│ ┌─title──────────────────────────────────────────────────────────────────────┐\n│ │                                                                            │\n│ └────────────────────────────────────────────────────────────────────────────┘\n"
+		},
+		{
+			"name": "without the guide",
+			"kind": "box",
+			"message": "message",
+			"title": "title",
+			"options": {
+				"withGuide": false
+			},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "┌─title────────────────────────────────────────────────────────────────────────┐\n│  message                                                                     │\n└──────────────────────────────────────────────────────────────────────────────┘\n"
+		},
+		{
+			"name": "rounded corners",
+			"kind": "box",
+			"message": "message",
+			"title": "title",
+			"options": {
+				"rounded": true
+			},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "│ ╭─title──────────────────────────────────────────────────────────────────────╮\n│ │  message                                                                   │\n│ ╰────────────────────────────────────────────────────────────────────────────╯\n"
+		},
+		{
+			"name": "rounded corners without the guide",
+			"kind": "box",
+			"message": "message",
+			"title": "title",
+			"options": {
+				"rounded": true,
+				"withGuide": false
+			},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "╭─title────────────────────────────────────────────────────────────────────────╮\n│  message                                                                     │\n╰──────────────────────────────────────────────────────────────────────────────╯\n"
+		},
+		{
+			"name": "square corners, said out loud",
+			"kind": "box",
+			"message": "message",
+			"title": "title",
+			"options": {
+				"rounded": false
+			},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "│ ┌─title──────────────────────────────────────────────────────────────────────┐\n│ │  message                                                                   │\n│ └────────────────────────────────────────────────────────────────────────────┘\n"
+		},
+		{
+			"name": "content centred",
+			"kind": "box",
+			"message": "short\na much longer line",
+			"title": "title",
+			"options": {
+				"contentAlign": "center"
+			},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "│ ┌─title──────────────────────────────────────────────────────────────────────┐\n│ │                                   short                                    │\n│ │                             a much longer line                             │\n│ └────────────────────────────────────────────────────────────────────────────┘\n"
+		},
+		{
+			"name": "content to the right",
+			"kind": "box",
+			"message": "short\na much longer line",
+			"title": "title",
+			"options": {
+				"contentAlign": "right"
+			},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "│ ┌─title──────────────────────────────────────────────────────────────────────┐\n│ │                                                                     short  │\n│ │                                                        a much longer line  │\n│ └────────────────────────────────────────────────────────────────────────────┘\n"
+		},
+		{
+			"name": "title centred",
+			"kind": "box",
+			"message": "a reasonably long line of content",
+			"title": "title",
+			"options": {
+				"titleAlign": "center"
+			},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "│ ┌───────────────────────────────────title────────────────────────────────────┐\n│ │  a reasonably long line of content                                         │\n│ └────────────────────────────────────────────────────────────────────────────┘\n"
+		},
+		{
+			"name": "title to the right",
+			"kind": "box",
+			"message": "a reasonably long line of content",
+			"title": "title",
+			"options": {
+				"titleAlign": "right"
+			},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "│ ┌──────────────────────────────────────────────────────────────────────title─┐\n│ │  a reasonably long line of content                                         │\n│ └────────────────────────────────────────────────────────────────────────────┘\n"
+		},
+		{
+			"name": "everything centred at a fixed width",
+			"kind": "box",
+			"message": "short\nlonger line",
+			"title": "title",
+			"options": {
+				"width": 1,
+				"contentAlign": "center",
+				"titleAlign": "center"
+			},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "│ ┌───────────────────────────────────title────────────────────────────────────┐\n│ │                                   short                                    │\n│ │                                longer line                                 │\n│ └────────────────────────────────────────────────────────────────────────────┘\n"
+		},
+		{
+			"name": "no padding at all",
+			"kind": "box",
+			"message": "message",
+			"title": "title",
+			"options": {
+				"titlePadding": 0,
+				"contentPadding": 0
+			},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "│ ┌title───────────────────────────────────────────────────────────────────────┐\n│ │message                                                                     │\n│ └────────────────────────────────────────────────────────────────────────────┘\n"
+		},
+		{
+			"name": "a generous title padding",
+			"kind": "box",
+			"message": "message",
+			"title": "title",
+			"options": {
+				"titlePadding": 5
+			},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "│ ┌─────title──────────────────────────────────────────────────────────────────┐\n│ │  message                                                                   │\n│ └────────────────────────────────────────────────────────────────────────────┘\n"
+		},
+		{
+			"name": "a generous content padding",
+			"kind": "box",
+			"message": "message",
+			"title": "title",
+			"options": {
+				"contentPadding": 6
+			},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "│ ┌─title──────────────────────────────────────────────────────────────────────┐\n│ │      message                                                               │\n│ └────────────────────────────────────────────────────────────────────────────┘\n"
+		},
+		{
+			"name": "no title padding, centred",
+			"kind": "box",
+			"message": "message",
+			"title": "title",
+			"options": {
+				"titlePadding": 0,
+				"titleAlign": "center"
+			},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "│ ┌───────────────────────────────────title────────────────────────────────────┐\n│ │  message                                                                   │\n│ └────────────────────────────────────────────────────────────────────────────┘\n"
+		},
+		{
+			"name": "auto, which is what the default is documented to be",
+			"kind": "box",
+			"message": "message",
+			"title": "title",
+			"options": {
+				"width": "auto"
+			},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "│ ┌─title──────┐\n│ │  message   │\n│ └────────────┘\n"
+		},
+		{
+			"name": "auto with several lines",
+			"kind": "box",
+			"message": "short\na much longer line of content",
+			"title": "title",
+			"options": {
+				"width": "auto"
+			},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "│ ┌─title────────────────────────────┐\n│ │  short                           │\n│ │  a much longer line of content   │\n│ └──────────────────────────────────┘\n"
+		},
+		{
+			"name": "auto with a title wider than the content",
+			"kind": "box",
+			"message": "hi",
+			"title": "a considerably longer title",
+			"options": {
+				"width": "auto"
+			},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "│ ┌─a considerably longer title──┐\n│ │  hi                          │\n│ └──────────────────────────────┘\n"
+		},
+		{
+			"name": "auto with nothing to say",
+			"kind": "box",
+			"message": "",
+			"title": "",
+			"options": {
+				"width": "auto"
+			},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "│ ┌────┐\n│ │    │\n│ └────┘\n"
+		},
+		{
+			"name": "auto with generous padding",
+			"kind": "box",
+			"message": "message",
+			"title": "title",
+			"options": {
+				"width": "auto",
+				"titlePadding": 4,
+				"contentPadding": 5
+			},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "│ ┌────title─────────┐\n│ │     message      │\n│ └──────────────────┘\n"
+		},
+		{
+			"name": "auto with content wider than the terminal",
+			"kind": "box",
+			"message": "lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet ",
+			"title": "title",
+			"options": {
+				"width": "auto"
+			},
+			"columns": 40,
+			"rows": 20,
+			"bytes": "│ ┌─title──────────────────────────────┐\n│ │  lorem ipsum dolor sit amet lorem  │\n│ │   ipsum dolor sit amet lorem       │\n│ │  ipsum dolor sit amet lorem ipsum  │\n│ │   dolor sit amet lorem ipsum       │\n│ │  dolor sit amet                    │\n│ └────────────────────────────────────┘\n"
+		},
+		{
+			"name": "auto, centred",
+			"kind": "box",
+			"message": "short\na much longer line",
+			"title": "title",
+			"options": {
+				"width": "auto",
+				"contentAlign": "center",
+				"titleAlign": "center"
+			},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "│ ┌────────title─────────┐\n│ │        short         │\n│ │  a much longer line  │\n│ └──────────────────────┘\n"
+		},
+		{
+			"name": "auto in a narrow terminal",
+			"kind": "box",
+			"message": "hi",
+			"title": "title",
+			"options": {
+				"width": "auto"
+			},
+			"columns": 10,
+			"rows": 20,
+			"bytes": "│ ┌─t...─┐\n│ │  hi  │\n│ └──────┘\n"
+		},
+		{
+			"name": "auto with a title of wide characters at the end",
+			"kind": "box",
+			"message": "hi",
+			"title": "aaaaaaaaaaaa这这",
+			"options": {
+				"width": "auto"
+			},
+			"columns": 20,
+			"rows": 20,
+			"bytes": "│ ┌─aaaaaaaaaaa...─┐\n│ │  hi            │\n│ └────────────────┘\n"
+		},
+		{
+			"name": "auto with a title cut through a surrogate pair",
+			"kind": "box",
+			"message": "hi",
+			"title": "😀😀😀😀😀😀😀😀",
+			"options": {
+				"width": "auto"
+			},
+			"columns": 20,
+			"rows": 20,
+			"bytes": "│ ┌─😀😀😀😀😀�...─┐\n│ │  hi            │\n│ └────────────────┘\n"
+		},
+		{
+			"name": "half the terminal",
+			"kind": "box",
+			"message": "message",
+			"title": "title",
+			"options": {
+				"width": 0.5
+			},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "│ ┌─title──────────────────────────────┐\n│ │  message                           │\n│ └────────────────────────────────────┘\n"
+		},
+		{
+			"name": "a third of the terminal",
+			"kind": "box",
+			"message": "message",
+			"title": "title",
+			"options": {
+				"width": 0.34
+			},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "│ ┌─title──────────────────┐\n│ │  message               │\n│ └────────────────────────┘\n"
+		},
+		{
+			"name": "all of the terminal",
+			"kind": "box",
+			"message": "message",
+			"title": "title",
+			"options": {
+				"width": 1
+			},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "│ ┌─title──────────────────────────────────────────────────────────────────────┐\n│ │  message                                                                   │\n│ └────────────────────────────────────────────────────────────────────────────┘\n"
+		},
+		{
+			"name": "forty, which is not forty columns",
+			"kind": "box",
+			"message": "message",
+			"title": "title",
+			"options": {
+				"width": 40
+			},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "│ ┌─title──────────────────────────────────────────────────────────────────────┐\n│ │  message                                                                   │\n│ └────────────────────────────────────────────────────────────────────────────┘\n"
+		},
+		{
+			"name": "an odd terminal with nothing spare",
+			"kind": "box",
+			"message": "a line long enough to fill it",
+			"title": "title",
+			"options": {
+				"width": 1
+			},
+			"columns": 41,
+			"rows": 20,
+			"bytes": "│ ┌─title──────────────────────────────┐\n│ │  a line long enough to fill it     │\n│ └────────────────────────────────────┘\n"
+		},
+		{
+			"name": "an odd terminal with room to spare",
+			"kind": "box",
+			"message": "message",
+			"title": "title",
+			"options": {},
+			"columns": 41,
+			"rows": 20,
+			"bytes": "│ ┌─title──────────────────────────────┐\n│ │  message                           │\n│ └────────────────────────────────────┘\n"
+		},
+		{
+			"name": "a title wider than the box",
+			"kind": "box",
+			"message": "hi",
+			"title": "a considerably longer title",
+			"options": {},
+			"columns": 20,
+			"rows": 20,
+			"bytes": "│ ┌─a considera...─┐\n│ │  hi            │\n│ └────────────────┘\n"
+		},
+		{
+			"name": "a title of wide characters at the end",
+			"kind": "box",
+			"message": "hi",
+			"title": "aaaaaaaaaaaa这这",
+			"options": {},
+			"columns": 20,
+			"rows": 20,
+			"bytes": "│ ┌─aaaaaaaaaaa...─┐\n│ │  hi            │\n│ └────────────────┘\n"
+		},
+		{
+			"name": "a title truncated with the guide off",
+			"kind": "box",
+			"message": "hi",
+			"title": "a considerably longer title",
+			"options": {
+				"withGuide": false
+			},
+			"columns": 20,
+			"rows": 20,
+			"bytes": "┌─a considerabl...─┐\n│  hi              │\n└──────────────────┘\n"
+		},
+		{
+			"name": "a message longer than the box",
+			"kind": "box",
+			"message": "lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet ",
+			"title": "title",
+			"options": {},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "│ ┌─title──────────────────────────────────────────────────────────────────────┐\n│ │  lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor   │\n│ │  sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet            │\n│ └────────────────────────────────────────────────────────────────────────────┘\n"
+		},
+		{
+			"name": "wide characters in a narrow box",
+			"kind": "box",
+			"message": "ばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんはばんは",
+			"title": "t",
+			"options": {},
+			"columns": 20,
+			"rows": 20,
+			"bytes": "│ ┌─t──────────────┐\n│ │  ばんはばんは  │\n│ │  ばんはばんは  │\n│ │  ばんはばんは  │\n│ │  ばんはばんは  │\n│ │  ばんはばんは  │\n│ │  ばんはばんは  │\n│ │  ばんはばんは  │\n│ │  ばんはばんは  │\n│ │  ばんはばんは  │\n│ │  ばんはばんは  │\n│ │  ばんはばんは  │\n│ │  ばんはばんは  │\n│ │  ばんはばんは  │\n│ │  ばんはばんは  │\n│ │  ばんはばんは  │\n│ └────────────────┘\n"
+		},
+		{
+			"name": "a narrow terminal",
+			"kind": "box",
+			"message": "hi",
+			"title": "title",
+			"options": {},
+			"columns": 10,
+			"rows": 20,
+			"bytes": "│ ┌─t...─┐\n│ │  hi  │\n│ └──────┘\n"
+		},
+		{
+			"name": "a narrow terminal with no padding",
+			"kind": "box",
+			"message": "hi there",
+			"title": "title",
+			"options": {
+				"titlePadding": 0,
+				"contentPadding": 0
+			},
+			"columns": 10,
+			"rows": 20,
+			"bytes": "│ ┌title─┐\n│ │hi    │\n│ │there │\n│ └──────┘\n"
+		},
+		{
+			"name": "a coloured border",
+			"kind": "box",
+			"message": "message",
+			"title": "title",
+			"options": {
+				"formatBorder": "red"
+			},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "│ \u001b[31m┌\u001b[39m\u001b[31m─\u001b[39mtitle\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m┐\u001b[39m\n│ \u001b[31m│\u001b[39m  message                                                                   \u001b[31m│\u001b[39m\n│ \u001b[31m└\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m┘\u001b[39m\n"
+		},
+		{
+			"name": "a border wider than it was measured",
+			"kind": "box",
+			"message": "message",
+			"title": "title",
+			"options": {
+				"formatBorder": "stars"
+			},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "│ * ┌ ** ─ *title* ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ┐ *\n│ * │ *  message                                                                   * │ *\n│ * └ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ─ ** ┘ *\n"
+		},
+		{
+			"name": "a coloured border with rounded corners",
+			"kind": "box",
+			"message": "message",
+			"title": "title",
+			"options": {
+				"formatBorder": "red",
+				"rounded": true
+			},
+			"columns": 80,
+			"rows": 20,
+			"bytes": "│ \u001b[31m╭\u001b[39m\u001b[31m─\u001b[39mtitle\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m╮\u001b[39m\n│ \u001b[31m│\u001b[39m  message                                                                   \u001b[31m│\u001b[39m\n│ \u001b[31m╰\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m─\u001b[39m\u001b[31m╯\u001b[39m\n"
 		}
 	]
 }

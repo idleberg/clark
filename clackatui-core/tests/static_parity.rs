@@ -1,4 +1,5 @@
-//! Parity for the renderers that are not Prompts: `log`, `intro`, `outro` and `cancel`.
+//! Parity for the renderers that are not Prompts: `log`, `intro`, `outro`, `cancel`, `note` and
+//! `box`.
 //!
 //! The same claim `scenario_parity` makes, against a corpus that needs no Scenario. A static
 //! renderer has no state, reads no key and draws no second Frame — it is a function from a message
@@ -14,16 +15,20 @@
 //!   space is invisible on a Grid and visible to anyone who selects the row, so it gets a
 //!   comparison of its own.
 //!
-//! # Nothing here wraps
+//! # Only the two that draw a right-hand border wrap
 //!
 //! clack wraps a Prompt's Frame itself, because it has to count the rows it walks the cursor back
-//! over (ADR-0012). Nothing walks back over these, so a long line goes out whole and the terminal
-//! breaks it — which is why three cases in the corpus are longer than the terminal they are written
-//! to. If [`write_once`] ever started wrapping, those three are what would say so.
+//! over (ADR-0012). Nothing walks back over these, so `log`, `intro`, `outro` and `cancel` send a
+//! long line out whole and let the terminal break it — which is why three cases in the corpus are
+//! longer than the terminal they are written to. If [`write_once`] ever started wrapping, those
+//! three are what would say so. `note` and `box` are the exceptions and for the same reason: a
+//! border only lands in the right column if what is inside it was measured first, so both of them
+//! wrap the message themselves before they draw it (ADR-0030, ADR-0031).
 
 mod grid;
 use grid::{Grid, difference};
 
+use clackatui_core::r#box;
 use clackatui_core::emitter::write_once;
 use clackatui_core::frame::{Frame, Line, Span};
 use clackatui_core::message;
@@ -47,6 +52,9 @@ struct Case {
 	columns: usize,
 	rows: usize,
 	bytes: String,
+	/// Everything else the case passed, read where it is needed. `box` alone has seven options, and
+	/// a field apiece on this struct for renderers that never look at them is worse than the lookup.
+	options: Value,
 }
 
 fn cases() -> (Value, Vec<Case>) {
@@ -74,6 +82,7 @@ fn cases() -> (Value, Vec<Case>) {
 					.as_str()
 					.expect("the bytes clack wrote")
 					.to_owned(),
+				options: options.clone(),
 			}
 		})
 		.collect();
@@ -123,6 +132,13 @@ fn drawn(case: &Case) -> Frame {
 				formatter(named),
 			),
 		},
+		"box" => r#box::box_with(
+			&case.message,
+			&case.title,
+			case.columns,
+			&theme,
+			&box_options(case),
+		),
 		"intro" => message::intro(&case.message, &theme, case.with_guide),
 		"outro" => message::outro(&case.message, &theme, case.with_guide),
 		"cancel" => message::cancel(&case.message, &theme, case.with_guide),
@@ -133,6 +149,43 @@ fn drawn(case: &Case) -> Frame {
 			case.spacing,
 			case.with_guide,
 		),
+	}
+}
+
+/// A `box` case's options, with upstream's defaults for whatever it did not set.
+fn box_options(case: &Case) -> r#box::Options<'static> {
+	let options = &case.options;
+	let align = |key: &str| match options[key].as_str() {
+		Some("center") => r#box::Align::Center,
+		Some("right") => r#box::Align::Right,
+		// Upstream's `getPaddingForLine` treats every value that is not `center` or `right` as left,
+		// including `undefined`, so this is the default and the fallback at once.
+		_ => r#box::Align::Left,
+	};
+	let defaults = r#box::Options::default();
+	r#box::Options {
+		content_align: align("contentAlign"),
+		title_align: align("titleAlign"),
+		// Three states, not two: a number is a fraction, the string `'auto'` shrinks to the content,
+		// and an absent `width` is neither — it fills the terminal. See `clackatui_core::box`.
+		width: match &options["width"] {
+			Value::Number(fraction) => {
+				r#box::Width::Fraction(fraction.as_f64().expect("a JSON number is an f64"))
+			}
+			Value::String(auto) if auto == "auto" => r#box::Width::Auto,
+			_ => r#box::Width::Full,
+		},
+		title_padding: options["titlePadding"]
+			.as_u64()
+			.map_or(defaults.title_padding, |padding| padding as usize),
+		content_padding: options["contentPadding"]
+			.as_u64()
+			.map_or(defaults.content_padding, |padding| padding as usize),
+		rounded: options["rounded"].as_bool().unwrap_or(defaults.rounded),
+		with_guide: case.with_guide,
+		format_border: options["formatBorder"]
+			.as_str()
+			.map_or(defaults.format_border, formatter),
 	}
 }
 
@@ -188,7 +241,7 @@ fn every_static_renderer_leaves_the_terminal_the_way_clack_left_it() {
 	);
 
 	assert!(
-		cases.len() >= 44,
+		cases.len() >= 87,
 		"only {} cases were compared; the fixture has stopped carrying them",
 		cases.len()
 	);
@@ -244,6 +297,7 @@ fn the_static_fixture_is_a_plausible_recording() {
 		"outro",
 		"cancel",
 		"note",
+		"box",
 	] {
 		assert!(
 			cases.iter().any(|case| case.kind == kind),
@@ -278,6 +332,26 @@ fn the_static_fixture_is_a_plausible_recording() {
 	assert!(
 		cases.iter().any(|case| case.format.is_some()),
 		"nothing in the fixture formats a note's rows"
+	);
+	// A `box` reads three things a `note` does not, and each has a case that would go unnoticed if the
+	// fixture stopped carrying it: the width it was asked for, the corners, and the border formatter.
+	assert!(
+		cases
+			.iter()
+			.any(|case| case.kind == "box" && case.options["width"] == "auto"),
+		"nothing in the fixture asks a box to fit its content"
+	);
+	assert!(
+		cases
+			.iter()
+			.any(|case| case.options["rounded"].as_bool() == Some(true)),
+		"nothing in the fixture asks a box for rounded corners"
+	);
+	assert!(
+		cases
+			.iter()
+			.any(|case| case.options["formatBorder"].is_string()),
+		"nothing in the fixture formats a box's border"
 	);
 }
 
