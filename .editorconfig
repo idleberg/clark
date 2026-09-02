@@ -1,0 +1,20 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = tab
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.rs]
+# rustfmt.toml sets hard_tabs; max_width is rustfmt's default.
+max_line_length = 100
+
+[*.md]
+# Trailing spaces are a line break in Markdown, so leave them where someone wrote them.
+trim_trailing_whitespace = false
+
+[*.{yml,yaml,pkl}]
+indent_style = space
+indent_size = 2

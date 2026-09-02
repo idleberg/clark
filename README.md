@@ -243,8 +243,10 @@ Three layers.
    than live: CI is one Rust job with
    no JavaScript to run, and `prior-art/` is not committed
    ([ADR-0008](./docs/adr/0008-width-parity-is-asserted-against-a-harvested-fixture.md)).
-3. **Drift** — `mise run drift` re-runs the Recorder against pinned clack and reports Fixtures that
-   no longer match. Run deliberately, not in CI.
+3. **Drift** — `mise run drift` re-runs every Recorder against pinned clack and reports Fixtures that
+   no longer match. It refuses a dirty fixtures tree, because the committed recordings are the
+   baseline it compares against. Run deliberately, not in CI: it needs the `prior-art/` checkout
+   that CI does not have.
 
 Validation is `FnMut(Option<&T>) -> Option<String>` plus a `Validator` trait — the `Option` because
 upstream runs it against a value that may never have been set, which is how a bare `return` on an
@@ -255,11 +257,12 @@ the trait is the extension point for adapting crates like `garde`.
 ## Tooling
 
 `mise.toml` tasks, `hk.pkl` pre-commit, `rustfmt.toml` (`hard_tabs`), `.editorconfig` — carried over
-from [ardent](https://github.com/idleberg/ardent). CI is a single ubuntu job: `fmt:check`, `lint`,
-`test`. Publishing is manual, `clackatui-core` first.
+from [ardent](https://github.com/idleberg/ardent). CI is a single ubuntu job running those same
+three task names — `fmt:check`, `lint`, `test` — and no JavaScript, which is the whole point of
+harvesting. Publishing is manual, `clackatui-core` first.
 
 Known gaps, accepted: no Windows or macOS signal on terminal code, and no automated guard against
-upstream drift.
+upstream drift — `mise run drift` is deliberate, because the checkout it needs is not committed.
 
 ## Roadmap
 

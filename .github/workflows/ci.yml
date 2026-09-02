@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# One job, and no JavaScript in it. Every comparison against clack is harvested into a Fixture
+# ahead of time precisely so that CI needs nothing but cargo — prior-art/ is not committed. See
+# docs/adr/0008. Re-recording is `mise run drift`, run deliberately.
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy, rustfmt
+
+      - uses: Swatinem/rust-cache@v2
+
+      - uses: jdx/mise-action@v2
+
+      # The same three task names a working copy runs.
+      - run: mise run fmt:check
+      - run: mise run lint
+      - run: mise run test

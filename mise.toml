@@ -1,0 +1,71 @@
+[tools]
+# Only what the repository cannot assume. cargo comes from rustup; the toolchain floor is the
+# workspace's `rust-version`, not a pin here, because nothing in the port needs a newer compiler
+# than it declares. Node is here because the harvests are Node scripts and the version they run
+# under decides what `readline` reports — see docs/adr/0008.
+node = "22"
+hk = "latest"
+pkl = "latest"
+
+[env]
+HK_MISE = 1
+
+[hooks]
+postinstall = "hk install --mise"
+
+[tasks.fmt]
+description = "Format."
+run = "cargo fmt --all"
+
+[tasks."fmt:check"]
+description = "Fail if anything is unformatted."
+run = "cargo fmt --all --check"
+
+[tasks.lint]
+description = "Clippy over everything, tests and examples included, warnings fatal."
+run = "cargo clippy --workspace --all-targets -- -D warnings"
+
+[tasks.test]
+description = "The whole suite."
+run = "cargo test --workspace"
+
+[tasks.drift]
+description = "Re-record every Fixture against pinned clack and report what moved."
+# Deliberate, never CI: it needs a clack checkout under prior-art/, which is not committed. The
+# harvests refuse rather than guess if that checkout is at the wrong tag, so this is safe to run
+# blind. What it reports is that a recording is stale — not that the port is wrong. See ADR-0003.
+run = '''
+set -eu
+cd "$MISE_PROJECT_ROOT"
+fixtures=clackatui-core/tests/fixtures
+
+# The committed Fixtures are the baseline, so they have to be the baseline. Recording over an
+# already-dirty tree answers a different question than the one being asked.
+if [ -n "$(git status --porcelain -- $fixtures)" ]; then
+	echo "drift: $fixtures is not clean. Commit or stash it first." >&2
+	git status --short -- $fixtures >&2
+	exit 2
+fi
+
+for fixture in clackatui-core/tests/fixtures/scenarios/*.json; do
+	suite=$(basename "$fixture" .json)
+	# authored.json is ours, not upstream's, and has a Recorder of its own.
+	[ "$suite" = authored ] || node scripts/harvest-scenarios.mjs "$suite"
+done
+node scripts/harvest-authored.mjs
+node scripts/harvest-static.mjs
+node scripts/harvest-scripted.mjs
+node scripts/harvest-emitter.mjs
+node scripts/harvest-limit-options.mjs
+node scripts/harvest-line-editor.mjs
+node scripts/harvest-width.mjs
+node scripts/harvest-wrap.mjs
+# --porcelain rather than `git diff`, so a Fixture that was recorded but never committed counts.
+if [ -z "$(git status --porcelain -- $fixtures)" ]; then
+	echo "drift: none. Every Fixture is what pinned clack produces today."
+else
+	git status --short -- $fixtures >&2
+	echo "drift: the Fixtures above no longer match pinned clack. Read the diff before keeping it." >&2
+	exit 1
+fi
+'''
