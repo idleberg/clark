@@ -1,0 +1,16 @@
+[workspace]
+# `dependencies_update` stays at its default `false`: at release time we want `cargo update
+# --workspace` only, never a blanket `cargo update`. The pins in the root manifest are load-bearing
+# — a unicode table bump moves a measurement without moving a line of our code (see docs/adr/0005,
+# 0008) — so third-party bumps are read and taken deliberately, not swept in by a release.
+#
+# Internal path deps need no flag: release-plz rewrites `clark`'s `clark-core = { version = … }`
+# itself, and because that counts as a change to `clark`, the bump cascades on to `clark-cli`.
+# So a clark-core release moves all three crates — to independent numbers, not a shared one.
+
+# One GitHub release, for the crate that ships the binary.
+git_release_enable = false
+
+[[package]]
+name = "clark-cli"
+git_release_enable = true
