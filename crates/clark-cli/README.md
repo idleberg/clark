@@ -42,6 +42,14 @@ The answer goes to **stdout**, one value per line. The Prompt itself is drawn on
 `task-log` redraw as they run, so they are drawn on stderr with the Prompts, leaving stdout to the
 command they wrap.
 
+`password` is no exception: the mask is drawn on stderr, but the answer is written to stdout like
+every other answer. Run it bare and the password prints in the clear; capture it and it goes where
+you meant it to.
+
+```sh
+pass=$(clark password "Enter your password") || exit
+```
+
 ## Exit codes
 
 | Code  | Meaning                                                      |
