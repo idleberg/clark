@@ -57,8 +57,9 @@ killed by a signal — which is what `ctrl+c` does to it — is reported as `130
 | `date`                     | `YYYY-MM-DD`     | `--format` `--separator` `--initial-value` `--default-value` `--min-date` `--max-date`     |
 | `multiline`                | several lines    | `--placeholder` `--initial-value` `--default-value` `--show-submit`                        |
 
-Boolean flags take their value: `--required false`, `--vertical true`. Left out, each Prompt keeps
-clack's own default. Every date is written `YYYY-MM-DD`, whatever `--format` draws.
+A boolean flag on its own means `true` — `--vertical`. Several of clack's booleans are already
+`true`, so they also take a value to turn off: `--required false`. Left out entirely, each Prompt
+keeps clack's own default. Every date is written `YYYY-MM-DD`, whatever `--format` draws.
 
 ### Options
 

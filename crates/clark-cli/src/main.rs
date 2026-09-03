@@ -45,7 +45,7 @@ enum Command {
 		message: String,
 		#[arg(long)]
 		mask: Option<String>,
-		#[arg(long, default_value_t = false, action = clap::ArgAction::Set)]
+		#[arg(long, default_value_t = false, action = clap::ArgAction::Set, num_args = 0..=1, default_missing_value = "true")]
 		clear_on_error: bool,
 	},
 
@@ -56,9 +56,9 @@ enum Command {
 		active: Option<String>,
 		#[arg(long)]
 		inactive: Option<String>,
-		#[arg(long, default_value_t = true, action = clap::ArgAction::Set)]
+		#[arg(long, default_value_t = true, action = clap::ArgAction::Set, num_args = 0..=1, default_missing_value = "true")]
 		initial_value: bool,
-		#[arg(long, default_value_t = false, action = clap::ArgAction::Set)]
+		#[arg(long, default_value_t = false, action = clap::ArgAction::Set, num_args = 0..=1, default_missing_value = "true")]
 		vertical: bool,
 	},
 
@@ -85,7 +85,7 @@ enum Command {
 		cursor_at: Option<String>,
 		#[arg(long)]
 		max_items: Option<usize>,
-		#[arg(long, default_value_t = true, action = clap::ArgAction::Set)]
+		#[arg(long, default_value_t = true, action = clap::ArgAction::Set, num_args = 0..=1, default_missing_value = "true")]
 		required: bool,
 	},
 
@@ -100,9 +100,9 @@ enum Command {
 		cursor_at: Option<String>,
 		#[arg(long)]
 		max_items: Option<usize>,
-		#[arg(long, default_value_t = true, action = clap::ArgAction::Set)]
+		#[arg(long, default_value_t = true, action = clap::ArgAction::Set, num_args = 0..=1, default_missing_value = "true")]
 		required: bool,
-		#[arg(long, default_value_t = true, action = clap::ArgAction::Set)]
+		#[arg(long, default_value_t = true, action = clap::ArgAction::Set, num_args = 0..=1, default_missing_value = "true")]
 		selectable_groups: bool,
 	},
 
@@ -113,7 +113,7 @@ enum Command {
 		options: Options,
 		#[arg(long)]
 		initial_value: Option<String>,
-		#[arg(long, default_value_t = false, action = clap::ArgAction::Set)]
+		#[arg(long, default_value_t = false, action = clap::ArgAction::Set, num_args = 0..=1, default_missing_value = "true")]
 		case_sensitive: bool,
 	},
 
@@ -141,7 +141,7 @@ enum Command {
 		initial_values: Vec<String>,
 		#[arg(long)]
 		max_items: Option<usize>,
-		#[arg(long, default_value_t = false, action = clap::ArgAction::Set)]
+		#[arg(long, default_value_t = false, action = clap::ArgAction::Set, num_args = 0..=1, default_missing_value = "true")]
 		required: bool,
 	},
 
@@ -152,7 +152,7 @@ enum Command {
 		root: Option<String>,
 		#[arg(long)]
 		initial_value: Option<String>,
-		#[arg(long, default_value_t = false, action = clap::ArgAction::Set)]
+		#[arg(long, default_value_t = false, action = clap::ArgAction::Set, num_args = 0..=1, default_missing_value = "true")]
 		directory: bool,
 	},
 
@@ -182,7 +182,7 @@ enum Command {
 		initial_value: Option<String>,
 		#[arg(long)]
 		default_value: Option<String>,
-		#[arg(long, default_value_t = true, action = clap::ArgAction::Set)]
+		#[arg(long, default_value_t = true, action = clap::ArgAction::Set, num_args = 0..=1, default_missing_value = "true")]
 		show_submit: bool,
 	},
 
@@ -233,7 +233,7 @@ enum Command {
 		#[arg(long)]
 		cancel_message: Option<String>,
 		/// Print what the command wrote to stderr, when it fails.
-		#[arg(long, default_value_t = true, action = clap::ArgAction::Set)]
+		#[arg(long, default_value_t = true, action = clap::ArgAction::Set, num_args = 0..=1, default_missing_value = "true")]
 		show_error: bool,
 		#[arg(last = true, required = true)]
 		command: Vec<String>,
@@ -248,7 +248,7 @@ enum Command {
 		#[arg(long)]
 		spacing: Option<usize>,
 		/// Keep the rows `--limit` drops, and print them with the rest.
-		#[arg(long, default_value_t = false, action = clap::ArgAction::Set)]
+		#[arg(long, default_value_t = false, action = clap::ArgAction::Set, num_args = 0..=1, default_missing_value = "true")]
 		retain_log: bool,
 		/// The line left behind when the command succeeds. Defaults to the title.
 		#[arg(long)]
@@ -258,7 +258,7 @@ enum Command {
 		error_message: Option<String>,
 		/// Whether the log is kept. Left out, clack's own answer: no when the command succeeds,
 		/// yes when it fails.
-		#[arg(long)]
+		#[arg(long, num_args = 0..=1, default_missing_value = "true")]
 		show_log: Option<bool>,
 		#[arg(last = true, required = true)]
 		command: Vec<String>,
