@@ -17,7 +17,7 @@ use clark_core::spinner::{self as core_spinner, Indicator, StyleFrame};
 use clark_core::theme::Theme;
 
 use crate::spinner::{columns, default_delay, is_ci};
-use crate::ticker::{Tick, Ticker, print};
+use crate::ticker::{Output, Tick, Ticker, print};
 
 impl Tick for core_progress::Progress<'static> {
 	fn tick(&mut self, elapsed: Duration) -> String {
@@ -38,6 +38,7 @@ pub fn progress() -> Builder {
 	Builder {
 		theme: Theme::detect(),
 		delay: None,
+		output: Output::default(),
 		options: core_progress::Options {
 			spinner: core_spinner::Options {
 				ci: is_ci(),
@@ -51,6 +52,7 @@ pub fn progress() -> Builder {
 pub struct Builder {
 	theme: Theme,
 	delay: Option<Duration>,
+	output: Output,
 	options: core_progress::Options<'static>,
 }
 
@@ -110,13 +112,20 @@ impl Builder {
 		self
 	}
 
+	/// The stream drawn on. Upstream's `output`, whose default is stdout.
+	pub fn output(mut self, output: Output) -> Self {
+		self.output = output;
+		self
+	}
+
 	/// Start at nothing. The interval runs until one of [`Progress`]'s endings, or until it is
 	/// dropped.
 	pub fn start(self, message: impl AsRef<str>) -> Progress {
 		let delay = self.delay.unwrap_or_else(default_delay);
+		let output = self.output;
 		let mut inner = core_progress::Progress::new(self.theme, columns(), self.options);
-		print(&inner.start(message.as_ref()));
-		Progress(Ticker::start(inner, delay))
+		print(output, &inner.start(message.as_ref()));
+		Progress(Ticker::start(inner, delay, output))
 	}
 }
 

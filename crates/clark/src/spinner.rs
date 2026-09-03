@@ -27,7 +27,7 @@ use clark_core::prompt::Status;
 use clark_core::spinner::{self as core_spinner, Indicator, StyleFrame};
 use clark_core::theme::{Theme, unicode_supported};
 
-use crate::ticker::{Tick, Ticker, print};
+use crate::ticker::{Output, Tick, Ticker, print};
 
 impl Tick for core_spinner::Spinner<'static> {
 	fn tick(&mut self, elapsed: Duration) -> String {
@@ -48,6 +48,7 @@ pub fn spinner() -> Builder {
 	Builder {
 		theme: Theme::detect(),
 		delay: None,
+		output: Output::default(),
 		options: core_spinner::Options {
 			ci: is_ci(),
 			..core_spinner::Options::default()
@@ -63,6 +64,7 @@ pub(crate) fn is_ci() -> bool {
 pub struct Builder {
 	theme: Theme,
 	delay: Option<Duration>,
+	output: Output,
 	options: core_spinner::Options<'static>,
 }
 
@@ -108,12 +110,19 @@ impl Builder {
 		self
 	}
 
+	/// The stream drawn on. Upstream's `output`, whose default is stdout.
+	pub fn output(mut self, output: Output) -> Self {
+		self.output = output;
+		self
+	}
+
 	/// Start spinning. The interval runs until one of [`Spinner`]'s endings, or until it is dropped.
 	pub fn start(self, message: impl AsRef<str>) -> Spinner {
 		let delay = self.delay.unwrap_or_else(default_delay);
+		let output = self.output;
 		let mut inner = core_spinner::Spinner::new(self.theme, columns(), self.options);
-		print(&inner.start(message.as_ref()));
-		Spinner(Ticker::start(inner, delay))
+		print(output, &inner.start(message.as_ref()));
+		Spinner(Ticker::start(inner, delay, output))
 	}
 }
 

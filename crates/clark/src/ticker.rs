@@ -5,13 +5,55 @@
 //! `delay`, a lock the caller and that loop share, and an ending that stops the loop before it takes
 //! the lock — so there is one of it, generic over what it is ticking.
 
-use std::io::Write;
+use std::io::{IsTerminal, Write};
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, Mutex};
 use std::thread::JoinHandle;
 use std::time::{Duration, Instant};
 
 use clark_core::prompt::Status;
+
+/// `CommonOptions.output`: the stream a renderer draws on.
+///
+/// Upstream takes a `Writable` and defaults it to `process.stdout`. A terminal program has two
+/// streams and a caller has never passed anything but one of them, so this is an enum rather than a
+/// generic writer — a generic would reach into [`Ticker`]'s `Arc<Mutex<T>>` and through every
+/// builder that holds one, for a knob with two settings.
+///
+/// A Prompt does not take one: its drawing goes to stderr and its answer to stdout, which is
+/// [`crate::driver`]'s decision to make rather than the caller's.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+pub enum Output {
+	/// Upstream's default.
+	#[default]
+	Stdout,
+	/// Where a renderer draws when its stdout belongs to something else — a wrapped command's
+	/// output, or an answer a shell is capturing.
+	Stderr,
+}
+
+impl Output {
+	/// Write bytes, dropping a failure — the same trade [`crate::message`] makes.
+	fn write(self, bytes: &str) {
+		match self {
+			Self::Stdout => Self::put(&mut std::io::stdout(), bytes),
+			Self::Stderr => Self::put(&mut std::io::stderr(), bytes),
+		}
+	}
+
+	fn put(out: &mut impl Write, bytes: &str) {
+		let _ = out.write_all(bytes.as_bytes());
+		let _ = out.flush();
+	}
+
+	/// `isTTY(output)`, asked of the stream actually being drawn on.
+	pub(crate) fn is_terminal(self) -> bool {
+		match self {
+			Self::Stdout => std::io::stdout().is_terminal(),
+			Self::Stderr => std::io::stderr().is_terminal(),
+		}
+	}
+}
 
 /// What a [`Ticker`] can drive: the three calls that write bytes on a clock.
 pub(crate) trait Tick: Send + 'static {
@@ -25,12 +67,13 @@ pub(crate) struct Ticker<T: Tick> {
 	running: Arc<AtomicBool>,
 	handle: Option<JoinHandle<()>>,
 	origin: Instant,
+	output: Output,
 }
 
 impl<T: Tick> Ticker<T> {
 	/// Starts the interval. Whatever `start` wrote is the caller's to print first — the clock begins
 	/// here, and the row it draws is the first one after it.
-	pub(crate) fn start(inner: T, delay: Duration) -> Self {
+	pub(crate) fn start(inner: T, delay: Duration, output: Output) -> Self {
 		let inner = Arc::new(Mutex::new(inner));
 		let running = Arc::new(AtomicBool::new(true));
 		let origin = Instant::now();
@@ -48,7 +91,7 @@ impl<T: Tick> Ticker<T> {
 					// useful left to draw, so the interval stops rather than panicking in a thread
 					// nobody is joining yet.
 					let Ok(mut inner) = inner.lock() else { break };
-					print(&inner.tick(origin.elapsed()));
+					print(output, &inner.tick(origin.elapsed()));
 				}
 			})
 		};
@@ -58,6 +101,7 @@ impl<T: Tick> Ticker<T> {
 			running,
 			handle: Some(handle),
 			origin,
+			output,
 		}
 	}
 
@@ -76,11 +120,15 @@ impl<T: Tick> Ticker<T> {
 			let _ = handle.join();
 		}
 		let origin = self.origin;
+		let output = self.output;
 		self.with(|inner| {
-			print(&match status {
-				Some(status) => inner.stop(message, status, origin.elapsed()),
-				None => inner.clear(),
-			});
+			print(
+				output,
+				&match status {
+					Some(status) => inner.stop(message, status, origin.elapsed()),
+					None => inner.clear(),
+				},
+			);
 		});
 	}
 }
@@ -96,17 +144,16 @@ impl<T: Tick> Drop for Ticker<T> {
 		self.running.store(false, Ordering::Relaxed);
 		if let Some(handle) = self.handle.take() {
 			let _ = handle.join();
-			self.with(|inner| print(&inner.clear()));
+			let output = self.output;
+			self.with(|inner| print(output, &inner.clear()));
 		}
 	}
 }
 
-/// Print bytes to stdout, dropping a failure — the same trade [`crate::message`] makes.
-pub(crate) fn print(bytes: &str) {
+/// Print bytes to a renderer's [`Output`], dropping a failure.
+pub(crate) fn print(output: Output, bytes: &str) {
 	if bytes.is_empty() {
 		return;
 	}
-	let mut out = std::io::stdout();
-	let _ = out.write_all(bytes.as_bytes());
-	let _ = out.flush();
+	output.write(bytes);
 }

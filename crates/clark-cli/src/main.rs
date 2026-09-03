@@ -5,14 +5,17 @@
 //! clark confirm "Play it again?" && mpv "$album"
 //! ```
 //!
-//! Every sub-command is one Prompt or one static renderer, named as clack names it, with flags
-//! named after clack's options. The answer goes to stdout; the Prompt itself is drawn on stderr,
-//! so `$(...)` captures the answer and nothing else.
+//! Every sub-command is one Prompt, one static renderer, or one of the two that wrap a command,
+//! named as clack names it, with flags named after clack's options. The answer goes to stdout; the
+//! Prompt itself is drawn on stderr, so `$(...)` captures the answer and nothing else.
 //!
-//! Exit codes: `0` an answer, `1` a `confirm` answered no, `2` a failure, `130` a cancel.
+//! Exit codes: `0` an answer, `1` a `confirm` answered no, `2` a failure, `130` a cancel — and for
+//! `spinner` and `task-log`, whatever the command they wrapped exited with. See ADR-0036.
 
-use std::io::{self, BufRead, IsTerminal};
-use std::process::ExitCode;
+use std::io::{self, BufRead, IsTerminal, Write};
+use std::process::{self, Child, ExitCode, Stdio};
+use std::sync::{Arc, Mutex};
+use std::time::Duration;
 
 use clap::{Parser, Subcommand, ValueEnum};
 use clark::{CivilDate, ClackError, DateFormat};
@@ -208,6 +211,58 @@ enum Command {
 		#[arg(long, value_enum, default_value_t = Level::Message)]
 		level: Level,
 	},
+
+	/// A spinner, for as long as a command runs. `clark spinner "Building" -- make`
+	Spinner {
+		message: String,
+		#[arg(long, value_enum, default_value_t = Indicator::Dots)]
+		indicator: Indicator,
+		/// Repeatable: the symbols cycled through.
+		#[arg(long = "frame")]
+		frames: Vec<String>,
+		/// How long a frame is on screen, in milliseconds.
+		#[arg(long)]
+		delay: Option<u64>,
+		/// The line left behind when the command succeeds. Defaults to the message.
+		#[arg(long)]
+		stop_message: Option<String>,
+		/// The line left behind when it fails. Defaults to the message.
+		#[arg(long)]
+		error_message: Option<String>,
+		/// The line left behind on `ctrl+c`. Defaults to the message.
+		#[arg(long)]
+		cancel_message: Option<String>,
+		/// Print what the command wrote to stderr, when it fails.
+		#[arg(long, default_value_t = true, action = clap::ArgAction::Set)]
+		show_error: bool,
+		#[arg(last = true, required = true)]
+		command: Vec<String>,
+	},
+
+	/// A command's output, cleared when it succeeds and kept when it fails.
+	TaskLog {
+		title: String,
+		/// The most rows on screen at once. Unbounded by default, as clack leaves it.
+		#[arg(long)]
+		limit: Option<usize>,
+		#[arg(long)]
+		spacing: Option<usize>,
+		/// Keep the rows `--limit` drops, and print them with the rest.
+		#[arg(long, default_value_t = false, action = clap::ArgAction::Set)]
+		retain_log: bool,
+		/// The line left behind when the command succeeds. Defaults to the title.
+		#[arg(long)]
+		stop_message: Option<String>,
+		/// The line left behind when it fails. Defaults to the title.
+		#[arg(long)]
+		error_message: Option<String>,
+		/// Whether the log is kept. Left out, clack's own answer: no when the command succeeds,
+		/// yes when it fails.
+		#[arg(long)]
+		show_log: Option<bool>,
+		#[arg(last = true, required = true)]
+		command: Vec<String>,
+	},
 }
 
 /// The list a select-shaped Prompt offers.
@@ -252,6 +307,21 @@ enum Format {
 	Ymd,
 	Mdy,
 	Dmy,
+}
+
+#[derive(Clone, Copy, ValueEnum)]
+enum Indicator {
+	Dots,
+	Timer,
+}
+
+impl From<Indicator> for clark::Indicator {
+	fn from(indicator: Indicator) -> Self {
+		match indicator {
+			Indicator::Dots => Self::Dots,
+			Indicator::Timer => Self::Timer,
+		}
+	}
 }
 
 #[derive(Clone, Copy, ValueEnum)]
@@ -500,7 +570,168 @@ fn run(command: Command) -> Result<ExitCode, Failure> {
 			Level::Warn => clark::log::warn(message),
 			Level::Error => clark::log::error(message),
 		}),
+
+		Command::Spinner {
+			message,
+			indicator,
+			frames,
+			delay,
+			stop_message,
+			error_message,
+			cancel_message,
+			show_error,
+			command,
+		} => {
+			let mut builder = clark::spinner()
+				.output(clark::Output::Stderr)
+				.indicator(indicator.into());
+			if !frames.is_empty() {
+				builder = builder.frames(frames);
+			}
+			builder = set(builder, delay, |builder, delay| {
+				builder.delay(Duration::from_millis(delay))
+			});
+
+			// Spawned before the spinner starts, so that a command which cannot run at all leaves
+			// no row behind — it is a bad argument, and reads like every other one.
+			//
+			// The child's stdout is thrown away rather than passed through: it would land inside
+			// the region the next frame erases. `task-log` is the sub-command that draws output.
+			let child = spawn(
+				&command,
+				Stdio::null(),
+				if show_error {
+					Stdio::piped()
+				} else {
+					Stdio::null()
+				},
+			)?;
+
+			let spinner = builder.start(&message);
+			let output = child
+				.wait_with_output()
+				.map_err(|error| Failure::Message(format!("{}: {error}", command[0])))?;
+
+			match output.status.code() {
+				Some(0) => {
+					spinner.stop(stop_message.unwrap_or(message));
+					Ok(ExitCode::SUCCESS)
+				}
+				Some(code) => {
+					spinner.error(error_message.unwrap_or(message));
+					// ponytail: the replayed rows are raw, not bar-prefixed and dimmed. Styling
+					// them wants `output` in `message.rs` too — and a caller who wants the output
+					// drawn wants `task-log`, which draws it while the command is still running.
+					if show_error {
+						io::stderr().write_all(&output.stderr).ok();
+					}
+					Ok(ExitCode::from(exit_code(code)))
+				}
+				// No code means a signal killed it. `ctrl+c` reaches the whole process group, so
+				// this is the cancel — drawn here rather than through `Failure::Cancelled`,
+				// because that arm exits without leaving a row behind.
+				None => {
+					spinner.cancel(cancel_message.unwrap_or(message));
+					Ok(ExitCode::from(130))
+				}
+			}
+		}
+
+		Command::TaskLog {
+			title,
+			limit,
+			spacing,
+			retain_log,
+			stop_message,
+			error_message,
+			show_log,
+			command,
+		} => {
+			let mut builder = clark::task_log(&title)
+				.output(clark::Output::Stderr)
+				.retain_log(retain_log);
+			builder = set(builder, limit, |builder, limit| builder.limit(limit));
+			builder = set(builder, spacing, |builder, spacing| {
+				builder.spacing(spacing)
+			});
+
+			let mut child = spawn(&command, Stdio::piped(), Stdio::piped())?;
+			let log = Arc::new(Mutex::new(builder.start()));
+
+			// ponytail: one reader per stream, so a row's stream is ordered but the two are only
+			// interleaved as the threads happen to wake. One pipe shared by both fds would order
+			// them exactly, and needs `os_pipe` to duplicate the descriptor before the spawn.
+			let readers: Vec<_> = [
+				child.stdout.take().map(Pipe::Out),
+				child.stderr.take().map(Pipe::Err),
+			]
+			.into_iter()
+			.flatten()
+			.map(|pipe| {
+				let log = Arc::clone(&log);
+				std::thread::spawn(move || {
+					let rows: Box<dyn BufRead> = match pipe {
+						Pipe::Out(out) => Box::new(io::BufReader::new(out)),
+						Pipe::Err(err) => Box::new(io::BufReader::new(err)),
+					};
+					for row in rows.lines().map_while(Result::ok) {
+						if let Ok(mut log) = log.lock() {
+							log.message(row);
+						}
+					}
+				})
+			})
+			.collect();
+
+			let status = child
+				.wait()
+				.map_err(|error| Failure::Message(format!("{}: {error}", command[0])))?;
+			for reader in readers {
+				let _ = reader.join();
+			}
+
+			let mut log = log.lock().unwrap_or_else(|poisoned| poisoned.into_inner());
+
+			match status.code() {
+				Some(0) => {
+					log.success_with(stop_message.unwrap_or(title), show_log.unwrap_or(false));
+					Ok(ExitCode::SUCCESS)
+				}
+				Some(code) => {
+					log.error_with(error_message.unwrap_or(title), show_log.unwrap_or(true));
+					Ok(ExitCode::from(exit_code(code)))
+				}
+				None => {
+					log.error_with(error_message.unwrap_or(title), show_log.unwrap_or(true));
+					Ok(ExitCode::from(130))
+				}
+			}
+		}
 	}
+}
+
+/// Which stream a `task-log` reader is walking. `ChildStdout` and `ChildStderr` are different
+/// types, and one thread body reads either.
+enum Pipe {
+	Out(std::process::ChildStdout),
+	Err(std::process::ChildStderr),
+}
+
+/// The wrapped command. `command` is never empty — clap requires it.
+fn spawn(command: &[String], stdout: Stdio, stderr: Stdio) -> Result<Child, Failure> {
+	process::Command::new(&command[0])
+		.args(&command[1..])
+		.stdin(Stdio::inherit())
+		.stdout(stdout)
+		.stderr(stderr)
+		.spawn()
+		.map_err(|error| Failure::Message(format!("{}: {error}", command[0])))
+}
+
+/// A wrapped command's exit code, passed through. `ExitCode` is a byte, and a code outside that is
+/// reported as a plain failure rather than wrapped around into something else's meaning.
+fn exit_code(code: i32) -> u8 {
+	u8::try_from(code).unwrap_or(2)
 }
 
 /// Apply a builder method only when the flag was given, so that each Prompt keeps clack's own

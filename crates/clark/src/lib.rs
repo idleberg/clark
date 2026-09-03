@@ -59,6 +59,7 @@ pub use select_key::{SelectKey, select_key};
 pub use spinner::{Spinner, spinner};
 pub use task_log::{Group, TaskLog, task_log};
 pub use text::{Text, text};
+pub use ticker::Output;
 
 pub use clark_core::date::{Date as CivilDate, DateFormat};
 pub use clark_core::multi_line::Focus;

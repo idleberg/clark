@@ -6,7 +6,7 @@ edition.workspace = true
 license.workspace = true
 repository.workspace = true
 rust-version.workspace = true
-include = ["src/**/*.rs", "README.md", "LICENSE", "NOTICE"]
+include = ["src/**/*.rs", "tests/**", "README.md", "LICENSE", "NOTICE"]
 
 [dependencies]
 ratatui-core.workspace = true

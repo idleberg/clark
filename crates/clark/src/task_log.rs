@@ -11,22 +11,20 @@
 //! nothing to do here. What this adds to [`clark_core::task_log`] is the terminal: the width,
 //! and whether there is one at all.
 
-use std::io::IsTerminal;
-
 use clark_core::task_log::{self as core_task_log, GroupId, Outcome};
 use clark_core::theme::Theme;
 
 use crate::spinner::{columns, is_ci};
-use crate::ticker::print;
+use crate::ticker::{Output, print};
 
 /// `taskLog()`: a log that has not written its title yet.
 pub fn task_log(title: impl AsRef<str>) -> Builder {
 	Builder {
 		theme: Theme::detect(),
+		output: Output::default(),
+		quiet: None,
 		options: core_task_log::Options {
 			title: title.as_ref().to_owned(),
-			// `!isCI() && isTTY(output)`, read once, exactly where upstream reads it.
-			is_tty: !is_ci() && std::io::stdout().is_terminal(),
 			..core_task_log::Options::default()
 		},
 	}
@@ -34,6 +32,8 @@ pub fn task_log(title: impl AsRef<str>) -> Builder {
 
 pub struct Builder {
 	theme: Theme,
+	output: Output,
+	quiet: Option<bool>,
 	options: core_task_log::Options,
 }
 
@@ -69,17 +69,29 @@ impl Builder {
 		self
 	}
 
-	/// Draw nothing between the title and the ending, as a log with no terminal does.
+	/// Draw nothing between the title and the ending, as a log with no terminal does. Left unset,
+	/// [`start`](Self::start) asks the [`output`](Self::output) whether it is a terminal.
 	pub fn quiet(mut self, quiet: bool) -> Self {
-		self.options.is_tty = !quiet;
+		self.quiet = Some(quiet);
+		self
+	}
+
+	/// The stream drawn on. Upstream's `output`, whose default is stdout.
+	pub fn output(mut self, output: Output) -> Self {
+		self.output = output;
 		self
 	}
 
 	/// Write the title. Everything after it is a call away.
-	pub fn start(self) -> TaskLog {
+	pub fn start(mut self) -> TaskLog {
+		// `!isCI() && isTTY(output)`, read once, exactly where upstream reads it — but asked of the
+		// stream this log will actually draw on, which is not settled until here.
+		self.options.is_tty = self
+			.quiet
+			.map_or_else(|| !is_ci() && self.output.is_terminal(), |quiet| !quiet);
 		let (log, bytes) = core_task_log::TaskLog::new(self.theme, columns(), self.options);
-		print(&bytes);
-		TaskLog(log)
+		print(self.output, &bytes);
+		TaskLog(log, self.output)
 	}
 }
 
@@ -87,18 +99,18 @@ impl Builder {
 pub struct Group(GroupId);
 
 /// A running task log.
-pub struct TaskLog(core_task_log::TaskLog);
+pub struct TaskLog(core_task_log::TaskLog, Output);
 
 impl TaskLog {
 	/// A row.
 	pub fn message(&mut self, message: impl AsRef<str>) {
-		print(&self.0.message(message.as_ref(), false));
+		print(self.1, &self.0.message(message.as_ref(), false));
 	}
 
 	/// A row that continues the one before it, if that one was raw too — upstream's
 	/// `{ raw: true }`, for output that arrives in pieces.
 	pub fn raw(&mut self, message: impl AsRef<str>) {
-		print(&self.0.message(message.as_ref(), true));
+		print(self.1, &self.0.message(message.as_ref(), true));
 	}
 
 	/// A named group. Its rows are printed under its name until it ends.
@@ -107,16 +119,23 @@ impl TaskLog {
 	}
 
 	pub fn group_message(&mut self, group: &Group, message: impl AsRef<str>) {
-		print(&self.0.group_message(group.0, message.as_ref(), false));
+		print(
+			self.1,
+			&self.0.group_message(group.0, message.as_ref(), false),
+		);
 	}
 
 	pub fn group_raw(&mut self, group: &Group, message: impl AsRef<str>) {
-		print(&self.0.group_message(group.0, message.as_ref(), true));
+		print(
+			self.1,
+			&self.0.group_message(group.0, message.as_ref(), true),
+		);
 	}
 
 	/// End a group: its rows become one green line.
 	pub fn group_success(&mut self, group: &Group, message: impl AsRef<str>) {
 		print(
+			self.1,
 			&self
 				.0
 				.complete_group(group.0, Outcome::Success, message.as_ref()),
@@ -126,6 +145,7 @@ impl TaskLog {
 	/// End a group: its rows become one red line.
 	pub fn group_error(&mut self, group: &Group, message: impl AsRef<str>) {
 		print(
+			self.1,
 			&self
 				.0
 				.complete_group(group.0, Outcome::Error, message.as_ref()),
@@ -144,11 +164,11 @@ impl TaskLog {
 
 	/// [`success`](Self::success), saying whether to keep the log. Upstream's default is `false`.
 	pub fn success_with(&mut self, message: impl AsRef<str>, show_log: bool) {
-		print(&self.0.success(message.as_ref(), show_log));
+		print(self.1, &self.0.success(message.as_ref(), show_log));
 	}
 
 	/// [`error`](Self::error), saying whether to keep the log. Upstream's default is `true`.
 	pub fn error_with(&mut self, message: impl AsRef<str>, show_log: bool) {
-		print(&self.0.error(message.as_ref(), show_log));
+		print(self.1, &self.0.error(message.as_ref(), show_log));
 	}
 }
