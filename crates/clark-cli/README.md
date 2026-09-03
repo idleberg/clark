@@ -6,6 +6,22 @@
 
 CLI for clark, the Rust port of Bombshell's clack prompts 🦀
 
+## Install
+
+### Cargo
+
+```
+cargo install clark-cli
+```
+
+### Homebrew
+
+```
+brew install idleberg/asahi/clark
+```
+
+## Use
+
 ```sh
 clark intro "Bleep"
 
