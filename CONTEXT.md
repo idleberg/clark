@@ -88,6 +88,13 @@ A Fixture no longer matching what pinned clack currently produces — meaning th
 not that clark is wrong. Diagnosed separately from a Parity failure.
 _Avoid_: staleness, breakage, regression
 
+**Lapse**:
+A documented observation about clack — in an ADR or a module's docs — that a later clack version
+contradicts. It was true when written and its time ran out; distinct from Drift, which is a
+recording rather than a claim, and from a decision that was superseded on its own merits. Annotated
+in place, naming the version that lapsed it.
+_Avoid_: staleness, obsolescence, falsification
+
 **Conformance suite**:
 A differential test aimed at one ported primitive — the Line editor, text measurement, key parsing —
 comparing it against its JavaScript counterpart directly rather than through a Prompt. Exists so
