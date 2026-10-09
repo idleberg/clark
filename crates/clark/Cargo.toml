@@ -1,6 +1,6 @@
 [package]
 name = "clark"
-version = "0.2.0"
+version = "0.2.1"
 description = "Bombshell's clack prompts ported to Rust"
 keywords = ["clack", "terminal", "prompt", "dialogs", "shell"]
 edition.workspace = true
@@ -10,5 +10,5 @@ rust-version.workspace = true
 include = ["src/**/*.rs", "examples/**/*.rs", "README.md", "LICENSE", "NOTICE"]
 
 [dependencies]
-clark-core = { path = "../clark-core", version = "0.1.0" }
+clark-core = { path = "../clark-core", version = "0.1.1" }
 crossterm.workspace = true

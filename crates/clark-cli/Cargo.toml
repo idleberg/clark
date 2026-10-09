@@ -1,6 +1,6 @@
 [package]
 name = "clark-cli"
-version = "0.2.0"
+version = "0.2.1"
 description = "CLI for clark, the Rust port of Bombshell's clack prompts."
 keywords = ["clack", "terminal", "prompt", "dialogs", "shell"]
 edition.workspace = true
@@ -14,6 +14,6 @@ name = "clark"
 path = "src/main.rs"
 
 [dependencies]
-clark = { path = "../clark", version = "0.2.0" }
+clark = { path = "../clark", version = "0.2.1" }
 clap.workspace = true
 clap_complete.workspace = true

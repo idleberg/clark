@@ -1,6 +1,6 @@
 [package]
 name = "clark-core"
-version = "0.1.0"
+version = "0.1.1"
 description = "State machines and widgets for clark. No I/O."
 edition.workspace = true
 license.workspace = true
