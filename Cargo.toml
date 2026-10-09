@@ -32,6 +32,8 @@ crossterm = "0.29"
 # decides is which flags a script may write, and those are named after clack's options rather than
 # after a clap version.
 clap = { version = "4.6", features = ["derive"] }
+# Shell completions for `clark-cli`, the same footing as `clap` above.
+clap_complete = "4.6"
 
 # Tests only, for reading harvested Fixtures. Not pinned: it is not part of any parity claim.
 serde_json = { version = "1.0.151", features = ["preserve_order"] }

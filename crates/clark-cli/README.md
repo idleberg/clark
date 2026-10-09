@@ -142,6 +142,22 @@ interleaved as they arrive.
 
 Both report the command's own exit code, so `clark spinner "…" -- make && …` reads the way it looks.
 
+## Completions
+
+Prints a completion script to stdout, for `bash`, `elvish`, `fish`, `powershell` or `zsh`. It is a
+flag rather than a sub-command, because the sub-commands are clack's names and nothing else:
+
+```sh
+# bash — needs bash-completion installed
+clark --completions bash > ~/.local/share/bash-completion/completions/clark
+
+# zsh — any directory on $fpath, with compinit enabled
+clark --completions zsh > ~/.zfunc/_clark
+
+# fish
+clark --completions fish > ~/.config/fish/completions/clark.fish
+```
+
 ## Not here yet
 
 `progress` is missing. The other two end when the command does, which is something clark can see for

@@ -17,14 +17,25 @@ use std::process::{self, Child, ExitCode, Stdio};
 use std::sync::{Arc, Mutex};
 use std::time::Duration;
 
-use clap::{Parser, Subcommand, ValueEnum};
+use clap::{CommandFactory, Parser, Subcommand, ValueEnum};
+use clap_complete::{Shell, generate};
 use clark::{CivilDate, ClackError, DateFormat};
 
 #[derive(Parser)]
-#[command(name = "clark", version, about = "clack's prompts, from the shell")]
+#[command(
+	name = "clark",
+	version,
+	about = "clack's prompts, from the shell",
+	arg_required_else_help = true,
+	args_conflicts_with_subcommands = true
+)]
 struct Cli {
+	/// Print a completion script for a shell. A flag rather than a sub-command, because the
+	/// sub-commands are clack's names and nothing else.
+	#[arg(long, value_name = "SHELL")]
+	completions: Option<Shell>,
 	#[command(subcommand)]
-	command: Command,
+	command: Option<Command>,
 }
 
 #[derive(Subcommand)]
@@ -351,7 +362,15 @@ impl From<ClackError> for Failure {
 }
 
 fn main() -> ExitCode {
-	match run(Cli::parse().command) {
+	let cli = Cli::parse();
+	let result = match (cli.completions, cli.command) {
+		(Some(shell), _) => completions(shell),
+		(None, Some(command)) => run(command),
+		// `arg_required_else_help` and `args_conflicts_with_subcommands` leave exactly one of the two set.
+		(None, None) => unreachable!(),
+	};
+
+	match result {
 		Ok(code) => code,
 		// 130 is what a shell reports for an interrupted program, which is what `ctrl+c` left.
 		Err(Failure::Cancelled) => ExitCode::from(130),
@@ -359,6 +378,20 @@ fn main() -> ExitCode {
 			eprintln!("clark: {message}");
 			ExitCode::from(2)
 		}
+	}
+}
+
+/// To stdout, for the user to redirect where their shell wants it. Buffered, then written in one
+/// go: `generate` unwraps its writes, so handing it stdout turns `clark --completions zsh | head`
+/// into a panic.
+fn completions(shell: Shell) -> Result<ExitCode, Failure> {
+	let mut script = Vec::new();
+	generate(shell, &mut Cli::command(), "clark", &mut script);
+
+	match io::stdout().write_all(&script) {
+		Err(error) if error.kind() == io::ErrorKind::BrokenPipe => Ok(ExitCode::SUCCESS),
+		Err(error) => Err(Failure::Message(error.to_string())),
+		Ok(()) => Ok(ExitCode::SUCCESS),
 	}
 }
 
@@ -830,7 +863,25 @@ mod tests {
 
 	#[test]
 	fn the_parser_agrees_with_itself() {
-		use clap::CommandFactory;
 		Cli::command().debug_assert();
+	}
+
+	#[test]
+	fn completions_name_the_binary_and_every_subcommand() {
+		let mut script = Vec::new();
+		generate(Shell::Bash, &mut Cli::command(), "clark", &mut script);
+		let script = String::from_utf8(script).expect("a script in UTF-8");
+
+		assert!(script.contains("--completions"));
+		for subcommand in Cli::command().get_subcommands() {
+			let name = subcommand.get_name();
+			assert!(script.contains(name), "{name} is missing");
+		}
+	}
+
+	#[test]
+	fn completions_stand_alone() {
+		assert!(Cli::try_parse_from(["clark", "--completions", "zsh"]).is_ok());
+		assert!(Cli::try_parse_from(["clark", "--completions", "zsh", "intro", "x"]).is_err());
 	}
 }
