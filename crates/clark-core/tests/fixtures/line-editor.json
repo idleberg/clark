@@ -1,6 +1,6 @@
 {
 	"source": "node:readline",
-	"node": "24.20.0",
+	"node": "20.18.1",
 	"generatedBy": "scripts/harvest-line-editor.mjs",
 	"scenarios": [
 		{

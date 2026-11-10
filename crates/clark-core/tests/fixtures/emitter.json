@@ -1,7 +1,7 @@
 {
 	"source": "@clack/core Prompt.render",
 	"version": "1.6.0",
-	"node": "v24.20.0",
+	"node": "v20.18.1",
 	"generatedBy": "scripts/harvest-emitter.mjs",
 	"cases": [
 		{

@@ -1,8 +1,8 @@
 {
 	"source": "fast-string-width",
 	"version": "3.0.2",
-	"node": "24.20.0",
-	"unicode": "17.0",
+	"node": "20.18.1",
+	"unicode": "15.1",
 	"generatedBy": "scripts/harvest-width.mjs",
 	"cases": [
 		{
