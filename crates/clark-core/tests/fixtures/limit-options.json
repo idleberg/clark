@@ -9047,6 +9047,146 @@
 			]
 		},
 		{
+			"name": "an empty option is still styled",
+			"options": [
+				[],
+				[
+					73,
+					116,
+					101,
+					109,
+					32,
+					49
+				],
+				[
+					73,
+					116,
+					101,
+					109,
+					32,
+					50
+				]
+			],
+			"cursor": 0,
+			"columns": 80,
+			"rows": 20,
+			"maxItems": null,
+			"columnPadding": null,
+			"rowPadding": null,
+			"style": "wide",
+			"lines": [
+				{
+					"codepoints": [
+						45,
+						45,
+						32,
+						32,
+						45,
+						45
+					],
+					"overflow": false
+				},
+				{
+					"codepoints": [
+						45,
+						45,
+						32,
+						73,
+						116,
+						101,
+						109,
+						32,
+						49,
+						32,
+						45,
+						45
+					],
+					"overflow": false
+				},
+				{
+					"codepoints": [
+						45,
+						45,
+						32,
+						73,
+						116,
+						101,
+						109,
+						32,
+						50,
+						32,
+						45,
+						45
+					],
+					"overflow": false
+				}
+			]
+		},
+		{
+			"name": "the marker on an empty option",
+			"options": [
+				[],
+				[
+					73,
+					116,
+					101,
+					109,
+					32,
+					49
+				],
+				[
+					73,
+					116,
+					101,
+					109,
+					32,
+					50
+				]
+			],
+			"cursor": 0,
+			"columns": 80,
+			"rows": 20,
+			"maxItems": null,
+			"columnPadding": null,
+			"rowPadding": null,
+			"style": "marker",
+			"lines": [
+				{
+					"codepoints": [
+						62,
+						32
+					],
+					"overflow": false
+				},
+				{
+					"codepoints": [
+						32,
+						32,
+						73,
+						116,
+						101,
+						109,
+						32,
+						49
+					],
+					"overflow": false
+				},
+				{
+					"codepoints": [
+						32,
+						32,
+						73,
+						116,
+						101,
+						109,
+						32,
+						50
+					],
+					"overflow": false
+				}
+			]
+		},
+		{
 			"name": "the marker on a multi-line option",
 			"options": [
 				[

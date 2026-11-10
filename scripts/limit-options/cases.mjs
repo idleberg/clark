@@ -179,6 +179,10 @@ export const cases = [
 		cursor: 7,
 		style: 'marker',
 	}),
+	// clack #628: a falsy option still goes through the callback rather than drawing a blank row.
+	// The corpus only carries strings, so `''` is the falsy one.
+	c('an empty option is still styled', { options: [[], ...items(2)], style: 'wide' }),
+	c('the marker on an empty option', { options: [[], ...items(2)], cursor: 0, style: 'marker' }),
 	c('the marker on a multi-line option', {
 		options: [a('Item 1\nContinued'), ...items(2)],
 		cursor: 0,

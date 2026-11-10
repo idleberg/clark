@@ -239,10 +239,14 @@ impl<T: Clone + PartialEq> PromptState for MultiSelectState<T> {
 	/// Which means they are not aliases and cannot be rebound, and that a capital `A` does nothing —
 	/// readline names a shifted letter by its lowercase, but only after setting `shift`, and upstream
 	/// compares the name without looking at it. That is reproduced: the name is what is matched.
-	fn key(&mut self, _s: Option<&str>, key: &Key) {
+	///
+	/// An unnamed U+3000 toggles too (clack #608): some IMEs commit the space bar as an ideographic
+	/// space, which readline leaves unnamed.
+	fn key(&mut self, s: Option<&str>, key: &Key) {
 		match key.name {
 			Some(KeyName::Char('a')) => self.toggle_all(),
 			Some(KeyName::Char('i')) => self.toggle_invert(),
+			None if s == Some("\u{3000}") => self.toggle(),
 			_ => {}
 		}
 	}
@@ -730,6 +734,24 @@ mod tests {
 		space(&mut prompt);
 		assert_eq!(held(&prompt), ["a"]);
 		space(&mut prompt);
+		assert!(held(&prompt).is_empty());
+	}
+
+	/// clack #608: an IME commits the space bar as an unnamed U+3000.
+	#[test]
+	fn an_ideographic_space_ticks_like_space() {
+		let mut prompt = multiselect(&["a", "b"]);
+		prompt.key(Some("\u{3000}"), &Key::default());
+		assert_eq!(held(&prompt), ["a"]);
+		prompt.key(Some("\u{3000}"), &Key::default());
+		assert!(held(&prompt).is_empty());
+	}
+
+	/// Only unnamed: a named key carrying the character is not the IME's.
+	#[test]
+	fn a_named_key_with_an_ideographic_space_does_not_tick() {
+		let mut prompt = multiselect(&["a", "b"]);
+		prompt.key(Some("\u{3000}"), &Key::named(KeyName::Char('x')));
 		assert!(held(&prompt).is_empty());
 	}
 

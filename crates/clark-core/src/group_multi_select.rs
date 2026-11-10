@@ -40,6 +40,7 @@ use ratatui_core::widgets::Widget;
 
 use crate::frame::{Frame, Line, Span};
 use crate::limit_options::LimitOptions;
+use crate::line_editor::Key;
 use crate::multi_select::{VALUE_SEPARATOR, error_footer, footer};
 use crate::prompt::{Prompt, PromptState, Status};
 use crate::select::{COLUMN_PADDING, SelectOption, plain_title};
@@ -308,6 +309,14 @@ impl<T: Clone + PartialEq> PromptState for GroupMultiSelectState<T> {
 			Action::Down | Action::Right => self.walk(true),
 			Action::Space => self.toggle(),
 			_ => {}
+		}
+	}
+
+	/// `on('key')`: an unnamed U+3000 toggles like space (clack #608) — some IMEs commit the space
+	/// bar as an ideographic space, which readline leaves unnamed.
+	fn key(&mut self, s: Option<&str>, key: &Key) {
+		if key.name.is_none() && s == Some("\u{3000}") {
+			self.toggle();
 		}
 	}
 
@@ -799,6 +808,24 @@ mod tests {
 		space(&mut prompt);
 		assert_eq!(held(&prompt), ["group1value0", "group1value1"]);
 		space(&mut prompt);
+		assert!(held(&prompt).is_empty());
+	}
+
+	/// clack #608: an IME commits the space bar as an unnamed U+3000.
+	#[test]
+	fn an_ideographic_space_ticks_like_space() {
+		let mut prompt = prompt(state());
+		prompt.key(Some("\u{3000}"), &Key::default());
+		assert_eq!(held(&prompt), ["group1value0", "group1value1"]);
+		prompt.key(Some("\u{3000}"), &Key::default());
+		assert!(held(&prompt).is_empty());
+	}
+
+	/// Only unnamed: a named key carrying the character is not the IME's.
+	#[test]
+	fn a_named_key_with_an_ideographic_space_does_not_tick() {
+		let mut prompt = prompt(state());
+		prompt.key(Some("\u{3000}"), &Key::named(KeyName::Char('x')));
 		assert!(held(&prompt).is_empty());
 	}
 

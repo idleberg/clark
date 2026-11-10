@@ -20,6 +20,20 @@
 //! promise than a spinner should make. So keys typed during a spinner echo, exactly as they would
 //! during any other program's output. The cursor still goes away and comes back — that half of
 //! `block` is a write, and it is in the core crate with the rest of the writes.
+//!
+//! # No `isCancelled`
+//!
+//! Upstream's spinner and progress expose an `isCancelled` getter, and clack #616 fixed it reading
+//! stale after `cancel` then `start`. There is nothing here for that to apply to: `cancel`, like
+//! every ending, takes the handle by value, so a cancelled spinner cannot be asked anything or
+//! started again. A new `start` is a new handle.
+//!
+//! # Columns come from the terminal, not the stream
+//!
+//! clack #630 made upstream measure the output stream it was configured with, so a spinner on
+//! stderr stopped reading 80 columns when stdout was redirected. [`columns`] never read a stream:
+//! crossterm asks the controlling terminal, which is the same one whichever [`Output`] is chosen,
+//! and is still there when stdout is a pipe.
 
 use std::time::Duration;
 

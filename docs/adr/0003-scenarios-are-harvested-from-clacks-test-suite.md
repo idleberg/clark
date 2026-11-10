@@ -7,6 +7,9 @@ and output chunks, and runs their vitest suite to emit Scenario and Fixture pair
 accumulated regression history becomes the specification, and re-harvesting at a newer tag is how we
 track clack over time.
 
+> **Re-pinned to `@clack/prompts@1.9.0`** (core 1.6.0). The tag lives in `scripts/upstream.mjs`,
+> which every harvest reads and refuses to record from anything else.
+
 ## Consequences
 
 Harvesting inherits upstream's blind spots along with its coverage: their tests fix the terminal at

@@ -3,7 +3,8 @@
 ADR-0003 makes clack's own ~500 test cases the specification and calls for a Recorder that "clones
 clack at tag `@clack/prompts@1.7.0`, patches `MockReadable`/`MockWritable` to log key events and
 output chunks, and runs their vitest suite". The patching turned out to be unnecessary, and not
-patching is worth the small amount of machinery it costs.
+patching is worth the small amount of machinery it costs. (The tag has since moved to
+`@clack/prompts@1.9.0`; see ADR-0003.)
 
 Nothing is written into `upstream/clack`. `scripts/recorder/vitest.config.mjs` runs upstream's
 suite with `root` pointed at the checkout and two things attached: a setup file that owns the record,

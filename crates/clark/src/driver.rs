@@ -12,6 +12,12 @@
 //! not: a panic. Raw mode is therefore released by a guard rather than at the end of the loop, so
 //! that a panic in a `draw` callback leaves the user with a working shell rather than a terminal
 //! that no longer echoes.
+//!
+//! # The size is the terminal's
+//!
+//! clack #630 made upstream read columns off the output stream it draws to rather than stdout. That
+//! fix has no counterpart here: [`terminal::size`] asks the controlling terminal itself, not a
+//! stream, so drawing on stderr while stdout is redirected was never measured as 80 columns.
 
 use std::io::{self, Write};
 use std::time::Duration;

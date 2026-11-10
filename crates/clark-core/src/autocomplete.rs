@@ -1317,6 +1317,17 @@ mod tests {
 		assert_eq!(answer(&prompt), ["cherry"]);
 	}
 
+	/// clack #618: an empty string is a value like any other, not a missing one.
+	#[test]
+	fn an_empty_initial_value_is_kept() {
+		let state = AutocompleteState::new(options(&[("apple", "Apple"), ("", "None")]))
+			.with_initial_values([String::new()]);
+		assert_eq!(state.cursor(), 1);
+		let mut prompt = open(state);
+		press(&mut prompt, KeyName::Return);
+		assert_eq!(answer(&prompt), [""]);
+	}
+
 	/// `findIndex(…) !== -1`: a value the list does not hold chooses nothing and moves nothing.
 	#[test]
 	fn an_initial_value_the_list_does_not_hold_is_ignored() {
