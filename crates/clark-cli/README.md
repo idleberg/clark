@@ -6,7 +6,7 @@
 
 CLI for clark, the Rust port of Bombshell's clack prompts 🦀
 
-## Install
+## Installation
 
 ### Cargo
 
