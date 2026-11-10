@@ -11,6 +11,9 @@
 //! character it writes is plain, including the bar in the left margin. The only colour a `box` can
 //! have is the one `format_border` puts there, and upstream's default for that is the identity.
 //!
+//! > **Lapsed in `@clack/prompts@1.9.0`** for the bar in the left margin, which `box.ts` now draws
+//! > in gray like every other Guide. The border and the content are still plain.
+//!
 //! # `width` is documented twice and does neither thing
 //!
 //! `BoxOptions.width` is documented as "`'auto'` to fit the content or a number for a fixed width",
@@ -199,11 +202,12 @@ pub fn box_with(
 	let horizontal = border(theme.symbols.bar_h);
 	let vertical = border(theme.symbols.bar);
 
-	// The prefix is not formatted and not styled — the one border character a `box` draws plain.
+	// The prefix is not formatted, only styled — the Guide's gray, and nothing `format_border` says.
 	let prefix = || {
 		let mut line = Line::blank();
 		if options.with_guide {
-			line.push(Span::raw(format!("{} ", theme.symbols.bar)));
+			line.push(Span::styled(theme.symbols.bar, theme.styles.guide));
+			line.push(Span::raw(" "));
 		}
 		line
 	};
@@ -287,10 +291,20 @@ fn slice_utf16(text: &str, end: isize) -> String {
 #[cfg(test)]
 mod tests {
 	use super::*;
-	use crate::emitter::write_once;
+	use ratatui_core::style::Style;
 
+	/// The box's text, one row per line, without its styles.
 	fn drawn(message: &str, title: &str, columns: usize, options: &Options<'_>) -> String {
-		write_once(&box_with(message, title, columns, &Theme::clack(), options))
+		box_with(message, title, columns, &Theme::clack(), options)
+			.lines
+			.iter()
+			.flat_map(|line| {
+				line.spans
+					.iter()
+					.map(|span| span.text.as_str())
+					.chain(["\n"])
+			})
+			.collect()
 	}
 
 	/// Upstream's documented default, which upstream only reaches when it is asked for.
@@ -344,6 +358,21 @@ mod tests {
 			)
 			.starts_with('┌')
 		);
+	}
+
+	/// Gray since `@clack/prompts@1.9.0`, like the bar `note` and `log` draw. The trailing space and
+	/// the border are not.
+	#[test]
+	fn the_guide_bar_is_drawn_in_the_guide_style() {
+		let theme = Theme::clack();
+		let frame = r#box("hi", "", 40, &theme);
+		for line in &frame.lines {
+			assert_eq!(line.spans[0].text, theme.symbols.bar);
+			assert_eq!(line.spans[0].style, theme.styles.guide);
+			assert_eq!(line.spans[1].text, " ");
+			assert_eq!(line.spans[1].style, Style::default());
+			assert_eq!(line.spans[2].style, Style::default());
+		}
 	}
 
 	/// Documented `@default true` and false in the code, so a `box()` with no options is square.

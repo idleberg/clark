@@ -53,7 +53,9 @@ test rather than by the corpus.
 - **Nothing a `box` draws is styled.** `note` draws its border in the Guide's gray; `box.ts` calls
   `styleText` nowhere, including on the bar in the left margin. The only colour a box can have is
   what `format_border` puts there, and upstream's default for that is the identity. No new Theme
-  entries — the symbols were all already there, as they were for `note`.
+  entries — the symbols were all already there, as they were for `note`. **Lapsed in
+  `@clack/prompts@1.9.0`** for the bar in the left margin, which `box.ts` now draws in gray; the
+  port draws it in the Theme's Guide style. The border and the content are still plain.
 - **`format_border` returns a `Line`**, for the reason ADR-0030 gives about `note`'s `format`.
   Upstream applies it to each distinct border character *before* the repeats, so a formatter that
   returns an escape has it reopened per column and one that returns characters makes the border wider
