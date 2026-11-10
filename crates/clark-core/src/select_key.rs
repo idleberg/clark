@@ -42,7 +42,7 @@ use ratatui_core::widgets::Widget;
 use crate::frame::{Frame, Line, Span};
 use crate::line_editor::Key;
 use crate::prompt::{Prompt, PromptState, Status};
-use crate::select::{GUIDE_PREFIX_LENGTH, SelectOption, plain_title};
+use crate::select::{SelectOption, WRAP_PREFIX_WIDTH, plain_title};
 use crate::theme::Theme;
 use crate::wrap::{leaked, wrap};
 
@@ -342,7 +342,7 @@ impl<'a, T: Display> SelectKeyWidget<'a, T> {
 	/// `columns - prefix.length`, where the prefix is a styled bar and two spaces — or nothing.
 	fn width(&self, guide: bool) -> usize {
 		if guide {
-			self.columns.saturating_sub(GUIDE_PREFIX_LENGTH)
+			self.columns.saturating_sub(WRAP_PREFIX_WIDTH)
 		} else {
 			self.columns
 		}

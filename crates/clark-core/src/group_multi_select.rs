@@ -42,7 +42,7 @@ use crate::frame::{Frame, Line, Span};
 use crate::limit_options::LimitOptions;
 use crate::multi_select::{VALUE_SEPARATOR, error_footer, footer};
 use crate::prompt::{Prompt, PromptState, Status};
-use crate::select::{GUIDE_PREFIX_LENGTH, SelectOption, plain_title};
+use crate::select::{COLUMN_PADDING, SelectOption, plain_title};
 use crate::settings::Action;
 use crate::theme::Theme;
 
@@ -519,11 +519,7 @@ impl<T: Clone + PartialEq> GroupMultiSelectWidget<'_, T> {
 	fn list(&self, bar: Option<Span>, row_padding: usize) -> Vec<Line> {
 		let state = self.prompt.state();
 		let indices: Vec<usize> = (0..state.rows().len()).collect();
-		let column_padding = if bar.is_some() {
-			GUIDE_PREFIX_LENGTH
-		} else {
-			0
-		};
+		let column_padding = if bar.is_some() { COLUMN_PADDING } else { 0 };
 
 		let mut limit = LimitOptions::new(&indices, state.cursor())
 			.with_columns(self.columns)

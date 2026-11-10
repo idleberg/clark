@@ -11,7 +11,7 @@
 //!   turns every alias into a `cursor` event; `ConfirmPrompt`'s `cursor` listener inverts the value
 //!   without looking at which action arrived. So the cancelled Frame of an untouched `confirm` reads
 //!   `No`. The harvested Scenario `confirm › can cancel` records exactly that.
-//! - **The message is wrapped 10 columns narrower than it looks.** See [`GUIDE_PREFIX_LENGTH`].
+//! - **The message is wrapped 10 columns narrower than it looks.** See [`WRAP_PREFIX_WIDTH`].
 
 use ratatui_core::buffer::Buffer;
 use ratatui_core::layout::Rect;
@@ -93,7 +93,7 @@ impl PromptState for ConfirmState {
 /// breaks. It is a constant rather than a measurement because the port's Frames carry no escapes at
 /// all (ADR-0011) — there is no styled string here to take the length of — and it is thirteen for
 /// either Theme, since both draw the bar with one character.
-pub const GUIDE_PREFIX_LENGTH: usize = 13;
+pub const WRAP_PREFIX_WIDTH: usize = 13;
 
 /// A `confirm` Prompt drawn as a Frame — the `render` callback of `@clack/prompts`' `confirm()`.
 pub struct ConfirmWidget<'a> {
@@ -258,7 +258,7 @@ impl<'a> ConfirmWidget<'a> {
 		let symbols = &self.theme.symbols;
 		let guide = self.guided();
 
-		let prefix = if guide { GUIDE_PREFIX_LENGTH } else { 0 };
+		let prefix = if guide { WRAP_PREFIX_WIDTH } else { 0 };
 		let width = (self.columns as usize).saturating_sub(prefix).max(1);
 
 		let wrapped = wrap(self.message, width);

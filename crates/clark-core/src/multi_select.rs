@@ -37,7 +37,7 @@ use crate::frame::{Frame, Line, Span};
 use crate::limit_options::LimitOptions;
 use crate::line_editor::{Key, KeyName};
 use crate::prompt::{Prompt, PromptState, Status};
-use crate::select::{GUIDE_PREFIX_LENGTH, SelectOption};
+use crate::select::{COLUMN_PADDING, SelectOption, WRAP_PREFIX_WIDTH};
 use crate::settings::Action;
 use crate::theme::Theme;
 use crate::wrap::leaked;
@@ -413,11 +413,7 @@ impl<T: Clone + PartialEq> MultiSelectWidget<'_, T> {
 	/// The option list, cut to what is left of the terminal, each row behind `bar` if there is one.
 	fn list(&self, bar: Option<Span>, row_padding: usize) -> Vec<Line> {
 		let state = self.prompt.state();
-		let column_padding = if bar.is_some() {
-			GUIDE_PREFIX_LENGTH
-		} else {
-			0
-		};
+		let column_padding = if bar.is_some() { COLUMN_PADDING } else { 0 };
 
 		let mut limit = LimitOptions::new(state.options(), state.cursor())
 			.with_columns(self.columns)
@@ -457,10 +453,8 @@ impl<T: Clone + PartialEq> MultiSelectWidget<'_, T> {
 			lines.push(Line::from(Span::styled(symbols.bar, styles.guide)));
 		}
 
-		let wrapped = crate::wrap::wrap(
-			self.message,
-			self.columns.saturating_sub(GUIDE_PREFIX_LENGTH),
-		);
+		let wrapped =
+			crate::wrap::wrap(self.message, self.columns.saturating_sub(WRAP_PREFIX_WIDTH));
 		for (index, text) in wrapped.split('\n').enumerate() {
 			let mut line = Line::blank();
 			line.push(if index == 0 {
@@ -589,7 +583,7 @@ impl<T: Clone + PartialEq> MultiSelectWidget<'_, T> {
 		}
 
 		let width = if guide {
-			self.columns.saturating_sub(GUIDE_PREFIX_LENGTH)
+			self.columns.saturating_sub(WRAP_PREFIX_WIDTH)
 		} else {
 			self.columns
 		};
@@ -1124,7 +1118,7 @@ mod tests {
 		space(&mut prompt);
 		press(&mut prompt, KeyName::Escape);
 
-		let widget = MultiSelectWidget::new(&prompt, "foo").with_columns(GUIDE_PREFIX_LENGTH + 10);
+		let widget = MultiSelectWidget::new(&prompt, "foo").with_columns(WRAP_PREFIX_WIDTH + 10);
 		let lines = widget.frame().lines;
 		assert_eq!(drawn(&widget)[2], "│  abcdefghij");
 		assert_eq!(drawn(&widget)[3], "│  , klm");
@@ -1144,7 +1138,7 @@ mod tests {
 		space(&mut prompt);
 		press(&mut prompt, KeyName::Escape);
 
-		let widget = MultiSelectWidget::new(&prompt, "foo").with_columns(GUIDE_PREFIX_LENGTH + 10);
+		let widget = MultiSelectWidget::new(&prompt, "foo").with_columns(WRAP_PREFIX_WIDTH + 10);
 		let lines = widget.frame().lines;
 		// The leading space is upstream's `trim: false` keeping the space the row broke on.
 		assert_eq!(drawn(&widget)[3], "│   klm");

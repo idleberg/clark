@@ -29,7 +29,7 @@ use ratatui_core::buffer::Buffer;
 use ratatui_core::layout::Rect;
 use ratatui_core::widgets::Widget;
 
-use crate::confirm::GUIDE_PREFIX_LENGTH;
+use crate::confirm::WRAP_PREFIX_WIDTH;
 use crate::cursor::find_text_cursor;
 use crate::frame::{Frame, Line, Span};
 use crate::line_editor::{Key, KeyName};
@@ -406,7 +406,7 @@ impl<'a> MultiLineWidget<'a> {
 
 	/// `wrapTextWithPrefix`: the text broken to the terminal less the prefix, then prefixed.
 	///
-	/// The width taken off is [`GUIDE_PREFIX_LENGTH`], because upstream takes `prefix.length` of a
+	/// The width taken off is [`WRAP_PREFIX_WIDTH`], because upstream takes `prefix.length` of a
 	/// string whose bar is wrapped in two escape sequences — the same thirteen columns for three,
 	/// and the same defect ADR-0019 records for `confirm`.
 	///
@@ -416,7 +416,7 @@ impl<'a> MultiLineWidget<'a> {
 		if !guide {
 			return line.paragraphs();
 		}
-		let columns = self.columns.saturating_sub(GUIDE_PREFIX_LENGTH);
+		let columns = self.columns.saturating_sub(WRAP_PREFIX_WIDTH);
 		line.paragraphs()
 			.iter()
 			.flat_map(|paragraph| paragraph.wrap(columns))
@@ -969,7 +969,7 @@ mod tests {
 	fn the_text_is_wrapped_ten_columns_early() {
 		let mut prompt = multiline();
 		typed(&mut prompt, "aaaa bbbb cccc");
-		let widget = MultiLineWidget::new(&prompt, "foo").with_columns(GUIDE_PREFIX_LENGTH + 10);
+		let widget = MultiLineWidget::new(&prompt, "foo").with_columns(WRAP_PREFIX_WIDTH + 10);
 		assert_eq!(drawn(&widget)[2], "│  aaaa bbbb ");
 		assert_eq!(drawn(&widget)[3], "│  cccc█");
 		// Three visible columns of prefix and ten of text, on a terminal twenty-three wide.

@@ -38,12 +38,18 @@ use crate::settings::Action;
 use crate::theme::Theme;
 use crate::wrap::{leaked, wrap};
 
-/// The columns upstream takes off the terminal for a prefix that draws three of them.
+/// The columns upstream takes off the terminal before wrapping under the Guide prefix.
 ///
-/// The same thirteen as [`confirm::GUIDE_PREFIX_LENGTH`](crate::confirm::GUIDE_PREFIX_LENGTH), and
-/// for the same reason: `ESC[36m`, the bar, `ESC[39m`, and two spaces. `select` subtracts it in two
-/// places — once for the message and once inside the option list.
-pub const GUIDE_PREFIX_LENGTH: usize = 13;
+/// The same thirteen as `confirm`'s, and for the same reason: `ESC[36m`, the bar, `ESC[39m`, and
+/// two spaces, measured as a string rather than as what it draws.
+pub use crate::confirm::WRAP_PREFIX_WIDTH;
+
+/// The `columnPadding` a guided option list hands `limitOptions`.
+///
+/// Thirteen today, like [`WRAP_PREFIX_WIDTH`], because upstream passes the same `prefix.length` to
+/// both. They are separate because they need not stay equal: the wrap width follows how the prefix
+/// is measured, while this is whatever number the list is handed.
+pub const COLUMN_PADDING: usize = 13;
 
 /// `SELECT_INSTRUCTIONS`, the footer under the list. The keys are dim and the verbs are not.
 pub const INSTRUCTIONS: [(&str, &str); 2] = [("↑/↓", " to navigate"), ("Enter:", " confirm")];
@@ -341,7 +347,7 @@ impl<'a, T> SelectWidget<'a, T> {
 			_ => {
 				let footer = self.footer(guide);
 				let row_padding = title_rows + footer.len() + 1;
-				let column_padding = if guide { GUIDE_PREFIX_LENGTH } else { 0 };
+				let column_padding = if guide { COLUMN_PADDING } else { 0 };
 
 				let mut limit = LimitOptions::new(state.options(), state.cursor())
 					.with_columns(self.columns)
@@ -394,10 +400,7 @@ impl<'a, T> SelectWidget<'a, T> {
 			lines.push(Line::from(Span::styled(symbols.bar, styles.guide)));
 		}
 
-		let wrapped = wrap(
-			self.message,
-			self.columns.saturating_sub(GUIDE_PREFIX_LENGTH),
-		);
+		let wrapped = wrap(self.message, self.columns.saturating_sub(WRAP_PREFIX_WIDTH));
 		for (index, text) in wrapped.split('\n').enumerate() {
 			let mut line = Line::blank();
 			if index == 0 {
@@ -514,7 +517,7 @@ impl<'a, T> SelectWidget<'a, T> {
 	/// Unguided there is no prefix, and no thirteen columns lost to one either.
 	fn width(&self, guide: bool) -> usize {
 		if guide {
-			self.columns.saturating_sub(GUIDE_PREFIX_LENGTH)
+			self.columns.saturating_sub(WRAP_PREFIX_WIDTH)
 		} else {
 			self.columns
 		}
