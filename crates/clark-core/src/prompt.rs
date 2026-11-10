@@ -90,6 +90,26 @@ where
 	}
 }
 
+/// A Prompt's [`Validator`], and when it runs relative to the Frame.
+///
+/// clack decides this by what `validate` returns — a `Promise` sends the Prompt through
+/// `validating`, anything else does not. A closure here returns the same thing either way, so the
+/// caller says which it is. ADR-0037.
+pub enum Validation<T> {
+	/// Runs inside the `return` that triggers it.
+	Immediate(Box<dyn Validator<T>>),
+	/// Runs after the Validating Frame has been written, in [`Prompt::validate`].
+	Slow(Box<dyn Validator<T>>),
+}
+
+impl<T> Validation<T> {
+	fn validator(&mut self) -> &mut dyn Validator<T> {
+		match self {
+			Self::Immediate(validator) | Self::Slow(validator) => validator.as_mut(),
+		}
+	}
+}
+
 /// The behaviour that upstream expresses by subclassing `Prompt` and subscribing to its events.
 ///
 /// Every method has a default, so a state that only needs to turn user input into a value overrides
@@ -231,9 +251,7 @@ pub struct Prompt<S: PromptState> {
 	cursor: usize,
 	editor: LineEditor,
 	settings: Settings,
-	validator: Option<Box<dyn Validator<S::Value>>>,
-	/// Whether the validator is slow enough to be worth a Validating Frame before it runs.
-	slow: bool,
+	validation: Option<Validation<S::Value>>,
 	/// The cancel check of the `return` that started validating, owed once validation is done.
 	cancel_after_validation: bool,
 	/// Whether the last keypress settled the Prompt from inside a listener rather than at the end.
@@ -252,8 +270,7 @@ impl<S: PromptState> Prompt<S> {
 			cursor: 0,
 			editor: LineEditor::new(),
 			settings: Settings::default(),
-			validator: None,
-			slow: false,
+			validation: None,
 			cancel_after_validation: false,
 			closed_early: false,
 			resolved_early: false,
@@ -261,10 +278,8 @@ impl<S: PromptState> Prompt<S> {
 	}
 
 	/// `validate`. Runs on `return`, against the value as it stands.
-	pub fn with_validator(mut self, validator: impl Validator<S::Value> + 'static) -> Self {
-		self.validator = Some(Box::new(validator));
-		self.slow = false;
-		self
+	pub fn with_validator(self, validator: impl Validator<S::Value> + 'static) -> Self {
+		self.with_validation(Validation::Immediate(Box::new(validator)))
 	}
 
 	/// A validator slow enough that the user should see it running — clack's `validate` returning
@@ -273,9 +288,13 @@ impl<S: PromptState> Prompt<S> {
 	/// `return` moves the Prompt to [`Status::Validating`] and stops there, so the Validating Frame
 	/// can be drawn; [`validate`](Self::validate) then runs the closure and carries on to Error or
 	/// Submit. Blocking rather than async: ADR-0037 has why the Grids come out the same.
-	pub fn with_slow_validator(mut self, validator: impl Validator<S::Value> + 'static) -> Self {
-		self.validator = Some(Box::new(validator));
-		self.slow = true;
+	pub fn with_slow_validator(self, validator: impl Validator<S::Value> + 'static) -> Self {
+		self.with_validation(Validation::Slow(Box::new(validator)))
+	}
+
+	/// Either of the two above, already boxed — for a builder that holds one until it builds.
+	pub fn with_validation(mut self, validation: Validation<S::Value>) -> Self {
+		self.validation = Some(validation);
 		self
 	}
 
@@ -457,16 +476,16 @@ impl<S: PromptState> Prompt<S> {
 		);
 
 		if key.name == Some(KeyName::Return) && self.state.should_submit(s, key) {
-			if self.slow && self.validator.is_some() {
-				// Upstream awaits here, between the render of `validating` and the rest of
-				// `onKeypress`. The rest is `validate`'s.
+			if let Some(Validation::Slow(_)) = self.validation {
+				// Upstream awaits here, between drawing `validating` and the rest of `onKeypress`.
+				// The rest is `validate`'s.
 				self.status = Status::Validating;
 				self.cancel_after_validation = cancel;
 				return;
 			}
-			self.run_validator();
+			self.submit_or_reject();
 		}
-		self.settle(cancel);
+		self.cancel_or_finalize(cancel);
 	}
 
 	/// Run the slow validator a `return` left waiting, and settle the Prompt on its answer.
@@ -477,13 +496,14 @@ impl<S: PromptState> Prompt<S> {
 		if self.status != Status::Validating {
 			return;
 		}
-		self.run_validator();
-		self.settle(self.cancel_after_validation);
+		self.submit_or_reject();
+		self.cancel_or_finalize(self.cancel_after_validation);
 	}
 
-	fn run_validator(&mut self) {
-		if let Some(validator) = &mut self.validator {
-			if let Some(problem) = validator.validate(self.state.value()) {
+	/// The `return` that submits: Error if the validator rejects the value, Submit otherwise.
+	fn submit_or_reject(&mut self) {
+		if let Some(validation) = &mut self.validation {
+			if let Some(problem) = validation.validator().validate(self.state.value()) {
 				self.error = problem;
 				self.status = Status::Error;
 				// `return` cleared the editor. Put the text back so it can be corrected.
@@ -496,7 +516,7 @@ impl<S: PromptState> Prompt<S> {
 	}
 
 	/// The tail of `onKeypress`: the cancel check, then `finalize` for a Prompt that has settled.
-	fn settle(&mut self, cancel: bool) {
+	fn cancel_or_finalize(&mut self, cancel: bool) {
 		if cancel {
 			self.status = Status::Cancel;
 		}

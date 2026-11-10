@@ -1,9 +1,9 @@
 # A slow validator blocks, and the Grid cannot tell
 
 clack 1.6.0's core added a `validating` state (clack #583). When `validate` returns a `Promise`,
-`onKeypress` sets `state = 'validating'`, renders, `await`s, and only then carries on to `error` or
+`onKeypress` sets `state = 'validating'`, calls `render()`, `await`s, and only then carries on to `error` or
 `submit`. While the Promise is pending, `onKeypress` returns on its first line, so every key is
-ignored. `text` draws its own Frame for the state (dim input, `Validating...` on the foot) and every
+ignored. `text` draws its own Frame for the state (dim user input, `Validating...` on the foot) and every
 Prompt's `symbol()` draws a dim `◆`.
 
 clark's validators are synchronous, and they stay that way. An async `Validator` would put an
@@ -22,9 +22,9 @@ The port splits `onKeypress` at the same `await`:
 
 1. `Prompt::key` on `return` with a slow validator sets `Status::Validating` and returns. It
    skips the cancel check and `finalize`, which upstream also runs only after the `await`.
-   `Session::key` renders, which writes the Validating Frame.
+   `Session::key` then writes the Validating Frame.
 2. The driver writes those bytes, then calls `Session::validate`. That runs the closure (blocking),
-   then the cancel check and `finalize`, and renders the result. The driver writes that too.
+   then the cancel check and `finalize`, and composes the Frame it settles on. The driver writes that too.
 
 So the same two Frames are written in the same order, from the same state machine.
 
@@ -33,7 +33,7 @@ So the same two Frames are written in the same order, from the same state machin
 Upstream ignores keys while the Promise is pending, but they still arrive, one by one. Here they
 queue in the terminal's input while the closure blocks. Replaying them afterwards would type into
 a Prompt that clack would have left untouched, so the driver drains the queue once `validate`
-returns and discards every key. A resize in that queue is still applied, because upstream renders
+returns and discards every key. A resize in that queue is still applied, because upstream calls `render()`
 on resize in any state. `Prompt::key` also ignores keys while Validating, so a driver that does not
 drain them still matches upstream.
 

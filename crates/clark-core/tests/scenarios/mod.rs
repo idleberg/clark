@@ -40,7 +40,7 @@ use clark_core::multi_line::{MultiLineState, MultiLineWidget};
 use clark_core::multi_select::{MultiSelectState, MultiSelectWidget, required};
 use clark_core::password::{PasswordState, PasswordWidget};
 use clark_core::path::{MemFs, options as path_options, required as path_required};
-use clark_core::prompt::{Prompt, Status};
+use clark_core::prompt::{Prompt, Status, Validation};
 use clark_core::select::{SelectOption, SelectState, SelectWidget};
 use clark_core::select_key::{SelectKeyState, SelectKeyWidget};
 use clark_core::session::Session;
@@ -478,10 +478,24 @@ impl Scenario {
 	/// frames the port was never asked to draw. And one Scenario is driven by an `AbortSignal`
 	/// rather than by keys, which is a cancellation path with no keypress in it.
 	///
-	/// `text` is the exception: every callback its suite passes is the same one, which
-	/// [`should_be_xy`] supplies — the `required` bargain again.
+	/// Unless [`validation`](Self::validation) can stand in for the callback.
 	pub fn is_replayable(&self) -> bool {
-		(!self.validates || self.kind == "text") && !self.keys.is_empty()
+		(!self.validates || self.validation().is_some()) && !self.keys.is_empty()
+	}
+
+	/// The `validate` callback a recording could not carry, where the loader knows what it was.
+	///
+	/// Only `text`: every callback its suite passes is [`should_be_xy`], sync or `async` — the
+	/// `required` bargain again. Every other suite's callbacks differ, so they stay unreplayable.
+	fn validation(&self) -> Option<Validation<String>> {
+		if !self.validates || self.kind != "text" {
+			return None;
+		}
+		Some(if self.validates_slowly {
+			Validation::Slow(Box::new(should_be_xy))
+		} else {
+			Validation::Immediate(Box::new(should_be_xy))
+		})
 	}
 
 	/// The whole Scenario as a Session: the Prompt, the widget, and clack's terminal size.
@@ -934,10 +948,8 @@ impl Scenario {
 				if let Some(initial) = &self.initial_value {
 					prompt = prompt.with_initial_user_input(initial);
 				}
-				if self.validates_slowly {
-					prompt = prompt.with_slow_validator(should_be_xy);
-				} else if self.validates {
-					prompt = prompt.with_validator(should_be_xy);
+				if let Some(validation) = self.validation() {
+					prompt = prompt.with_validation(validation);
 				}
 				let placeholder = self.placeholder.clone();
 				Run::Text(

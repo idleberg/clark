@@ -873,7 +873,8 @@ impl<'a> DateWidget<'a> {
 				}
 			}
 
-			Status::Initial | Status::Active | Status::Validating => {
+			// Upstream's `default:`, which is also where `validating` lands.
+			_ => {
 				frame.push(title);
 
 				let mut input = Line::blank();

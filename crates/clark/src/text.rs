@@ -13,7 +13,7 @@
 //! first to the base class's `initialUserInput` and keeps the second on the `text` state, which is
 //! exactly how they are wired below.
 
-use clark_core::prompt::{Outcome, Prompt, Validator};
+use clark_core::prompt::{Outcome, Prompt, Validation, Validator};
 use clark_core::session::Session;
 use clark_core::settings::Settings;
 use clark_core::text::{TextState, TextWidget};
@@ -39,8 +39,7 @@ pub struct Text {
 	theme: Option<Theme>,
 	settings: Option<Settings>,
 	with_guide: Option<bool>,
-	validator: Option<Box<dyn Validator<String>>>,
-	slow: bool,
+	validation: Option<Validation<String>>,
 }
 
 /// Ask for a line of text.
@@ -75,8 +74,7 @@ impl Text {
 	/// The argument is an [`Option`] because upstream runs validation against a value that may never
 	/// have been set — a bare `return` on an untouched Prompt reaches the validator with nothing.
 	pub fn validate(mut self, validator: impl Validator<String> + 'static) -> Self {
-		self.validator = Some(Box::new(validator));
-		self.slow = false;
+		self.validation = Some(Validation::Immediate(Box::new(validator)));
 		self
 	}
 
@@ -84,8 +82,7 @@ impl Text {
 	/// `Validating...` before calling it, and drops any key pressed while it runs. clack's
 	/// Promise-returning `validate`.
 	pub fn validate_slow(mut self, validator: impl Validator<String> + 'static) -> Self {
-		self.validator = Some(Box::new(validator));
-		self.slow = true;
+		self.validation = Some(Validation::Slow(Box::new(validator)));
 		self
 	}
 
@@ -144,15 +141,8 @@ impl Text {
 		if let Some(initial) = self.initial_value {
 			prompt = prompt.with_initial_user_input(initial);
 		}
-		if let Some(mut validator) = self.validator {
-			// Through a closure rather than directly: `Validator` is blanket-implemented for
-			// `FnMut`, and a boxed trait object is not one of those.
-			let validator = move |value: Option<&String>| validator.validate(value);
-			prompt = if self.slow {
-				prompt.with_slow_validator(validator)
-			} else {
-				prompt.with_validator(validator)
-			};
+		if let Some(validation) = self.validation {
+			prompt = prompt.with_validation(validation);
 		}
 
 		// The Frame's own options, which upstream closes over in its `render` callback rather than

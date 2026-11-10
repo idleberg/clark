@@ -260,7 +260,7 @@ pub struct Styles {
 	pub cancelled: Style,
 	/// A validation message.
 	pub error: Style,
-	/// The input and the `Validating...` note while a slow validator runs.
+	/// The user input and the `Validating...` note while a slow validator runs.
 	pub validating: Style,
 	/// The advice a `multiselect` prints under its validation message.
 	pub error_hint: Style,

@@ -16,7 +16,7 @@
 use std::io::{self, Write};
 use std::time::Duration;
 
-use clark_core::prompt::{Prompt, PromptState};
+use clark_core::prompt::{Prompt, PromptState, Status};
 use clark_core::session::Session;
 use crossterm::event::{Event, KeyEventKind};
 use crossterm::terminal;
@@ -71,15 +71,15 @@ fn pump<S: PromptState>(out: &mut impl Write, session: &mut Session<S>) -> Resul
 				// A slow validator: the Validating Frame is on screen, so run it now. clack ignores
 				// keys while its Promise is pending; here they queue up behind the blocking call, so
 				// they are drained and dropped rather than replayed. A resize still lands.
-				let mut settled = session.validate();
-				if !settled.is_empty() {
+				if session.status() == Status::Validating {
+					let mut settled = session.validate();
 					while crossterm::event::poll(Duration::ZERO)? {
 						if let Event::Resize(columns, rows) = crossterm::event::read()? {
 							settled.push_str(&session.resize(columns, rows));
 						}
 					}
+					write(out, &settled)?;
 				}
-				write(out, &settled)?;
 			}
 			Event::Resize(columns, rows) => {
 				write(out, &session.resize(columns, rows))?;

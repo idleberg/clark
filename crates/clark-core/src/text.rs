@@ -171,33 +171,6 @@ impl<'a> TextWidget<'a> {
 		let value = self.prompt.state().value().unwrap_or("");
 
 		match status {
-			Status::Validating => {
-				frame.push(title);
-
-				let mut input = Line::blank();
-				if guide {
-					input.push(Span::styled(symbols.bar, styles.guide_active));
-					input.push(Span::raw("  "));
-				}
-				// `styleText('dim', userInput)`: one dim around whatever the input already carries.
-				input
-					.spans
-					.extend(self.user_input().into_iter().map(|mut span| {
-						span.style = span.style.patch(styles.validating);
-						span
-					}));
-				frame.push(input);
-
-				let mut end = Line::blank();
-				if guide {
-					end.push(Span::styled(symbols.bar_end, styles.guide_active));
-				}
-				end.push(Span::raw("  "));
-				end.push(Span::styled("Validating...", styles.validating));
-				frame.push(end);
-				frame.push(Line::blank());
-			}
-
 			Status::Error => {
 				// `title.trim()` — the trailing newline goes, and with it any trailing whitespace of
 				// the question. Nothing is trimmed from the front: the step symbol's colour puts an
@@ -265,7 +238,10 @@ impl<'a> TextWidget<'a> {
 				}
 			}
 
-			Status::Initial | Status::Active => {
+			// Upstream writes `validating` as a branch of its own, but it is the active Frame with the
+			// user input dimmed and a note on the foot, so it is drawn as one here.
+			Status::Initial | Status::Active | Status::Validating => {
+				let validating = status == Status::Validating;
 				frame.push(title);
 
 				let mut input = Line::blank();
@@ -273,12 +249,25 @@ impl<'a> TextWidget<'a> {
 					input.push(Span::styled(symbols.bar, styles.guide_active));
 					input.push(Span::raw("  "));
 				}
-				input.spans.extend(self.user_input());
+				// `styleText('dim', userInput)`: one dim over whatever the user input already carries.
+				input
+					.spans
+					.extend(self.user_input().into_iter().map(|mut span| {
+						if validating {
+							span.style = span.style.patch(styles.validating);
+						}
+						span
+					}));
 				frame.push(input);
 
 				let mut end = Line::blank();
 				if guide {
 					end.push(Span::styled(symbols.bar_end, styles.guide_active));
+				}
+				// Padded with or without the Guide, unlike the error message on the same foot.
+				if validating {
+					end.push(Span::raw("  "));
+					end.push(Span::styled("Validating...", styles.validating));
 				}
 				frame.push(end);
 				frame.push(Line::blank());
@@ -607,7 +596,7 @@ mod tests {
 
 	/// clack's `validating` branch: the input and a `Validating...` foot, both dim, under a dim step.
 	#[test]
-	fn a_validating_frame_dims_the_input_and_says_so_on_the_foot() {
+	fn a_validating_frame_dims_the_user_input_and_says_so_on_the_foot() {
 		use ratatui_core::style::Modifier;
 
 		let mut prompt =
@@ -631,9 +620,9 @@ mod tests {
 			frame.lines[1].spans[0],
 			Theme::clack().step(Status::Validating)
 		);
-		assert!(dim(2, 2), "the input is not dim");
+		assert!(dim(2, 2), "the user input is not dim");
 		assert!(dim(3, 2), "the foot is not dim");
-		assert!(!dim(2, 0), "the Guide beside the input is dimmed too");
+		assert!(!dim(2, 0), "the Guide beside the user input is dimmed too");
 
 		// Without the Guide the foot keeps its two spaces — upstream pads it either way.
 		let widget = TextWidget::new(&prompt, "foo").with_guide(false);
