@@ -155,8 +155,10 @@ impl Path {
 	/// The Session this Prompt would be run as, without running it.
 	pub fn session(self) -> Session<AutocompleteState<String>> {
 		let (fs, directory) = (self.fs, self.directory);
+		// `completeOnTab: true`, which `path` sets and does not offer: tab descends into a directory.
 		let state =
-			AutocompleteState::with_options_fn(move |input| options(fs.as_ref(), input, directory));
+			AutocompleteState::with_options_fn(move |input| options(fs.as_ref(), input, directory))
+				.with_complete_on_tab(true);
 
 		let mut prompt = Prompt::new(state);
 		if let Some(settings) = self.settings {
@@ -198,5 +200,30 @@ impl Path {
 			}
 			widget.frame()
 		})
+	}
+}
+
+#[cfg(test)]
+mod tests {
+	use super::*;
+	use clark_core::line_editor::{Key, KeyName};
+	use clark_core::path::MemFs;
+
+	/// `completeOnTab: true`, which `path` sets itself: tab types the focused directory, and the
+	/// list follows it in.
+	#[test]
+	fn tab_descends_into_the_focused_directory() {
+		let mut session = path("Pick")
+			.root("/tmp/f")
+			.fs(MemFs::new([("/tmp/foo/bar.txt", false)]))
+			.session();
+		let opening = session.open();
+		assert!(opening.contains("Tab:"), "{opening:?}");
+		session.key(Some("\t"), &Key::named(KeyName::Tab));
+		assert_eq!(session.prompt().user_input(), "/tmp/foo");
+		assert_eq!(
+			session.prompt().state().focused().map(String::as_str),
+			Some("/tmp/foo/bar.txt")
+		);
 	}
 }

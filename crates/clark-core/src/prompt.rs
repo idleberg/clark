@@ -166,8 +166,8 @@ pub trait PromptState {
 	///
 	/// `_setUserInput(value, true)`, asked for rather than called: a state is handed the text but does
 	/// not own the editor, so the one Prompt that writes its own input — `autocomplete`, filling the
-	/// field from its placeholder when tab is pressed — says so here and [`Prompt::key`] carries it
-	/// out. Taken, not read: it is a request, and it is spent once.
+	/// field from its placeholder or its focused option when tab is pressed — says so here and
+	/// [`Prompt::key`] carries it out. Taken, not read: it is a request, and it is spent once.
 	///
 	/// Upstream clears the field first, and only when it holds the tab itself, because `rl.write`
 	/// types into the line rather than replacing it. [`Prompt::key`] replaces it, so there is nothing

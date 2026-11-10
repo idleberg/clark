@@ -61,7 +61,9 @@ ported from node's posix versions as they are written, `"//"` case and all.
 
 Posix on every platform. `path.ts` gets whichever `node:path` the platform hands it, and the corpus
 behind this module is posix; guessing at the other one is how a port grows a behaviour nobody
-recorded.
+recorded. The one exception is upstream's own: since clack 1.9.0 `path.ts` treats a trailing `\`
+like a trailing `/` on every OS, when deciding what to list and what prefix to filter by, so the
+port does too. `dirname` and `join` stay posix.
 
 ## The recording carries the filesystem
 

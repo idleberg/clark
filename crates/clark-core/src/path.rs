@@ -1,8 +1,9 @@
 //! Ported from `@clack/prompts`' `path.ts` — an `autocomplete` whose list is the filesystem.
 //!
 //! `path` adds no widget, no state machine and no key handling. It is
-//! [`crate::autocomplete`] with three things set: `maxItems` is five, `initialUserInput` is the
-//! root, and `options` is a *function* rather than a list. That last one is the whole prompt, and
+//! [`crate::autocomplete`] with four things set: `maxItems` is five, `initialUserInput` is the
+//! root, `completeOnTab` is on, so tab descends into a directory, and `options` is a *function*
+//! rather than a list. That last one is the whole prompt, and
 //! it is why this module exists at all.
 //!
 //! # The list is not filtered, it is re-read
@@ -76,18 +77,22 @@ pub fn options<F: Fs + ?Sized>(
 		return Vec::new();
 	}
 
+	// "Accept both separators on every OS: Windows users type `\`" — upstream's own comment. Only
+	// here, though: `dirname` and `join` stay posix, so on Unix a `\` is still part of a name.
+	let trailing_separator = user_input.ends_with(['/', '\\']);
+
 	let search = if !fs.exists(user_input) {
 		dirname(user_input)
-	} else if fs.is_dir(user_input) && (!directory || user_input.ends_with('/')) {
+	} else if fs.is_dir(user_input) && (!directory || trailing_separator) {
 		user_input.to_string()
 	} else {
 		dirname(user_input)
 	};
 
-	// "Strip trailing slash so startsWith matches the directory itself among its siblings" —
-	// upstream's own comment. Length in UTF-16 units, as upstream's `.length` is, though the only
-	// thing being asked is whether the text is longer than the `/` it ends with.
-	let prefix = if user_input.encode_utf16().count() > 1 && user_input.ends_with('/') {
+	// "Strip the trailing separator so startsWith matches the directory itself among its siblings"
+	// — upstream's own comment. Length in UTF-16 units, as upstream's `.length` is, though the only
+	// thing being asked is whether the text is longer than the separator it ends with.
+	let prefix = if user_input.encode_utf16().count() > 1 && trailing_separator {
 		&user_input[..user_input.len() - 1]
 	} else {
 		user_input
@@ -357,6 +362,24 @@ mod tests {
 		assert_eq!(suggested("/tmp", true), ["/tmp"]);
 		assert_eq!(suggested("/tmp/", true), ["/tmp/foo", "/tmp/hello"]);
 		assert_eq!(suggested("/tmp/f", true), ["/tmp/foo"]);
+	}
+
+	/// A trailing `\` is stripped from the prefix as `/` is, on every OS.
+	#[test]
+	fn a_trailing_backslash_is_stripped_like_a_slash() {
+		assert_eq!(suggested("/tmp\\", false), ["/tmp"]);
+	}
+
+	/// And it asks a named directory for its children, as `/` does in `directory` mode. On Unix
+	/// that is a directory whose name ends in `\`.
+	#[test]
+	fn a_trailing_backslash_asks_for_the_children_in_directory_mode() {
+		let fs = MemFs::new([("/tmp/odd\\/sub/f", false)]);
+		let listed: Vec<String> = options(&fs, "/tmp/odd\\", true)
+			.into_iter()
+			.map(|option| option.value().clone())
+			.collect();
+		assert_eq!(listed, ["/tmp/odd\\/sub"]);
 	}
 
 	#[test]

@@ -48,6 +48,9 @@ pub struct Autocomplete<T> {
 	options: Vec<SelectOption<T>>,
 	initial_value: Option<T>,
 	placeholder: Option<String>,
+	/// Set by [`Autocomplete::complete_on_tab`], which is where `T` is known to print — so the
+	/// builder it applies is carried here rather than a flag.
+	complete_on_tab: Option<fn(AutocompleteState<T>) -> AutocompleteState<T>>,
 	max_items: Option<usize>,
 	filter: Option<Filter<T>>,
 	validator: Option<Box<dyn Validator<T>>>,
@@ -63,6 +66,7 @@ pub fn autocomplete<T>(message: impl Into<String>) -> Autocomplete<T> {
 		options: Vec::new(),
 		initial_value: None,
 		placeholder: None,
+		complete_on_tab: None,
 		max_items: None,
 		filter: None,
 		validator: None,
@@ -175,6 +179,9 @@ impl<T> Autocomplete<T> {
 		if let Some(placeholder) = &self.placeholder {
 			state = state.with_placeholder(placeholder);
 		}
+		if let Some(complete_on_tab) = self.complete_on_tab {
+			state = complete_on_tab(state);
+		}
 		if let Some(initial) = self.initial_value {
 			state = state.with_initial_values([initial]);
 		}
@@ -219,6 +226,16 @@ impl<T: std::fmt::Display> Autocomplete<T> {
 	/// An option labelled by its own value.
 	pub fn option(self, value: T) -> Self {
 		self.choice(SelectOption::new(value))
+	}
+
+	/// `completeOnTab`: `tab` types the focused option's value into the search, and the footer
+	/// says so. Off by default.
+	pub fn complete_on_tab(mut self, on: bool) -> Self
+	where
+		T: Clone + PartialEq + 'static,
+	{
+		self.complete_on_tab = on.then_some(|state| state.with_complete_on_tab(true));
+		self
 	}
 }
 
@@ -457,6 +474,16 @@ mod tests {
 			Some(Outcome::Submitted(value)) => value.cloned(),
 			_ => None,
 		}
+	}
+
+	#[test]
+	fn complete_on_tab_reaches_the_prompt() {
+		let mut session = frameworks().complete_on_tab(true).session();
+		let opening = session.open();
+		assert!(opening.contains("Tab:"), "{opening:?}");
+		typed(&mut session, "sv");
+		session.key(Some("\t"), &Key::named(KeyName::Tab));
+		assert_eq!(session.prompt().user_input(), "svelte");
 	}
 
 	#[test]

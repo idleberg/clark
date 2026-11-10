@@ -75,7 +75,7 @@ killed by a signal — which is what `ctrl+c` does to it — is reported as `130
 | `multiselect`              | a value per line | `--option` `--disabled` `--initial-value` (repeatable) `--cursor-at` `--max-items` `--required` |
 | `group-multiselect`        | a value per line | `--group` `--initial-value` `--cursor-at` `--max-items` `--required` `--selectable-groups`      |
 | `select-key`               | one value        | `--option` `--disabled` `--initial-value` `--case-sensitive`                                    |
-| `autocomplete`             | one value        | `--option` `--disabled` `--placeholder` `--initial-value` `--max-items`                         |
+| `autocomplete`             | one value        | `--option` `--disabled` `--placeholder` `--initial-value` `--max-items` `--complete-on-tab`     |
 | `autocomplete-multiselect` | a value per line | `--option` `--disabled` `--placeholder` `--initial-value` `--max-items` `--required`            |
 | `path`                     | one path         | `--root` `--initial-value` `--directory`                                                        |
 | `date`                     | `YYYY-MM-DD`     | `--format` `--separator` `--initial-value` `--default-value` `--min-date` `--max-date`          |
@@ -100,6 +100,9 @@ Repeat `--disabled` to grey out options by value. They are still drawn, but cann
 ```sh
 clark select-key "Format?" --option p --option c --option x --disabled x
 ```
+
+`--complete-on-tab` makes Tab in `autocomplete` type the focused option into the search box.
+`path` always does this, so Tab descends into a directory.
 
 A group is one string, because the shell has no objects:
 

@@ -67,6 +67,9 @@ pub const INSTRUCTIONS: [(&str, &str); 3] = [
 	("Type:", " to search"),
 ];
 
+/// The instruction `completeOnTab` adds between the arrows and `Enter:`.
+pub const COMPLETE_INSTRUCTION: (&str, &str) = ("Tab:", " complete");
+
 /// `autocompleteMultiselect`'s, whose second entry changes with the mode — `Space/Tab:` once the
 /// arrows have been used, `Tab:` until then, because space is a space while you are still typing.
 pub const MULTI_INSTRUCTIONS: [(&str, &str); 4] = [
@@ -123,6 +126,9 @@ pub type Filter<T> = dyn Fn(&str, &SelectOption<T>) -> bool;
 /// time it is asked for. `FnMut` because upstream's closes over a Prompt it can read and write.
 pub type Provider<T> = dyn FnMut(&str) -> Vec<SelectOption<T>>;
 
+/// `String(focusedValue)`: what tab types when `completeOnTab` is on.
+pub type Complete<T> = dyn Fn(&T) -> String;
+
 /// The state behind both Prompts: a list, a search over it, and what has been chosen.
 pub struct AutocompleteState<T> {
 	options: Vec<SelectOption<T>>,
@@ -152,6 +158,9 @@ pub struct AutocompleteState<T> {
 	placeholder: Option<String>,
 	/// The pending `_setUserInput` of the tab branch — see [`PromptState::sets_user_input`].
 	fill: Option<String>,
+	/// `#completeOnTab`, as the `String(focusedValue)` it types: `Some` when it is on. A closure
+	/// because the state is not otherwise bound on `Display`.
+	complete: Option<Box<Complete<T>>>,
 }
 
 impl<T: Clone + PartialEq + Display + 'static> AutocompleteState<T> {
@@ -207,6 +216,7 @@ impl<T: Clone + PartialEq> AutocompleteState<T> {
 			provider,
 			placeholder: None,
 			fill: None,
+			complete: None,
 		};
 		state.settle();
 		state
@@ -232,6 +242,21 @@ impl<T: Clone + PartialEq> AutocompleteState<T> {
 	pub fn with_placeholder(mut self, placeholder: impl Into<String>) -> Self {
 		self.placeholder = Some(placeholder.into());
 		self
+	}
+
+	/// `completeOnTab`: tab types the focused option's value over the search, as though typed. A
+	/// single Prompt only — in a multiple one tab ticks, and this is never asked.
+	pub fn with_complete_on_tab(mut self, on: bool) -> Self
+	where
+		T: Display + 'static,
+	{
+		self.complete = on.then(|| Box::new(|value: &T| value.to_string()) as _);
+		self
+	}
+
+	/// Whether tab completes, which is what puts `Tab: complete` in the footer.
+	pub fn completes_on_tab(&self) -> bool {
+		self.complete.is_some()
 	}
 
 	pub fn options(&self) -> &[SelectOption<T>] {
@@ -459,6 +484,21 @@ impl<T: Clone + PartialEq> PromptState for AutocompleteState<T> {
 		});
 		if tab && empty && fills {
 			self.fill = self.placeholder.clone();
+			self.is_navigating = false;
+			return;
+		}
+
+		// `completeOnTab`: the focused value, typed over the search. Stringified before the clear,
+		// which moves the focus — upstream's own "capture before clearing resets focusedValue".
+		let completion = match (&self.complete, &self.focused) {
+			(Some(complete), Some(value)) if tab && !self.multiple => Some(complete(value)),
+			_ => None,
+		};
+		if let Some(completion) = completion {
+			// `_clearUserInput()`'s emit: the state hears the empty field before the completion, so
+			// an options function is asked about it too. [`Prompt::key`] replaces the line itself.
+			self.user_input("");
+			self.fill = Some(completion);
 			self.is_navigating = false;
 			return;
 		}
@@ -728,7 +768,11 @@ impl<'a, T: Clone + PartialEq> AutocompleteWidget<'a, T> {
 
 				let mut footer = Line::blank();
 				prefix(&mut footer);
-				for span in instructions(self.theme, &INSTRUCTIONS) {
+				let mut keys = INSTRUCTIONS.to_vec();
+				if state.completes_on_tab() {
+					keys.insert(1, COMPLETE_INSTRUCTION);
+				}
+				for span in instructions(self.theme, &keys) {
 					footer.push(span);
 				}
 				// `guidePrefixEnd` is the empty string without a Guide, and an empty string is still
@@ -1530,6 +1574,92 @@ mod tests {
 		assert_eq!(prompt.state().matches(), 5);
 	}
 
+	fn tab(prompt: &mut Prompt<AutocompleteState<String>>) {
+		prompt.key(Some("\t"), &Key::named(KeyName::Tab));
+	}
+
+	/// `completeOnTab`: tab types the focused option's value over the search, and stops navigating.
+	#[test]
+	fn tab_completes_the_focused_value_when_asked_to() {
+		let state = AutocompleteState::new(fruit()).with_complete_on_tab(true);
+		let mut prompt = open(state);
+		typed(&mut prompt, "an");
+		press(&mut prompt, KeyName::Down);
+		assert_eq!(prompt.state().focused().map(String::as_str), Some("orange"));
+		tab(&mut prompt);
+		assert_eq!(prompt.user_input(), "orange");
+		assert_eq!(prompt.cursor(), 6);
+		assert!(!prompt.state().is_navigating());
+		assert_eq!(prompt.state().matches(), 1);
+		press(&mut prompt, KeyName::Return);
+		assert_eq!(answer(&prompt), ["orange"]);
+	}
+
+	/// Off by default, so tab leaves the search alone.
+	#[test]
+	fn tab_does_not_complete_unless_asked_to() {
+		let mut prompt = open(AutocompleteState::new(fruit()));
+		typed(&mut prompt, "an");
+		tab(&mut prompt);
+		assert_eq!(prompt.user_input(), "an");
+	}
+
+	/// A multiple Prompt's tab ticks, whatever the option says.
+	#[test]
+	fn a_multiple_one_ticks_on_tab_rather_than_completing() {
+		let state = AutocompleteState::new(fruit())
+			.with_multiple(true)
+			.with_complete_on_tab(true);
+		let mut prompt = open(state);
+		typed(&mut prompt, "an");
+		tab(&mut prompt);
+		assert_eq!(prompt.user_input(), "an");
+		assert_eq!(prompt.state().selected(), ["banana"]);
+	}
+
+	/// Nothing focused, nothing to complete with.
+	#[test]
+	fn tab_with_nothing_focused_completes_nothing() {
+		let state = AutocompleteState::new(fruit()).with_complete_on_tab(true);
+		let mut prompt = open(state);
+		typed(&mut prompt, "zzz");
+		tab(&mut prompt);
+		assert_eq!(prompt.user_input(), "zzz");
+	}
+
+	/// The placeholder branch comes first: an empty field is filled from it, not from the focus.
+	#[test]
+	fn the_placeholder_wins_over_completion_on_an_empty_field() {
+		let state = AutocompleteState::new(fruit())
+			.with_placeholder("grape")
+			.with_complete_on_tab(true);
+		let mut prompt = open(state);
+		tab(&mut prompt);
+		assert_eq!(prompt.user_input(), "grape");
+	}
+
+	/// `_clearUserInput()` runs before the completion is typed, so an options function is asked
+	/// about the empty field on the way.
+	#[test]
+	fn completion_asks_an_options_function_about_the_empty_field_first() {
+		use std::cell::RefCell;
+		use std::rc::Rc;
+
+		let asked: Rc<RefCell<Vec<String>>> = Rc::new(RefCell::new(Vec::new()));
+		let seen = Rc::clone(&asked);
+		let state = AutocompleteState::with_options_fn(move |input| {
+			seen.borrow_mut().push(input.to_string());
+			options(&[("/tmp/foo", "/tmp/foo")])
+		})
+		.with_complete_on_tab(true);
+		let mut prompt = open(state);
+		typed(&mut prompt, "/t");
+		asked.borrow_mut().clear();
+		tab(&mut prompt);
+		assert_eq!(asked.borrow().as_slice(), ["", "/tmp/foo"]);
+		assert_eq!(prompt.user_input(), "/tmp/foo");
+	}
+
 	// --- The widgets ----------------------------------------------------------------------------
 
 	fn drawn(frame: &Frame) -> Vec<String> {
@@ -1563,6 +1693,16 @@ mod tests {
 				"│  ↑/↓ to select • Enter: confirm • Type: to search",
 				"└",
 			]
+		);
+	}
+
+	#[test]
+	fn completing_on_tab_says_so_in_the_footer() {
+		let state = AutocompleteState::new(options(&[("a", "A")])).with_complete_on_tab(true);
+		let prompt = open(state);
+		assert_eq!(
+			single(&prompt)[5],
+			"│  ↑/↓ to select • Tab: complete • Enter: confirm • Type: to search"
 		);
 	}
 

@@ -139,6 +139,8 @@ enum Command {
 		initial_value: Option<String>,
 		#[arg(long)]
 		max_items: Option<usize>,
+		#[arg(long, default_value_t = false, action = clap::ArgAction::Set, num_args = 0..=1, default_missing_value = "true")]
+		complete_on_tab: bool,
 	},
 
 	/// The same, keeping the ticks. One value per line on stdout.
@@ -512,8 +514,11 @@ fn run(command: Command) -> Result<ExitCode, Failure> {
 			placeholder,
 			initial_value,
 			max_items,
+			complete_on_tab,
 		} => {
-			let mut prompt = clark::autocomplete::<String>(message).options(choices(options)?);
+			let mut prompt = clark::autocomplete::<String>(message)
+				.options(choices(options)?)
+				.complete_on_tab(complete_on_tab);
 			prompt = set(prompt, placeholder, clark::Autocomplete::placeholder);
 			prompt = set(prompt, initial_value, clark::Autocomplete::initial_value);
 			prompt = set(prompt, max_items, clark::Autocomplete::max_items);

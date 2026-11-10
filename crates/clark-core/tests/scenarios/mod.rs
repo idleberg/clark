@@ -826,9 +826,11 @@ impl Scenario {
 						.map(|(path, is_dir)| (path.as_str(), *is_dir)),
 				);
 				let directory = self.directory;
+				// `completeOnTab: true`, which `path()` also sets itself.
 				let state = AutocompleteState::with_options_fn(move |input| {
 					path_options(&volume, input, directory)
-				});
+				})
+				.with_complete_on_tab(true);
 				let mut prompt = Prompt::new(state).with_validator(path_required);
 				// `initialUserInput: opts.initialValue ?? opts.root ?? process.cwd()`. No Scenario
 				// reaches the third — a recording of a working directory would be a recording of the
