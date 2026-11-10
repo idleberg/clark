@@ -24,6 +24,7 @@
 use std::time::Duration;
 
 use clark_core::prompt::Status;
+use clark_core::settings::Settings;
 use clark_core::spinner::{self as core_spinner, Indicator, StyleFrame};
 use clark_core::theme::{Theme, unicode_supported};
 
@@ -49,6 +50,8 @@ pub fn spinner() -> Builder {
 		theme: Theme::detect(),
 		delay: None,
 		output: Output::default(),
+		accessible: None,
+		settings: None,
 		options: core_spinner::Options {
 			ci: is_ci(),
 			..core_spinner::Options::default()
@@ -65,6 +68,8 @@ pub struct Builder {
 	theme: Theme,
 	delay: Option<Duration>,
 	output: Output,
+	accessible: Option<bool>,
+	settings: Option<Settings>,
 	options: core_spinner::Options<'static>,
 }
 
@@ -116,13 +121,50 @@ impl Builder {
 		self
 	}
 
+	/// Static, screen-reader friendly output: plain lines, a heartbeat every 30 seconds, nothing
+	/// erased. Left unset, [`settings`](Self::settings) decides, then `$ACCESSIBLE`.
+	pub fn accessible(mut self, accessible: bool) -> Self {
+		self.accessible = Some(accessible);
+		self
+	}
+
+	/// Where [`accessible`](Self::accessible) falls back to, and the messages an accessible
+	/// `cancel` or `error` with nothing to say falls back to.
+	pub fn settings(mut self, settings: Settings) -> Self {
+		self.settings = Some(settings);
+		self
+	}
+
 	/// Start spinning. The interval runs until one of [`Spinner`]'s endings, or until it is dropped.
-	pub fn start(self, message: impl AsRef<str>) -> Spinner {
-		let delay = self.delay.unwrap_or_else(default_delay);
+	pub fn start(mut self, message: impl AsRef<str>) -> Spinner {
+		let delay = resolve(
+			&mut self.options,
+			self.accessible,
+			self.settings,
+			self.delay,
+		);
 		let output = self.output;
 		let mut inner = core_spinner::Spinner::new(self.theme, columns(), self.options);
 		print(output, &inner.start(message.as_ref()));
 		Spinner(Ticker::start(inner, delay, output))
+	}
+}
+
+/// Settles accessibility into `options` and returns the interval: the heartbeat when accessible,
+/// since upstream ignores `delay` then, and the frame delay otherwise.
+pub(crate) fn resolve(
+	options: &mut core_spinner::Options<'static>,
+	accessible: Option<bool>,
+	settings: Option<Settings>,
+	delay: Option<Duration>,
+) -> Duration {
+	let settings = settings.unwrap_or_default();
+	options.accessible = settings.is_accessible(accessible);
+	options.messages = settings.messages;
+	if options.accessible {
+		core_spinner::HEARTBEAT
+	} else {
+		delay.unwrap_or_else(default_delay)
 	}
 }
 

@@ -83,7 +83,17 @@ impl<T: Tick> Ticker<T> {
 			let running = Arc::clone(&running);
 			std::thread::spawn(move || {
 				while running.load(Ordering::Relaxed) {
-					std::thread::sleep(delay);
+					// Parked rather than asleep, so an ending can wake it: an accessible heartbeat is
+					// 30 seconds, which no `stop` should wait out. `park_timeout` may also wake for
+					// no reason, so the deadline is checked rather than trusted.
+					let next = Instant::now() + delay;
+					while running.load(Ordering::Relaxed) {
+						let now = Instant::now();
+						if now >= next {
+							break;
+						}
+						std::thread::park_timeout(next - now);
+					}
 					if !running.load(Ordering::Relaxed) {
 						break;
 					}
@@ -117,6 +127,7 @@ impl<T: Tick> Ticker<T> {
 	pub(crate) fn end(mut self, message: &str, status: Option<Status>) {
 		self.running.store(false, Ordering::Relaxed);
 		if let Some(handle) = self.handle.take() {
+			handle.thread().unpark();
 			let _ = handle.join();
 		}
 		let origin = self.origin;
@@ -143,6 +154,7 @@ impl<T: Tick> Drop for Ticker<T> {
 	fn drop(&mut self) {
 		self.running.store(false, Ordering::Relaxed);
 		if let Some(handle) = self.handle.take() {
+			handle.thread().unpark();
 			let _ = handle.join();
 			let output = self.output;
 			self.with(|inner| print(output, &inner.clear()));
@@ -156,4 +168,36 @@ pub(crate) fn print(output: Output, bytes: &str) {
 		return;
 	}
 	output.write(bytes);
+}
+
+#[cfg(test)]
+mod tests {
+	use super::*;
+
+	struct Silent;
+
+	impl Tick for Silent {
+		fn tick(&mut self, _: Duration) -> String {
+			String::new()
+		}
+		fn stop(&mut self, _: &str, _: Status, _: Duration) -> String {
+			String::new()
+		}
+		fn clear(&mut self) -> String {
+			String::new()
+		}
+	}
+
+	/// An accessible heartbeat is 30 seconds; ending must not wait it out.
+	#[test]
+	fn ending_wakes_the_interval_instead_of_waiting_for_it() {
+		let started = Instant::now();
+		Ticker::start(Silent, Duration::from_secs(30), Output::Stderr).end("", None);
+		drop(Ticker::start(
+			Silent,
+			Duration::from_secs(30),
+			Output::Stderr,
+		));
+		assert!(started.elapsed() < Duration::from_secs(5));
+	}
 }

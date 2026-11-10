@@ -44,6 +44,12 @@
 //! ([`Theme::step`](crate::theme::Theme::step)). The spinner spells its own out and picks red. So
 //! this module does not call that helper — it names the symbol and the colour separately, which is
 //! the only way to say a thing upstream says twice differently.
+//!
+//! # Accessible mode writes lines and erases nothing
+//!
+//! With [`Options::accessible`] on (ADR-0038), `start` writes the message on its own line, a tick is
+//! the 30-second [`HEARTBEAT`] saying `still working`, and an ending writes the bare final message.
+//! No Guide, no frame, no cursor hiding and no walk back — so `ci` and `with_guide` are ignored.
 
 use std::time::Duration;
 
@@ -52,6 +58,7 @@ use ratatui_core::style::{Color, Style};
 use crate::emitter::{write_once, write_wrapped};
 use crate::frame::{Frame, Line, Span};
 use crate::prompt::Status;
+use crate::settings::Messages;
 use crate::theme::Theme;
 use crate::wrap::wrap;
 
@@ -93,6 +100,11 @@ pub struct Options<'a> {
 	/// unless the message changed.
 	pub ci: bool,
 	pub style_frame: StyleFrame<'a>,
+	/// Already resolved — see [`Settings::is_accessible`](crate::settings::Settings::is_accessible).
+	/// Takes precedence over `ci`, `with_guide` and the frames. See the module docs.
+	pub accessible: bool,
+	/// What an accessible `cancel` or `error` says when it is given nothing to say.
+	pub messages: Messages,
 }
 
 impl Default for Options<'_> {
@@ -103,9 +115,15 @@ impl Default for Options<'_> {
 			with_guide: true,
 			ci: false,
 			style_frame: &MAGENTA,
+			accessible: false,
+			messages: Messages::default(),
 		}
 	}
 }
+
+/// How often an accessible spinner says it is still working. Upstream's `ACCESSIBLE_HEARTBEAT_MS`;
+/// `clark`'s ticker runs at this instead of the frame delay.
+pub const HEARTBEAT: Duration = Duration::from_secs(30);
 
 /// A spinner, without a clock. See the module docs.
 pub struct Spinner<'a> {
@@ -162,6 +180,14 @@ impl<'a> Spinner<'a> {
 		self.message = remove_trailing_dots(message.into());
 		self.frame_index = 0;
 		self.indicator_timer = 0.0;
+		if self.options.accessible {
+			// No `block()`, so no cursor hiding; and nothing at all for no message.
+			return if plain(&self.message).is_empty() {
+				String::new()
+			} else {
+				line_once(self.message.clone())
+			};
+		}
 		// `block()`'s, not the spinner's — see the module docs.
 		let mut out = format!("{CSI}?25l");
 		if self.options.with_guide {
@@ -179,6 +205,16 @@ impl<'a> Spinner<'a> {
 	///
 	/// `elapsed` is the time since `start`, and is read only by [`Indicator::Timer`].
 	pub fn tick(&mut self, elapsed: Duration) -> String {
+		if self.options.accessible {
+			// The heartbeat. Appended, never erased — and the progress bar's escapes ride along in
+			// its message, as they do upstream.
+			if plain(&self.message).is_empty() {
+				return "still working\n".to_owned();
+			}
+			let mut line = Line::from(Span::raw("still working: "));
+			line.spans.extend(self.message.spans.iter().cloned());
+			return line_once(line);
+		}
 		// In CI a tick that would write the same message writes nothing — which is what keeps a CI log
 		// from filling up with one line per frame. Note it is the *message* that is compared, so the
 		// frame symbol and the dots never advance there.
@@ -237,6 +273,23 @@ impl<'a> Spinner<'a> {
 			return String::new();
 		};
 
+		if self.options.accessible {
+			// The bare message, with a fallback where upstream's `||` has one.
+			let mut line = if plain(&self.message).is_empty() {
+				Line::from(Span::raw(match status {
+					Status::Submit => "Done",
+					Status::Cancel => self.options.messages.cancel.as_str(),
+					_ => self.options.messages.error.as_str(),
+				}))
+			} else {
+				self.message.clone()
+			};
+			if self.options.indicator == Indicator::Timer {
+				line.push(Span::raw(format!(" {}", format_timer(elapsed))));
+			}
+			return line_once(line);
+		}
+
 		let (symbol, style) = match status {
 			Status::Submit => (
 				self.theme.symbols.step_submit,
@@ -270,6 +323,8 @@ impl<'a> Spinner<'a> {
 	/// anything about.
 	pub fn clear(&mut self) -> String {
 		match self.settle("") {
+			// Nothing was hidden and nothing is erased.
+			Some(_) if self.options.accessible => String::new(),
 			Some(mut out) => {
 				out.push_str(&format!("{CSI}?25h"));
 				out
@@ -285,7 +340,11 @@ impl<'a> Spinner<'a> {
 			return None;
 		}
 		self.active = false;
-		let out = self.clear_previous();
+		let out = if self.options.accessible {
+			String::new()
+		} else {
+			self.clear_previous()
+		};
 		self.message = message.into();
 		Some(out)
 	}
@@ -353,6 +412,13 @@ fn remove_trailing_dots(mut message: Line) -> Line {
 		message.spans.pop();
 	}
 	message
+}
+
+/// `${line}\n`, with any newlines in the message kept where they are.
+fn line_once(line: Line) -> String {
+	write_once(&Frame {
+		lines: line.paragraphs(),
+	})
 }
 
 /// A Line's text with its styling dropped — what upstream would have measured.
@@ -590,6 +656,19 @@ mod tests {
 		let trimmed = remove_trailing_dots(dotted);
 		assert_eq!(trimmed.spans.len(), 1);
 		assert_eq!(trimmed.spans[0].text, "Loading");
+	}
+
+	/// The scripted Fixture has no accessible `clear`: upstream's is a silent stop, and with nothing
+	/// hidden or drawn over there is nothing for it to write.
+	#[test]
+	fn an_accessible_clear_writes_nothing() {
+		let mut spinner = spinner(Options {
+			accessible: true,
+			..Options::default()
+		});
+		assert_eq!(spinner.start("Working"), "Working\n");
+		assert_eq!(spinner.clear(), "");
+		assert!(!spinner.is_active());
 	}
 
 	#[test]

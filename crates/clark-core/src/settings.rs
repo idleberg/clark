@@ -112,6 +112,9 @@ pub struct Settings {
 	pub messages: Messages,
 	/// Whether the Guide — the bar down the left margin — is drawn.
 	pub with_guide: bool,
+	/// Static, screen-reader friendly output for the spinner and progress bar. `None` defers to
+	/// the `ACCESSIBLE` environment variable; see [`Settings::is_accessible`].
+	pub accessible: Option<bool>,
 }
 
 impl Default for Settings {
@@ -133,8 +136,15 @@ impl Default for Settings {
 				.collect(),
 			messages: Messages::default(),
 			with_guide: true,
+			accessible: None,
 		}
 	}
+}
+
+/// `ACCESSIBLE`'s value read the way upstream reads it: on for anything non-empty except `0` and
+/// `false`.
+fn accessible_from_env(value: Option<&str>) -> bool {
+	value.is_some_and(|value| !matches!(value, "" | "0" | "false"))
 }
 
 impl Settings {
@@ -157,6 +167,13 @@ impl Settings {
 	/// The action a single string is an alias for.
 	pub fn alias(&self, candidate: &str) -> Option<Action> {
 		self.aliases.get(candidate).copied()
+	}
+
+	/// `isAccessible(option)`: the per-call option, then this setting, then `ACCESSIBLE`.
+	pub fn is_accessible(&self, option: Option<bool>) -> bool {
+		option
+			.or(self.accessible)
+			.unwrap_or_else(|| accessible_from_env(std::env::var("ACCESSIBLE").ok().as_deref()))
 	}
 }
 
@@ -185,6 +202,31 @@ mod tests {
 		let mut settings = Settings::default();
 		settings.add_alias("escape", Action::Up);
 		assert_eq!(settings.alias("escape"), Some(Action::Cancel));
+	}
+
+	#[test]
+	fn accessible_is_on_for_any_value_but_empty_zero_and_false() {
+		assert!(!accessible_from_env(None));
+		assert!(!accessible_from_env(Some("")));
+		assert!(!accessible_from_env(Some("0")));
+		assert!(!accessible_from_env(Some("false")));
+		assert!(accessible_from_env(Some("1")));
+		assert!(accessible_from_env(Some("yes")));
+	}
+
+	/// The option beats the setting, and either beats the environment — which is why neither of
+	/// these reads `ACCESSIBLE`, whatever it is set to while the test runs.
+	#[test]
+	fn the_option_beats_the_setting() {
+		let mut settings = Settings {
+			accessible: Some(true),
+			..Settings::default()
+		};
+		assert!(settings.is_accessible(None));
+		assert!(!settings.is_accessible(Some(false)));
+		settings.accessible = Some(false);
+		assert!(!settings.is_accessible(None));
+		assert!(settings.is_accessible(Some(true)));
 	}
 
 	#[test]

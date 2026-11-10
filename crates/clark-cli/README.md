@@ -136,7 +136,7 @@ clark task-log "Ripping the CD" --limit 5 -- ffmpeg -i track.wav track.flac
 
 | Sub-command | Draws                              | Flags                                                                                             |
 | ----------- | ---------------------------------- | ------------------------------------------------------------------------------------------------- |
-| `spinner`   | a turning symbol, and nothing else | `--indicator dots\|timer` `--frame` `--delay` `--stop-message` `--error-message` `--cancel-message` `--show-error` |
+| `spinner`   | a turning symbol, and nothing else | `--indicator dots\|timer` `--frame` `--delay` `--stop-message` `--error-message` `--cancel-message` `--show-error` `--accessible` |
 | `task-log`  | the command's output, dimmed       | `--limit` `--spacing` `--retain-log` `--stop-message` `--error-message` `--show-log`               |
 
 **`spinner` shows nothing the command writes.** That is clack's own design and not a shortcut: every
@@ -148,6 +148,12 @@ red row if it fails, which `--show-error false` turns off.
 last `--limit` rows on screen, and then erases the whole log if the command succeeds — or leaves it
 under a red line if it does not. Rows from the two streams are each in order, but the two are only
 interleaved as they arrive.
+
+**`spinner --accessible` is for screen readers.** It writes the message once, then
+`still working: <message>` every 30 seconds, then the closing message on its own line — no
+animation, no Guide, nothing erased, and `--delay` ignored. Without the flag, a non-empty
+`ACCESSIBLE` environment variable turns it on, unless it is `0` or `false`; `--accessible false`
+turns it off whatever `ACCESSIBLE` says.
 
 Both report the command's own exit code, so `clark spinner "…" -- make && …` reads the way it looks.
 

@@ -129,6 +129,8 @@ fn options(case: &Case) -> Options<'static> {
 		style_frame: options["styleFrame"]
 			.as_str()
 			.map_or(defaults.style_frame, formatter),
+		accessible: options["accessible"].as_bool().unwrap_or(false),
+		..defaults
 	}
 }
 
@@ -397,6 +399,7 @@ fn the_scripted_fixture_is_a_plausible_recording() {
 		"retainLog",
 		"guide",
 		"tty",
+		"accessible",
 	] {
 		assert!(
 			cases.iter().any(|case| !case.options[option].is_null()),

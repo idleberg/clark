@@ -248,6 +248,10 @@ enum Command {
 		/// Print what the command wrote to stderr, when it fails.
 		#[arg(long, default_value_t = true, action = clap::ArgAction::Set, num_args = 0..=1, default_missing_value = "true")]
 		show_error: bool,
+		/// Plain lines for screen readers: no animation, a heartbeat every 30 seconds, nothing
+		/// erased. Left out, `$ACCESSIBLE` decides; `--accessible false` overrides it.
+		#[arg(long, num_args = 0..=1, default_missing_value = "true")]
+		accessible: Option<bool>,
 		#[arg(last = true, required = true)]
 		command: Vec<String>,
 	},
@@ -621,11 +625,15 @@ fn run(command: Command) -> Result<ExitCode, Failure> {
 			error_message,
 			cancel_message,
 			show_error,
+			accessible,
 			command,
 		} => {
 			let mut builder = clark::spinner()
 				.output(clark::Output::Stderr)
 				.indicator(indicator.into());
+			builder = set(builder, accessible, |builder, accessible| {
+				builder.accessible(accessible)
+			});
 			if !frames.is_empty() {
 				builder = builder.frames(frames);
 			}
