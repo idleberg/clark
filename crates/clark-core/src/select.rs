@@ -14,6 +14,11 @@
 //! styled bar and two spaces are thirteen characters and three columns (ADR-0019). So a `select` in
 //! an 80-column terminal breaks its text at 67 and draws it at 3.
 //!
+//! **Lapsed in `@clack/core@1.6.0`** for the message, which no longer loses thirteen, and the
+//! footer, which now wraps too: `wrapTextWithPrefix` measures
+//! the prefix with `stringWidth`, so they wrap to `columns - 3` ([`WRAP_PREFIX_WIDTH`]). The options
+//! still lose thirteen, because `limitOptions` is still handed `prefix.length` ([`COLUMN_PADDING`]).
+//!
 //! # Two things reproduced rather than corrected
 //!
 //! - **A Guide that turns itself off leaves its continuation bars behind.** `withGuide: false` drops
@@ -38,17 +43,15 @@ use crate::settings::Action;
 use crate::theme::Theme;
 use crate::wrap::{leaked, wrap};
 
-/// The columns upstream takes off the terminal before wrapping under the Guide prefix.
-///
-/// The same thirteen as `confirm`'s, and for the same reason: `ESC[36m`, the bar, `ESC[39m`, and
-/// two spaces, measured as a string rather than as what it draws.
+/// The columns upstream takes off the terminal before wrapping under the Guide prefix: the three it
+/// draws, the same as `confirm`'s.
 pub use crate::confirm::WRAP_PREFIX_WIDTH;
 
 /// The `columnPadding` a guided option list hands `limitOptions`.
 ///
-/// Thirteen today, like [`WRAP_PREFIX_WIDTH`], because upstream passes the same `prefix.length` to
-/// both. They are separate because they need not stay equal: the wrap width follows how the prefix
-/// is measured, while this is whatever number the list is handed.
+/// Upstream still passes `prefix.length` here — `ESC[36m`, the bar, `ESC[39m` and two spaces,
+/// thirteen characters for three columns — while the wrap width became the visible
+/// [`WRAP_PREFIX_WIDTH`] in `@clack/core@1.6.0`. So the two differ by the ten columns of escapes.
 pub const COLUMN_PADDING: usize = 13;
 
 /// `SELECT_INSTRUCTIONS`, the footer under the list. The keys are dim and the verbs are not.
@@ -56,6 +59,56 @@ pub const INSTRUCTIONS: [(&str, &str); 2] = [("↑/↓", " to navigate"), ("Ente
 
 /// The separator upstream joins the instructions with.
 pub const INSTRUCTION_SEPARATOR: &str = " • ";
+
+/// `formatInstructionFooter(instructions, hasGuide)`, and the shapes it takes with the
+/// instructions switched off.
+///
+/// The instructions are joined and wrapped by `wrapTextWithPrefix`, so at a narrow terminal they
+/// span several rows, each behind the Guide bar — or wrapped to the whole terminal without a Guide.
+/// Shared by `select`, `multiselect` and `groupMultiselect`.
+pub fn instruction_footer(
+	theme: &Theme,
+	instructions: &[(&str, &str)],
+	guide: bool,
+	show_instructions: bool,
+	columns: usize,
+) -> Vec<Line> {
+	let styles = &theme.styles;
+	let symbols = &theme.symbols;
+	let bar_end = || Line::from(Span::styled(symbols.bar_end, styles.guide_active));
+
+	if !show_instructions {
+		return if guide { vec![bar_end()] } else { Vec::new() };
+	}
+
+	let mut text = Line::blank();
+	for (index, (key, verb)) in instructions.iter().enumerate() {
+		if index > 0 {
+			text.push(Span::raw(INSTRUCTION_SEPARATOR));
+		}
+		text.push(Span::styled(*key, styles.instruction_key));
+		text.push(Span::raw(*verb));
+	}
+
+	let prefix = if guide { WRAP_PREFIX_WIDTH } else { 0 };
+	let mut lines: Vec<Line> = text
+		.wrap(columns.saturating_sub(prefix))
+		.into_iter()
+		.map(|row| {
+			let mut line = Line::blank();
+			if guide {
+				line.push(Span::styled(symbols.bar, styles.guide_active));
+				line.push(Span::raw("  "));
+			}
+			line.spans.extend(row.spans);
+			line
+		})
+		.collect();
+	if guide {
+		lines.push(bar_end());
+	}
+	lines
+}
 
 /// `${bar}\n${symbol}  ${message}\n`: the title of a list Prompt whose message is *not* wrapped.
 ///
@@ -420,41 +473,13 @@ impl<'a, T> SelectWidget<'a, T> {
 	/// Three shapes, and the empty one is a shape: an unguided `select` with the footer turned off
 	/// draws nothing under its list at all.
 	fn footer(&self, guide: bool) -> Vec<Line> {
-		let styles = &self.theme.styles;
-		let symbols = &self.theme.symbols;
-
-		if !self.show_instructions {
-			return if guide {
-				vec![Line::from(Span::styled(
-					symbols.bar_end,
-					styles.guide_active,
-				))]
-			} else {
-				Vec::new()
-			};
-		}
-
-		let mut line = Line::blank();
-		if guide {
-			line.push(Span::styled(symbols.bar, styles.guide_active));
-			line.push(Span::raw("  "));
-		}
-		for (index, (key, verb)) in INSTRUCTIONS.iter().enumerate() {
-			if index > 0 {
-				line.push(Span::raw(INSTRUCTION_SEPARATOR));
-			}
-			line.push(Span::styled(*key, styles.instruction_key));
-			line.push(Span::raw(*verb));
-		}
-
-		let mut lines = vec![line];
-		if guide {
-			lines.push(Line::from(Span::styled(
-				symbols.bar_end,
-				styles.guide_active,
-			)));
-		}
-		lines
+		instruction_footer(
+			self.theme,
+			&INSTRUCTIONS,
+			guide,
+			self.show_instructions,
+			self.columns,
+		)
 	}
 
 	/// `opt(option, state)`: one option, as the rows it occupies before the list wraps them.
@@ -514,7 +539,7 @@ impl<'a, T> SelectWidget<'a, T> {
 
 	/// The width a settled value is wrapped to: the terminal, less the prefix it is drawn under.
 	///
-	/// Unguided there is no prefix, and no thirteen columns lost to one either.
+	/// Unguided there is no prefix, and no columns lost to one either.
 	fn width(&self, guide: bool) -> usize {
 		if guide {
 			self.columns.saturating_sub(WRAP_PREFIX_WIDTH)
@@ -778,10 +803,11 @@ mod tests {
 		assert_eq!(drawn[drawn.len() - 4], "│  ...");
 	}
 
-	/// Thirteen columns for a prefix three columns wide, twice over — the message breaks early and
-	/// so does the option beside it.
+	/// The message wraps to the prefix's visible width, 37 of 40 columns, while the option is still
+	/// cut by `limitOptions` against the thirteen of [`COLUMN_PADDING`]. Before `@clack/core@1.6.0`
+	/// the message broke at 27 too.
 	#[test]
-	fn the_message_and_the_options_are_both_wrapped_ten_columns_early() {
+	fn the_message_wraps_to_the_prefix_and_the_options_to_the_column_padding() {
 		let list = vec![SelectOption::labelled(
 			"a".to_string(),
 			"one two three four five six seven",
@@ -791,10 +817,35 @@ mod tests {
 			.with_columns(40)
 			.with_rows(40);
 		let drawn = drawn(&widget);
-		assert_eq!(drawn[1], "◆  one two three four five six");
-		assert_eq!(drawn[2], "│   seven");
+		assert_eq!(drawn[1], "◆  one two three four five six seven");
 		// The trailing space is upstream's `trim: false` keeping the space a row broke on.
-		assert_eq!(drawn[3], "│  ● one two three four five ");
-		assert_eq!(drawn[4], "│  six seven");
+		assert_eq!(drawn[2], "│  ● one two three four five ");
+		assert_eq!(drawn[3], "│  six seven");
+	}
+
+	/// At 30 columns the instructions, 32 wide, wrap behind the Guide bar, and the extra row comes
+	/// off the list: eight rows, less a title of two and a footer of three plus its newline, leaves
+	/// two for options.
+	#[test]
+	fn the_footer_wraps_and_the_list_gives_up_its_rows() {
+		let list = (0..5)
+			.map(|n| SelectOption::new(format!("Option {n}")))
+			.collect();
+		let prompt = Prompt::new(SelectState::new(list));
+		let widget = SelectWidget::new(&prompt, "foo")
+			.with_columns(30)
+			.with_rows(8);
+		let drawn = drawn(&widget);
+		assert_eq!(
+			&drawn[2..],
+			[
+				"│  ● Option 0",
+				"│  ...",
+				"│  ↑/↓ to navigate • Enter: ",
+				"│  confirm",
+				"└",
+				""
+			]
+		);
 	}
 }

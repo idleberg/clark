@@ -339,7 +339,7 @@ impl<'a, T: Display> SelectKeyWidget<'a, T> {
 		out
 	}
 
-	/// `columns - prefix.length`, where the prefix is a styled bar and two spaces — or nothing.
+	/// `columns - stringWidth(prefix)`, where the prefix is a bar and two spaces — or nothing.
 	fn width(&self, guide: bool) -> usize {
 		if guide {
 			self.columns.saturating_sub(WRAP_PREFIX_WIDTH)
@@ -592,19 +592,20 @@ mod tests {
 		assert_eq!(drawn(&widget)[2], "two");
 	}
 
-	/// Thirteen columns for a three-column prefix, once — the option wraps and the chip stays on
-	/// the first row. The trailing space is upstream's `trim: false`.
+	/// The option, chip and all, wraps to the 37 columns left of a three-column prefix, so this one
+	/// fills the row exactly. Before `@clack/core@1.6.0` it had 27 and broke after `five`; the
+	/// leading space it left is upstream's `trim: false`.
 	#[test]
-	fn an_option_is_wrapped_ten_columns_early() {
+	fn an_option_is_wrapped_to_the_prefixs_visible_width() {
 		let list = vec![SelectOption::labelled(
 			"a".to_string(),
-			"one two three four five six seven",
+			"one two three four five six seven eight",
 		)];
 		let prompt = Prompt::new(SelectKeyState::new(list));
 		let widget = SelectKeyWidget::new(&prompt, "foo").with_columns(40);
 		let drawn = drawn(&widget);
-		assert_eq!(drawn[2], "│   a  one two three four five");
-		assert_eq!(drawn[3], "│   six seven");
+		assert_eq!(drawn[2], "│   a  one two three four five six seven");
+		assert_eq!(drawn[3], "│   eight");
 	}
 
 	/// The bars between the rows of a cancelled value are struck through, because the escape that

@@ -12,6 +12,7 @@
 //!   without looking at which action arrived. So the cancelled Frame of an untouched `confirm` reads
 //!   `No`. The harvested Scenario `confirm › can cancel` records exactly that.
 //! - **The message is wrapped 10 columns narrower than it looks.** See [`WRAP_PREFIX_WIDTH`].
+//!   **Lapsed in `@clack/core@1.6.0`**, which wraps against the prefix's visible width.
 
 use ratatui_core::buffer::Buffer;
 use ratatui_core::layout::Rect;
@@ -81,19 +82,17 @@ impl PromptState for ConfirmState {
 	}
 }
 
-/// The width upstream takes off the terminal before wrapping a `confirm`'s message.
+/// The width upstream takes off the terminal before wrapping a `confirm`'s message: the three
+/// columns the Guide prefix draws, a bar and two spaces, for either Theme.
 ///
-/// `wrapTextWithPrefix` is called with the *styled* Guide prefix and wraps to
-/// `columns - prefix.length`. The prefix draws three columns — a bar and two spaces — but as a
-/// JavaScript string it is thirteen characters: `ESC [ 9 0 m`, the bar, `ESC [ 3 9 m`, and the two
-/// spaces. So a guided `confirm` breaks its message ten columns early, and the rows it writes stop
-/// well short of the margin.
+/// `wrapTextWithPrefix` wraps to `columns - stringWidth(prefix)`. It is a constant rather than a
+/// measurement because the port's Frames carry no escapes at all (ADR-0011), so there is no styled
+/// string here to measure.
 ///
-/// Reproduced rather than corrected, on ADR-0013's rule: a terminal can see where the message
-/// breaks. It is a constant rather than a measurement because the port's Frames carry no escapes at
-/// all (ADR-0011) — there is no styled string here to take the length of — and it is thirteen for
-/// either Theme, since both draw the bar with one character.
-pub const WRAP_PREFIX_WIDTH: usize = 13;
+/// **Lapsed in `@clack/core@1.6.0`:** before it, upstream wrapped to `columns - prefix.length`,
+/// and the styled prefix is thirteen characters (`ESC [ 9 0 m`, the bar, `ESC [ 3 9 m`, two
+/// spaces). So a guided `confirm` broke its message ten columns early, and this was 13.
+pub const WRAP_PREFIX_WIDTH: usize = 3;
 
 /// A `confirm` Prompt drawn as a Frame — the `render` callback of `@clack/prompts`' `confirm()`.
 pub struct ConfirmWidget<'a> {
@@ -487,15 +486,15 @@ mod tests {
 		);
 	}
 
-	/// The ten columns upstream loses to its own escape sequences. At 40 columns a guided `confirm`
-	/// breaks a message as though the terminal were 27 wide, not 37.
+	/// At 40 columns a guided `confirm` wraps its message to the 37 left of the prefix. Before
+	/// `@clack/core@1.6.0` it wrapped to 27, and this message broke after `six`.
 	#[test]
-	fn a_guided_message_wraps_ten_columns_early() {
+	fn a_guided_message_wraps_to_the_prefixs_visible_width() {
 		let prompt = confirm();
 		let message = "one two three four five six seven";
 		let widget = ConfirmWidget::new(&prompt, message).with_columns(40);
-		assert_eq!(drawn(&widget)[1], "◆  one two three four five six");
-		assert_eq!(drawn(&widget)[2], "│   seven");
+		assert_eq!(drawn(&widget)[1], "◆  one two three four five six seven");
+		assert_eq!(drawn(&widget)[2], "│  ● Yes / ○ No");
 
 		// Without a Guide there is no prefix to mismeasure, and the whole 40 columns are used.
 		let widget = ConfirmWidget::new(&prompt, message)

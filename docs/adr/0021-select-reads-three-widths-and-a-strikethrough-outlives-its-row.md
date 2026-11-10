@@ -17,6 +17,10 @@ The subtraction ADR-0019 records for `confirm` happens twice more here. The mess
 spaces are thirteen characters and three columns. So a `select` in an 80-column terminal breaks its
 text at 67 and draws it at 3, and the ten columns are lost twice over rather than once.
 
+> **Lapsed in `@clack/core@1.6.0`** for the message: `wrapTextWithPrefix` measures its prefix with
+> `stringWidth`, so the message wraps to `columns - 3`. The options still lose thirteen, because
+> `limitOptions` is still handed `prefix.length`. The footer now wraps too, at `columns - 3`.
+
 `select`'s own suite is the first to hand a Prompt a stream narrower than `process.stdout` — 30 and 40
 columns against a global 80 — which makes the two widths a Scenario carries visibly different numbers
 rather than the same one written down twice. A Scenario that did that *and* resized would be

@@ -37,7 +37,7 @@ use crate::frame::{Frame, Line, Span};
 use crate::limit_options::LimitOptions;
 use crate::line_editor::{Key, KeyName};
 use crate::prompt::{Prompt, PromptState, Status};
-use crate::select::{COLUMN_PADDING, SelectOption, WRAP_PREFIX_WIDTH};
+use crate::select::{COLUMN_PADDING, SelectOption, WRAP_PREFIX_WIDTH, instruction_footer};
 use crate::settings::Action;
 use crate::theme::Theme;
 use crate::wrap::leaked;
@@ -48,9 +48,6 @@ pub const INSTRUCTIONS: [(&str, &str); 3] = [
 	("Space:", " select"),
 	("Enter:", " confirm"),
 ];
-
-/// The separator upstream joins the instructions with.
-pub const INSTRUCTION_SEPARATOR: &str = " • ";
 
 /// The `, ` between the labels of a settled `multiselect`.
 pub const VALUE_SEPARATOR: &str = ", ";
@@ -471,7 +468,7 @@ impl<T: Clone + PartialEq> MultiSelectWidget<'_, T> {
 
 	/// `formatInstructionFooter(MULTISELECT_INSTRUCTIONS, hasGuide)`, and its two other shapes.
 	fn footer(&self, guide: bool) -> Vec<Line> {
-		footer(self.theme, guide, self.show_instructions)
+		footer(self.theme, guide, self.show_instructions, self.columns)
 	}
 
 	/// The validation message and the advice under it — see [`error_footer`].
@@ -622,42 +619,8 @@ impl<T: Clone + PartialEq> MultiSelectWidget<'_, T> {
 ///
 /// Shared with `groupMultiselect`, which imports the same constant from `multi-select.ts` and draws
 /// the same three rows under its own list.
-pub fn footer(theme: &Theme, guide: bool, show_instructions: bool) -> Vec<Line> {
-	let styles = &theme.styles;
-	let symbols = &theme.symbols;
-
-	if !show_instructions {
-		return if guide {
-			vec![Line::from(Span::styled(
-				symbols.bar_end,
-				styles.guide_active,
-			))]
-		} else {
-			Vec::new()
-		};
-	}
-
-	let mut line = Line::blank();
-	if guide {
-		line.push(Span::styled(symbols.bar, styles.guide_active));
-		line.push(Span::raw("  "));
-	}
-	for (index, (key, verb)) in INSTRUCTIONS.iter().enumerate() {
-		if index > 0 {
-			line.push(Span::raw(INSTRUCTION_SEPARATOR));
-		}
-		line.push(Span::styled(*key, styles.instruction_key));
-		line.push(Span::raw(*verb));
-	}
-
-	let mut lines = vec![line];
-	if guide {
-		lines.push(Line::from(Span::styled(
-			symbols.bar_end,
-			styles.guide_active,
-		)));
-	}
-	lines
+pub fn footer(theme: &Theme, guide: bool, show_instructions: bool, columns: usize) -> Vec<Line> {
+	instruction_footer(theme, &INSTRUCTIONS, guide, show_instructions, columns)
 }
 
 /// The validation message and the advice under it.
@@ -1165,5 +1128,49 @@ mod tests {
 		let drawn = drawn(&widget);
 		assert_eq!(drawn[2], "│  ◻ Option 0");
 		assert_eq!(drawn[drawn.len() - 4], "│  ...");
+	}
+
+	/// At 40 columns the message has the 37 beside the prefix, and the instructions, 48 wide, wrap
+	/// behind the Guide bar. Before `@clack/core@1.6.0` the message broke at 27 and the footer was
+	/// one row however narrow the terminal.
+	#[test]
+	fn the_message_and_the_footer_wrap_to_the_prefixs_visible_width() {
+		let prompt = multiselect(&["a"]);
+		let widget =
+			MultiSelectWidget::new(&prompt, "one two three four five six seven").with_columns(40);
+		assert_eq!(
+			drawn(&widget),
+			[
+				"│",
+				"◆  one two three four five six seven",
+				"│  ◻ a",
+				"│  ↑/↓ to navigate • Space: select • ",
+				"│  Enter: confirm",
+				"└",
+				""
+			]
+		);
+	}
+
+	/// Every footer row is taken off the list: at 40 columns the footer is a row taller than at 80,
+	/// so the Frame is the same height and the list is a row shorter.
+	#[test]
+	fn a_wrapped_footer_costs_the_list_a_row() {
+		let list: Vec<SelectOption<String>> = (0..10)
+			.map(|i| SelectOption::new(format!("Option {i}")))
+			.collect();
+		let prompt = Prompt::new(MultiSelectState::new(list));
+		let options = |columns| {
+			let widget = MultiSelectWidget::new(&prompt, "foo")
+				.with_columns(columns)
+				.with_rows(12);
+			let drawn = drawn(&widget);
+			let listed = drawn.iter().filter(|row| row.contains("Option")).count();
+			(drawn.len(), listed)
+		};
+		let (wide_height, wide_listed) = options(80);
+		let (narrow_height, narrow_listed) = options(40);
+		assert_eq!(narrow_height, wide_height);
+		assert_eq!(narrow_listed, wide_listed - 1);
 	}
 }

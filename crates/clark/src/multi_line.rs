@@ -274,11 +274,11 @@ mod tests {
 		typed(&mut session, "aaaa bbbb cccc dddd");
 
 		let wide = session.frame().lines.len();
-		session.resize(23, 20);
+		session.resize(13, 20);
 		let narrow = session.frame().lines.len();
 		assert!(
 			narrow > wide,
-			"the field did not re-wrap: {wide} rows at 80, {narrow} at 23"
+			"the field did not re-wrap: {wide} rows at 80, {narrow} at 13"
 		);
 	}
 }

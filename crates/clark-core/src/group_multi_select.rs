@@ -19,19 +19,19 @@
 //! are. The exception, a `Value` of `String` that equals one of the group names, is the one place
 //! this port and upstream can disagree, and nothing in either suite goes there.
 //!
-//! # Three things reproduced rather than corrected
+//! # Reproduced rather than corrected
 //!
 //! - **An empty group draws as selected.** `isGroupSelected` is `items.every(…)`, and every array
 //!   method of that shape is true for no items. So a group with nothing under it opens ticked, and
 //!   `space` on it ticks nothing and leaves it ticked.
-//! - **The wrap width is charged for characters that draw nothing.** Each option is wrapped by
-//!   `wrapTextWithPrefix`, which subtracts `prefix.length` from the terminal's width — and the
-//!   prefix it is handed has already been through `styleText`. A dim `│ ` is eleven characters and
-//!   two columns, so an option under a selectable group wraps nine columns earlier than one under a
-//!   group the cursor is on, whose prefix is passed unstyled. See [`DIM_ESCAPES`].
-//! - **`groupSpacing` is charged for its newlines too.** The blank rows before a group are a
-//!   `'\n'.repeat(n)` on the front of the same prefix, so they come off the width as well — and they
-//!   are drawn again before *every* row of a header that wraps, not only its first.
+//! - **`groupSpacing` is drawn before every row of a wrapped header.** The blank rows before a group
+//!   are a `'\n'.repeat(n)` on the front of the prefix, so a header that wraps draws them again
+//!   before each of its rows, not only its first.
+//!
+//! **Lapsed in `@clack/core@1.6.0`:** this list once said the wrap width was charged for the nine
+//! characters of `styleText('dim', …)` around a prefix, and for the `groupSpacing` newlines. Since
+//! `wrapTextWithPrefix` measures its prefix with `stringWidth`, neither draws a column and neither
+//! is charged; a dimmed branch and an undimmed one wrap alike.
 
 use ratatui_core::buffer::Buffer;
 use ratatui_core::layout::Rect;
@@ -45,13 +45,6 @@ use crate::prompt::{Prompt, PromptState, Status};
 use crate::select::{COLUMN_PADDING, SelectOption, plain_title};
 use crate::settings::Action;
 use crate::theme::Theme;
-
-/// The characters `styleText('dim', …)` wraps its argument in: `ESC[2m` and `ESC[22m`, four and
-/// five.
-///
-/// They draw nothing and are counted anyway — see the module docs. Nine even around an empty
-/// string, which is what a group header's prefix is.
-pub const DIM_ESCAPES: usize = 9;
 
 /// One row of the flattened list: a group's name, or one of its options.
 #[derive(Clone, Debug, PartialEq)]
@@ -492,7 +485,7 @@ impl<T: Clone + PartialEq> GroupMultiSelectWidget<'_, T> {
 			}
 
 			_ => {
-				let footer = footer(self.theme, guide, self.show_instructions);
+				let footer = footer(self.theme, guide, self.show_instructions, self.columns);
 				let row_padding = title_rows + footer.len() + 1;
 				let bar = Span::styled(symbols.bar, styles.guide_active);
 				for line in self.list(guide.then_some(bar), row_padding) {
@@ -611,8 +604,7 @@ impl<T: Clone + PartialEq> GroupMultiSelectWidget<'_, T> {
 		};
 		let (prefix, prefix_end) = (pad(prefix), pad(prefix_end));
 
-		// A group the cursor is on is the one look whose prefix is passed unstyled — which is what
-		// distinguishes it, and what makes it wrap nine columns later than the others.
+		// A group the cursor is on is the one look whose prefix is passed unstyled.
 		let dimmed = !matches!(look, Look::GroupActive | Look::GroupActiveSelected);
 		let prefix_style = if dimmed {
 			styles.option_unselected
@@ -656,10 +648,11 @@ impl<T: Clone + PartialEq> GroupMultiSelectWidget<'_, T> {
 			text.push(Span::styled(format!("({})", hint.1), hint.0));
 		}
 
-		// `columns - prefix.length`, with the prefix counted as the escaped string it is by then.
-		let width = self.columns.saturating_sub(
-			spacing + if dimmed { DIM_ESCAPES } else { 0 } + prefix.chars().count() + 1,
-		);
+		// `columns - stringWidth(prefix)`: what the prefix draws, so neither its `dim` escapes nor the
+		// `groupSpacing` newlines in front of it are charged.
+		let width = self
+			.columns
+			.saturating_sub(crate::width::width(&prefix) + 1);
 
 		let wrapped: Vec<Line> = text
 			.paragraphs()
@@ -971,9 +964,10 @@ mod tests {
 	}
 
 	/// With the groups unselectable there is no closing corner either — `prefixEnd` is left at the
-	/// empty string it was declared with, so a wrapped option's later rows sit a column to the left
-	/// of its first. The rows are `narrow › an unselectable group wraps its option back to the
-	/// margin` in the authored Fixture.
+	/// empty string it was declared with, so the row a wrapped option breaks onto sits a column to
+	/// the left of its first. At 40 columns the label breaks itself at 37 (at 28 before
+	/// `@clack/core@1.6.0`), and `limitOptions` breaks its first row again at 27. The rows are
+	/// `narrow › an unselectable group wraps its option back to the margin` in the authored Fixture.
 	#[test]
 	fn an_unselectable_group_wraps_its_option_back_to_the_margin() {
 		let prompt = prompt(
@@ -988,8 +982,12 @@ mod tests {
 		);
 		let rows = drawn(&GroupMultiSelectWidget::new(&prompt, "Pick").with_columns(40));
 		assert_eq!(
-			&rows[3..5],
-			["│    ◻ TypeScript, which is a ", "│   static type checker"]
+			&rows[3..6],
+			[
+				"│    ◻ TypeScript, which is a ",
+				"│  static type ",
+				"│   checker"
+			]
 		);
 	}
 
@@ -1038,6 +1036,32 @@ mod tests {
 		);
 	}
 
+	/// The footer is `multiselect`'s, so at 40 columns it wraps to two rows, and the list gives one
+	/// up for it: the Frame stays the same height as at 80.
+	#[test]
+	fn a_wrapped_footer_costs_the_list_a_row() {
+		let options = (0..10)
+			.map(|i| SelectOption::new(format!("Option {i}")))
+			.collect();
+		let prompt = prompt(GroupMultiSelectState::new([("Group".to_owned(), options)]));
+		let frame = |columns| {
+			drawn(
+				&GroupMultiSelectWidget::new(&prompt, "foo")
+					.with_columns(columns)
+					.with_rows(12),
+			)
+		};
+		let (wide, narrow) = (frame(80), frame(40));
+		assert_eq!(narrow.len(), wide.len());
+		assert_eq!(
+			narrow[narrow.len() - 4],
+			"│  ↑/↓ to navigate • Space: select • "
+		);
+		assert_eq!(narrow[narrow.len() - 3], "│  Enter: confirm");
+		let listed = |rows: &[String]| rows.iter().filter(|row| row.contains('◻')).count();
+		assert_eq!(listed(&narrow), listed(&wide) - 1);
+	}
+
 	#[test]
 	fn the_error_frame_is_the_multiselects() {
 		let mut prompt = prompt(state()).with_validator(required::<String>);
@@ -1048,14 +1072,15 @@ mod tests {
 		assert_eq!(rows[8], "   Press  space  to select,  enter  to submit");
 	}
 
-	/// The same label breaks in two places depending on whether its branch was dimmed: an option
-	/// under the cursor's own group is wrapped against `columns - 3` and every other against
-	/// `columns - 12`, because the prefix is measured after `styleText` has been at it.
+	/// A dimmed branch and an undimmed one wrap alike: the prefix is measured with `stringWidth`, so
+	/// both labels get `columns - 3`. The shorter fits and is broken only by `limitOptions`; the
+	/// longer breaks itself at 37 too, so its last row takes the `prefixEnd`. Before
+	/// `@clack/core@1.6.0` the dimmed one broke at 28 instead.
 	///
 	/// The rows are `narrow › a group option wraps differently under a dimmed branch` in the
-	/// authored Fixture, which is where the numbers come from.
+	/// authored Fixture, whose name records the lapsed behaviour.
 	#[test]
-	fn a_dimmed_branch_wraps_its_option_nine_columns_early() {
+	fn a_dimmed_branch_wraps_like_an_undimmed_one() {
 		let prompt = prompt(GroupMultiSelectState::new([
 			(
 				"Testing".to_owned(),
@@ -1074,17 +1099,14 @@ mod tests {
 		]));
 		let rows = drawn(&GroupMultiSelectWidget::new(&prompt, "Pick").with_columns(40));
 		assert_eq!(
-			&rows[3..8],
+			&rows[3..9],
 			[
-				// Thirty-seven columns for the label, so it is `limitOptions` that breaks this one
-				// and the second row takes no indent at all.
 				"│  └ ◻ Jest, a JavaScript ",
 				"│  testing framework",
 				"│  ◻ Language",
-				// Twenty-eight, so the break is the option's own and the row under it is indented
-				// by the `prefixEnd` that goes with it.
 				"│  └ ◻ TypeScript, which is a ",
-				"│     static type checker",
+				"│  static type ",
+				"│     checker",
 			]
 		);
 	}

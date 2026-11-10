@@ -23,7 +23,8 @@
 //!
 //! - the error foot is drawn whether or not there is a Guide, alone among the Prompts;
 //! - a settled Frame with no value still draws a bar and two trailing spaces;
-//! - the text is wrapped thirteen columns early, the ADR-0019 defect again.
+//! - the text is wrapped thirteen columns early, the ADR-0019 defect again. **Lapsed in
+//!   `@clack/core@1.6.0`**, which wraps against the prefix's visible width.
 
 use ratatui_core::buffer::Buffer;
 use ratatui_core::layout::Rect;
@@ -406,9 +407,12 @@ impl<'a> MultiLineWidget<'a> {
 
 	/// `wrapTextWithPrefix`: the text broken to the terminal less the prefix, then prefixed.
 	///
-	/// The width taken off is [`WRAP_PREFIX_WIDTH`], because upstream takes `prefix.length` of a
+	/// The width taken off is [`WRAP_PREFIX_WIDTH`]. Upstream used to take `prefix.length` of a
 	/// string whose bar is wrapped in two escape sequences — the same thirteen columns for three,
 	/// and the same defect ADR-0019 records for `confirm`.
+	///
+	/// **Lapsed in `@clack/core@1.6.0`:** the prefix is measured with `stringWidth` now, so the width
+	/// taken off is the three columns it draws.
 	///
 	/// Unguided there is no prefix and no wrap at all: the text is handed on whole, and the only
 	/// break it gets is the outer one every Frame gets.
@@ -964,15 +968,13 @@ mod tests {
 		assert_eq!(drawn(&widget), ["▲  foo", "_", "└  nope", ""]);
 	}
 
-	/// Thirteen columns for a prefix that draws three — ADR-0019's defect, in a third place.
+	/// The text wraps to the terminal less the three columns the prefix draws. On a terminal
+	/// eighteen wide that is fifteen; before `@clack/core@1.6.0` it was five, and every word broke.
 	#[test]
-	fn the_text_is_wrapped_ten_columns_early() {
+	fn the_text_is_wrapped_to_the_prefixs_visible_width() {
 		let mut prompt = multiline();
 		typed(&mut prompt, "aaaa bbbb cccc");
-		let widget = MultiLineWidget::new(&prompt, "foo").with_columns(WRAP_PREFIX_WIDTH + 10);
-		assert_eq!(drawn(&widget)[2], "│  aaaa bbbb ");
-		assert_eq!(drawn(&widget)[3], "│  cccc█");
-		// Three visible columns of prefix and ten of text, on a terminal twenty-three wide.
-		assert_eq!(widget.frame().lines[2].width(), 13);
+		let widget = MultiLineWidget::new(&prompt, "foo").with_columns(WRAP_PREFIX_WIDTH + 15);
+		assert_eq!(drawn(&widget)[2], "│  aaaa bbbb cccc█");
 	}
 }

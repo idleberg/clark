@@ -22,6 +22,12 @@ Prompt that did would be answering with a group name it can never select.
 
 ## The prefix is measured with its escapes, and then twice more
 
+> **Lapsed in `@clack/core@1.6.0`.** `wrapTextWithPrefix` measures its prefix with `stringWidth`,
+> so neither the `dim` escapes nor the `groupSpacing` newlines are charged: every option, dimmed
+> branch or not, wraps at `columns - 3`, and `DIM_ESCAPES` is gone. `limitOptions` still wraps the
+> row again at `columns - 13`, because it is still handed `prefix.length`. The two authored Scenarios
+> keep their names and now record the corrected wrap.
+
 Each option goes through `wrapTextWithPrefix`, which wraps to `columns - prefix.length` — and the
 prefix it is handed has already been through `styleText`. A dim `│ ` is two columns and eleven
 characters. So an option's label breaks at `columns - 12`, except under the group the cursor is on,

@@ -1,5 +1,11 @@
 # `confirm` wraps its message against the length of an escape sequence
 
+> **Lapsed in `@clack/core@1.6.0`.** `wrapTextWithPrefix` now measures its prefix with
+> `stringWidth` rather than `.length`, so a guided `confirm` wraps to `columns - 3` and its message
+> runs to the margin. The constant, renamed `WRAP_PREFIX_WIDTH`, is now 3. The authored Scenario
+> named below for the early wrap keeps its name and now records the corrected wrap. The decision to
+> reproduce whatever upstream does where a terminal can see it stands; only the observation lapsed.
+
 ADR-0012 established that clack wraps its own Frames: `Prompt.render` calls
 `wrapAnsi(frame, process.stdout.columns, …)` and writes the result, so every break in clack's output
 was computed before a byte was written. `text` and `password` have no other wrap. `confirm` does —

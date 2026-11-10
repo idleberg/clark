@@ -45,7 +45,8 @@ Per ADR-0013, wherever a terminal can see it.
   the prefix is a bar wrapped in two escape sequences: `ESC[36m`, `│`, `ESC[39m`, two spaces —
   thirteen characters for three columns. ADR-0019 records it for `confirm`'s message and ADR-0024
   for a `groupMultiselect` option; this is the third place, and the first where it applies to what
-  the user typed rather than to what clack wrote.
+  the user typed rather than to what clack wrote. **Lapsed in `@clack/core@1.6.0`**, whose
+  `wrapTextWithPrefix` measures the prefix with `stringWidth`: the text now wraps at `columns - 3`.
 
 ## One dead end, ported as it stands
 
