@@ -1,8 +1,8 @@
 {
 	"source": "@clack/prompts test suite",
-	"tag": "@clack/prompts@1.7.0",
-	"commit": "dc5bce8aae84a57b5863124adfaa839c1db1fa23",
-	"describe": "@clack/core@1.4.3",
+	"tag": "@clack/prompts@1.9.0",
+	"commit": "50c8ea04ac165df77a874af54ec8ff0cdc135453",
+	"describe": "@clack/core@1.6.0",
 	"node": "24.20.0",
 	"generatedBy": "scripts/harvest-scenarios.mjs",
 	"suites": [
@@ -204,29 +204,29 @@
 					],
 					"output": [
 						"\u001b[?25l",
-						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  This is a very \n\u001b[36m│\u001b[39m  long message that\n\u001b[36m│\u001b[39m   will wrap to \n\u001b[36m│\u001b[39m  multiple lines\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Option 0\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mOption 1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  This is a very long message\n\u001b[36m│\u001b[39m   that will wrap to multiple\n\u001b[36m│\u001b[39m   lines\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Option 0\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mOption 1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m \n\u001b[36m│\u001b[39m  confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[10A",
+						"\u001b[4B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mOption 0\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Option 1\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m \n\u001b[36m│\u001b[39m  confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[10A",
+						"\u001b[4B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Option 2\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m \n\u001b[36m│\u001b[39m  confirm\n\u001b[36m└\u001b[39m\n",
 						"\u001b[999D\u001b[10A",
 						"\u001b[5B",
-						"\u001b[J",
-						"\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mOption 0\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Option 1\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
-						"\u001b[999D\u001b[10A",
-						"\u001b[5B",
-						"\u001b[J",
-						"\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Option 2\n\u001b[36m│\u001b[39m  \u001b[2m...\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
-						"\u001b[999D\u001b[10A",
-						"\u001b[6B",
 						"\u001b[2K\u001b[G",
 						"\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Option 3",
-						"\u001b[4B",
+						"\u001b[5B",
 						"\u001b[999D\u001b[10A",
-						"\u001b[6B",
+						"\u001b[5B",
 						"\u001b[2K\u001b[G",
 						"\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m Option 4",
-						"\u001b[4B",
+						"\u001b[5B",
 						"\u001b[999D\u001b[10A",
 						"\u001b[1B",
 						"\u001b[J",
-						"\u001b[32m◇\u001b[39m  This is a very \n\u001b[32m│\u001b[39m  long message that\n\u001b[32m│\u001b[39m   will wrap to \n\u001b[32m│\u001b[39m  multiple lines\n\u001b[90m│\u001b[39m  \u001b[2mOption 4\u001b[22m",
+						"\u001b[32m◇\u001b[39m  This is a very long message\n\u001b[32m│\u001b[39m   that will wrap to multiple\n\u001b[32m│\u001b[39m   lines\n\u001b[90m│\u001b[39m  \u001b[2mOption 4\u001b[22m",
 						"\n",
 						"\u001b[?25h"
 					]
@@ -1252,7 +1252,7 @@
 						"\u001b[999D\u001b[10A",
 						"\u001b[1B",
 						"\u001b[J",
-						"\u001b[31m■\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[9m\u001b[2mfoo foo foo foo foo foo foo\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2m foo foo foo foo foo foo \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mfoo foo foo foo foo foo foo\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2m foo foo foo foo foo foo \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mfoo foo foo foo\u001b[22m\u001b[29m\n\u001b[90m│\u001b[39m",
+						"\u001b[31m■\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[9m\u001b[2mfoo foo foo foo foo foo foo foo foo \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mfoo foo foo foo foo foo foo foo foo \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mfoo foo foo foo foo foo foo foo foo \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mfoo foo foo\u001b[22m\u001b[29m\n\u001b[90m│\u001b[39m",
 						"\n",
 						"\u001b[?25h"
 					]
@@ -1297,11 +1297,11 @@
 					],
 					"output": [
 						"\u001b[?25l",
-						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo foo foo foo foo foo foo\n\u001b[36m│\u001b[39m   foo foo foo foo foo foo \n\u001b[36m│\u001b[39m  foo foo foo foo foo foo foo\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m opt0\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mopt1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo foo foo foo foo foo foo foo foo \n\u001b[36m│\u001b[39m  foo foo foo foo foo foo foo foo foo \n\u001b[36m│\u001b[39m  foo foo\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m opt0\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2mopt1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
 						"\u001b[999D\u001b[8A",
 						"\u001b[1B",
 						"\u001b[J",
-						"\u001b[32m◇\u001b[39m  foo foo foo foo foo foo foo\n\u001b[32m│\u001b[39m   foo foo foo foo foo foo \n\u001b[32m│\u001b[39m  foo foo foo foo foo foo foo\n\u001b[90m│\u001b[39m  \u001b[2mopt0\u001b[22m",
+						"\u001b[32m◇\u001b[39m  foo foo foo foo foo foo foo foo foo \n\u001b[32m│\u001b[39m  foo foo foo foo foo foo foo foo foo \n\u001b[32m│\u001b[39m  foo foo\n\u001b[90m│\u001b[39m  \u001b[2mopt0\u001b[22m",
 						"\n",
 						"\u001b[?25h"
 					]
@@ -1352,7 +1352,7 @@
 						"\u001b[999D\u001b[10A",
 						"\u001b[1B",
 						"\u001b[J",
-						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mfoo foo foo foo foo foo foo\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2m foo foo foo foo foo foo \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mfoo foo foo foo foo foo foo\u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2m foo foo foo foo foo foo \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mfoo foo foo foo\u001b[22m",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mfoo foo foo foo foo foo foo foo foo \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mfoo foo foo foo foo foo foo foo foo \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mfoo foo foo foo foo foo foo foo foo \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mfoo foo foo\u001b[22m",
 						"\n",
 						"\u001b[?25h"
 					]

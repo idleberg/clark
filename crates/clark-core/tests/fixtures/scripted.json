@@ -1,8 +1,8 @@
 {
 	"source": "scripts/scripted/cases.mjs",
-	"tag": "@clack/prompts@1.7.0",
-	"commit": "dc5bce8aae84a57b5863124adfaa839c1db1fa23",
-	"describe": "@clack/core@1.4.3",
+	"tag": "@clack/prompts@1.9.0",
+	"commit": "50c8ea04ac165df77a874af54ec8ff0cdc135453",
+	"describe": "@clack/core@1.6.0",
 	"node": "24.20.0",
 	"generatedBy": "scripts/harvest-scripted.mjs",
 	"cases": [
@@ -3823,6 +3823,257 @@
 				}
 			],
 			"bytes": "\u001b[?25l\u001b[90m│\u001b[39m\n\u001b[35m◒\u001b[39m  \u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Working...\n\u001b[1G\u001b[J\u001b[35m◐\u001b[39m  \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Working...\n\u001b[1G\u001b[J\u001b[35m◓\u001b[39m  \u001b[35m━━━━━━━━━━\u001b[39m\u001b[2m\u001b[22m Working...\n\u001b[1G\u001b[J\u001b[32m◇\u001b[39m  Done\n\u001b[?25h"
+		},
+		{
+			"name": "accessible: append-only, and a heartbeat names the latest message",
+			"kind": "spinner",
+			"options": {
+				"accessible": true,
+				"delay": 30000
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 30000,
+			"steps": [
+				{
+					"op": "start",
+					"message": "Loading",
+					"elapsed": 0,
+					"bytes": "Loading\n"
+				},
+				{
+					"op": "message",
+					"message": "Installing",
+					"elapsed": 0,
+					"bytes": ""
+				},
+				{
+					"op": "message",
+					"message": "Linking",
+					"elapsed": 0,
+					"bytes": ""
+				},
+				{
+					"op": "tick",
+					"elapsed": 30000,
+					"bytes": "still working: Linking\n"
+				},
+				{
+					"op": "stop",
+					"message": "Installed",
+					"elapsed": 30000,
+					"bytes": "Installed\n"
+				}
+			],
+			"bytes": "Loading\nstill working: Linking\nInstalled\n"
+		},
+		{
+			"name": "accessible: a heartbeat with no message says only still working",
+			"kind": "spinner",
+			"options": {
+				"accessible": true,
+				"delay": 30000
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 30000,
+			"steps": [
+				{
+					"op": "start",
+					"message": "",
+					"elapsed": 0,
+					"bytes": ""
+				},
+				{
+					"op": "tick",
+					"elapsed": 30000,
+					"bytes": "still working\n"
+				},
+				{
+					"op": "stop",
+					"message": "Done",
+					"elapsed": 30000,
+					"bytes": "Done\n"
+				}
+			],
+			"bytes": "still working\nDone\n"
+		},
+		{
+			"name": "accessible: stopped without a message says Done",
+			"kind": "spinner",
+			"options": {
+				"accessible": true
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "Working",
+					"elapsed": 0,
+					"bytes": "Working\n"
+				},
+				{
+					"op": "stop",
+					"message": "",
+					"elapsed": 0,
+					"bytes": "Done\n"
+				}
+			],
+			"bytes": "Working\nDone\n"
+		},
+		{
+			"name": "accessible: cancelled without a message says Canceled",
+			"kind": "spinner",
+			"options": {
+				"accessible": true
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "Working",
+					"elapsed": 0,
+					"bytes": "Working\n"
+				},
+				{
+					"op": "cancel",
+					"message": "",
+					"elapsed": 0,
+					"bytes": "Canceled\n"
+				}
+			],
+			"bytes": "Working\nCanceled\n"
+		},
+		{
+			"name": "accessible: errored without a message says Something went wrong",
+			"kind": "spinner",
+			"options": {
+				"accessible": true
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 80,
+			"steps": [
+				{
+					"op": "start",
+					"message": "Working",
+					"elapsed": 0,
+					"bytes": "Working\n"
+				},
+				{
+					"op": "error",
+					"message": "",
+					"elapsed": 0,
+					"bytes": "Something went wrong\n"
+				}
+			],
+			"bytes": "Working\nSomething went wrong\n"
+		},
+		{
+			"name": "accessible: a timer goes on the closing line",
+			"kind": "spinner",
+			"options": {
+				"accessible": true,
+				"indicator": "timer",
+				"delay": 30000
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 30000,
+			"steps": [
+				{
+					"op": "start",
+					"message": "Working",
+					"elapsed": 0,
+					"bytes": "Working\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 30000,
+					"bytes": "still working: Working\n"
+				},
+				{
+					"op": "stop",
+					"message": "Done",
+					"elapsed": 30000,
+					"bytes": "Done [30s]\n"
+				}
+			],
+			"bytes": "Working\nstill working: Working\nDone [30s]\n"
+		},
+		{
+			"name": "accessible takes precedence over CI",
+			"kind": "spinner",
+			"options": {
+				"accessible": true,
+				"ci": true,
+				"delay": 30000
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 30000,
+			"steps": [
+				{
+					"op": "start",
+					"message": "Loading",
+					"elapsed": 0,
+					"bytes": "Loading\n"
+				},
+				{
+					"op": "tick",
+					"elapsed": 30000,
+					"bytes": "still working: Loading\n"
+				},
+				{
+					"op": "stop",
+					"message": "Done",
+					"elapsed": 30000,
+					"bytes": "Done\n"
+				}
+			],
+			"bytes": "Loading\nstill working: Loading\nDone\n"
+		},
+		{
+			"name": "accessible: a bar is a heartbeat and a closing line",
+			"kind": "progress",
+			"options": {
+				"accessible": true,
+				"size": 10,
+				"delay": 30000
+			},
+			"columns": 80,
+			"rows": 20,
+			"delay": 30000,
+			"steps": [
+				{
+					"op": "start",
+					"message": "Downloading",
+					"elapsed": 0,
+					"bytes": "\u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Downloading\n"
+				},
+				{
+					"op": "advance",
+					"step": 50,
+					"elapsed": 0,
+					"bytes": ""
+				},
+				{
+					"op": "tick",
+					"elapsed": 30000,
+					"bytes": "still working: \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Downloading\n"
+				},
+				{
+					"op": "stop",
+					"message": "Downloaded",
+					"elapsed": 30000,
+					"bytes": "Downloaded\n"
+				}
+			],
+			"bytes": "\u001b[35m\u001b[39m\u001b[2m━━━━━━━━━━\u001b[22m Downloading\nstill working: \u001b[35m━━━━━\u001b[39m\u001b[2m━━━━━\u001b[22m Downloading\nDownloaded\n"
 		},
 		{
 			"name": "a task log opens with a bar, a title and a bar",

@@ -15,7 +15,7 @@ import { fileURLToPath } from 'node:url';
 export const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 
 /** The tag README.md and every Fixture name. Bumping this is what tracking clack looks like. */
-export const TAG = '@clack/prompts@1.7.0';
+export const TAG = '@clack/prompts@1.9.0';
 
 /**
  * The clack checkout, verified. Exits rather than returning something half-true, because every

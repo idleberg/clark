@@ -60,7 +60,7 @@ const MULTI_LINE: &str = include_str!("../fixtures/scenarios/multi-line.json");
 const PATH: &str = include_str!("../fixtures/scenarios/path.json");
 
 /// The tag `README.md` names. A fixture from anywhere else is not the thing we claim parity with.
-pub const TAG: &str = "@clack/prompts@1.7.0";
+pub const TAG: &str = "@clack/prompts@1.9.0";
 
 pub struct Scenario {
 	pub name: String,

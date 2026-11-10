@@ -1,8 +1,8 @@
 {
 	"source": "@clack/prompts test suite",
-	"tag": "@clack/prompts@1.7.0",
-	"commit": "dc5bce8aae84a57b5863124adfaa839c1db1fa23",
-	"describe": "@clack/core@1.4.3",
+	"tag": "@clack/prompts@1.9.0",
+	"commit": "50c8ea04ac165df77a874af54ec8ff0cdc135453",
+	"describe": "@clack/core@1.6.0",
 	"node": "24.20.0",
 	"generatedBy": "scripts/harvest-scenarios.mjs",
 	"suites": [
@@ -40,7 +40,7 @@
 					],
 					"output": [
 						"\u001b[?25l",
-						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/bar\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/foo\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/hello\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/root.zip\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/bar\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/foo\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/hello\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/root.zip\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mTab:\u001b[22m complete • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
 						"\u001b[999D\u001b[9A",
 						"\u001b[1B",
 						"\u001b[J",
@@ -131,23 +131,23 @@
 					],
 					"output": [
 						"\u001b[?25l",
-						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/bar\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/foo\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/hello\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/root.zip\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/bar\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/foo\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/hello\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/root.zip\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mTab:\u001b[22m complete • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
 						"\u001b[999D\u001b[9A",
 						"\u001b[3B",
 						"\u001b[J",
-						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/_█\n\u001b[36m│\u001b[39m  \u001b[33mNo matches found\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/_█\n\u001b[36m│\u001b[39m  \u001b[33mNo matches found\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mTab:\u001b[22m complete • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
 						"\u001b[999D\u001b[6A",
 						"\u001b[1B",
 						"\u001b[J",
-						"\u001b[33m▲\u001b[39m  foo\n\u001b[33m│\u001b[39m\n\u001b[33m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/_█\n\u001b[33m│\u001b[39m  \u001b[33mNo matches found\u001b[39m\n\u001b[33m│\u001b[39m  \u001b[33mPlease select a path\u001b[39m\n\u001b[33m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[33m└\u001b[39m",
+						"\u001b[33m▲\u001b[39m  foo\n\u001b[33m│\u001b[39m\n\u001b[33m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/_█\n\u001b[33m│\u001b[39m  \u001b[33mNo matches found\u001b[39m\n\u001b[33m│\u001b[39m  \u001b[33mPlease select a path\u001b[39m\n\u001b[33m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mTab:\u001b[22m complete • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[33m└\u001b[39m",
 						"\u001b[999D\u001b[7A",
 						"\u001b[1B",
 						"\u001b[J",
-						"\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/bar\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/foo\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/hello\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/root.zip\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/bar\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/foo\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/hello\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/root.zip\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mTab:\u001b[22m complete • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
 						"\u001b[999D\u001b[9A",
 						"\u001b[3B",
 						"\u001b[J",
-						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/b█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/bar\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/b█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/bar\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mTab:\u001b[22m complete • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
 						"\u001b[999D\u001b[6A",
 						"\u001b[1B",
 						"\u001b[J",
@@ -238,11 +238,11 @@
 					],
 					"output": [
 						"\u001b[?25l",
-						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/bar\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/foo\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/hello\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/root.zip\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/bar\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/foo\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/hello\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/root.zip\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mTab:\u001b[22m complete • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
 						"\u001b[999D\u001b[9A",
 						"\u001b[3B",
 						"\u001b[J",
-						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/r█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/root.zip\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/r█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/root.zip\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mTab:\u001b[22m complete • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
 						"\u001b[999D\u001b[6A",
 						"\u001b[3B",
 						"\u001b[2K\u001b[G",
@@ -320,11 +320,11 @@
 					],
 					"output": [
 						"\u001b[?25l",
-						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/foo\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/hello\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/foo\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/hello\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mTab:\u001b[22m complete • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
 						"\u001b[999D\u001b[7A",
 						"\u001b[3B",
 						"\u001b[J",
-						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/f█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/foo\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/f█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/foo\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mTab:\u001b[22m complete • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
 						"\u001b[999D\u001b[6A",
 						"\u001b[1B",
 						"\u001b[J",
@@ -386,11 +386,11 @@
 					],
 					"output": [
 						"\u001b[?25l",
-						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/foo\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/hello\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/foo\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/hello\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mTab:\u001b[22m complete • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
 						"\u001b[999D\u001b[7A",
 						"\u001b[3B",
 						"\u001b[J",
-						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/f█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/foo\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/f█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/foo\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mTab:\u001b[22m complete • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
 						"\u001b[999D\u001b[6A",
 						"\u001b[1B",
 						"\u001b[J",
@@ -443,7 +443,7 @@
 					],
 					"output": [
 						"\u001b[?25l",
-						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mTab:\u001b[22m complete • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
 						"\u001b[999D\u001b[6A",
 						"\u001b[1B",
 						"\u001b[J",
@@ -506,11 +506,11 @@
 					],
 					"output": [
 						"\u001b[?25l",
-						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mTab:\u001b[22m complete • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
 						"\u001b[999D\u001b[6A",
 						"\u001b[3B",
 						"\u001b[J",
-						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/foo\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/hello\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/foo\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/hello\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mTab:\u001b[22m complete • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
 						"\u001b[999D\u001b[7A",
 						"\u001b[1B",
 						"\u001b[J",
@@ -562,7 +562,7 @@
 					],
 					"output": [
 						"\u001b[?25l",
-						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/bar█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/bar\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/bar█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/bar\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mTab:\u001b[22m complete • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
 						"\u001b[999D\u001b[6A",
 						"\u001b[1B",
 						"\u001b[J",
@@ -633,11 +633,11 @@
 					],
 					"output": [
 						"\u001b[?25l",
-						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/bar\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/foo\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/hello\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/root.zip\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/bar\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/foo\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/hello\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/root.zip\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mTab:\u001b[22m complete • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
 						"\u001b[999D\u001b[9A",
 						"\u001b[3B",
 						"\u001b[J",
-						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/x█\n\u001b[36m│\u001b[39m  \u001b[33mNo matches found\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/x█\n\u001b[36m│\u001b[39m  \u001b[33mNo matches found\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mTab:\u001b[22m complete • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
 						"\u001b[999D\u001b[6A",
 						"\u001b[3B",
 						"\u001b[2K\u001b[G",
@@ -693,7 +693,7 @@
 					],
 					"output": [
 						"\u001b[?25l",
-						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/bar\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/foo\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/hello\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/root.zip\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/bar\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/foo\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/hello\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/root.zip\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mTab:\u001b[22m complete • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
 						"\u001b[999D\u001b[9A",
 						"\u001b[1B",
 						"\u001b[J",
@@ -764,11 +764,11 @@
 					],
 					"output": [
 						"\u001b[?25l",
-						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/bar\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/foo\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/hello\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/root.zip\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/bar\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/foo\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/hello\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/root.zip\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mTab:\u001b[22m complete • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
 						"\u001b[999D\u001b[9A",
 						"\u001b[3B",
 						"\u001b[J",
-						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/b█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/bar\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/b█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/bar\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mTab:\u001b[22m complete • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
 						"\u001b[999D\u001b[6A",
 						"\u001b[3B",
 						"\u001b[2K\u001b[G",
@@ -778,6 +778,209 @@
 						"\u001b[1B",
 						"\u001b[J",
 						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2m/tmp/bar\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					],
+					"fs": {
+						"/tmp/foo/bar.txt": "1",
+						"/tmp/foo/baz.text": "2",
+						"/tmp/hello/world.jpg": "3",
+						"/tmp/hello/john.jpg": "4",
+						"/tmp/hello/jeanne.png": "5",
+						"/tmp/root.zip": "6",
+						"/tmp/bar": "7"
+					}
+				}
+			]
+		},
+		{
+			"name": "text › tab completes the focused suggestion",
+			"prompts": [
+				{
+					"kind": "path",
+					"opts": {
+						"message": "foo",
+						"root": "/tmp/foo/"
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "b",
+							"key": {
+								"name": "b",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "\t",
+							"key": {
+								"name": "tab",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/foo/█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/foo/bar.txt\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/foo/baz.text\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mTab:\u001b[22m complete • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[7A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/foo/b█",
+						"\u001b[4B",
+						"\u001b[999D\u001b[7A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/foo/bar.txt█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/foo/bar.txt\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mTab:\u001b[22m complete • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[6A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2m/tmp/foo/bar.txt\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					],
+					"fs": {
+						"/tmp/foo/bar.txt": "1",
+						"/tmp/foo/baz.text": "2",
+						"/tmp/hello/world.jpg": "3",
+						"/tmp/hello/john.jpg": "4",
+						"/tmp/hello/jeanne.png": "5",
+						"/tmp/root.zip": "6",
+						"/tmp/bar": "7"
+					}
+				}
+			]
+		},
+		{
+			"name": "text › tab completion can descend into directories",
+			"prompts": [
+				{
+					"kind": "path",
+					"opts": {
+						"message": "foo",
+						"root": "/tmp/"
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "f",
+							"key": {
+								"name": "f",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "\t",
+							"key": {
+								"name": "tab",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "/",
+							"key": {
+								"name": "/",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "b",
+							"key": {
+								"name": "b",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "\t",
+							"key": {
+								"name": "tab",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/bar\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/foo\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/hello\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/root.zip\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mTab:\u001b[22m complete • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[9A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/f█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/foo\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mTab:\u001b[22m complete • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[6A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/foo█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/foo/bar.txt\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/foo/baz.text\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mTab:\u001b[22m complete • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[7A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/foo/█",
+						"\u001b[4B",
+						"\u001b[999D\u001b[7A",
+						"\u001b[3B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/foo/b█",
+						"\u001b[4B",
+						"\u001b[999D\u001b[7A",
+						"\u001b[3B",
+						"\u001b[J",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/foo/bar.txt█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/foo/bar.txt\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mTab:\u001b[22m complete • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[999D\u001b[6A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2m/tmp/foo/bar.txt\u001b[22m",
 						"\n",
 						"\u001b[?25h"
 					],
@@ -867,23 +1070,23 @@
 					],
 					"output": [
 						"\u001b[?25l",
-						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/bar\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/foo\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/hello\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/root.zip\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/bar\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/foo\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/hello\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/root.zip\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mTab:\u001b[22m complete • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
 						"\u001b[999D\u001b[9A",
 						"\u001b[3B",
 						"\u001b[J",
-						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/r█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/root.zip\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/r█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/root.zip\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mTab:\u001b[22m complete • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
 						"\u001b[999D\u001b[6A",
 						"\u001b[1B",
 						"\u001b[J",
-						"\u001b[33m▲\u001b[39m  foo\n\u001b[33m│\u001b[39m\n\u001b[33m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/r█\n\u001b[33m│\u001b[39m  \u001b[33mshould be /tmp/bar\u001b[39m\n\u001b[33m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/root.zip\n\u001b[33m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[33m└\u001b[39m",
+						"\u001b[33m▲\u001b[39m  foo\n\u001b[33m│\u001b[39m\n\u001b[33m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/r█\n\u001b[33m│\u001b[39m  \u001b[33mshould be /tmp/bar\u001b[39m\n\u001b[33m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/root.zip\n\u001b[33m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mTab:\u001b[22m complete • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[33m└\u001b[39m",
 						"\u001b[999D\u001b[7A",
 						"\u001b[1B",
 						"\u001b[J",
-						"\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/█\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/bar\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/foo\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/hello\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/root.zip\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/█\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/bar\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/foo\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/hello\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/root.zip\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mTab:\u001b[22m complete • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
 						"\u001b[999D\u001b[9A",
 						"\u001b[3B",
 						"\u001b[J",
-						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/b█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/bar\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/b█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/bar\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mTab:\u001b[22m complete • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
 						"\u001b[999D\u001b[6A",
 						"\u001b[1B",
 						"\u001b[J",
@@ -977,23 +1180,23 @@
 					],
 					"output": [
 						"\u001b[?25l",
-						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/bar\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/foo\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/hello\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/root.zip\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/bar\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/foo\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/hello\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/root.zip\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mTab:\u001b[22m complete • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
 						"\u001b[999D\u001b[9A",
 						"\u001b[3B",
 						"\u001b[J",
-						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/r█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/root.zip\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/r█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/root.zip\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mTab:\u001b[22m complete • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
 						"\u001b[999D\u001b[6A",
 						"\u001b[1B",
 						"\u001b[J",
-						"\u001b[33m▲\u001b[39m  foo\n\u001b[33m│\u001b[39m\n\u001b[33m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/r█\n\u001b[33m│\u001b[39m  \u001b[33mshould be /tmp/bar\u001b[39m\n\u001b[33m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/root.zip\n\u001b[33m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[33m└\u001b[39m",
+						"\u001b[33m▲\u001b[39m  foo\n\u001b[33m│\u001b[39m\n\u001b[33m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/r█\n\u001b[33m│\u001b[39m  \u001b[33mshould be /tmp/bar\u001b[39m\n\u001b[33m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/root.zip\n\u001b[33m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mTab:\u001b[22m complete • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[33m└\u001b[39m",
 						"\u001b[999D\u001b[7A",
 						"\u001b[1B",
 						"\u001b[J",
-						"\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/█\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/bar\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/foo\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/hello\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/root.zip\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m\n\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/█\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/bar\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/foo\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m○\u001b[22m \u001b[2m/tmp/hello\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/root.zip\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mTab:\u001b[22m complete • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
 						"\u001b[999D\u001b[9A",
 						"\u001b[3B",
 						"\u001b[J",
-						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/b█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/bar\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
+						"\u001b[36m│\u001b[39m  \u001b[2mSearch:\u001b[22m /tmp/b█\n\u001b[36m│\u001b[39m  \u001b[32m●\u001b[39m /tmp/bar\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to select • \u001b[2mTab:\u001b[22m complete • \u001b[2mEnter:\u001b[22m confirm • \u001b[2mType:\u001b[22m to search\n\u001b[36m└\u001b[39m",
 						"\u001b[999D\u001b[6A",
 						"\u001b[1B",
 						"\u001b[J",

@@ -1,14 +1,83 @@
 {
 	"source": "@clack/prompts test suite",
-	"tag": "@clack/prompts@1.7.0",
-	"commit": "dc5bce8aae84a57b5863124adfaa839c1db1fa23",
-	"describe": "@clack/core@1.4.3",
+	"tag": "@clack/prompts@1.9.0",
+	"commit": "50c8ea04ac165df77a874af54ec8ff0cdc135453",
+	"describe": "@clack/core@1.6.0",
 	"node": "24.20.0",
 	"generatedBy": "scripts/harvest-scenarios.mjs",
 	"suites": [
 		"multi-select"
 	],
 	"scenarios": [
+		{
+			"name": "multiselect › accepts readonly options defined with `as const`",
+			"prompts": [
+				{
+					"kind": "multiselect",
+					"opts": {
+						"message": "foo",
+						"options": [
+							{
+								"value": "opt0",
+								"label": "Option 0"
+							},
+							{
+								"value": "opt1",
+								"label": "Option 1"
+							}
+						],
+						"initialValues": [
+							"opt1"
+						]
+					},
+					"settings": {
+						"withGuide": true
+					},
+					"terminal": {
+						"columns": 80,
+						"rows": 20,
+						"stdout": 80
+					},
+					"keys": [
+						{
+							"s": "",
+							"key": {
+								"name": "space",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						},
+						{
+							"s": "",
+							"key": {
+								"name": "return",
+								"ctrl": false,
+								"meta": false,
+								"shift": false,
+								"sequence": null
+							}
+						}
+					],
+					"output": [
+						"\u001b[?25l",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[36m◻\u001b[39m Option 0\n\u001b[36m│\u001b[39m  \u001b[32m◼\u001b[39m \u001b[2mOption 1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[6A",
+						"\u001b[2B",
+						"\u001b[2K\u001b[G",
+						"\u001b[36m│\u001b[39m  \u001b[32m◼\u001b[39m Option 0",
+						"\u001b[4B",
+						"\u001b[999D\u001b[6A",
+						"\u001b[1B",
+						"\u001b[J",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mOption 0\u001b[22m\u001b[2m, \u001b[22m\u001b[2mOption 1\u001b[22m",
+						"\n",
+						"\u001b[?25h"
+					]
+				}
+			]
+		},
 		{
 			"name": "multiselect › can be aborted by a signal",
 			"prompts": [
@@ -1903,16 +1972,16 @@
 					],
 					"output": [
 						"\u001b[?25l",
-						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[36m◻\u001b[39m Option 0 Option 0 Option \n\u001b[36m│\u001b[39m  0 Option 0 Option 0 Option \n\u001b[36m│\u001b[39m  0 Option 0 Option 0 Option \n\u001b[36m│\u001b[39m  0 Option 0\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mOption 1 Option 1 Option \u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m1 Option 1 Option 1 Option \u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m1 Option 1 Option 1 Option \u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m1 Option 1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
-						"\u001b[999D\u001b[12A",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[36m◻\u001b[39m Option 0 Option 0 Option \n\u001b[36m│\u001b[39m  0 Option 0 Option 0 Option \n\u001b[36m│\u001b[39m  0 Option 0 Option 0 Option \n\u001b[36m│\u001b[39m  0 Option 0\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mOption 1 Option 1 Option \u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m1 Option 1 Option 1 Option \u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m1 Option 1 Option 1 Option \u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m1 Option 1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \n\u001b[36m│\u001b[39m  \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[13A",
 						"\u001b[2B",
 						"\u001b[2K\u001b[G",
 						"\u001b[36m│\u001b[39m  \u001b[32m◼\u001b[39m Option 0 Option 0 Option ",
-						"\u001b[10B",
-						"\u001b[999D\u001b[12A",
+						"\u001b[11B",
+						"\u001b[999D\u001b[13A",
 						"\u001b[1B",
 						"\u001b[J",
-						"\u001b[31m■\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[9m\u001b[2mOption 0 Option 0 Option 0 \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mOption 0 Option 0 Option 0 \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mOption 0 Option 0 Option 0 \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mOption 0\u001b[22m\u001b[29m\n\u001b[90m│\u001b[39m",
+						"\u001b[31m■\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[9m\u001b[2mOption 0 Option 0 Option 0 Option 0 \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mOption 0 Option 0 Option 0 Option 0 \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mOption 0 Option 0\u001b[22m\u001b[29m\n\u001b[90m│\u001b[39m",
 						"\n",
 						"\u001b[?25h"
 					]
@@ -1967,16 +2036,16 @@
 					],
 					"output": [
 						"\u001b[?25l",
-						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo foo foo foo foo foo foo\n\u001b[36m│\u001b[39m   foo foo foo foo foo foo \n\u001b[36m│\u001b[39m  foo foo foo foo foo foo foo\n\u001b[36m│\u001b[39m  \u001b[36m◻\u001b[39m opt0\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mopt1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
-						"\u001b[999D\u001b[8A",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo foo foo foo foo foo foo foo foo \n\u001b[36m│\u001b[39m  foo foo foo foo foo foo foo foo foo \n\u001b[36m│\u001b[39m  foo foo\n\u001b[36m│\u001b[39m  \u001b[36m◻\u001b[39m opt0\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mopt1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \n\u001b[36m│\u001b[39m  \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[9A",
 						"\u001b[4B",
 						"\u001b[2K\u001b[G",
 						"\u001b[36m│\u001b[39m  \u001b[32m◼\u001b[39m opt0",
-						"\u001b[4B",
-						"\u001b[999D\u001b[8A",
+						"\u001b[5B",
+						"\u001b[999D\u001b[9A",
 						"\u001b[1B",
 						"\u001b[J",
-						"\u001b[32m◇\u001b[39m  foo foo foo foo foo foo foo\n\u001b[32m│\u001b[39m   foo foo foo foo foo foo \n\u001b[32m│\u001b[39m  foo foo foo foo foo foo foo\n\u001b[90m│\u001b[39m  \u001b[2mopt0\u001b[22m",
+						"\u001b[32m◇\u001b[39m  foo foo foo foo foo foo foo foo foo \n\u001b[32m│\u001b[39m  foo foo foo foo foo foo foo foo foo \n\u001b[32m│\u001b[39m  foo foo\n\u001b[90m│\u001b[39m  \u001b[2mopt0\u001b[22m",
 						"\n",
 						"\u001b[?25h"
 					]
@@ -2033,16 +2102,16 @@
 					],
 					"output": [
 						"\u001b[?25l",
-						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[36m◻\u001b[39m Option 0 Option 0 Option \n\u001b[36m│\u001b[39m  0 Option 0 Option 0 Option \n\u001b[36m│\u001b[39m  0 Option 0 Option 0 Option \n\u001b[36m│\u001b[39m  0 Option 0\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mOption 1 Option 1 Option \u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m1 Option 1 Option 1 Option \u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m1 Option 1 Option 1 Option \u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m1 Option 1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
-						"\u001b[999D\u001b[12A",
+						"\u001b[90m│\u001b[39m\n\u001b[36m◆\u001b[39m  foo\n\u001b[36m│\u001b[39m  \u001b[36m◻\u001b[39m Option 0 Option 0 Option \n\u001b[36m│\u001b[39m  0 Option 0 Option 0 Option \n\u001b[36m│\u001b[39m  0 Option 0 Option 0 Option \n\u001b[36m│\u001b[39m  0 Option 0\n\u001b[36m│\u001b[39m  \u001b[2m◻\u001b[22m \u001b[2mOption 1 Option 1 Option \u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m1 Option 1 Option 1 Option \u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m1 Option 1 Option 1 Option \u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m1 Option 1\u001b[22m\n\u001b[36m│\u001b[39m  \u001b[2m↑/↓\u001b[22m to navigate • \u001b[2mSpace:\u001b[22m select • \n\u001b[36m│\u001b[39m  \u001b[2mEnter:\u001b[22m confirm\n\u001b[36m└\u001b[39m\n",
+						"\u001b[999D\u001b[13A",
 						"\u001b[2B",
 						"\u001b[2K\u001b[G",
 						"\u001b[36m│\u001b[39m  \u001b[32m◼\u001b[39m Option 0 Option 0 Option ",
-						"\u001b[10B",
-						"\u001b[999D\u001b[12A",
+						"\u001b[11B",
+						"\u001b[999D\u001b[13A",
 						"\u001b[1B",
 						"\u001b[J",
-						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mOption 0 Option 0 Option 0 \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mOption 0 Option 0 Option 0 \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mOption 0 Option 0 Option 0 \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mOption 0\u001b[22m",
+						"\u001b[32m◇\u001b[39m  foo\n\u001b[90m│\u001b[39m  \u001b[2mOption 0 Option 0 Option 0 Option 0 \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mOption 0 Option 0 Option 0 Option 0 \u001b[22m\n\u001b[90m│\u001b[39m  \u001b[2mOption 0 Option 0\u001b[22m",
 						"\n",
 						"\u001b[?25h"
 					]

@@ -494,6 +494,53 @@ export const cases = [
 		stop('Done'),
 	], { ci: true, size: 10 }),
 
+	// --- accessible: plain lines, appended, never erased -----------------------------------------
+	//
+	// Modelled on upstream's `spinner-accessible` suite. In accessible mode the spinner's only
+	// interval is a 30-second heartbeat — `delay` drives nothing — so these cases set `delay` to the
+	// heartbeat and one `tick` is one heartbeat. The abort-signal and `ACCESSIBLE`-env cases are not
+	// here: neither is something a script of calls can say.
+
+	spin('accessible: append-only, and a heartbeat names the latest message', [
+		start('Loading'),
+		message('Installing'),
+		message('Linking'),
+		...tick(1),
+		stop('Installed'),
+	], { accessible: true, delay: 30_000 }),
+	spin('accessible: a heartbeat with no message says only still working', [
+		start(),
+		...tick(1),
+		stop('Done'),
+	], { accessible: true, delay: 30_000 }),
+	spin('accessible: stopped without a message says Done', [start('Working'), stop()], {
+		accessible: true,
+	}),
+	spin('accessible: cancelled without a message says Canceled', [
+		start('Working'),
+		{ op: 'cancel', message: '' },
+	], { accessible: true }),
+	spin('accessible: errored without a message says Something went wrong', [
+		start('Working'),
+		{ op: 'error', message: '' },
+	], { accessible: true }),
+	spin('accessible: a timer goes on the closing line', [start('Working'), ...tick(1), stop('Done')], {
+		accessible: true,
+		indicator: 'timer',
+		delay: 30_000,
+	}),
+	spin('accessible takes precedence over CI', [start('Loading'), ...tick(1), stop('Done')], {
+		accessible: true,
+		ci: true,
+		delay: 30_000,
+	}),
+	bar('accessible: a bar is a heartbeat and a closing line', [
+		start('Downloading'),
+		advance(50),
+		...tick(1),
+		stop('Downloaded'),
+	], { accessible: true, size: 10, delay: 30_000 }),
+
 	// --- a task log, which has no clock ----------------------------------------------------------
 	//
 	// `taskLog` is the third renderer driven by calls and the first with nothing turning underneath

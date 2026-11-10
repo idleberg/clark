@@ -349,7 +349,7 @@ fn every_step_of_every_run_is_written_the_way_clack_wrote_it() {
 fn the_scripted_fixture_is_a_plausible_recording() {
 	let (json, cases) = cases();
 
-	assert_eq!(json["tag"], "@clack/prompts@1.7.0");
+	assert_eq!(json["tag"], "@clack/prompts@1.9.0");
 	assert_eq!(json["generatedBy"], "scripts/harvest-scripted.mjs");
 
 	for kind in ["spinner", "progress", "task-log"] {

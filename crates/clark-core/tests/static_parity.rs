@@ -283,7 +283,7 @@ fn every_static_render_is_written_the_way_clack_wrote_it() {
 fn the_static_fixture_is_a_plausible_recording() {
 	let (json, cases) = cases();
 
-	assert_eq!(json["tag"], "@clack/prompts@1.7.0");
+	assert_eq!(json["tag"], "@clack/prompts@1.9.0");
 	assert_eq!(json["generatedBy"], "scripts/harvest-static.mjs");
 
 	for kind in [
