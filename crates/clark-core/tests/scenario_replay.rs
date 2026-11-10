@@ -470,11 +470,17 @@ fn the_harvested_fixture_is_a_plausible_recording() {
 		);
 	}
 
-	// Two Scenarios carry a callback and one is driven by an `AbortSignal` rather than by keys.
-	// Both are counted rather than described, so that a harvest which quietly turns more of the
-	// suite into something unreplayable shows up here.
+	// Three Scenarios carry a callback, one of them `async`, and one is driven by an `AbortSignal`
+	// rather than by keys. All are counted rather than described, so that a harvest which quietly
+	// turns more of the suite into something the loader has to guess at shows up here.
 	let validating = scenarios.iter().filter(|s| s.validates).count();
-	assert_eq!(validating, 2, "Scenarios carrying a validate callback");
+	assert_eq!(validating, 3, "Scenarios carrying a validate callback");
+	let slow: Vec<_> = scenarios.iter().filter(|s| s.validates_slowly).collect();
+	assert_eq!(
+		slow.iter().map(|s| s.name.as_str()).collect::<Vec<_>>(),
+		["text › displays a validating message with async validation"],
+		"Scenarios carrying an async validate callback"
+	);
 
 	let keyless = scenarios.iter().filter(|s| s.keys.is_empty()).count();
 	assert_eq!(keyless, 1, "Scenarios that send no keypresses");

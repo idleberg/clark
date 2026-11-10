@@ -118,7 +118,8 @@ impl<S: PromptState> Session<S> {
 	/// close on both sides, which is what leaves the settled Frame on the screen with the newline
 	/// after it rather than before.
 	pub fn key(&mut self, s: Option<&str>, key: &Key) -> String {
-		if self.closed {
+		// Upstream's `onKeypress` returns before its render while validating, so nothing is written.
+		if self.closed || self.prompt.status() == Status::Validating {
 			return String::new();
 		}
 
@@ -145,6 +146,23 @@ impl<S: PromptState> Session<S> {
 		}
 
 		out.push_str(&self.render());
+		if self.prompt.status().is_finished() {
+			out.push_str(&self.close());
+		}
+		out
+	}
+
+	/// Run the slow validator a `return` left waiting, and write what follows.
+	///
+	/// [`key`](Self::key) has already written the Validating Frame; this is the rest of upstream's
+	/// `onKeypress` after its `await` — the Error or settled Frame, and the close. Writes nothing
+	/// unless the Prompt is [`Status::Validating`], so a driver can call it after every key.
+	pub fn validate(&mut self) -> String {
+		if self.closed || self.prompt.status() != Status::Validating {
+			return String::new();
+		}
+		self.prompt.validate();
+		let mut out = self.render();
 		if self.prompt.status().is_finished() {
 			out.push_str(&self.close());
 		}

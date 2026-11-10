@@ -49,6 +49,9 @@ pub enum Status {
 	Active,
 	/// Validation rejected the value. Cleared by the next keypress.
 	Error,
+	/// A slow validator is about to run. Every key is dropped until [`Prompt::validate`] settles
+	/// the Prompt in [`Error`](Self::Error) or [`Submit`](Self::Submit). See ADR-0037.
+	Validating,
 	Submit,
 	Cancel,
 }
@@ -229,6 +232,10 @@ pub struct Prompt<S: PromptState> {
 	editor: LineEditor,
 	settings: Settings,
 	validator: Option<Box<dyn Validator<S::Value>>>,
+	/// Whether the validator is slow enough to be worth a Validating Frame before it runs.
+	slow: bool,
+	/// The cancel check of the `return` that started validating, owed once validation is done.
+	cancel_after_validation: bool,
 	/// Whether the last keypress settled the Prompt from inside a listener rather than at the end.
 	closed_early: bool,
 	resolved_early: bool,
@@ -246,6 +253,8 @@ impl<S: PromptState> Prompt<S> {
 			editor: LineEditor::new(),
 			settings: Settings::default(),
 			validator: None,
+			slow: false,
+			cancel_after_validation: false,
 			closed_early: false,
 			resolved_early: false,
 		}
@@ -254,6 +263,19 @@ impl<S: PromptState> Prompt<S> {
 	/// `validate`. Runs on `return`, against the value as it stands.
 	pub fn with_validator(mut self, validator: impl Validator<S::Value> + 'static) -> Self {
 		self.validator = Some(Box::new(validator));
+		self.slow = false;
+		self
+	}
+
+	/// A validator slow enough that the user should see it running — clack's `validate` returning
+	/// a `Promise`.
+	///
+	/// `return` moves the Prompt to [`Status::Validating`] and stops there, so the Validating Frame
+	/// can be drawn; [`validate`](Self::validate) then runs the closure and carries on to Error or
+	/// Submit. Blocking rather than async: ADR-0037 has why the Grids come out the same.
+	pub fn with_slow_validator(mut self, validator: impl Validator<S::Value> + 'static) -> Self {
+		self.validator = Some(Box::new(validator));
+		self.slow = true;
 		self
 	}
 
@@ -365,6 +387,10 @@ impl<S: PromptState> Prompt<S> {
 	/// date by the time clack looks at it. The Line editor is therefore driven first, here too, and
 	/// for every Prompt: upstream's interface is live whether or not the Prompt tracks its text.
 	pub fn key(&mut self, s: Option<&str>, key: &Key) {
+		// Upstream's `onKeypress` returns on its first line while a validation is in flight.
+		if self.status == Status::Validating {
+			return;
+		}
 		self.closed_early = false;
 		self.resolved_early = false;
 		self.editor.write(s, key);
@@ -424,29 +450,56 @@ impl<S: PromptState> Prompt<S> {
 			self.resolved_early = true;
 		}
 
-		if key.name == Some(KeyName::Return) && self.state.should_submit(s, key) {
-			if let Some(validator) = &mut self.validator {
-				if let Some(problem) = validator.validate(self.state.value()) {
-					self.error = problem;
-					self.status = Status::Error;
-					// `return` cleared the editor. Put the text back so it can be corrected.
-					self.editor.set_line(self.user_input.clone());
-				}
-			}
-			if self.status != Status::Error {
-				self.status = Status::Submit;
-			}
-		}
-
 		let name = key.name.map(|n| n.readline_name());
 		let cancel = self.settings.is_action_key(
 			&[s, name.as_deref(), key.sequence.as_deref()],
 			Action::Cancel,
 		);
+
+		if key.name == Some(KeyName::Return) && self.state.should_submit(s, key) {
+			if self.slow && self.validator.is_some() {
+				// Upstream awaits here, between the render of `validating` and the rest of
+				// `onKeypress`. The rest is `validate`'s.
+				self.status = Status::Validating;
+				self.cancel_after_validation = cancel;
+				return;
+			}
+			self.run_validator();
+		}
+		self.settle(cancel);
+	}
+
+	/// Run the slow validator a `return` left waiting, and settle the Prompt on its answer.
+	///
+	/// Does nothing unless [`status`](Self::status) is [`Status::Validating`], so a driver can call
+	/// it after every key.
+	pub fn validate(&mut self) {
+		if self.status != Status::Validating {
+			return;
+		}
+		self.run_validator();
+		self.settle(self.cancel_after_validation);
+	}
+
+	fn run_validator(&mut self) {
+		if let Some(validator) = &mut self.validator {
+			if let Some(problem) = validator.validate(self.state.value()) {
+				self.error = problem;
+				self.status = Status::Error;
+				// `return` cleared the editor. Put the text back so it can be corrected.
+				self.editor.set_line(self.user_input.clone());
+			}
+		}
+		if self.status != Status::Error {
+			self.status = Status::Submit;
+		}
+	}
+
+	/// The tail of `onKeypress`: the cancel check, then `finalize` for a Prompt that has settled.
+	fn settle(&mut self, cancel: bool) {
 		if cancel {
 			self.status = Status::Cancel;
 		}
-
 		if self.status.is_finished() {
 			self.state.finalize();
 		}
@@ -675,6 +728,58 @@ mod tests {
 		press(&mut prompt, KeyName::Return);
 		assert_eq!(prompt.status(), Status::Error);
 		press(&mut prompt, KeyName::Return);
+		assert_eq!(prompt.status(), Status::Error);
+	}
+
+	fn should_be_xy(v: Option<&String>) -> Option<String> {
+		(v.map(String::as_str) != Some("xy")).then(|| "should be xy".to_string())
+	}
+
+	#[test]
+	fn a_slow_validator_waits_in_validating_until_it_is_run() {
+		let mut prompt = Prompt::new(Recording::default()).with_slow_validator(should_be_xy);
+		typed(&mut prompt, "x");
+		press(&mut prompt, KeyName::Return);
+		assert_eq!(prompt.status(), Status::Validating);
+		assert!(!prompt.state().log.contains(&"finalize".to_string()));
+
+		prompt.validate();
+		assert_eq!(prompt.status(), Status::Error);
+		assert_eq!(prompt.error(), "should be xy");
+		assert_eq!(prompt.editor().line(), "x");
+
+		typed(&mut prompt, "y");
+		press(&mut prompt, KeyName::Return);
+		assert_eq!(prompt.status(), Status::Validating);
+		prompt.validate();
+		assert_eq!(prompt.status(), Status::Submit);
+		assert_eq!(
+			prompt.state().log.last().map(String::as_str),
+			Some("finalize")
+		);
+	}
+
+	#[test]
+	fn keys_that_arrive_while_validating_are_dropped() {
+		let mut prompt = Prompt::new(Recording::default()).with_slow_validator(should_be_xy);
+		typed(&mut prompt, "x");
+		press(&mut prompt, KeyName::Return);
+		typed(&mut prompt, "y");
+		press(&mut prompt, KeyName::Escape);
+		assert_eq!(prompt.status(), Status::Validating);
+		prompt.validate();
+		assert_eq!(prompt.status(), Status::Error);
+		assert_eq!(prompt.user_input(), "x");
+		assert_eq!(prompt.editor().line(), "x");
+	}
+
+	#[test]
+	fn validate_does_nothing_unless_validating() {
+		let mut prompt = Prompt::new(Recording::default()).with_validator(should_be_xy);
+		typed(&mut prompt, "x");
+		press(&mut prompt, KeyName::Return);
+		assert_eq!(prompt.status(), Status::Error);
+		prompt.validate();
 		assert_eq!(prompt.status(), Status::Error);
 	}
 

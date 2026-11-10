@@ -136,6 +136,8 @@ pub struct Scenario {
 	pub rows: usize,
 	/// Upstream passed a `validate` callback, which a recording cannot carry across.
 	pub validates: bool,
+	/// …and it was `async`, which is what sends clack through `validating`.
+	pub validates_slowly: bool,
 	/// `path`'s `root`, which is where the field starts rather than anywhere the search is confined
 	/// to, and its `directory`.
 	pub root: Option<String>,
@@ -376,6 +378,7 @@ fn parse(source: &str, path: &str) -> (serde_json::Value, Vec<Scenario>) {
 					.unwrap_or(80) as usize,
 				rows: run["terminal"]["rows"].as_u64().unwrap_or(20) as usize,
 				validates: opts["validate"]["callback"].as_bool() == Some(true),
+				validates_slowly: opts["validate"]["async"].as_bool() == Some(true),
 				root: opts["root"].as_str().map(str::to_owned),
 				directory: opts["directory"].as_bool() == Some(true),
 				// `vol.toJSON()`: a map of path to contents, with `null` for an empty directory. The
@@ -474,8 +477,11 @@ impl Scenario {
 	/// predicate produced but not the predicate — so replaying without it would compare against
 	/// frames the port was never asked to draw. And one Scenario is driven by an `AbortSignal`
 	/// rather than by keys, which is a cancellation path with no keypress in it.
+	///
+	/// `text` is the exception: every callback its suite passes is the same one, which
+	/// [`should_be_xy`] supplies — the `required` bargain again.
 	pub fn is_replayable(&self) -> bool {
-		!self.validates && !self.keys.is_empty()
+		(!self.validates || self.kind == "text") && !self.keys.is_empty()
 	}
 
 	/// The whole Scenario as a Session: the Prompt, the widget, and clack's terminal size.
@@ -928,6 +934,11 @@ impl Scenario {
 				if let Some(initial) = &self.initial_value {
 					prompt = prompt.with_initial_user_input(initial);
 				}
+				if self.validates_slowly {
+					prompt = prompt.with_slow_validator(should_be_xy);
+				} else if self.validates {
+					prompt = prompt.with_validator(should_be_xy);
+				}
 				let placeholder = self.placeholder.clone();
 				Run::Text(
 					Session::new(prompt, move |prompt, _columns, _rows| {
@@ -1097,8 +1108,10 @@ impl Run {
 		dispatch!(self, session => session.open())
 	}
 
+	/// One key, and — if it left a slow validator waiting — the validation, as the blocking driver
+	/// does it: before the next key is read.
 	pub fn key(&mut self, s: Option<&str>, key: &Key) -> String {
-		dispatch!(self, session => session.key(s, key))
+		dispatch!(self, session => session.key(s, key) + &session.validate())
 	}
 
 	pub fn resize(&mut self, columns: u16, rows: u16) -> String {
@@ -1113,6 +1126,12 @@ impl Run {
 	pub fn frame(&self) -> Frame {
 		dispatch!(self, session => session.frame())
 	}
+}
+
+/// The one `validate` upstream's `text` suite passes — sync, async, or returning an `Error`, it is
+/// always `val !== 'xy' ? 'should be xy' : undefined`.
+fn should_be_xy(value: Option<&String>) -> Option<String> {
+	(value.map(String::as_str) != Some("xy")).then(|| "should be xy".to_owned())
 }
 
 impl Recorded {

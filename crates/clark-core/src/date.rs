@@ -873,7 +873,7 @@ impl<'a> DateWidget<'a> {
 				}
 			}
 
-			Status::Initial | Status::Active => {
+			Status::Initial | Status::Active | Status::Validating => {
 				frame.push(title);
 
 				let mut input = Line::blank();

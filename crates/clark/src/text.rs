@@ -40,6 +40,7 @@ pub struct Text {
 	settings: Option<Settings>,
 	with_guide: Option<bool>,
 	validator: Option<Box<dyn Validator<String>>>,
+	slow: bool,
 }
 
 /// Ask for a line of text.
@@ -75,6 +76,16 @@ impl Text {
 	/// have been set — a bare `return` on an untouched Prompt reaches the validator with nothing.
 	pub fn validate(mut self, validator: impl Validator<String> + 'static) -> Self {
 		self.validator = Some(Box::new(validator));
+		self.slow = false;
+		self
+	}
+
+	/// [`validate`](Self::validate), for a validator slow enough to show: the Prompt draws
+	/// `Validating...` before calling it, and drops any key pressed while it runs. clack's
+	/// Promise-returning `validate`.
+	pub fn validate_slow(mut self, validator: impl Validator<String> + 'static) -> Self {
+		self.validator = Some(Box::new(validator));
+		self.slow = true;
 		self
 	}
 
@@ -136,7 +147,12 @@ impl Text {
 		if let Some(mut validator) = self.validator {
 			// Through a closure rather than directly: `Validator` is blanket-implemented for
 			// `FnMut`, and a boxed trait object is not one of those.
-			prompt = prompt.with_validator(move |value: Option<&String>| validator.validate(value));
+			let validator = move |value: Option<&String>| validator.validate(value);
+			prompt = if self.slow {
+				prompt.with_slow_validator(validator)
+			} else {
+				prompt.with_validator(validator)
+			};
 		}
 
 		// The Frame's own options, which upstream closes over in its `render` callback rather than
@@ -226,6 +242,23 @@ mod tests {
 
 		typed(&mut session, "Jan");
 		session.key(None, &Key::named(KeyName::Return));
+		assert_eq!(answer(&session).as_deref(), Some("Jan"));
+	}
+
+	#[test]
+	fn a_slow_validator_draws_validating_before_it_runs() {
+		let mut session = text("foo")
+			.validate_slow(|value: Option<&String>| {
+				(value.map(String::as_str) != Some("Jan")).then(|| "Not Jan".to_owned())
+			})
+			.session();
+		session.open();
+		typed(&mut session, "Jan");
+		let drawn = session.key(None, &Key::named(KeyName::Return));
+		assert!(drawn.contains("Validating..."), "{drawn:?}");
+		assert_eq!(session.status(), Status::Validating);
+
+		session.validate();
 		assert_eq!(answer(&session).as_deref(), Some("Jan"));
 	}
 

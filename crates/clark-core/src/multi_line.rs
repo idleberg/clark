@@ -370,7 +370,7 @@ impl<'a> MultiLineWidget<'a> {
 				}
 			}
 
-			Status::Initial | Status::Active => {
+			Status::Initial | Status::Active | Status::Validating => {
 				let bar = Span::styled(symbols.bar, styles.guide_active);
 				frame.lines.extend(self.wrapped(self.field(), guide, bar));
 

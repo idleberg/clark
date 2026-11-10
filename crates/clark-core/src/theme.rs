@@ -177,6 +177,8 @@ pub struct Styles {
 	pub step_cancel: Style,
 	pub step_error: Style,
 	pub step_submit: Style,
+	/// The step symbol while a slow validator runs: the active symbol, dimmed rather than coloured.
+	pub step_validating: Style,
 
 	/// The Guide above a Prompt's title, and beside a settled value. Upstream's `gray`.
 	pub guide: Style,
@@ -258,6 +260,8 @@ pub struct Styles {
 	pub cancelled: Style,
 	/// A validation message.
 	pub error: Style,
+	/// The input and the `Validating...` note while a slow validator runs.
+	pub validating: Style,
 	/// The advice a `multiselect` prints under its validation message.
 	pub error_hint: Style,
 	/// A key named inside that advice, drawn as a chip: inverse, on white, in gray.
@@ -286,6 +290,7 @@ impl Styles {
 		step_cancel: Style::new().fg(Color::Red),
 		step_error: Style::new().fg(Color::Yellow),
 		step_submit: Style::new().fg(Color::Green),
+		step_validating: Style::new().add_modifier(Modifier::DIM),
 
 		guide: Style::new().fg(Color::DarkGray),
 		guide_active: Style::new().fg(Color::Cyan),
@@ -326,6 +331,7 @@ impl Styles {
 		submitted: Style::new().add_modifier(Modifier::DIM),
 		cancelled: Style::new().add_modifier(Modifier::CROSSED_OUT.union(Modifier::DIM)),
 		error: Style::new().fg(Color::Yellow),
+		validating: Style::new().add_modifier(Modifier::DIM),
 		error_hint: Style::new().add_modifier(Modifier::DIM),
 		error_key: Style::new()
 			.fg(Color::DarkGray)
@@ -390,6 +396,7 @@ impl Theme {
 			Status::Cancel => (self.symbols.step_cancel, self.styles.step_cancel),
 			Status::Error => (self.symbols.step_error, self.styles.step_error),
 			Status::Submit => (self.symbols.step_submit, self.styles.step_submit),
+			Status::Validating => (self.symbols.step_active, self.styles.step_validating),
 		};
 		Span::styled(symbol, style)
 	}
@@ -399,9 +406,13 @@ impl Theme {
 	/// Not every Prompt uses it. `text` draws its Guide gray above the title and cyan beside the
 	/// input, which is neither of the colours this returns — upstream spells those out rather than
 	/// calling `symbolBar`, and so does the widget.
+	///
+	/// Upstream's switch has no `validating` arm, so a `select` with a Promise-returning validator
+	/// would draw the word `undefined` for its Guide. Not reproduced: Validating takes the active
+	/// colour here.
 	pub fn bar(&self, status: Status) -> Span {
 		let style = match status {
-			Status::Initial | Status::Active => self.styles.step_active,
+			Status::Initial | Status::Active | Status::Validating => self.styles.step_active,
 			Status::Cancel => self.styles.step_cancel,
 			Status::Error => self.styles.step_error,
 			Status::Submit => self.styles.step_submit,
@@ -464,6 +475,13 @@ mod tests {
 		assert_eq!(theme.step(Status::Submit).style.fg, Some(Color::Green));
 		assert_eq!(theme.step(Status::Cancel).style.fg, Some(Color::Red));
 		assert_eq!(theme.step(Status::Error).style.fg, Some(Color::Yellow));
+	}
+
+	#[test]
+	fn a_validating_step_is_the_active_symbol_dimmed() {
+		let step = Theme::clack().step(Status::Validating);
+		assert_eq!(step.text, "◆");
+		assert_eq!(step.style, Style::new().add_modifier(Modifier::DIM));
 	}
 
 	/// `initial` and `active` share an arm upstream, in both switches.

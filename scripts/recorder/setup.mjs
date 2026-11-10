@@ -45,7 +45,10 @@ function plain(opts) {
 	const out = {};
 	for (const [k, v] of Object.entries(opts ?? {})) {
 		if (v === undefined || k === 'input' || k === 'output' || k === 'signal') continue;
-		if (typeof v === 'function') out[k] = { callback: true };
+		// An `async` callback is flagged as one: it is what sends a Prompt through `validating`, and
+		// the Scenario has to say so for the port to take the same path (ADR-0037).
+		if (typeof v === 'function')
+			out[k] = v.constructor.name === 'AsyncFunction' ? { callback: true, async: true } : { callback: true };
 		else if (v instanceof Date) out[k] = { date: v.toISOString() };
 		else if (typeof v === 'object' && v !== null && v.constructor === Object) out[k] = plain(v);
 		else if (typeof v === 'object' && v !== null && !Array.isArray(v)) out[k] = { opaque: true };

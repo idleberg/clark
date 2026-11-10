@@ -171,6 +171,33 @@ impl<'a> TextWidget<'a> {
 		let value = self.prompt.state().value().unwrap_or("");
 
 		match status {
+			Status::Validating => {
+				frame.push(title);
+
+				let mut input = Line::blank();
+				if guide {
+					input.push(Span::styled(symbols.bar, styles.guide_active));
+					input.push(Span::raw("  "));
+				}
+				// `styleText('dim', userInput)`: one dim around whatever the input already carries.
+				input
+					.spans
+					.extend(self.user_input().into_iter().map(|mut span| {
+						span.style = span.style.patch(styles.validating);
+						span
+					}));
+				frame.push(input);
+
+				let mut end = Line::blank();
+				if guide {
+					end.push(Span::styled(symbols.bar_end, styles.guide_active));
+				}
+				end.push(Span::raw("  "));
+				end.push(Span::styled("Validating...", styles.validating));
+				frame.push(end);
+				frame.push(Line::blank());
+			}
+
 			Status::Error => {
 				// `title.trim()` — the trailing newline goes, and with it any trailing whitespace of
 				// the question. Nothing is trimmed from the front: the step symbol's colour puts an
@@ -576,6 +603,41 @@ mod tests {
 
 		let widget = TextWidget::new(&prompt, "foo");
 		assert_eq!(drawn(&widget), ["│", "▲  foo", "│  x█", "└  too short", ""]);
+	}
+
+	/// clack's `validating` branch: the input and a `Validating...` foot, both dim, under a dim step.
+	#[test]
+	fn a_validating_frame_dims_the_input_and_says_so_on_the_foot() {
+		use ratatui_core::style::Modifier;
+
+		let mut prompt =
+			Prompt::new(TextState::new()).with_slow_validator(|_: Option<&String>| None::<String>);
+		typed(&mut prompt, "x");
+		submit(&mut prompt);
+		assert_eq!(prompt.status(), Status::Validating);
+
+		let widget = TextWidget::new(&prompt, "foo");
+		assert_eq!(
+			drawn(&widget),
+			["│", "◆  foo", "│  x█", "└  Validating...", ""]
+		);
+		let frame = widget.frame();
+		let dim = |line: usize, from: usize| {
+			frame.lines[line].spans[from..]
+				.iter()
+				.all(|s| s.style.add_modifier.contains(Modifier::DIM))
+		};
+		assert_eq!(
+			frame.lines[1].spans[0],
+			Theme::clack().step(Status::Validating)
+		);
+		assert!(dim(2, 2), "the input is not dim");
+		assert!(dim(3, 2), "the foot is not dim");
+		assert!(!dim(2, 0), "the Guide beside the input is dimmed too");
+
+		// Without the Guide the foot keeps its two spaces — upstream pads it either way.
+		let widget = TextWidget::new(&prompt, "foo").with_guide(false);
+		assert_eq!(drawn(&widget), ["◆  foo", "x█", "  Validating...", ""]);
 	}
 
 	/// `title.trim()`, which upstream calls only in the error branch. It takes the trailing newline

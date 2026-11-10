@@ -126,7 +126,8 @@
 					"opts": {
 						"message": "foo",
 						"validate": {
-							"callback": true
+							"callback": true,
+							"async": true
 						}
 					},
 					"settings": {
