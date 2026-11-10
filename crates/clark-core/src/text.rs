@@ -204,7 +204,11 @@ impl<'a> TextWidget<'a> {
 					settled.push(Span::styled(symbols.bar, styles.guide));
 				}
 				if !value.is_empty() {
-					settled.push(Span::raw("  "));
+					// The two spaces belong to the Guide bar; without it the value is flush left
+					// (clack #599). Cancel, below, still pads either way.
+					if guide {
+						settled.push(Span::raw("  "));
+					}
 					settled.push(Span::styled(value, styles.submitted));
 				}
 				frame.push(settled);
@@ -512,6 +516,23 @@ mod tests {
 
 		let widget = TextWidget::new(&prompt, "foo");
 		assert_eq!(drawn(&widget), ["│", "◇  foo", "│  Jan"]);
+	}
+
+	/// The two spaces belong to the Guide bar (clack #599). Cancel keeps them either way.
+	#[test]
+	fn an_unguided_submitted_value_is_flush_left() {
+		let mut prompt = text();
+		typed(&mut prompt, "Jan");
+		submit(&mut prompt);
+
+		let widget = TextWidget::new(&prompt, "foo").with_guide(false);
+		assert_eq!(drawn(&widget), ["◇  foo", "Jan"]);
+
+		let mut prompt = text();
+		typed(&mut prompt, "Jan");
+		prompt.key(None, &Key::named(KeyName::Escape));
+		let widget = TextWidget::new(&prompt, "foo").with_guide(false);
+		assert_eq!(drawn(&widget), ["■  foo", "  Jan", ""]);
 	}
 
 	/// An empty answer earns no value line — but the Guide beside it stays.
