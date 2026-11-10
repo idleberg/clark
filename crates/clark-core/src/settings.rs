@@ -105,6 +105,7 @@ impl Default for DateMessages {
 
 /// Configuration shared by every Prompt in a flow.
 #[derive(Clone, Debug)]
+#[non_exhaustive]
 pub struct Settings {
 	/// Strings that stand in for an action. Matched against a keypress's character, its key name,
 	/// and its escape sequence, in that order.

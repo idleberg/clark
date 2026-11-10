@@ -349,6 +349,7 @@ impl Styles {
 
 /// The symbol set and style palette a Frame is drawn with.
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[non_exhaustive]
 pub struct Theme {
 	pub symbols: Symbols,
 	pub styles: Styles,
