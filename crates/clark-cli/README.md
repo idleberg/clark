@@ -66,20 +66,20 @@ killed by a signal — which is what `ctrl+c` does to it — is reported as `130
 
 ## Prompts
 
-| Sub-command                | Answer           | Flags                                                                                      |
-| -------------------------- | ---------------- | ------------------------------------------------------------------------------------------ |
-| `text`                     | one line         | `--placeholder` `--initial-value` `--default-value`                                        |
-| `password`                 | one line         | `--mask` `--clear-on-error`                                                                |
-| `confirm`                  | exit code        | `--active` `--inactive` `--initial-value` `--vertical`                                     |
-| `select`                   | one value        | `--option` `--initial-value` `--max-items`                                                 |
-| `multiselect`              | a value per line | `--option` `--initial-value` (repeatable) `--cursor-at` `--max-items` `--required`         |
-| `group-multiselect`        | a value per line | `--group` `--initial-value` `--cursor-at` `--max-items` `--required` `--selectable-groups` |
-| `select-key`               | one value        | `--option` `--initial-value` `--case-sensitive`                                            |
-| `autocomplete`             | one value        | `--option` `--placeholder` `--initial-value` `--max-items`                                 |
-| `autocomplete-multiselect` | a value per line | `--option` `--placeholder` `--initial-value` `--max-items` `--required`                    |
-| `path`                     | one path         | `--root` `--initial-value` `--directory`                                                   |
-| `date`                     | `YYYY-MM-DD`     | `--format` `--separator` `--initial-value` `--default-value` `--min-date` `--max-date`     |
-| `multiline`                | several lines    | `--placeholder` `--initial-value` `--default-value` `--show-submit`                        |
+| Sub-command                | Answer           | Flags                                                                                           |
+| -------------------------- | ---------------- | ----------------------------------------------------------------------------------------------- |
+| `text`                     | one line         | `--placeholder` `--initial-value` `--default-value`                                             |
+| `password`                 | one line         | `--mask` `--clear-on-error`                                                                     |
+| `confirm`                  | exit code        | `--active` `--inactive` `--initial-value` `--vertical`                                          |
+| `select`                   | one value        | `--option` `--disabled` `--initial-value` `--max-items`                                         |
+| `multiselect`              | a value per line | `--option` `--disabled` `--initial-value` (repeatable) `--cursor-at` `--max-items` `--required` |
+| `group-multiselect`        | a value per line | `--group` `--initial-value` `--cursor-at` `--max-items` `--required` `--selectable-groups`      |
+| `select-key`               | one value        | `--option` `--disabled` `--initial-value` `--case-sensitive`                                    |
+| `autocomplete`             | one value        | `--option` `--disabled` `--placeholder` `--initial-value` `--max-items`                         |
+| `autocomplete-multiselect` | a value per line | `--option` `--disabled` `--placeholder` `--initial-value` `--max-items` `--required`            |
+| `path`                     | one path         | `--root` `--initial-value` `--directory`                                                        |
+| `date`                     | `YYYY-MM-DD`     | `--format` `--separator` `--initial-value` `--default-value` `--min-date` `--max-date`          |
+| `multiline`                | several lines    | `--placeholder` `--initial-value` `--default-value` `--show-submit`                             |
 
 A boolean flag on its own means `true` — `--vertical`. Several of clack's booleans are already
 `true`, so they also take a value to turn off: `--required false`. Left out entirely, each Prompt
@@ -94,6 +94,12 @@ ls ~/Music | clark select "Which album?" --max-items 10
 ```
 
 Keys are read from `/dev/tty`, so a piped stdin does not stop a Prompt from working.
+
+Repeat `--disabled` to grey out options by value. They are still drawn, but cannot be chosen:
+
+```sh
+clark select-key "Format?" --option p --option c --option x --disabled x
+```
 
 A group is one string, because the shell has no objects:
 

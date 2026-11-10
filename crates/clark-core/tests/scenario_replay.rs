@@ -563,10 +563,14 @@ fn the_nine_harvested_prompt_fixtures_are_plausible_recordings() {
 			// the evidence to make a failure message read better.
 			"selectKey",
 			select_key(),
-			11,
+			15,
 			&[
 				"text › renders message with options",
 				"text › selects option by keypress",
+				"text › renders disabled options dimmed",
+				"text › does not select disabled options",
+				"text › skips disabled options sharing the same initial",
+				"text › ignores a disabled initial value",
 				"text › can cancel by pressing escape",
 				"text › input is case-insensitive by default",
 				"text › options are case-insensitive by default",

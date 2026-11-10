@@ -284,6 +284,9 @@ enum Command {
 struct Options {
 	#[arg(long = "option")]
 	option: Vec<String>,
+	/// Repeatable: an option drawn but not choosable, named by its value.
+	#[arg(long)]
+	disabled: Vec<String>,
 }
 
 impl Options {
@@ -776,11 +779,20 @@ fn set<B, T>(builder: B, value: Option<T>, with: impl FnOnce(B, T) -> B) -> B {
 	}
 }
 
-fn choices(options: Options) -> Result<Vec<clark::SelectOption<String>>, Failure> {
-	Ok(options
-		.into_vec()?
+fn choices(mut options: Options) -> Result<Vec<clark::SelectOption<String>>, Failure> {
+	let disabled = std::mem::take(&mut options.disabled);
+	let values = options.into_vec()?;
+	if let Some(unknown) = disabled.iter().find(|d| !values.contains(d)) {
+		return Err(Failure::Message(format!(
+			"--disabled '{unknown}' is not one of the options"
+		)));
+	}
+	Ok(values
 		.into_iter()
-		.map(clark::SelectOption::new)
+		.map(|value| {
+			let off = disabled.contains(&value);
+			clark::SelectOption::new(value).with_disabled(off)
+		})
 		.collect())
 }
 
@@ -852,6 +864,23 @@ mod tests {
 		);
 		assert!(group("Body Riddle").is_err());
 		assert!(group("Body Riddle:").is_err());
+	}
+
+	#[test]
+	fn disabled_marks_the_options_it_names() {
+		let options = |disabled: &[&str]| Options {
+			option: vec!["a".into(), "b".into()],
+			disabled: disabled.iter().map(|&value| value.into()).collect(),
+		};
+		let Ok(list) = choices(options(&["b"])) else {
+			panic!("b is an option");
+		};
+		assert_eq!(
+			list.iter().map(|o| o.disabled()).collect::<Vec<_>>(),
+			[false, true]
+		);
+		// A typo would otherwise disable nothing, silently.
+		assert!(choices(options(&["c"])).is_err());
 	}
 
 	#[test]

@@ -223,6 +223,8 @@ pub struct Styles {
 	/// The same chip on every other option: inverse, on white, in gray. The same three codes as
 	/// [`error_key`](Self::error_key) without the `dim` that a `multiselect`'s advice wraps its own in.
 	pub key_inactive: Style,
+	/// The chip of an option that cannot be chosen: only dim, with no background at all.
+	pub key_disabled: Style,
 
 	/// The `/` between a `confirm`'s two choices, and the `, ` between the values a `multiselect`
 	/// settled on.
@@ -234,7 +236,8 @@ pub struct Styles {
 	pub date_separator: Style,
 	/// The note in brackets beside an option. Upstream's `dim`.
 	pub hint: Style,
-	/// An option that cannot be chosen — its radio or checkbox, and in a `select` its label too.
+	/// An option that cannot be chosen — its radio or checkbox, and in a `select` or `selectKey` its
+	/// label too.
 	/// Upstream's `gray`, which is the Guide's colour and not the dim the other unselected options
 	/// are drawn in.
 	pub option_disabled: Style,
@@ -307,6 +310,7 @@ impl Styles {
 			.fg(Color::DarkGray)
 			.bg(Color::Gray)
 			.add_modifier(Modifier::REVERSED),
+		key_disabled: Style::new().add_modifier(Modifier::DIM),
 
 		separator: Style::new().add_modifier(Modifier::DIM),
 		overflow: Style::new().add_modifier(Modifier::DIM),

@@ -86,11 +86,14 @@ impl<T: Display> SelectKeyState<T> {
 	///
 	/// Matched against the initials rather than the values — see the module docs. Anything that does
 	/// not match leaves the cursor at the first option, because upstream's `-1` is clamped to zero.
+	/// So does a match on a disabled option — the first option, not the next enabled one, and
+	/// whether or not the first is disabled itself.
 	pub fn with_initial_value(mut self, value: &str) -> Self {
 		self.cursor = self
 			.keys
 			.iter()
 			.position(|key| key.as_deref() == Some(value))
+			.filter(|&at| !self.options[at].disabled())
 			.unwrap_or(0);
 		self
 	}
@@ -139,6 +142,9 @@ impl<T: Display> PromptState for SelectKeyState<T> {
 	/// as. There is nothing here to turn away: an option whose value is empty has no initial, so it
 	/// is indexed as `None` and an empty keypress matches it no more than any other key does — which
 	/// is the same thing upstream's `keys.includes('')` decides one line further down.
+	///
+	/// A disabled option is passed over, so its key matches the next enabled option sharing its
+	/// initial — or nothing.
 	fn key(&mut self, s: Option<&str>, _key: &Key) {
 		let Some(pressed) = s else {
 			return;
@@ -151,7 +157,8 @@ impl<T: Display> PromptState for SelectKeyState<T> {
 		if let Some(at) = self
 			.keys
 			.iter()
-			.position(|key| key.as_deref() == Some(&pressed))
+			.zip(&self.options)
+			.position(|(key, option)| !option.disabled() && key.as_deref() == Some(&pressed))
 		{
 			self.selected = Some(at);
 		}
@@ -295,19 +302,22 @@ impl<'a, T: Display> SelectKeyWidget<'a, T> {
 	/// `opt(option, state)` for the two states a drawn list has: the highlighted one and the rest.
 	///
 	/// They differ only in the chip's colours. The hint is drawn on both, which is where this parts
-	/// company with `select` — there the inactive branch drops it.
+	/// company with `select` — there the inactive branch drops it. A disabled option is a third
+	/// state that wins over the cursor: a dim chip and a gray label.
 	fn option(&self, option: &SelectOption<T>, active: bool) -> Line {
 		let styles = &self.theme.styles;
-		let chip = if active {
-			styles.key_active
+		let (chip, label) = if option.disabled() {
+			(styles.key_disabled, styles.option_disabled)
+		} else if active {
+			(styles.key_active, styles.message)
 		} else {
-			styles.key_inactive
+			(styles.key_inactive, styles.message)
 		};
 
 		let mut line = Line::blank();
 		line.push(Span::styled(format!(" {} ", option.value()), chip));
 		line.push(Span::raw(" "));
-		line.push(Span::styled(option.label(), styles.message));
+		line.push(Span::styled(option.label(), label));
 		if let Some(hint) = option.hint() {
 			line.push(Span::raw(" "));
 			line.push(Span::styled(format!("({hint})"), styles.hint));
@@ -463,6 +473,54 @@ mod tests {
 
 		let state = SelectKeyState::new(options(&["apple", "Banana"])).with_initial_value("B");
 		assert_eq!(state.cursor(), 0);
+	}
+
+	fn with_disabled(values: &[&str], disabled: usize) -> Vec<SelectOption<String>> {
+		let mut list = options(values);
+		list[disabled] = list[disabled].clone().with_disabled(true);
+		list
+	}
+
+	#[test]
+	fn a_disabled_options_key_does_nothing() {
+		let mut prompt = Prompt::new(SelectKeyState::new(with_disabled(&["d", "e"], 0)));
+		typed(&mut prompt, 'd');
+		assert!(!prompt.status().is_finished());
+		assert!(!prompt.resolved_early());
+		assert_eq!(prompt.state().selected(), None);
+	}
+
+	/// Upstream's `find` skips the disabled option, so the key falls through to the next one with
+	/// the same initial.
+	#[test]
+	fn a_key_shared_with_a_disabled_option_picks_the_enabled_one() {
+		let state = SelectKeyState::new(with_disabled(&["delete", "deploy"], 0));
+		let mut prompt = Prompt::new(state);
+		typed(&mut prompt, 'D');
+		assert_eq!(answer(&prompt).as_deref(), Some("deploy"));
+	}
+
+	/// The cursor goes to the first option, not to the next enabled one — even if the first is
+	/// disabled too.
+	#[test]
+	fn a_disabled_initial_value_leaves_the_cursor_on_the_first_option() {
+		let state = SelectKeyState::new(with_disabled(&["a", "b", "c"], 1)).with_initial_value("b");
+		assert_eq!(state.cursor(), 0);
+	}
+
+	/// A dim chip, a gray label and a dim hint — whether or not the cursor is on it.
+	#[test]
+	fn a_disabled_option_is_drawn_dim_and_gray() {
+		let mut list = with_disabled(&["d", "e"], 0);
+		list[0] = list[0].clone().with_hint("unavailable");
+		let prompt = Prompt::new(SelectKeyState::new(list));
+		let widget = SelectKeyWidget::new(&prompt, "foo");
+		assert_eq!(drawn(&widget)[2], "│   d  Option D (unavailable)");
+		let styles = Theme::clack().styles;
+		let spans = &widget.frame().lines[2].spans;
+		assert_eq!(spans[2].style, styles.key_disabled);
+		assert_eq!(spans[4].style, styles.option_disabled);
+		assert_eq!(spans[6].style, styles.hint);
 	}
 
 	/// Every other list Prompt walks; this one has nothing to walk with.
